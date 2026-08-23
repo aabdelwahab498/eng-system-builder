@@ -26,7 +26,11 @@ export function Stagger({
   return (
     <div className={className}>
       {Children.toArray(children).map((child, i) => (
-        <Reveal key={(isValidElement(child) && (child as ReactElement).key) || i} delay={i * step} className={itemClassName}>
+        <Reveal
+          key={(isValidElement(child) && (child as ReactElement).key) || i}
+          delay={i * step}
+          {...(itemClassName ? { className: itemClassName } : {})}
+        >
           {child}
         </Reveal>
       ))}
