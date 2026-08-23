@@ -13,7 +13,26 @@ export const Route = createFileRoute("/$locale/about")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "about");
-    return buildHead({ locale, path: "/about", title: m.title, description: m.description });
+    return buildHead({
+      locale,
+      path: "/about",
+      title: m.title,
+      description: m.description,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: getContent(locale).profile.displayName,
+        description: m.description,
+        alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "Bachelor of Engineering — Computer Science",
+          educationalLevel: "Bachelor",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+          dateCreated: "2016",
+        },
+      },
+    });
   },
   component: AboutPage,
 });
