@@ -3,6 +3,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
+import { ContactIntent } from "@/components/site/ContactIntent";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
@@ -50,6 +51,10 @@ function ContactPage() {
             ) : (
               <p className="mt-8 text-sm text-muted-foreground">{t.ui.contentPending}</p>
             )}
+
+            <div className="mt-10 border-t border-border pt-8">
+              <ContactIntent email={c.email} linkedin={c.linkedin} />
+            </div>
           </Reveal>
 
           <Reveal delay={80} className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">

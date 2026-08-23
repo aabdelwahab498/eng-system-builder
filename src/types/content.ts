@@ -27,11 +27,39 @@ export type CaseStudy = {
   outcome: string;
 };
 
+export type Offer = {
+  id: string;
+  label: string;
+  price?: { amount: number; currency: string; interval?: "one-time" | "month" | "year" };
+  checkoutUrl?: string;
+  /** Provider-agnostic: no payment provider is assumed or integrated in V1. */
+  provider?: string;
+  licenseKind?: string;
+};
+
+export type Experience = {
+  role: string;
+  org?: string;
+  period?: string;
+  summary?: string;
+  kind: "engineering" | "earlier";
+};
+
+export type Education = {
+  credential: string;
+  institution?: string;
+  period?: string;
+  note?: string;
+};
+
 export type Project = {
   slug: string;
   name: string;
   category: string;
   status: string;
+  role?: string;
+  solution?: string;
+  features?: string[];
   summary: string;
   tech: string[];
   featured: boolean;
@@ -45,7 +73,18 @@ export type Product = {
   slug: string;
   name: string;
   kind: string;
-  status: "available" | "coming-soon";
+  status: "available" | "live" | "beta" | "coming-soon" | "in-development";
+  type?:
+    | "saas"
+    | "ai-tool"
+    | "dev-tool"
+    | "template"
+    | "download"
+    | "course"
+    | "other";
+  relatedProjectSlug?: string;
+  /** Commerce shell only — V1 renders nothing from this. */
+  offers?: Offer[];
   summary: string;
   description: string;
   price?: string;
@@ -87,7 +126,10 @@ export type Profile = {
   philosophy: { title: string; body: string }[];
   focusAreas: string[];
   photo?: MediaSlot;
-  cv?: { url: string; label: string };
+  location?: string;
+  experience?: Experience[];
+  education?: Education[];
+  cv?: { url: string; label: string; updated?: string };
 };
 
 export type ContactChannels = {
@@ -165,6 +207,21 @@ export type UiStrings = {
   productsIntro: string;
   getAccess: string;
   elsewhere: string;
+  selectedWork: string;
+  howIWork: string;
+  experience: string;
+  earlierExperience: string;
+  education: string;
+  intent: string;
+  intentHire: string;
+  intentBuild: string;
+  intentCollaborate: string;
+  intentProduct: string;
+  intentOther: string;
+  startConversation: string;
+  live: string;
+  beta: string;
+  inDevelopment: string;
 };
 
 export type MetaKey =

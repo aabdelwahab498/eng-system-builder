@@ -72,6 +72,21 @@ export const ar: Dictionary = {
     productsIntro: "منتجات رقمية من منظومة nextnext-gen.",
     getAccess: "الحصول على المنتج",
     elsewhere: "روابط أخرى",
+    selectedWork: "أعمال مختارة",
+    howIWork: "طريقة عملي",
+    experience: "الخبرة",
+    earlierExperience: "خبرات سابقة",
+    education: "التعليم",
+    intent: "ما موضوع التواصل؟",
+    intentHire: "التوظيف",
+    intentBuild: "بناء مشروع",
+    intentCollaborate: "تعاون",
+    intentProduct: "مناقشة منتج",
+    intentOther: "موضوع آخر",
+    startConversation: "ابدأ المحادثة",
+    live: "متاح",
+    beta: "تجريبي",
+    inDevelopment: "قيد التطوير",
   },
 
   meta: {
@@ -138,6 +153,26 @@ export const ar: Dictionary = {
     ],
     photo: { kind: "placeholder", alt: "صورة م. أحمد عبد الوهاب" },
     cv: { url: "", label: "تحميل السيرة الذاتية" },
+    experience: [
+      {
+        role: "مهندس برمجيات — أنظمة Full Stack وخلفية وذكاء اصطناعي",
+        kind: "engineering",
+        summary:
+          "تصميم وبناء خدمات خلفية وتطبيقات ويب وموبايل وأنظمة مدعومة بالذكاء الاصطناعي، ومن بينها Universal AI Software Factory.",
+      },
+      { role: "التسويق الرقمي", kind: "earlier" },
+      { role: "التدريس والعمل الأكاديمي", kind: "earlier" },
+      { role: "اللوجستيات", kind: "earlier" },
+      { role: "مراقبة الجودة", kind: "earlier" },
+    ],
+    education: [
+      {
+        credential: "بكالوريوس هندسة — علوم الحاسب",
+        institution: "جامعة القاهرة",
+      },
+      { credential: "دراسات في هندسة البرمجيات وتطوير الأنظمة الخلفية" },
+      { credential: "دراسات في التسويق الرقمي" },
+    ],
   },
 
   contact: {

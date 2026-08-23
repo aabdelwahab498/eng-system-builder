@@ -73,6 +73,21 @@ export const en: Dictionary = {
     productsIntro: "Digital products from the nextnext-gen ecosystem.",
     getAccess: "Get access",
     elsewhere: "Elsewhere",
+    selectedWork: "Selected Work",
+    howIWork: "How I Work",
+    experience: "Experience",
+    earlierExperience: "Earlier Experience",
+    education: "Education",
+    intent: "What is this about?",
+    intentHire: "Hire me",
+    intentBuild: "Build something",
+    intentCollaborate: "Collaborate",
+    intentProduct: "Discuss a product",
+    intentOther: "Something else",
+    startConversation: "Start the conversation",
+    live: "Live",
+    beta: "Beta",
+    inDevelopment: "In development",
   },
 
   meta: {
@@ -153,6 +168,26 @@ export const en: Dictionary = {
     ],
     photo: { kind: "placeholder", alt: "Portrait of Eng. Ahmed Abdelwahab" },
     cv: { url: "", label: "Download CV" },
+    experience: [
+      {
+        role: "Software Engineer — full stack, backend and AI systems",
+        kind: "engineering",
+        summary:
+          "Designing and building backend services, web and mobile applications, and AI-driven systems, including the Universal AI Software Factory.",
+      },
+      { role: "Digital marketing", kind: "earlier" },
+      { role: "Teaching and academic work", kind: "earlier" },
+      { role: "Logistics", kind: "earlier" },
+      { role: "Quality control", kind: "earlier" },
+    ],
+    education: [
+      {
+        credential: "Bachelor of Engineering — Computer Science",
+        institution: "Cairo University",
+      },
+      { credential: "Software engineering and backend development studies" },
+      { credential: "Digital marketing studies" },
+    ],
   },
 
   contact: {

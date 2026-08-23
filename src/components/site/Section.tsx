@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { TextReveal } from "./Motion";
 
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cn("mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12", className)}>{children}</div>;
@@ -30,9 +31,10 @@ export function Section({
           <Reveal className="max-w-3xl">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             {title && (
-              <h2 className="mt-4 text-3xl leading-tight font-semibold text-balance sm:text-4xl lg:text-5xl">
-                {title}
-              </h2>
+              <TextReveal
+                text={title}
+                className="mt-4 text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl"
+              />
             )}
             {subtitle && (
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">

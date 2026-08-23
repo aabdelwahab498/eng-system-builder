@@ -83,6 +83,67 @@ function AboutPage() {
         )}
       </Section>
 
+      {(t.profile.experience?.length || t.profile.education?.length) && (
+        <Section eyebrow={t.ui.experience} title={t.ui.experience}>
+          <div className="grid gap-10 lg:grid-cols-2">
+            {t.profile.experience && t.profile.experience.length > 0 && (
+              <div>
+                <p className="eyebrow">{t.ui.experience}</p>
+                <ul className="mt-6 space-y-px overflow-hidden rounded-lg border border-border bg-border">
+                  {t.profile.experience
+                    .filter((e) => e.kind === "engineering")
+                    .map((e, i) => (
+                      <Reveal as="li" key={e.role} delay={i * 60} className="bg-surface/70 px-6 py-6">
+                        <p className="font-display text-base font-medium">{e.role}</p>
+                        {e.org && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.org}</p>}
+                        {e.period && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.period}</p>}
+                        {e.summary && (
+                          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.summary}</p>
+                        )}
+                      </Reveal>
+                    ))}
+                </ul>
+
+                {t.profile.experience.some((e) => e.kind === "earlier") && (
+                  <>
+                    <p className="eyebrow mt-10">{t.ui.earlierExperience}</p>
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {t.profile.experience
+                        .filter((e) => e.kind === "earlier")
+                        .map((e) => (
+                          <li
+                            key={e.role}
+                            className="rounded-sm border border-border px-3 py-1.5 font-mono text-[11px] text-muted-foreground"
+                          >
+                            {e.role}
+                          </li>
+                        ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            )}
+
+            {t.profile.education && t.profile.education.length > 0 && (
+              <div>
+                <p className="eyebrow">{t.ui.education}</p>
+                <ul className="mt-6 space-y-px overflow-hidden rounded-lg border border-border bg-border">
+                  {t.profile.education.map((e, i) => (
+                    <Reveal as="li" key={e.credential} delay={i * 60} className="bg-surface/70 px-6 py-6">
+                      <p className="font-display text-base font-medium">{e.credential}</p>
+                      {e.institution && (
+                        <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.institution}</p>
+                      )}
+                      {e.note && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.note}</p>}
+                    </Reveal>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </Section>
+      )}
+
       <ContactCta />
     </>
   );
