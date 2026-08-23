@@ -122,12 +122,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const locale = localeFromPathname(pathname);
+  const t = getContent(locale);
+
   return (
-    <html lang="en" className="dark">
+    <html lang={t.htmlLang} dir={t.dir} className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {children}
         <Scripts />
       </body>
