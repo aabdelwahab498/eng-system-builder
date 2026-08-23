@@ -222,6 +222,18 @@ export type UiStrings = {
   live: string;
   beta: string;
   inDevelopment: string;
+  exploreFactory: string;
+  filterBy: string;
+  allCategories: string;
+  noMatches: string;
+  cv: string;
+  cvIntro: string;
+  cvVariantAts: string;
+  cvVariantDesigned: string;
+  printCv: string;
+  phone: string;
+  email: string;
+  cvPendingFile: string;
 };
 
 export type MetaKey =
