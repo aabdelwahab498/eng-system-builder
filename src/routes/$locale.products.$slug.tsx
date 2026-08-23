@@ -48,14 +48,16 @@ function ProductPage() {
 
   return (
     <>
-      <PageHeader eyebrow={product.type} title={product.name} subtitle={product.summary}>
+      <PageHeader eyebrow={product.kind} title={product.name} subtitle={product.summary}>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
-            {t.ui.status}: {product.status}
+            {t.ui.status}: {product.status === "available" ? t.ui.available : t.ui.comingSoon}
           </span>
-          <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
-            {product.price}
-          </span>
+          {product.price && (
+            <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
+              {product.price}
+            </span>
+          )}
           {product.accessUrl ? (
             <a
               href={product.accessUrl}
@@ -82,11 +84,11 @@ function ProductPage() {
               {product.description || product.summary}
             </p>
           </Reveal>
-          {product.includes.length > 0 && (
+          {product.features.length > 0 && (
             <Reveal delay={80} className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
               <p className="eyebrow">{t.ui.deliverables}</p>
               <ul className="mt-4 space-y-2">
-                {product.includes.map((item) => (
+                {product.features.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
                     <span className="mt-2 size-1 shrink-0 rounded-full bg-primary" aria-hidden />
                     {item}
