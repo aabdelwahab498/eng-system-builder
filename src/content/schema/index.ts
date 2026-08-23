@@ -206,11 +206,15 @@ export type Skill = {
   /** One factual sentence describing how the skill is actually used. */
   context: Localized<string>;
   proficiencyLabel?: ProficiencyLabel;
+  /** "primary" = core stack, "supporting" = used but not central. */
+  emphasis?: "primary" | "supporting";
+  provenance?: Provenance;
   featured: boolean;
   portfolioVisible: boolean;
   cvVisible: boolean;
   linkedinVisible: boolean;
 };
+
 
 export type SkillGroup = {
   id: SkillCategoryId;
@@ -253,7 +257,8 @@ export type CanonicalProject = Tracked<{
   tagline: Localized<string>;
   category: ProjectCategory;
   platform: string[];
-  status: ProjectStatus;
+  /** Project lifecycle. Named `lifecycle` so it never collides with Tracked.status. */
+  lifecycle: ProjectStatus;
   role: Localized<string>;
   timeframe?: string;
   summary: Localized<string>;
@@ -300,7 +305,8 @@ export type CanonicalProduct = Tracked<{
   slug: string;
   name: Localized<string>;
   category: ProductCategory;
-  status: ProductStatus;
+  /** Product lifecycle. Named `lifecycle` so it never collides with Tracked.status. */
+  lifecycle: ProductStatus;
   tagline: Localized<string>;
   summary: Localized<string>;
   description: Localized<string>;
