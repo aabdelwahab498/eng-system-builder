@@ -29,14 +29,11 @@ function ContactPage() {
   const email = canonicalContact.find((x) => x.kind === "email")?.value ?? c.email;
   const phone = canonicalContact.find((x) => x.kind === "phone")?.value;
 
-  const links = [
-    ...getCanonicalSocialLinks().map((s) => ({
-      label: s.platform === "github" ? "GitHub" : s.platform === "linkedin" ? "LinkedIn" : s.platform,
-      url: s.url,
-    })),
-    { label: "WhatsApp", url: c.whatsapp },
-    { label: "X", url: c.x },
-  ].filter((l) => l.url);
+  const links = getCanonicalSocialLinks().map((s) => ({
+    label: SOCIAL_LABEL[s.platform as SocialPlatform] ?? s.platform,
+    url: s.url,
+    platform: s.platform as SocialPlatform,
+  }));
 
   return (
     <>
