@@ -45,7 +45,10 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
         },
         breadcrumbs(locale, [
           { name: t.profile.displayName, path: "" },
-          { name: t.ui.projects, path: "/projects" },
+          {
+            name: t.nav.find((n) => n.path === "/projects")?.label ?? "Projects",
+            path: "/projects",
+          },
           { name: project.name, path: `/projects/${project.slug}` },
         ]),
       ],
