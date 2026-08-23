@@ -7,7 +7,6 @@ import { Stagger } from "@/components/site/Motion";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EmptyProducts, ProductCard } from "@/components/site/ProductCard";
 import { SkillsGrid } from "@/components/site/SkillsGrid";
-import { Pipeline } from "@/components/site/SystemFlow";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
@@ -70,28 +69,6 @@ function HomePage() {
             className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
           >
             {t.ui.viewAllProjects} <ArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
-      </Section>
-
-      {/* 2 — Flagship: Universal AI Software Factory */}
-      <Section eyebrow="Flagship" title={t.factory.title} subtitle={t.factory.tagline}>
-        <Pipeline steps={t.factory.architecture} />
-        <Stagger className="mt-10 grid gap-6 sm:grid-cols-3" step={60}>
-          {t.factory.capabilities.slice(0, 3).map((c) => (
-            <div key={c.title} className="lift h-full rounded-lg border border-border bg-surface/60 p-6">
-              <h3 className="font-display text-base font-medium">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
-            </div>
-          ))}
-        </Stagger>
-        <Reveal className="mt-10">
-          <Link
-            to="/$locale/factory"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.factory.title} <ArrowUpRight className="size-4" />
           </Link>
         </Reveal>
       </Section>

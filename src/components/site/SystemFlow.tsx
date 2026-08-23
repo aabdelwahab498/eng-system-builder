@@ -5,7 +5,7 @@ export function SystemFlow() {
 
   const nodes = [
     { label: "nextnext-gen.com", note: t.ui.home },
-    { label: "factory-api", note: t.ui.factory },
+    { label: "projects", note: t.ui.featuredProjects },
     { label: "product.subdomain", note: t.ui.products },
   ];
 

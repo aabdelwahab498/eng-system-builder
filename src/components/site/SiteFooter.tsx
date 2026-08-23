@@ -11,7 +11,6 @@ export function SiteFooter() {
       title: t.ui.work,
       links: [
         { label: t.ui.featuredProjects, path: "/projects" },
-        { label: t.ui.factory, path: "/factory" },
         { label: t.ui.products, path: "/products" },
       ],
     },
