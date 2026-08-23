@@ -113,13 +113,77 @@ export type FactoryContent = {
   entryPoints: ExternalLink[];
 };
 
+export type UiStrings = {
+  home: string;
+  letsBuild: string;
+  viewWork: string;
+  viewProject: string;
+  viewAllProjects: string;
+  viewAllSkills: string;
+  readMore: string;
+  featuredProjects: string;
+  products: string;
+  skills: string;
+  services: string;
+  factory: string;
+  contact: string;
+  about: string;
+  comingSoon: string;
+  available: string;
+  noProducts: string;
+  contentPending: string;
+  mediaPlaceholder: string;
+  technology: string;
+  status: string;
+  category: string;
+  overview: string;
+  problem: string;
+  approach: string;
+  architecture: string;
+  implementation: string;
+  challenges: string;
+  outcome: string;
+  deliverables: string;
+  entryPoints: string;
+  capabilities: string;
+  generatedCategories: string;
+  quality: string;
+  vision: string;
+  switchLanguage: string;
+  toggleTheme: string;
+  openMenu: string;
+  closeMenu: string;
+  backHome: string;
+  notFound: string;
+  notFoundBody: string;
+  ecosystemNote: string;
+  downloadCv: string;
+  availability: string;
+  work: string;
+  profile: string;
+  connect: string;
+  productsIntro: string;
+  getAccess: string;
+  elsewhere: string;
+};
+
+export type MetaKey =
+  | "home"
+  | "about"
+  | "projects"
+  | "products"
+  | "skills"
+  | "services"
+  | "factory"
+  | "contact";
+
 export type Dictionary = {
   locale: Locale;
   dir: "ltr" | "rtl";
   htmlLang: string;
   nav: { label: string; path: string }[];
-  ui: Record<string, string>;
-  meta: Record<string, { title: string; description: string }>;
+  ui: UiStrings;
+  meta: Record<MetaKey, { title: string; description: string }>;
   profile: Profile;
   contact: ContactChannels;
   projects: Project[];

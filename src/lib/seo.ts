@@ -1,5 +1,5 @@
 import { getContent } from "@/content";
-import type { Locale } from "@/types/content";
+import type { Locale, MetaKey } from "@/types/content";
 
 /**
  * Build per-route head metadata with hreflang alternates.
@@ -45,7 +45,6 @@ export function buildHead({
   };
 }
 
-export function metaFor(locale: Locale, key: string) {
-  const t = getContent(locale);
-  return t.meta[key] ?? { title: t.profile.displayName, description: t.profile.statement };
+export function metaFor(locale: Locale, key: MetaKey) {
+  return getContent(locale).meta[key];
 }
