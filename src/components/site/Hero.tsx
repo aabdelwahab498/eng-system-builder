@@ -7,9 +7,25 @@ import { TextReveal } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
+import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
+
+const SOCIAL_ICON = { github: Github, linkedin: Linkedin } as const;
 
 export function Hero() {
   const { locale, t } = useLocale();
+
+  const email = getCanonicalContact().find((c) => c.kind === "email");
+  const socials = [
+    ...getCanonicalSocialLinks()
+      .filter((s) => s.platform in SOCIAL_ICON)
+      .map((s) => ({
+        href: s.url,
+        label: s.platform === "github" ? "GitHub" : "LinkedIn",
+        Icon: SOCIAL_ICON[s.platform as keyof typeof SOCIAL_ICON],
+      })),
+    ...(email ? [{ href: `mailto:${email.value}`, label: t.ui.email, Icon: Mail }] : []),
+  ];
+
 
   return (
     <section className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
