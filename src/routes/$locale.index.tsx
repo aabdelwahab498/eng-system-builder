@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
+import { Stagger } from "@/components/site/Motion";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EmptyProducts, ProductCard } from "@/components/site/ProductCard";
 import { SkillsGrid } from "@/components/site/SkillsGrid";
@@ -49,21 +50,19 @@ function HomePage() {
   const { locale, t } = useLocale();
   const featured = t.projects.filter((p) => p.featured);
   const topSkills = t.skills.slice(0, 3);
-  const factoryProject = t.projects.find((p) => p.flagship);
 
   return (
     <>
       <Hero />
       <CapabilityStrip />
 
-      <Section eyebrow={t.ui.featuredProjects} title={t.ui.featuredProjects}>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {featured.map((project, i) => (
-            <Reveal key={project.slug} delay={i * 80}>
-              <ProjectCard project={project} />
-            </Reveal>
+      {/* 1 — Selected work */}
+      <Section eyebrow={t.ui.selectedWork} title={t.ui.featuredProjects}>
+        <Stagger className="grid gap-6 lg:grid-cols-2" step={90}>
+          {featured.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
           ))}
-        </div>
+        </Stagger>
         <Reveal className="mt-10">
           <Link
             to="/$locale/projects"
@@ -75,21 +74,43 @@ function HomePage() {
         </Reveal>
       </Section>
 
-      <Section eyebrow={t.ui.products} title={t.ui.products}>
+      {/* 2 — Flagship: Universal AI Software Factory */}
+      <Section eyebrow="Flagship" title={t.factory.title} subtitle={t.factory.tagline}>
+        <Pipeline steps={t.factory.architecture} />
+        <Stagger className="mt-10 grid gap-6 sm:grid-cols-3" step={60}>
+          {t.factory.capabilities.slice(0, 3).map((c) => (
+            <div key={c.title} className="lift h-full rounded-lg border border-border bg-surface/60 p-6">
+              <h3 className="font-display text-base font-medium">{c.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+            </div>
+          ))}
+        </Stagger>
+        <Reveal className="mt-10">
+          <Link
+            to="/$locale/factory"
+            params={{ locale }}
+            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
+          >
+            {t.factory.title} <ArrowUpRight className="size-4" />
+          </Link>
+        </Reveal>
+      </Section>
+
+      {/* 3 — Products ecosystem */}
+      <Section eyebrow={t.ui.products} title={t.ui.products} subtitle={t.ui.productsIntro}>
         {t.products.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2">
-            {t.products.map((product, i) => (
-              <Reveal key={product.slug} delay={i * 80}>
-                <ProductCard product={product} />
-              </Reveal>
+          <Stagger className="grid gap-6 sm:grid-cols-2" step={80}>
+            {t.products.map((product) => (
+              <ProductCard key={product.slug} product={product} />
             ))}
-          </div>
+          </Stagger>
         ) : (
           <EmptyProducts message={t.ui.noProducts} />
         )}
       </Section>
 
-      <Section eyebrow={t.ui.skills} title={t.ui.skills}>
+      {/* 4 — Capabilities */}
+      <Section eyebrow={t.ui.capabilities} title={t.ui.skills}>
         <SkillsGrid categories={topSkills} />
         <Reveal className="mt-10">
           <Link
@@ -102,36 +123,29 @@ function HomePage() {
         </Reveal>
       </Section>
 
-      <Section eyebrow="Flagship" title={t.factory.title} subtitle={t.factory.tagline}>
-        <Pipeline steps={t.factory.architecture} />
-        <div className="mt-10 grid gap-6 sm:grid-cols-3">
-          {t.factory.capabilities.slice(0, 3).map((c, i) => (
-            <Reveal key={c.title} delay={i * 60} className="rounded-lg border border-border bg-surface/60 p-6">
-              <h3 className="font-display text-base font-medium">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
-            </Reveal>
+      {/* 5 — How I work */}
+      <Section eyebrow={t.ui.howIWork} title={t.ui.howIWork}>
+        <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" step={60}>
+          {t.profile.philosophy.map((p, i) => (
+            <div key={p.title} className="lift h-full rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+              <span className="font-mono text-[11px] text-primary">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="mt-3 font-display text-lg font-medium">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+            </div>
           ))}
-        </div>
-        <Reveal className="mt-10">
-          <Link
-            to="/$locale/factory"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            {factoryProject?.name ?? t.factory.title} <ArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
+        </Stagger>
       </Section>
 
+      {/* 6 — Services */}
       <Section eyebrow={t.ui.services} title={t.ui.services}>
-        <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {t.services.map((service, i) => (
-            <Reveal key={service.id} delay={i * 50} className="bg-surface/70 p-6 sm:p-8">
+        <Stagger className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" step={50}>
+          {t.services.map((service) => (
+            <div key={service.id} className="h-full bg-surface/70 p-6 sm:p-8">
               <h3 className="font-display text-lg font-medium">{service.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.outcome}</p>
-            </Reveal>
+            </div>
           ))}
-        </div>
+        </Stagger>
       </Section>
 
       <ContactCta />
