@@ -18,6 +18,7 @@ import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
+import { Route as LocaleFactoryRouteImport } from './routes/$locale.factory'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
 import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -70,6 +71,11 @@ const LocaleAboutRoute = LocaleAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleFactoryRoute = LocaleFactoryRouteImport.update({
+  id: '/factory',
+  path: '/factory',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleServicesRoute = LocaleServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/engineering': typeof EngineeringRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/projects'
     | '/$locale/about'
+    | '/$locale/factory'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/engineering'
     | '/$locale/about'
+    | '/$locale/factory'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/projects'
     | '/$locale/about'
+    | '/$locale/factory'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -276,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAboutRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/factory': {
+      id: '/$locale/factory'
+      path: '/factory'
+      fullPath: '/$locale/factory'
+      preLoaderRoute: typeof LocaleFactoryRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/services': {
       id: '/$locale/services'
       path: '/services'
@@ -323,6 +342,7 @@ declare module '@tanstack/react-router' {
 
 interface LocaleRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
+  LocaleFactoryRoute: typeof LocaleFactoryRoute
   LocaleServicesRoute: typeof LocaleServicesRoute
   LocaleSkillsRoute: typeof LocaleSkillsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
@@ -330,6 +350,7 @@ interface LocaleRouteChildren {
 
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
+  LocaleFactoryRoute: LocaleFactoryRoute,
   LocaleServicesRoute: LocaleServicesRoute,
   LocaleSkillsRoute: LocaleSkillsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
