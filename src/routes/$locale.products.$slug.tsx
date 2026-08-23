@@ -27,14 +27,27 @@ export const Route = createFileRoute("/$locale/products/$slug")({
       title: `${product.name} — ${t.profile.displayName}`,
       description: product.summary,
       ogType: "product",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: product.name,
-        description: product.summary,
-        url: `${site.domain}/${locale}/products/${product.slug}`,
-        brand: { "@type": "Person", name: t.profile.displayName },
-      },
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: product.name,
+          description: product.summary,
+          url: `${site.domain}/${locale}/products/${product.slug}`,
+          inLanguage: locale,
+          applicationCategory: product.kind,
+          author: { "@type": "Person", name: t.profile.displayName, url: site.domain },
+          ...(product.features.length ? { featureList: product.features } : {}),
+        },
+        breadcrumbs(locale, [
+          { name: t.profile.displayName, path: "" },
+          {
+            name: t.nav.find((n) => n.path === "/products")?.label ?? t.ui.products,
+            path: "/products",
+          },
+          { name: product.name, path: `/products/${product.slug}` },
+        ]),
+      ],
     });
   },
   component: ProductPage,
