@@ -21,7 +21,7 @@ export function Hero() {
               <div className="size-14 shrink-0 overflow-hidden rounded-full border border-border-strong bg-surface/60 ring-1 ring-primary/20">
                 <img
                   src={profilePhoto.url}
-                  alt={t.profile.photo.alt}
+                  alt={t.profile.photo?.alt ?? t.profile.displayName}
                   className="h-full w-full object-cover object-top"
                   loading="eager"
                   decoding="async"
