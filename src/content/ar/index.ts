@@ -69,6 +69,9 @@ export const ar: Dictionary = {
     work: "الأعمال",
     profile: "الملف",
     connect: "التواصل",
+    productsIntro: "منتجات رقمية من منظومة nextnext-gen.",
+    getAccess: "الحصول على المنتج",
+    elsewhere: "روابط أخرى",
   },
 
   meta: {

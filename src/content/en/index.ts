@@ -70,6 +70,9 @@ export const en: Dictionary = {
     work: "Work",
     profile: "Profile",
     connect: "Connect",
+    productsIntro: "Digital products from the nextnext-gen ecosystem.",
+    getAccess: "Get access",
+    elsewhere: "Elsewhere",
   },
 
   meta: {
