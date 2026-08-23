@@ -78,8 +78,9 @@ function ContactPage() {
                       href={l.url}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
+                      className="inline-flex items-center gap-3 text-sm transition-colors hover:text-primary"
                     >
+                      <SocialIcon platform={l.platform} className="size-4 text-primary" />
                       {l.label}
                       <ArrowUpRight className="size-4" />
                     </a>
