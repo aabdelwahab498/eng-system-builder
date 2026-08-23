@@ -1,29 +1,29 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
 import { TextReveal } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
-
-const SOCIAL_ICON = { github: Github, linkedin: Linkedin } as const;
 
 export function Hero() {
   const { locale, t } = useLocale();
 
   const email = getCanonicalContact().find((c) => c.kind === "email");
   const socials = [
-    ...getCanonicalSocialLinks()
-      .filter((s) => s.platform in SOCIAL_ICON)
-      .map((s) => ({
-        href: s.url,
-        label: s.platform === "github" ? "GitHub" : "LinkedIn",
-        Icon: SOCIAL_ICON[s.platform as keyof typeof SOCIAL_ICON],
-      })),
-    ...(email ? [{ href: `mailto:${email.value}`, label: t.ui.email, Icon: Mail }] : []),
+    ...getCanonicalSocialLinks().map((s) => ({
+      href: s.url,
+      label: SOCIAL_LABEL[s.platform as SocialPlatform] ?? s.platform,
+      platform: s.platform as SocialPlatform,
+      isMail: false as const,
+    })),
+    ...(email
+      ? [{ href: `mailto:${email.value}`, label: t.ui.email, platform: "other" as SocialPlatform, isMail: true as const }]
+      : []),
   ];
 
 
@@ -75,7 +75,11 @@ export function Hero() {
                     aria-label={s.label}
                     className="inline-flex h-10 items-center gap-2 rounded-sm border border-border px-3 font-mono text-xs text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
-                    <s.Icon className="size-4" aria-hidden />
+                    {s.isMail ? (
+                      <Mail className="size-4" aria-hidden />
+                    ) : (
+                      <SocialIcon platform={s.platform} className="size-4" />
+                    )}
                     {s.label}
                   </a>
                 </li>

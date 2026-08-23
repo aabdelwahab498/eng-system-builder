@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactIntent } from "@/components/site/ContactIntent";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "@/components/site/SocialIcon";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 import { buildHead, metaFor } from "@/lib/seo";
@@ -28,14 +29,11 @@ function ContactPage() {
   const email = canonicalContact.find((x) => x.kind === "email")?.value ?? c.email;
   const phone = canonicalContact.find((x) => x.kind === "phone")?.value;
 
-  const links = [
-    ...getCanonicalSocialLinks().map((s) => ({
-      label: s.platform === "github" ? "GitHub" : s.platform === "linkedin" ? "LinkedIn" : s.platform,
-      url: s.url,
-    })),
-    { label: "WhatsApp", url: c.whatsapp },
-    { label: "X", url: c.x },
-  ].filter((l) => l.url);
+  const links = getCanonicalSocialLinks().map((s) => ({
+    label: SOCIAL_LABEL[s.platform as SocialPlatform] ?? s.platform,
+    url: s.url,
+    platform: s.platform as SocialPlatform,
+  }));
 
   return (
     <>
@@ -80,8 +78,9 @@ function ContactPage() {
                       href={l.url}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
+                      className="inline-flex items-center gap-3 text-sm transition-colors hover:text-primary"
                     >
+                      <SocialIcon platform={l.platform} className="size-4 text-primary" />
                       {l.label}
                       <ArrowUpRight className="size-4" />
                     </a>

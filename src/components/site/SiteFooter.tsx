@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Section";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
@@ -27,13 +28,12 @@ export function SiteFooter() {
 
   const canonicalEmail = getCanonicalContact().find((c) => c.kind === "email")?.value;
   const channels = [
-    { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "" },
+    { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "", platform: "other" as SocialPlatform },
     ...getCanonicalSocialLinks().map((l) => ({
-      label: l.platform === "github" ? "GitHub" : l.platform === "linkedin" ? "LinkedIn" : l.platform,
+      label: SOCIAL_LABEL[l.platform as SocialPlatform] ?? l.platform,
       href: l.url,
+      platform: l.platform as SocialPlatform,
     })),
-    { label: "WhatsApp", href: t.contact.whatsapp },
-    { label: "X", href: t.contact.x },
   ].filter((c) => c.href);
 
   return (
@@ -66,15 +66,25 @@ export function SiteFooter() {
         <div className="flex flex-col gap-3">
           <p className="eyebrow">{t.ui.connect}</p>
           {channels.length > 0 ? (
-            channels.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {c.label}
-              </a>
-            ))
+            <ul className="flex flex-col gap-3">
+              {channels.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {c.platform === "other" ? (
+                      <span className="font-mono text-xs">@</span>
+                    ) : (
+                      <SocialIcon platform={c.platform} className="size-4" />
+                    )}
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           ) : (
             <Link
               to="/$locale/contact"
