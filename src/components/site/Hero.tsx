@@ -42,12 +42,34 @@ export function Hero() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/$locale/contact" params={{ locale }}>
-                  {t.ui.letsBuild}
+                <Link to="/$locale/factory" params={{ locale }}>
+                  {t.ui.exploreFactory}
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="ghost">
+                <Link to="/$locale/cv" params={{ locale }}>
+                  {t.ui.downloadCv}
                   <ArrowUpRight className="size-4" />
                 </Link>
               </Button>
             </div>
+
+            <ul className="mt-8 flex flex-wrap items-center gap-2">
+              {socials.map((s) => (
+                <li key={s.href}>
+                  <a
+                    href={s.href}
+                    target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noreferrer noopener"
+                    aria-label={s.label}
+                    className="inline-flex h-10 items-center gap-2 rounded-sm border border-border px-3 font-mono text-xs text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                  >
+                    <s.Icon className="size-4" aria-hidden />
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </Reveal>
 
           <Reveal delay={120}>
