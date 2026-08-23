@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
+import { ProfileAvatar } from "@/components/site/ProfileAvatar";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
@@ -21,7 +22,11 @@ function AboutPage() {
 
   return (
     <>
-      <PageHeader eyebrow={t.ui.about} title={t.profile.displayName} subtitle={t.profile.positioning} />
+      <PageHeader eyebrow={t.ui.about} title={t.profile.displayName} subtitle={t.profile.positioning}>
+        <Reveal className="mt-8">
+          <ProfileAvatar />
+        </Reveal>
+      </PageHeader>
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
         {t.profile.shortBio || t.profile.longBio ? (
