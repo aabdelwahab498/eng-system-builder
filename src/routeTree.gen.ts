@@ -18,6 +18,7 @@ import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
+import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
 import { Route as LocaleFactoryRouteImport } from './routes/$locale.factory'
 import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
@@ -75,6 +76,11 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleAboutRoute = LocaleAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleContactRoute = LocaleContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleFactoryRoute = LocaleFactoryRouteImport.update({
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/engineering': typeof EngineeringRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/projects'
     | '/$locale/about'
+    | '/$locale/contact'
     | '/$locale/factory'
     | '/$locale/products'
     | '/$locale/projects'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/engineering'
     | '/$locale/about'
+    | '/$locale/contact'
     | '/$locale/factory'
     | '/$locale/services'
     | '/$locale/skills'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/projects'
     | '/$locale/about'
+    | '/$locale/contact'
     | '/$locale/factory'
     | '/$locale/products'
     | '/$locale/projects'
@@ -354,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/$locale/about'
       preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/contact': {
+      id: '/$locale/contact'
+      path: '/contact'
+      fullPath: '/$locale/contact'
+      preLoaderRoute: typeof LocaleContactRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/factory': {
@@ -480,6 +499,7 @@ const LocaleProjectsRouteWithChildren = LocaleProjectsRoute._addFileChildren(
 
 interface LocaleRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
+  LocaleContactRoute: typeof LocaleContactRoute
   LocaleFactoryRoute: typeof LocaleFactoryRoute
   LocaleProductsRoute: typeof LocaleProductsRouteWithChildren
   LocaleProjectsRoute: typeof LocaleProjectsRouteWithChildren
@@ -490,6 +510,7 @@ interface LocaleRouteChildren {
 
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
+  LocaleContactRoute: LocaleContactRoute,
   LocaleFactoryRoute: LocaleFactoryRoute,
   LocaleProductsRoute: LocaleProductsRouteWithChildren,
   LocaleProjectsRoute: LocaleProjectsRouteWithChildren,
