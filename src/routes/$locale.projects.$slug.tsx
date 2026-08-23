@@ -8,7 +8,7 @@ import { Pipeline } from "@/components/site/SystemFlow";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
-import { buildHead } from "@/lib/seo";
+import { breadcrumbs, buildHead } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
@@ -29,14 +29,29 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
       title: `${project.name} — ${t.profile.displayName}`,
       description: project.summary,
       ogType: "article",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        name: project.name,
-        description: project.summary,
-        url: `${site.domain}/${locale}/projects/${project.slug}`,
-        author: { "@type": "Person", name: t.profile.displayName },
-      },
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: project.name,
+          headline: project.name,
+          description: project.summary,
+          url: `${site.domain}/${locale}/projects/${project.slug}`,
+          inLanguage: locale,
+          genre: project.category,
+          keywords: project.tech.join(", "),
+          author: { "@type": "Person", name: t.profile.displayName, url: site.domain },
+          creator: { "@type": "Person", name: t.profile.displayName },
+        },
+        breadcrumbs(locale, [
+          { name: t.profile.displayName, path: "" },
+          {
+            name: t.nav.find((n) => n.path === "/projects")?.label ?? "Projects",
+            path: "/projects",
+          },
+          { name: project.name, path: `/projects/${project.slug}` },
+        ]),
+      ],
     });
   },
   component: ProjectPage,

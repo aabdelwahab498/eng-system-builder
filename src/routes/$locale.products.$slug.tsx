@@ -6,7 +6,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
-import { buildHead } from "@/lib/seo";
+import { breadcrumbs, buildHead } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/products/$slug")({
@@ -27,14 +27,27 @@ export const Route = createFileRoute("/$locale/products/$slug")({
       title: `${product.name} — ${t.profile.displayName}`,
       description: product.summary,
       ogType: "product",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: product.name,
-        description: product.summary,
-        url: `${site.domain}/${locale}/products/${product.slug}`,
-        brand: { "@type": "Person", name: t.profile.displayName },
-      },
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: product.name,
+          description: product.summary,
+          url: `${site.domain}/${locale}/products/${product.slug}`,
+          inLanguage: locale,
+          applicationCategory: product.kind,
+          author: { "@type": "Person", name: t.profile.displayName, url: site.domain },
+          ...(product.features.length ? { featureList: product.features } : {}),
+        },
+        breadcrumbs(locale, [
+          { name: t.profile.displayName, path: "" },
+          {
+            name: t.nav.find((n) => n.path === "/products")?.label ?? t.ui.products,
+            path: "/products",
+          },
+          { name: product.name, path: `/products/${product.slug}` },
+        ]),
+      ],
     });
   },
   component: ProductPage,
@@ -51,7 +64,16 @@ function ProductPage() {
       <PageHeader eyebrow={product.kind} title={product.name} subtitle={product.summary}>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
-            {t.ui.status}: {product.status === "available" ? t.ui.available : t.ui.comingSoon}
+            {t.ui.status}:{" "}
+            {product.status === "live"
+              ? t.ui.live
+              : product.status === "beta"
+                ? t.ui.beta
+                : product.status === "in-development"
+                  ? t.ui.inDevelopment
+                  : product.status === "available"
+                    ? t.ui.available
+                    : t.ui.comingSoon}
           </span>
           {product.price && (
             <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
