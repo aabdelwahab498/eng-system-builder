@@ -3,9 +3,9 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
+import { ProfileAvatar } from "./ProfileAvatar";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
-import profilePhoto from "@/assets/profile-ahmed.png.asset.json";
 
 export function Hero() {
   const { locale, t } = useLocale();
@@ -17,16 +17,7 @@ export function Hero() {
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
           <Reveal>
             <div className="flex items-center gap-4">
-              {/* Profile media slot — a photo can be added later without layout changes */}
-              <div className="size-14 shrink-0 overflow-hidden rounded-full border border-border-strong bg-surface/60 ring-1 ring-primary/20">
-                <img
-                  src={profilePhoto.url}
-                  alt={t.profile.photo?.alt ?? t.profile.displayName}
-                  className="h-full w-full object-cover object-top"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
+              <ProfileAvatar />
               <div>
                 <p className="eyebrow">{t.profile.positioning}</p>
                 <p className="mt-1 font-mono text-xs text-muted-foreground">nextnext-gen.com</p>
