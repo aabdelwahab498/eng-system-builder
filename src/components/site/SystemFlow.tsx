@@ -18,9 +18,10 @@ export function SystemFlow() {
           <li key={node.label} className="relative pl-8">
             <span
               aria-hidden
-              className="absolute top-2 left-[7px] size-2 rounded-full bg-primary"
-              style={{ animation: `pulse 3s ${i * 0.4}s ease-in-out infinite` }}
+              className="node-dot absolute top-2 left-[7px] size-2 rounded-full bg-primary"
+              style={{ animationDelay: `${i * 0.4}s` }}
             />
+
             {i < nodes.length - 1 && (
               <span aria-hidden className="absolute top-4 bottom-0 left-[11px] w-px bg-border-strong" />
             )}
