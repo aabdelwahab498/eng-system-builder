@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactIntent } from "@/components/site/ContactIntent";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "@/components/site/SocialIcon";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 import { buildHead, metaFor } from "@/lib/seo";
