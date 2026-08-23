@@ -8,7 +8,7 @@ import { Pipeline } from "@/components/site/SystemFlow";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
-import { buildHead } from "@/lib/seo";
+import { breadcrumbs, buildHead } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
