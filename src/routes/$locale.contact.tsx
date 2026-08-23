@@ -5,6 +5,7 @@ import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactIntent } from "@/components/site/ContactIntent";
 import { useLocale } from "@/hooks/useLocale";
+import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
@@ -22,12 +23,18 @@ function ContactPage() {
   const c = t.contact;
   const m = t.meta.contact;
 
+  // Canonical contact channels — only publishable ones reach the UI.
+  const canonicalContact = getCanonicalContact();
+  const email = canonicalContact.find((x) => x.kind === "email")?.value ?? c.email;
+  const phone = canonicalContact.find((x) => x.kind === "phone")?.value;
+
   const links = [
-    { label: "LinkedIn", url: c.linkedin },
-    { label: "GitHub", url: c.github },
+    ...getCanonicalSocialLinks().map((s) => ({
+      label: s.platform === "github" ? "GitHub" : s.platform === "linkedin" ? "LinkedIn" : s.platform,
+      url: s.url,
+    })),
     { label: "WhatsApp", url: c.whatsapp },
     { label: "X", url: c.x },
-    { label: t.ui.downloadCv, url: c.cv },
   ].filter((l) => l.url);
 
   return (
@@ -40,20 +47,26 @@ function ContactPage() {
             <p className="eyebrow">{t.ui.availability}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.availability}</p>
 
-            {c.email ? (
+            {email ? (
               <a
-                href={`mailto:${c.email}`}
+                href={`mailto:${email}`}
                 className="mt-8 inline-flex items-center gap-3 text-sm transition-colors hover:text-primary"
               >
                 <Mail className="size-4 text-primary" />
-                {c.email}
+                {email}
               </a>
             ) : (
               <p className="mt-8 text-sm text-muted-foreground">{t.ui.contentPending}</p>
             )}
 
+            {phone && (
+              <p className="mt-4 font-mono text-sm text-muted-foreground" dir="ltr">
+                {phone}
+              </p>
+            )}
+
             <div className="mt-10 border-t border-border pt-8">
-              <ContactIntent email={c.email} linkedin={c.linkedin} />
+              <ContactIntent email={email} linkedin={c.linkedin} />
             </div>
           </Reveal>
 

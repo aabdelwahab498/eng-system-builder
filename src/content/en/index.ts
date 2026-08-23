@@ -88,6 +88,18 @@ export const en: Dictionary = {
     live: "Live",
     beta: "Beta",
     inDevelopment: "In development",
+    exploreFactory: "Explore the Factory",
+    filterBy: "Filter",
+    allCategories: "All",
+    noMatches: "No entries match this filter.",
+    cv: "CV",
+    cvIntro: "Generated from the canonical profile. Print or save as PDF.",
+    cvVariantAts: "ATS version",
+    cvVariantDesigned: "Designed version",
+    printCv: "Print / Save as PDF",
+    phone: "Phone",
+    email: "Email",
+    cvPendingFile: "A downloadable PDF file has not been published yet.",
   },
 
   meta: {
@@ -130,6 +142,11 @@ export const en: Dictionary = {
       title: "Contact — Eng. Ahmed Abdelwahab",
       description:
         "Get in touch about backend engineering, AI systems, mobile applications and digital product work.",
+    },
+    cv: {
+      title: "CV — Eng. Ahmed Abdelwahab",
+      description:
+        "Curriculum vitae of Ahmed Abdelwahab: software engineering, full-stack development, AI engineering and product building.",
     },
   },
 

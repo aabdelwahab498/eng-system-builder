@@ -276,3 +276,30 @@
   font-family: "IBM Plex Sans Arabic", "Noto Kufi Arabic", ui-sans-serif, system-ui, sans-serif;
   letter-spacing: 0;
 }
+
+/* ------------------------------------------------------------- print / CV */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .cv-document section,
+  .cv-document header {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-document a {
+    text-decoration: underline;
+  }
+}
