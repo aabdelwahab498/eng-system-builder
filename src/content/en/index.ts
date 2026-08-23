@@ -77,9 +77,9 @@ export const en: Dictionary = {
 
   meta: {
     home: {
-      title: "Eng. Ahmed Abdelwahab — Software Engineer, Backend & AI, Product Builder",
+      title: "Eng. Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
       description:
-        "Personal engineering hub of Ahmed Abdelwahab: backend systems, AI engineering, software architecture, mobile and web product development.",
+        "Personal engineering hub of Ahmed Abdelwahab: full stack development, AI engineering, software architecture, mobile and web product development.",
     },
     about: {
       title: "About — Eng. Ahmed Abdelwahab",
@@ -120,7 +120,7 @@ export const en: Dictionary = {
 
   profile: {
     displayName: "Eng. Ahmed Abdelwahab",
-    positioning: "Software Engineer · Backend & AI · Product Builder",
+    positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
       "Engineering backend systems, AI-powered applications and digital products — from architecture to production.",
     shortBio: "",
