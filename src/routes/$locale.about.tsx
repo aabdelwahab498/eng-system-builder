@@ -38,24 +38,14 @@ function AboutPage() {
       />
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
-        <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:gap-12">
-          <Reveal className="shrink-0">
-            <AboutAvatar
-              src={aboutHero.url}
-              alt={`${t.profile.displayName} — ${t.profile.positioning}`}
-              fallbackInitials={t.profile.displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
-              className="size-40 sm:size-52 lg:size-60"
-            />
-          </Reveal>
-          <div className="max-w-3xl space-y-6 text-center sm:text-start text-base leading-relaxed text-muted-foreground">
-            {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-            {t.profile.longBio && <p>{t.profile.longBio}</p>}
-            {!t.profile.shortBio && !t.profile.longBio && (
-              <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
-                {t.ui.contentPending}
-              </p>
-            )}
-          </div>
+        <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
+          {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
+          {t.profile.longBio && <p>{t.profile.longBio}</p>}
+          {!t.profile.shortBio && !t.profile.longBio && (
+            <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
+              {t.ui.contentPending}
+            </p>
+          )}
         </div>
       </Section>
 
