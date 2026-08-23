@@ -60,9 +60,78 @@ export const getUi = (locale: Locale) => getContent(locale).ui;
 
 export const getSeo = (locale: Locale, key: MetaKey) => getContent(locale).meta[key];
 
+/* ------------------------------------------------------- canonical layer */
 /**
- * Reserved for V2: CV variants and LinkedIn blocks are derived from the same
- * canonical data. Intentionally not implemented in V1.
+ * Phase 4 canonical getters. These read the canonical content model and apply
+ * the publish filter (status + visibility). UI migration happens later; the
+ * existing dictionary getters above are unchanged.
  */
-export const getCv = undefined;
-export const getLinkedIn = undefined;
+
+import {
+  buildCv,
+  buildLinkedIn,
+  canonicalProfile,
+  certifications,
+  education,
+  experience,
+  factoryMaturity,
+  products as canonicalProducts,
+  projects as canonicalProjects,
+  services as canonicalServices,
+  skillGroups,
+} from "./canonical";
+import type {
+  CanonicalProduct,
+  CanonicalProject,
+  CanonicalService,
+  CvVariant,
+  ExperienceCategory,
+  SkillGroup,
+} from "./schema";
+import { isPublishable } from "./schema";
+
+export const getCanonicalProfile = () => canonicalProfile;
+
+export const getCanonicalExperience = (category?: ExperienceCategory) => {
+  const items = experience.filter(isPublishable);
+  return category ? items.filter((item) => item.category === category) : items;
+};
+
+/** Includes non-public entries — authoring/CV surfaces only. */
+export const getAllExperience = () => experience;
+
+export const getCanonicalEducation = () => education.filter(isPublishable);
+export const getAllEducation = () => education;
+export const getCanonicalCertifications = () => certifications.filter(isPublishable);
+
+export const getCanonicalSkills = (): SkillGroup[] =>
+  skillGroups
+    .map((group) => ({ ...group, skills: group.skills.filter((s) => s.portfolioVisible) }))
+    .filter((group) => group.skills.length > 0);
+
+export const getCanonicalProjects = (): CanonicalProject[] =>
+  canonicalProjects.filter(isPublishable);
+
+export const getCanonicalProject = (slug: string) =>
+  getCanonicalProjects().find((p) => p.slug === slug);
+
+export const getCanonicalFeaturedProjects = () =>
+  getCanonicalProjects().filter((p) => p.featured);
+
+export const getFactoryMaturity = () => factoryMaturity;
+
+export const getCanonicalProducts = (): CanonicalProduct[] =>
+  canonicalProducts.filter(isPublishable);
+
+export const getCanonicalProduct = (slug: string) =>
+  getCanonicalProducts().find((p) => p.slug === slug);
+
+export const getCanonicalServices = (): CanonicalService[] =>
+  canonicalServices.filter(isPublishable);
+
+export const getCanonicalContact = () => canonicalProfile.contact.filter(isPublishable);
+export const getCanonicalSocialLinks = () => canonicalProfile.socialLinks.filter(isPublishable);
+
+/** CV and LinkedIn are derived views over the same canonical data. */
+export const getCv = (locale: Locale, variant: CvVariant = "general") => buildCv(variant, locale);
+export const getLinkedIn = (locale: Locale) => buildLinkedIn(locale);
