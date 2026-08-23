@@ -1,5 +1,6 @@
 import type { SkillCategory } from "@/types/content";
 import { Reveal } from "./Reveal";
+import { TechIcon } from "./TechIcon";
 
 export function SkillsGrid({ categories }: { categories: SkillCategory[] }) {
   return (
@@ -13,12 +14,22 @@ export function SkillsGrid({ categories }: { categories: SkillCategory[] }) {
               <li
                 key={item.name}
                 className={
-                  item.highlight
-                    ? "rounded-sm border border-primary/40 px-2 py-1 font-mono text-[11px] text-primary"
-                    : "rounded-sm border border-border px-2 py-1 font-mono text-[11px] text-muted-foreground"
+                  "group inline-flex items-center gap-1.5 rounded-sm border px-2 py-1 font-mono text-[11px] transition-colors duration-200 " +
+                  (item.highlight
+                    ? "border-primary/40 bg-primary/5 text-primary hover:border-primary/70"
+                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground")
                 }
               >
-                {item.name}
+                <TechIcon
+                  name={item.name}
+                  category={cat.id}
+                  className={
+                    item.highlight
+                      ? "size-3.5 shrink-0 text-primary"
+                      : "size-3.5 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-foreground"
+                  }
+                />
+                <span>{item.name}</span>
               </li>
             ))}
           </ul>
@@ -27,3 +38,4 @@ export function SkillsGrid({ categories }: { categories: SkillCategory[] }) {
     </div>
   );
 }
+
