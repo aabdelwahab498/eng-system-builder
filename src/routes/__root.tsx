@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,7 +14,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { site } from "@/data/site";
+import { getContent } from "@/content";
+import { localeFromPathname } from "@/hooks/useLocale";
+import { themeInitScript } from "@/components/site/ThemeToggle";
 
 
 function NotFoundComponent() {
@@ -82,11 +85,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Eng/Ahmed Abdelwahab — Software Engineer, AI Builder & Product Engineer" },
-      { name: "description", content: site.description },
-      { name: "author", content: site.name },
+      { title: "Eng. Ahmed Abdelwahab — Software Engineer, Backend & AI, Product Builder" },
+      { name: "description", content: "Personal engineering hub of Ahmed Abdelwahab: backend systems, AI engineering, software architecture, mobile and web product development." },
+      { name: "author", content: "Eng. Ahmed Abdelwahab" },
       { name: "robots", content: "index, follow" },
-      { property: "og:site_name", content: site.name },
+      { property: "og:site_name", content: "Eng. Ahmed Abdelwahab" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0b0e12" },
@@ -106,11 +109,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Person",
-          name: site.name,
-          jobTitle: "Software Engineer",
-          description: site.description,
-          url: site.domain,
+          "@type": "WebSite",
+          name: "Eng. Ahmed Abdelwahab",
+          url: "https://nextnext-gen.com",
+          inLanguage: ["en", "ar"],
         }),
       },
     ],
@@ -122,12 +124,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const locale = localeFromPathname(pathname);
+  const t = getContent(locale);
+
   return (
-    <html lang="en" className="dark">
+    <html lang={t.htmlLang} dir={t.dir} className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {children}
         <Scripts />
       </body>
