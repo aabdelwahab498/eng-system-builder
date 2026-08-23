@@ -31,6 +31,17 @@ export const Route = createFileRoute("/$locale/")({
         jobTitle: "Software Engineer",
         description: m.description,
         url: site.domain,
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Cairo University",
+        },
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "Bachelor of Engineering — Computer Science",
+          educationalLevel: "Bachelor",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+          dateCreated: "2016",
+        },
         knowsAbout: [
           "Software Engineering",
           "Backend Development",
