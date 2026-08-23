@@ -11,18 +11,30 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteImport } from './routes/$locale'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
+import { Route as LocaleBlogRouteImport } from './routes/$locale.blog'
 import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
 import { Route as LocaleCvRouteImport } from './routes/$locale.cv'
 import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
 import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as LocaleBlogIndexRouteImport } from './routes/$locale.blog.index'
+import { Route as LocaleBlogSlugRouteImport } from './routes/$locale.blog.$slug'
 import { Route as LocaleProductsIndexRouteImport } from './routes/$locale.products.index'
 import { Route as LocaleProductsSlugRouteImport } from './routes/$locale.products.$slug'
 import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projects.index'
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale.projects.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin.media'
+import { Route as AuthenticatedAdminContentKindRouteImport } from './routes/_authenticated/admin.content.$kind'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
+import { Route as AuthenticatedAdminContentKindIndexRouteImport } from './routes/_authenticated/admin.content.$kind.index'
+import { Route as AuthenticatedAdminContentKindIdRouteImport } from './routes/_authenticated/admin.content.$kind.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,6 +46,15 @@ const LocaleRoute = LocaleRouteImport.update({
   path: '/$locale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -42,6 +63,11 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleAboutRoute = LocaleAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleBlogRoute = LocaleBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleContactRoute = LocaleContactRouteImport.update({
@@ -74,6 +100,21 @@ const LocaleSkillsRoute = LocaleSkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => LocaleRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const LocaleBlogIndexRoute = LocaleBlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleBlogRoute,
+} as any)
+const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LocaleBlogRoute,
+} as any)
 const LocaleProductsIndexRoute = LocaleProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -94,104 +135,202 @@ const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => LocaleProjectsRoute,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminContentKindRoute =
+  AuthenticatedAdminContentKindRouteImport.update({
+    id: '/content/$kind',
+    path: '/content/$kind',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminContentKindIndexRoute =
+  AuthenticatedAdminContentKindIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminContentKindRoute,
+  } as any)
+const AuthenticatedAdminContentKindIdRoute =
+  AuthenticatedAdminContentKindIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminContentKindRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
+  '/auth': typeof AuthRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/products/': typeof LocaleProductsIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/$kind': typeof AuthenticatedAdminContentKindRouteWithChildren
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/admin/content/$kind/$id': typeof AuthenticatedAdminContentKindIdRoute
+  '/admin/content/$kind/': typeof AuthenticatedAdminContentKindIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/$locale': typeof LocaleIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/$locale/blog': typeof LocaleBlogIndexRoute
   '/$locale/products': typeof LocaleProductsIndexRoute
   '/$locale/projects': typeof LocaleProjectsIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/admin/content/$kind/$id': typeof AuthenticatedAdminContentKindIdRoute
+  '/admin/content/$kind': typeof AuthenticatedAdminContentKindIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$locale': typeof LocaleRouteWithChildren
+  '/auth': typeof AuthRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/products/': typeof LocaleProductsIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/content/$kind': typeof AuthenticatedAdminContentKindRouteWithChildren
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/_authenticated/admin/content/$kind/$id': typeof AuthenticatedAdminContentKindIdRoute
+  '/_authenticated/admin/content/$kind/': typeof AuthenticatedAdminContentKindIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/$locale'
+    | '/auth'
     | '/$locale/about'
+    | '/$locale/blog'
     | '/$locale/contact'
     | '/$locale/cv'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
+    | '/admin'
     | '/$locale/'
+    | '/$locale/blog/$slug'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
+    | '/admin/media'
+    | '/$locale/blog/'
     | '/$locale/products/'
     | '/$locale/projects/'
+    | '/admin/'
+    | '/admin/content/$kind'
+    | '/api/public/media/$'
+    | '/admin/content/$kind/$id'
+    | '/admin/content/$kind/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/$locale/about'
     | '/$locale/contact'
     | '/$locale/cv'
     | '/$locale/services'
     | '/$locale/skills'
     | '/$locale'
+    | '/$locale/blog/$slug'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
+    | '/admin/media'
+    | '/$locale/blog'
     | '/$locale/products'
     | '/$locale/projects'
+    | '/admin'
+    | '/api/public/media/$'
+    | '/admin/content/$kind/$id'
+    | '/admin/content/$kind'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/$locale'
+    | '/auth'
     | '/$locale/about'
+    | '/$locale/blog'
     | '/$locale/contact'
     | '/$locale/cv'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
+    | '/_authenticated/admin'
     | '/$locale/'
+    | '/$locale/blog/$slug'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
+    | '/_authenticated/admin/media'
+    | '/$locale/blog/'
     | '/$locale/products/'
     | '/$locale/projects/'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/content/$kind'
+    | '/api/public/media/$'
+    | '/_authenticated/admin/content/$kind/$id'
+    | '/_authenticated/admin/content/$kind/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   LocaleRoute: typeof LocaleRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -210,6 +349,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/': {
       id: '/$locale/'
       path: '/'
@@ -222,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/$locale/about'
       preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/blog': {
+      id: '/$locale/blog'
+      path: '/blog'
+      fullPath: '/$locale/blog'
+      preLoaderRoute: typeof LocaleBlogRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/contact': {
@@ -266,6 +426,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSkillsRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/$locale/blog/': {
+      id: '/$locale/blog/'
+      path: '/'
+      fullPath: '/$locale/blog/'
+      preLoaderRoute: typeof LocaleBlogIndexRouteImport
+      parentRoute: typeof LocaleBlogRoute
+    }
+    '/$locale/blog/$slug': {
+      id: '/$locale/blog/$slug'
+      path: '/$slug'
+      fullPath: '/$locale/blog/$slug'
+      preLoaderRoute: typeof LocaleBlogSlugRouteImport
+      parentRoute: typeof LocaleBlogRoute
+    }
     '/$locale/products/': {
       id: '/$locale/products/'
       path: '/'
@@ -294,8 +475,108 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleProjectsSlugRouteImport
       parentRoute: typeof LocaleProjectsRoute
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/media': {
+      id: '/_authenticated/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/$kind': {
+      id: '/_authenticated/admin/content/$kind'
+      path: '/content/$kind'
+      fullPath: '/admin/content/$kind'
+      preLoaderRoute: typeof AuthenticatedAdminContentKindRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/content/$kind/': {
+      id: '/_authenticated/admin/content/$kind/'
+      path: '/'
+      fullPath: '/admin/content/$kind/'
+      preLoaderRoute: typeof AuthenticatedAdminContentKindIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminContentKindRoute
+    }
+    '/_authenticated/admin/content/$kind/$id': {
+      id: '/_authenticated/admin/content/$kind/$id'
+      path: '/$id'
+      fullPath: '/admin/content/$kind/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentKindIdRouteImport
+      parentRoute: typeof AuthenticatedAdminContentKindRoute
+    }
   }
 }
+
+interface AuthenticatedAdminContentKindRouteChildren {
+  AuthenticatedAdminContentKindIdRoute: typeof AuthenticatedAdminContentKindIdRoute
+  AuthenticatedAdminContentKindIndexRoute: typeof AuthenticatedAdminContentKindIndexRoute
+}
+
+const AuthenticatedAdminContentKindRouteChildren: AuthenticatedAdminContentKindRouteChildren =
+  {
+    AuthenticatedAdminContentKindIdRoute: AuthenticatedAdminContentKindIdRoute,
+    AuthenticatedAdminContentKindIndexRoute:
+      AuthenticatedAdminContentKindIndexRoute,
+  }
+
+const AuthenticatedAdminContentKindRouteWithChildren =
+  AuthenticatedAdminContentKindRoute._addFileChildren(
+    AuthenticatedAdminContentKindRouteChildren,
+  )
+
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminContentKindRoute: typeof AuthenticatedAdminContentKindRouteWithChildren
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminContentKindRoute:
+    AuthenticatedAdminContentKindRouteWithChildren,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface LocaleBlogRouteChildren {
+  LocaleBlogSlugRoute: typeof LocaleBlogSlugRoute
+  LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
+}
+
+const LocaleBlogRouteChildren: LocaleBlogRouteChildren = {
+  LocaleBlogSlugRoute: LocaleBlogSlugRoute,
+  LocaleBlogIndexRoute: LocaleBlogIndexRoute,
+}
+
+const LocaleBlogRouteWithChildren = LocaleBlogRoute._addFileChildren(
+  LocaleBlogRouteChildren,
+)
 
 interface LocaleProductsRouteChildren {
   LocaleProductsSlugRoute: typeof LocaleProductsSlugRoute
@@ -327,6 +608,7 @@ const LocaleProjectsRouteWithChildren = LocaleProjectsRoute._addFileChildren(
 
 interface LocaleRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
+  LocaleBlogRoute: typeof LocaleBlogRouteWithChildren
   LocaleContactRoute: typeof LocaleContactRoute
   LocaleCvRoute: typeof LocaleCvRoute
   LocaleProductsRoute: typeof LocaleProductsRouteWithChildren
@@ -338,6 +620,7 @@ interface LocaleRouteChildren {
 
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
+  LocaleBlogRoute: LocaleBlogRouteWithChildren,
   LocaleContactRoute: LocaleContactRoute,
   LocaleCvRoute: LocaleCvRoute,
   LocaleProductsRoute: LocaleProductsRouteWithChildren,
@@ -352,7 +635,10 @@ const LocaleRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LocaleRoute: LocaleRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
