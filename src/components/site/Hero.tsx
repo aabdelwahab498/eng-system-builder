@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
