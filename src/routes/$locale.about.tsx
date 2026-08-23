@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
+import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
@@ -27,37 +28,34 @@ function AboutPage() {
         title={t.profile.displayName}
         subtitle={t.profile.positioning}
         media={
-          <figure className="relative">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -inset-4 rounded-full bg-gradient-to-br from-primary/25 via-primary/5 to-transparent blur-2xl"
-            />
-            <div className="relative overflow-hidden rounded-full border border-border-strong bg-surface/60 ring-1 ring-primary/20 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-              <img
-                src={aboutHero.url}
-                alt={t.profile.photo?.alt ?? t.profile.displayName}
-                className="size-40 object-cover object-top sm:size-52 lg:size-60"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
-            <span
-              aria-hidden
-              className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-16 rounded-full bg-primary/70 blur-[2px]"
-            />
-          </figure>
+          <AboutAvatar
+            src={aboutHero.url}
+            alt={`${t.profile.displayName} — ${t.profile.positioning}`}
+            fallbackInitials={t.profile.displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
+            className="size-40 sm:size-52 lg:size-60"
+          />
         }
       />
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
-        <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
-          {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-          {t.profile.longBio && <p>{t.profile.longBio}</p>}
-          {!t.profile.shortBio && !t.profile.longBio && (
-            <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
-              {t.ui.contentPending}
-            </p>
-          )}
+        <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:gap-12">
+          <Reveal className="shrink-0">
+            <AboutAvatar
+              src={aboutHero.url}
+              alt={`${t.profile.displayName} — ${t.profile.positioning}`}
+              fallbackInitials={t.profile.displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
+              className="size-40 sm:size-52 lg:size-60"
+            />
+          </Reveal>
+          <div className="max-w-3xl space-y-6 text-center sm:text-start text-base leading-relaxed text-muted-foreground">
+            {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
+            {t.profile.longBio && <p>{t.profile.longBio}</p>}
+            {!t.profile.shortBio && !t.profile.longBio && (
+              <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
+                {t.ui.contentPending}
+              </p>
+            )}
+          </div>
         </div>
       </Section>
 
