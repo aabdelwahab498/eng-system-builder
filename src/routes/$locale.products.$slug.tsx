@@ -64,7 +64,16 @@ function ProductPage() {
       <PageHeader eyebrow={product.kind} title={product.name} subtitle={product.summary}>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
-            {t.ui.status}: {product.status === "available" ? t.ui.available : t.ui.comingSoon}
+            {t.ui.status}:{" "}
+            {product.status === "live"
+              ? t.ui.live
+              : product.status === "beta"
+                ? t.ui.beta
+                : product.status === "in-development"
+                  ? t.ui.inDevelopment
+                  : product.status === "available"
+                    ? t.ui.available
+                    : t.ui.comingSoon}
           </span>
           {product.price && (
             <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
