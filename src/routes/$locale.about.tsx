@@ -30,17 +30,21 @@ function AboutPage() {
           <figure className="relative">
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-4 rounded-[1.75rem] bg-gradient-to-br from-primary/25 via-primary/5 to-transparent blur-2xl"
+              className="pointer-events-none absolute -inset-4 rounded-full bg-gradient-to-br from-primary/25 via-primary/5 to-transparent blur-2xl"
             />
-            <div className="relative overflow-hidden rounded-2xl border border-border-strong bg-surface/60 ring-1 ring-primary/20 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+            <div className="relative overflow-hidden rounded-full border border-border-strong bg-surface/60 ring-1 ring-primary/20 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
               <img
                 src={aboutHero.url}
                 alt={t.profile.photo?.alt ?? t.profile.displayName}
-                className="h-[16rem] w-full max-w-[18rem] object-cover object-top sm:h-[20rem] sm:max-w-[22rem] lg:h-[24rem] lg:max-w-[24rem]"
+                className="size-40 object-cover object-top sm:size-52 lg:size-60"
                 loading="eager"
                 decoding="async"
               />
             </div>
+            <span
+              aria-hidden
+              className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-16 rounded-full bg-primary/70 blur-[2px]"
+            />
           </figure>
         }
       />
