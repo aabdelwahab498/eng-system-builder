@@ -170,7 +170,7 @@ function CvPage() {
                 {projects.map((p) => (
                   <li key={p.id}>
                     <h3 className="font-display text-lg font-medium">
-                      {pickOrEn(p.name, locale)}
+                      {pickOrEn(p.title, locale)}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {pickOrEn(p.summary, locale)}
