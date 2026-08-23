@@ -8,7 +8,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const { locale, t } = useLocale();
 
   return (
-    <article className="group flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-colors hover:border-border-strong sm:p-8">
+    <article className="lift group flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-colors hover:border-border-strong sm:p-8">
       <div className="flex items-center justify-between gap-4">
         <p className="eyebrow">{project.category}</p>
         {project.flagship && (

@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
+import { TextReveal } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
@@ -24,9 +25,12 @@ export function Hero() {
               </div>
             </div>
 
-            <h1 className="mt-8 font-display text-4xl leading-[1.05] font-semibold text-balance sm:text-6xl lg:text-7xl">
-              {t.profile.displayName}
-            </h1>
+            <TextReveal
+              as="h1"
+              text={t.profile.displayName}
+              step={60}
+              className="mt-8 font-display text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl"
+            />
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t.profile.statement}
             </p>

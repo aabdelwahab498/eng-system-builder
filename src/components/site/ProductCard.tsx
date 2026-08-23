@@ -6,10 +6,21 @@ import { useLocale } from "@/hooks/useLocale";
 
 export function ProductCard({ product }: { product: Product }) {
   const { locale, t } = useLocale();
-  const available = product.status === "available";
+  const available =
+    product.status === "available" || product.status === "live" || product.status === "beta";
+  const statusLabel =
+    product.status === "live"
+      ? t.ui.live
+      : product.status === "beta"
+        ? t.ui.beta
+        : product.status === "in-development"
+          ? t.ui.inDevelopment
+          : product.status === "available"
+            ? t.ui.available
+            : t.ui.comingSoon;
 
   return (
-    <article className="flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+    <article className="lift flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
       <div className="flex items-center justify-between gap-4">
         <p className="eyebrow">{product.kind}</p>
         <span
@@ -19,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
               : "rounded-sm border border-border px-2 py-1 font-mono text-[10px] text-muted-foreground"
           }
         >
-          {available ? t.ui.available : t.ui.comingSoon}
+          {statusLabel}
         </span>
       </div>
 
