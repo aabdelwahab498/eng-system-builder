@@ -75,7 +75,11 @@ export function Hero() {
                     aria-label={s.label}
                     className="inline-flex h-10 items-center gap-2 rounded-sm border border-border px-3 font-mono text-xs text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
-                    <s.Icon className="size-4" aria-hidden />
+                    {s.isMail ? (
+                      <Mail className="size-4" aria-hidden />
+                    ) : (
+                      <SocialIcon platform={s.platform} className="size-4" />
+                    )}
                     {s.label}
                   </a>
                 </li>
