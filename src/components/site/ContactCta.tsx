@@ -1,26 +1,29 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
+import { Button } from "@/components/ui/button";
+import { useLocale } from "@/hooks/useLocale";
 
 export function ContactCta() {
+  const { locale, t } = useLocale();
+
   return (
-    <section className="hairline relative overflow-hidden py-24 sm:py-32">
-      <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
-      <Container className="relative">
-        <Reveal className="max-w-3xl">
-          <p className="eyebrow">Contact</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight font-semibold text-balance sm:text-5xl">
-            Have a product in mind?
+    <section className="hairline py-20 sm:py-28">
+      <Container>
+        <Reveal className="rounded-lg border border-border bg-surface/60 p-8 sm:p-14">
+          <p className="eyebrow">{t.ui.contact}</p>
+          <h2 className="mt-4 max-w-2xl font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl">
+            {t.profile.statement}
           </h2>
-          <p className="mt-5 text-base text-muted-foreground sm:text-lg">
-            Let's turn the idea into a system that can actually ship.
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {t.contact.availability}
           </p>
-          <div className="mt-9">
+          <div className="mt-8">
             <Button asChild size="lg">
-              <Link to="/contact">
-                Start a Conversation <ArrowRight className="size-4" />
+              <Link to="/$locale/contact" params={{ locale }}>
+                {t.ui.letsBuild}
+                <ArrowUpRight className="size-4" />
               </Link>
             </Button>
           </div>
