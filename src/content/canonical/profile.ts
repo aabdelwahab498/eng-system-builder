@@ -126,6 +126,52 @@ export const socialLinks: SocialLink[] = [
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   },
+  {
+    platform: "facebook",
+    url: "https://www.facebook.com/profile.php?id=61582424456394",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
+  {
+    platform: "instagram",
+    url: "https://www.instagram.com/aac01/",
+    handle: "aac01",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
+  {
+    platform: "whatsapp",
+    url: "https://wa.me/201105725029",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
+  {
+    platform: "snapchat",
+    url: "https://www.snapchat.com/add/eng-ahmed101",
+    handle: "eng-ahmed101",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
+  {
+    platform: "x",
+    url: "https://x.com/aabdelwahab498",
+    handle: "aabdelwahab498",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
+  {
+    platform: "youtube",
+    url: "https://www.youtube.com/@MADO674",
+    handle: "@MADO674",
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
+  },
 ];
 
 /** No approved CV file exists yet — the slot stays non-public. */
