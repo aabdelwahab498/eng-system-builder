@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Section";
 import { useLocale } from "@/hooks/useLocale";
+import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
 export function SiteFooter() {
   const { locale, t } = useLocale();
@@ -20,14 +21,18 @@ export function SiteFooter() {
         { label: t.ui.about, path: "/about" },
         { label: t.ui.skills, path: "/skills" },
         { label: t.ui.services, path: "/services" },
+        { label: t.ui.cv, path: "/cv" },
       ],
     },
   ];
 
+  const canonicalEmail = getCanonicalContact().find((c) => c.kind === "email")?.value;
   const channels = [
-    { label: "Email", href: t.contact.email ? `mailto:${t.contact.email}` : "" },
-    { label: "LinkedIn", href: t.contact.linkedin },
-    { label: "GitHub", href: t.contact.github },
+    { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "" },
+    ...getCanonicalSocialLinks().map((l) => ({
+      label: l.platform === "github" ? "GitHub" : l.platform === "linkedin" ? "LinkedIn" : l.platform,
+      href: l.url,
+    })),
     { label: "WhatsApp", href: t.contact.whatsapp },
     { label: "X", href: t.contact.x },
   ].filter((c) => c.href);
