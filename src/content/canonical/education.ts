@@ -10,7 +10,7 @@ export const education: Education[] = [
     institution: "Cairo University",
     degree: { en: "Bachelor of Engineering", ar: null },
     field: { en: "Computer Science", ar: null },
-    graduationDate: "2011",
+    graduationDate: "2016",
     verified: false,
     status: "draft",
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing" },
