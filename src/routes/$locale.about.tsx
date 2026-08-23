@@ -7,7 +7,6 @@ import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
-import aboutPortrait from "@/assets/profile-about.png.asset.json";
 
 export const Route = createFileRoute("/$locale/about")({
   head: ({ params }) => {
