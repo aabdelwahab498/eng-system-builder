@@ -121,7 +121,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     platform: "linkedin",
-    url: "https://www.linkedin.com/in/ahmed-abdelwahab/",
+    url: "https://www.linkedin.com/in/ahmed-abdelwahab-5686102aa/",
     status: "verified",
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },

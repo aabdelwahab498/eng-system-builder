@@ -57,11 +57,6 @@ export function Hero() {
                   {t.ui.viewWork}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to="/$locale/factory" params={{ locale }}>
-                  {t.ui.exploreFactory}
-                </Link>
-              </Button>
               <Button asChild size="lg" variant="ghost">
                 <Link to="/$locale/cv" params={{ locale }}>
                   {t.ui.downloadCv}

@@ -11,7 +11,6 @@ export const ar: Dictionary = {
 
   nav: [
     { label: "المشاريع", path: "/projects" },
-    { label: "المصنع", path: "/factory" },
     { label: "المنتجات", path: "/products" },
     { label: "المهارات", path: "/skills" },
     { label: "الخدمات", path: "/services" },
@@ -194,7 +193,7 @@ export const ar: Dictionary = {
 
   contact: {
     email: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/ahmed-abdelwahab-5686102aa/",
     github: "",
     whatsapp: "",
     x: "",
