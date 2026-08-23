@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
@@ -19,11 +19,19 @@ export const Route = createFileRoute("/$locale/contact")({
 function ContactPage() {
   const { t } = useLocale();
   const c = t.contact;
-  const socials = c.socials.filter((s) => s.url);
+  const m = t.meta.contact;
+
+  const links = [
+    { label: "LinkedIn", url: c.linkedin },
+    { label: "GitHub", url: c.github },
+    { label: "WhatsApp", url: c.whatsapp },
+    { label: "X", url: c.x },
+    { label: t.ui.downloadCv, url: c.cv },
+  ].filter((l) => l.url);
 
   return (
     <>
-      <PageHeader eyebrow={t.ui.contact} title={c.title} subtitle={c.body} />
+      <PageHeader eyebrow={t.ui.contact} title={t.ui.contact} subtitle={m.description} />
 
       <Section>
         <div className="grid gap-6 md:grid-cols-2">
@@ -31,38 +39,32 @@ function ContactPage() {
             <p className="eyebrow">{t.ui.availability}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.availability}</p>
 
-            <div className="mt-8 space-y-4">
-              {c.email && (
-                <a
-                  href={`mailto:${c.email}`}
-                  className="flex items-center gap-3 text-sm transition-colors hover:text-primary"
-                >
-                  <Mail className="size-4 text-primary" />
-                  {c.email}
-                </a>
-              )}
-              {c.location && (
-                <p className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <MapPin className="size-4 text-primary" />
-                  {c.location}
-                </p>
-              )}
-            </div>
+            {c.email ? (
+              <a
+                href={`mailto:${c.email}`}
+                className="mt-8 inline-flex items-center gap-3 text-sm transition-colors hover:text-primary"
+              >
+                <Mail className="size-4 text-primary" />
+                {c.email}
+              </a>
+            ) : (
+              <p className="mt-8 text-sm text-muted-foreground">{t.ui.contentPending}</p>
+            )}
           </Reveal>
 
           <Reveal delay={80} className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
             <p className="eyebrow">{t.ui.elsewhere}</p>
-            {socials.length > 0 ? (
+            {links.length > 0 ? (
               <ul className="mt-6 space-y-3">
-                {socials.map((s) => (
-                  <li key={s.label}>
+                {links.map((l) => (
+                  <li key={l.label}>
                     <a
-                      href={s.url}
+                      href={l.url}
                       target="_blank"
                       rel="noreferrer noopener"
                       className="inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
                     >
-                      {s.label}
+                      {l.label}
                       <ArrowUpRight className="size-4" />
                     </a>
                   </li>
