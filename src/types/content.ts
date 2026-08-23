@@ -244,7 +244,8 @@ export type MetaKey =
   | "skills"
   | "services"
   | "factory"
-  | "contact";
+  | "contact"
+  | "cv";
 
 export type Dictionary = {
   locale: Locale;
