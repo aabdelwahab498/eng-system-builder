@@ -5,6 +5,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
 import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
+import { getContent } from "@/content";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
