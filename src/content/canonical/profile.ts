@@ -82,31 +82,31 @@ export const availability: Availability = {
 
 export const contact: ContactChannel[] = [
   {
+    // Confirmed as the canonical public address in the Phase 4 UI briefing.
     kind: "email",
-    value: "ahmedabdelwahab689@gmail.com",
+    value: "aabdelwahab498@gmail.com",
     label: { en: "Email", ar: "البريد الإلكتروني" },
     status: "verified",
-    provenance: { sourceType: "user-provided", source: "Phase 4 briefing" },
+    provenance: { sourceType: "user-provided", source: "Phase 4 UI briefing" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   },
   {
-    // Second address supplied in project context. Kept, not published, until
-    // Ahmed confirms which address is the canonical public one.
+    // Previously supplied address. Kept as history, not published.
     kind: "email",
-    value: "aabdelwahab498@gmail.com",
+    value: "ahmedabdelwahab689@gmail.com",
     label: { en: "Secondary email", ar: null },
     status: "needs-verification",
-    provenance: { sourceType: "user-provided", source: "recent project context" },
+    provenance: { sourceType: "user-provided", source: "earlier project context" },
     visibility: { public: false, portfolio: false, cv: false, linkedin: false },
   },
   {
+    // Ahmed explicitly approved displaying the phone number in Phase 4.
     kind: "phone",
-    value: "01050064380",
+    value: "+20 11 05725029",
     label: { en: "Phone", ar: "الهاتف" },
     status: "verified",
-    provenance: { sourceType: "user-provided", source: "Phase 4 briefing" },
-    // Private by default: never published without explicit approval.
-    visibility: { public: false, portfolio: false, cv: true, linkedin: false },
+    provenance: { sourceType: "user-provided", source: "Phase 4 UI briefing" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: false },
   },
 ];
 
