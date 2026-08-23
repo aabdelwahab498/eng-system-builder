@@ -1,37 +1,51 @@
-const nodes = [
-  { label: "Portfolio", note: "root domain" },
-  { label: "Products", note: "digital products" },
-  { label: "APIs", note: "services & contracts" },
-  { label: "AI Systems", note: "orchestration" },
-  { label: "Production", note: "deployment" },
-];
+import { useLocale } from "@/hooks/useLocale";
 
 export function SystemFlow() {
-  return (
-    <figure
-      aria-label="System ecosystem: Portfolio to Products to APIs to AI Systems to Production"
-      className="glow-ring w-full max-w-md rounded-lg bg-surface/60 p-6 backdrop-blur-sm sm:p-8"
-    >
-      <figcaption className="eyebrow">System Ecosystem</figcaption>
-      <ol className="mt-6 space-y-0">
-        {nodes.map((node, i) => (
-          <li key={node.label} className="relative pl-8">
-            <span
-              aria-hidden
-              className="node-dot absolute top-2 left-[7px] size-2 rounded-full bg-primary"
-              style={{ animationDelay: `${i * 0.4}s` }}
-            />
+  const { t } = useLocale();
 
-            {i < nodes.length - 1 && (
-              <span aria-hidden className="absolute top-4 bottom-0 left-[11px] w-px bg-border-strong" />
-            )}
-            <div className="pb-7">
-              <p className="font-display text-base font-medium">{node.label}</p>
-              <p className="font-mono text-[11px] tracking-wide text-muted-foreground">{node.note}</p>
+  const nodes = [
+    { label: "nextnext-gen.com", note: t.ui.home },
+    { label: "factory-api", note: t.ui.factory },
+    { label: "product.subdomain", note: t.ui.products },
+  ];
+
+  return (
+    <div className="glow-ring rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+      <p className="eyebrow">Ecosystem</p>
+      <div className="mt-6 space-y-3">
+        {nodes.map((node, i) => (
+          <div
+            key={node.label}
+            className="flex items-center gap-4 rounded-md border border-border bg-background/40 px-4 py-4"
+          >
+            <span
+              className="node-dot size-2 rounded-full bg-primary"
+              style={{ animationDelay: `${i * 400}ms` }}
+              aria-hidden
+            />
+            <div className="min-w-0">
+              <p className="truncate font-mono text-sm">{node.label}</p>
+              <p className="truncate text-xs text-muted-foreground">{node.note}</p>
             </div>
-          </li>
+          </div>
         ))}
-      </ol>
-    </figure>
+      </div>
+      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{t.ui.ecosystemNote}</p>
+    </div>
+  );
+}
+
+export function Pipeline({ steps }: { steps: string[] }) {
+  return (
+    <ol className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+      {steps.map((step, i) => (
+        <li key={step} className="flex items-start gap-3 bg-surface/70 px-5 py-5">
+          <span className="font-mono text-[11px] text-primary">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <span className="text-sm">{step}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
