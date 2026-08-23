@@ -18,7 +18,7 @@ export const projects: CanonicalProject[] = [
     },
     category: "ai",
     platform: ["api", "web"],
-    status: "in-development",
+    lifecycle: "in-development",
     role: { en: "Architect and sole engineer", ar: null },
     // Timeframe not provided.
     summary: {
@@ -68,14 +68,13 @@ export const projects: CanonicalProject[] = [
     },
     featured: true,
     verified: false,
-    status_note_runtime_version: "0.21.0",
     status: "draft",
     provenance: {
       sourceType: "project-documentation",
       source: "factory-api.nextnext-gen.com/health (runtime 0.21.0)",
     },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
-  } as CanonicalProject & { status_note_runtime_version: string },
+  },
   {
     id: "project-najmah",
     slug: "najmah",
@@ -83,7 +82,7 @@ export const projects: CanonicalProject[] = [
     tagline: { en: "An Arabic-first AI story platform for children.", ar: null },
     category: "saas",
     platform: ["web"],
-    status: "in-development",
+    lifecycle: "in-development",
     role: { en: "Architect and sole engineer", ar: null },
     summary: {
       en: "A platform for generating, saving and exporting Arabic-first children's stories with social-emotional learning themes, including PDF, text and narrated audio output.",
@@ -147,7 +146,7 @@ export const projects: CanonicalProject[] = [
     tagline: { en: "The bilingual root site for a growing product ecosystem.", ar: null },
     category: "web",
     platform: ["web"],
-    status: "in-development",
+    lifecycle: "in-development",
     role: { en: "Designer and engineer", ar: null },
     summary: {
       en: "The root domain of the ecosystem: a bilingual (EN/AR, RTL) portfolio and product hub built on a typed, data-driven content layer so products can later ship on their own subdomains.",

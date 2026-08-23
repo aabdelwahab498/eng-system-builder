@@ -257,7 +257,8 @@ export type CanonicalProject = Tracked<{
   tagline: Localized<string>;
   category: ProjectCategory;
   platform: string[];
-  status: ProjectStatus;
+  /** Project lifecycle. Named `lifecycle` so it never collides with Tracked.status. */
+  lifecycle: ProjectStatus;
   role: Localized<string>;
   timeframe?: string;
   summary: Localized<string>;
@@ -304,7 +305,8 @@ export type CanonicalProduct = Tracked<{
   slug: string;
   name: Localized<string>;
   category: ProductCategory;
-  status: ProductStatus;
+  /** Product lifecycle. Named `lifecycle` so it never collides with Tracked.status. */
+  lifecycle: ProductStatus;
   tagline: Localized<string>;
   summary: Localized<string>;
   description: Localized<string>;
