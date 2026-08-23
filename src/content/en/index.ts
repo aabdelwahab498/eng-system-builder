@@ -120,7 +120,7 @@ export const en: Dictionary = {
 
   profile: {
     displayName: "Eng. Ahmed Abdelwahab",
-    positioning: "Software Engineer · Backend & AI · Product Builder",
+    positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
       "Engineering backend systems, AI-powered applications and digital products — from architecture to production.",
     shortBio: "",
