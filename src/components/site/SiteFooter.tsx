@@ -66,15 +66,25 @@ export function SiteFooter() {
         <div className="flex flex-col gap-3">
           <p className="eyebrow">{t.ui.connect}</p>
           {channels.length > 0 ? (
-            channels.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {c.label}
-              </a>
-            ))
+            <ul className="flex flex-col gap-3">
+              {channels.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {c.platform === "other" ? (
+                      <span className="font-mono text-xs">@</span>
+                    ) : (
+                      <SocialIcon platform={c.platform} className="size-4" />
+                    )}
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           ) : (
             <Link
               to="/$locale/contact"
