@@ -1,52 +1,51 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import type { Project } from "@/data/projects";
-import { Badge } from "@/components/ui/badge";
+import type { Project } from "@/types/content";
+import { MediaSlot } from "./MediaSlot";
+import { useLocale } from "@/hooks/useLocale";
 
 export function ProjectCard({ project }: { project: Project }) {
+  const { locale, t } = useLocale();
+
   return (
-    <article className="group flex h-full flex-col rounded-lg border border-border bg-surface/50 p-6 transition-colors hover:border-border-strong hover:bg-surface sm:p-8">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="eyebrow">{project.category}</p>
-          <h3 className="mt-3 font-display text-xl font-semibold sm:text-2xl">{project.name}</h3>
-        </div>
-        <Badge variant="secondary" className="shrink-0 font-mono text-[10px] tracking-wide">
-          {project.status}
-        </Badge>
+    <article className="group flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-colors hover:border-border-strong sm:p-8">
+      <div className="flex items-center justify-between gap-4">
+        <p className="eyebrow">{project.category}</p>
+        {project.flagship && (
+          <span className="rounded-sm border border-primary/40 px-2 py-1 font-mono text-[10px] tracking-wide text-primary">
+            Flagship
+          </span>
+        )}
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+      <h3 className="mt-4 font-display text-2xl font-semibold">{project.name}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
+
+      {project.media[0] && (
+        <MediaSlot media={project.media[0]} note={t.ui.mediaPlaceholder} className="mt-6" />
+      )}
 
       <ul className="mt-6 flex flex-wrap gap-2">
-        {project.technology.map((t) => (
+        {project.tech.slice(0, 6).map((tech) => (
           <li
-            key={t}
+            key={tech}
             className="rounded-sm border border-border px-2 py-1 font-mono text-[11px] text-muted-foreground"
           >
-            {t}
+            {tech}
           </li>
         ))}
       </ul>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
+      <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-5">
+        <span className="font-mono text-[11px] text-muted-foreground">{project.status}</span>
         <Link
-          to="/projects/$slug"
-          params={{ slug: project.slug }}
-          className="inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-primary"
+          to="/$locale/projects/$slug"
+          params={{ locale, slug: project.slug }}
+          className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
         >
-          View Case Study <ArrowUpRight className="size-4" />
+          {t.ui.viewProject}
+          <ArrowUpRight className="size-4" />
         </Link>
-        {project.externalUrl && (
-          <a
-            href={project.externalUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {project.externalLabel ?? "Visit Product"} <ArrowUpRight className="size-4" />
-          </a>
-        )}
       </div>
     </article>
   );
