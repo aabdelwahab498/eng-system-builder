@@ -19,6 +19,7 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocaleFactoryRouteImport } from './routes/$locale.factory'
+import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
 import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -76,6 +77,11 @@ const LocaleFactoryRoute = LocaleFactoryRouteImport.update({
   path: '/factory',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleProjectsRoute = LocaleProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleServicesRoute = LocaleServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/factory': typeof LocaleFactoryRoute
+  '/$locale/projects': typeof LocaleProjectsRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/engineering': typeof EngineeringRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/factory': typeof LocaleFactoryRoute
+  '/$locale/projects': typeof LocaleProjectsRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -151,6 +159,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/factory': typeof LocaleFactoryRoute
+  '/$locale/projects': typeof LocaleProjectsRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/$locale/about'
     | '/$locale/factory'
+    | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/engineering'
     | '/$locale/about'
     | '/$locale/factory'
+    | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/$locale/about'
     | '/$locale/factory'
+    | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
     | '/products/$slug'
@@ -295,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleFactoryRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/projects': {
+      id: '/$locale/projects'
+      path: '/projects'
+      fullPath: '/$locale/projects'
+      preLoaderRoute: typeof LocaleProjectsRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/services': {
       id: '/$locale/services'
       path: '/services'
@@ -343,6 +362,7 @@ declare module '@tanstack/react-router' {
 interface LocaleRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
   LocaleFactoryRoute: typeof LocaleFactoryRoute
+  LocaleProjectsRoute: typeof LocaleProjectsRoute
   LocaleServicesRoute: typeof LocaleServicesRoute
   LocaleSkillsRoute: typeof LocaleSkillsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
@@ -351,6 +371,7 @@ interface LocaleRouteChildren {
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
   LocaleFactoryRoute: LocaleFactoryRoute,
+  LocaleProjectsRoute: LocaleProjectsRoute,
   LocaleServicesRoute: LocaleServicesRoute,
   LocaleSkillsRoute: LocaleSkillsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
