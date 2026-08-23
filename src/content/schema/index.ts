@@ -97,7 +97,17 @@ export type ContactChannel = Tracked<{
 }>;
 
 export type SocialLink = Tracked<{
-  platform: "github" | "linkedin" | "x" | "youtube" | "medium" | "other";
+  platform:
+    | "github"
+    | "linkedin"
+    | "facebook"
+    | "instagram"
+    | "whatsapp"
+    | "snapchat"
+    | "x"
+    | "youtube"
+    | "medium"
+    | "other";
   url: string;
   handle?: string;
 }>;
