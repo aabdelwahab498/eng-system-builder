@@ -22,17 +22,18 @@ function AboutPage() {
 
   return (
     <>
-      <PageHeader eyebrow={t.ui.about} title={t.profile.displayName} subtitle={t.profile.positioning}>
-        <Reveal className="mt-8">
-          <ProfileAvatar />
-        </Reveal>
-      </PageHeader>
+      <PageHeader eyebrow={t.ui.about} title={t.profile.displayName} subtitle={t.profile.positioning} />
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
         {t.profile.shortBio || t.profile.longBio ? (
-          <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
-            {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-            {t.profile.longBio && <p>{t.profile.longBio}</p>}
+          <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center">
+            <Reveal className="shrink-0">
+              <ProfileAvatar className="size-32 sm:size-40 lg:size-48" />
+            </Reveal>
+            <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
+              {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
+              {t.profile.longBio && <p>{t.profile.longBio}</p>}
+            </div>
           </div>
         ) : (
           <p className="max-w-2xl rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm text-muted-foreground">
