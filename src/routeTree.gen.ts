@@ -11,11 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteImport } from './routes/$locale'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as EngineeringRouteImport } from './routes/engineering'
-import { Route as ProductsRouteImport } from './routes/products'
-import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
@@ -24,10 +19,6 @@ import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
 import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
-import { Route as ProductsIndexRouteImport } from './routes/products.index'
-import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
-import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
-import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as LocaleProductsIndexRouteImport } from './routes/$locale.products.index'
 import { Route as LocaleProductsSlugRouteImport } from './routes/$locale.products.$slug'
 import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projects.index'
@@ -41,31 +32,6 @@ const IndexRoute = IndexRouteImport.update({
 const LocaleRoute = LocaleRouteImport.update({
   id: '/$locale',
   path: '/$locale',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EngineeringRoute = EngineeringRouteImport.update({
-  id: '/engineering',
-  path: '/engineering',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsRoute = ProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -108,26 +74,6 @@ const LocaleSkillsRoute = LocaleSkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => LocaleRoute,
 } as any)
-const ProductsIndexRoute = ProductsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProductsRoute,
-} as any)
-const ProductsSlugRoute = ProductsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ProductsRoute,
-} as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProjectsRoute,
-} as any)
-const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ProjectsRoute,
-} as any)
 const LocaleProductsIndexRoute = LocaleProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -152,11 +98,6 @@ const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/engineering': typeof EngineeringRoute
-  '/products': typeof ProductsRouteWithChildren
-  '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
@@ -164,11 +105,7 @@ export interface FileRoutesByFullPath {
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
-  '/products/$slug': typeof ProductsSlugRoute
-  '/projects/$slug': typeof ProjectsSlugRoute
   '/$locale/': typeof LocaleIndexRoute
-  '/products/': typeof ProductsIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/products/': typeof LocaleProductsIndexRoute
@@ -176,19 +113,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/engineering': typeof EngineeringRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
-  '/products/$slug': typeof ProductsSlugRoute
-  '/projects/$slug': typeof ProjectsSlugRoute
   '/$locale': typeof LocaleIndexRoute
-  '/products': typeof ProductsIndexRoute
-  '/projects': typeof ProjectsIndexRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/products': typeof LocaleProductsIndexRoute
@@ -198,11 +128,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/engineering': typeof EngineeringRoute
-  '/products': typeof ProductsRouteWithChildren
-  '/projects': typeof ProjectsRouteWithChildren
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/factory': typeof LocaleFactoryRoute
@@ -210,11 +135,7 @@ export interface FileRoutesById {
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
-  '/products/$slug': typeof ProductsSlugRoute
-  '/projects/$slug': typeof ProjectsSlugRoute
   '/$locale/': typeof LocaleIndexRoute
-  '/products/': typeof ProductsIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
   '/$locale/products/$slug': typeof LocaleProductsSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/products/': typeof LocaleProductsIndexRoute
@@ -225,11 +146,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$locale'
-    | '/about'
-    | '/contact'
-    | '/engineering'
-    | '/products'
-    | '/projects'
     | '/$locale/about'
     | '/$locale/contact'
     | '/$locale/factory'
@@ -237,11 +153,7 @@ export interface FileRouteTypes {
     | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
-    | '/products/$slug'
-    | '/projects/$slug'
     | '/$locale/'
-    | '/products/'
-    | '/projects/'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/products/'
@@ -249,19 +161,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
-    | '/contact'
-    | '/engineering'
     | '/$locale/about'
     | '/$locale/contact'
     | '/$locale/factory'
     | '/$locale/services'
     | '/$locale/skills'
-    | '/products/$slug'
-    | '/projects/$slug'
     | '/$locale'
-    | '/products'
-    | '/projects'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/products'
@@ -270,11 +175,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$locale'
-    | '/about'
-    | '/contact'
-    | '/engineering'
-    | '/products'
-    | '/projects'
     | '/$locale/about'
     | '/$locale/contact'
     | '/$locale/factory'
@@ -282,11 +182,7 @@ export interface FileRouteTypes {
     | '/$locale/projects'
     | '/$locale/services'
     | '/$locale/skills'
-    | '/products/$slug'
-    | '/projects/$slug'
     | '/$locale/'
-    | '/products/'
-    | '/projects/'
     | '/$locale/products/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/products/'
@@ -296,11 +192,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRoute: typeof LocaleRouteWithChildren
-  AboutRoute: typeof AboutRoute
-  ContactRoute: typeof ContactRoute
-  EngineeringRoute: typeof EngineeringRoute
-  ProductsRoute: typeof ProductsRouteWithChildren
-  ProjectsRoute: typeof ProjectsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -317,41 +208,6 @@ declare module '@tanstack/react-router' {
       path: '/$locale'
       fullPath: '/$locale'
       preLoaderRoute: typeof LocaleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/engineering': {
-      id: '/engineering'
-      path: '/engineering'
-      fullPath: '/engineering'
-      preLoaderRoute: typeof EngineeringRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products': {
-      id: '/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -409,34 +265,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/$locale/skills'
       preLoaderRoute: typeof LocaleSkillsRouteImport
       parentRoute: typeof LocaleRoute
-    }
-    '/products/': {
-      id: '/products/'
-      path: '/'
-      fullPath: '/products/'
-      preLoaderRoute: typeof ProductsIndexRouteImport
-      parentRoute: typeof ProductsRoute
-    }
-    '/products/$slug': {
-      id: '/products/$slug'
-      path: '/$slug'
-      fullPath: '/products/$slug'
-      preLoaderRoute: typeof ProductsSlugRouteImport
-      parentRoute: typeof ProductsRoute
-    }
-    '/projects/': {
-      id: '/projects/'
-      path: '/'
-      fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
-      parentRoute: typeof ProjectsRoute
-    }
-    '/projects/$slug': {
-      id: '/projects/$slug'
-      path: '/$slug'
-      fullPath: '/projects/$slug'
-      preLoaderRoute: typeof ProjectsSlugRouteImport
-      parentRoute: typeof ProjectsRoute
     }
     '/$locale/products/': {
       id: '/$locale/products/'
@@ -522,42 +350,9 @@ const LocaleRouteChildren: LocaleRouteChildren = {
 const LocaleRouteWithChildren =
   LocaleRoute._addFileChildren(LocaleRouteChildren)
 
-interface ProductsRouteChildren {
-  ProductsSlugRoute: typeof ProductsSlugRoute
-  ProductsIndexRoute: typeof ProductsIndexRoute
-}
-
-const ProductsRouteChildren: ProductsRouteChildren = {
-  ProductsSlugRoute: ProductsSlugRoute,
-  ProductsIndexRoute: ProductsIndexRoute,
-}
-
-const ProductsRouteWithChildren = ProductsRoute._addFileChildren(
-  ProductsRouteChildren,
-)
-
-interface ProjectsRouteChildren {
-  ProjectsSlugRoute: typeof ProjectsSlugRoute
-  ProjectsIndexRoute: typeof ProjectsIndexRoute
-}
-
-const ProjectsRouteChildren: ProjectsRouteChildren = {
-  ProjectsSlugRoute: ProjectsSlugRoute,
-  ProjectsIndexRoute: ProjectsIndexRoute,
-}
-
-const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
-  ProjectsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRoute: LocaleRouteWithChildren,
-  AboutRoute: AboutRoute,
-  ContactRoute: ContactRoute,
-  EngineeringRoute: EngineeringRoute,
-  ProductsRoute: ProductsRouteWithChildren,
-  ProjectsRoute: ProjectsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
