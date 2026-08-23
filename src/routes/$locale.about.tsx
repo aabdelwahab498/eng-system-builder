@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
+import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
