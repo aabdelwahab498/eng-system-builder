@@ -153,7 +153,7 @@ export const en: Dictionary = {
     displayName: "Eng. Ahmed Abdelwahab",
     positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
-      "Engineering backend systems, AI-powered applications and digital products — from architecture to production.",
+      "Engineering full stack systems, AI-powered applications and digital products — from architecture to production.",
     shortBio: "",
     longBio: "",
     philosophy: [
