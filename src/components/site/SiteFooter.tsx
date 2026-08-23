@@ -28,13 +28,12 @@ export function SiteFooter() {
 
   const canonicalEmail = getCanonicalContact().find((c) => c.kind === "email")?.value;
   const channels = [
-    { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "" },
+    { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "", platform: "other" as SocialPlatform },
     ...getCanonicalSocialLinks().map((l) => ({
-      label: l.platform === "github" ? "GitHub" : l.platform === "linkedin" ? "LinkedIn" : l.platform,
+      label: SOCIAL_LABEL[l.platform as SocialPlatform] ?? l.platform,
       href: l.url,
+      platform: l.platform as SocialPlatform,
     })),
-    { label: "WhatsApp", href: t.contact.whatsapp },
-    { label: "X", href: t.contact.x },
   ].filter((c) => c.href);
 
   return (
