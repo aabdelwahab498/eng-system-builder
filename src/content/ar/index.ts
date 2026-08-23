@@ -168,7 +168,7 @@ export const ar: Dictionary = {
       "منتجات رقمية",
     ],
     photo: { kind: "placeholder", alt: "صورة م. أحمد عبد الوهاب" },
-    cv: { url: "", label: "تحميل السيرة الذاتية" },
+    cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "تحميل السيرة الذاتية" },
     experience: [
       {
         role: "مهندس برمجيات — أنظمة Full Stack وخلفية وذكاء اصطناعي",
@@ -185,6 +185,7 @@ export const ar: Dictionary = {
       {
         credential: "بكالوريوس هندسة — علوم الحاسب",
         institution: "جامعة القاهرة",
+        period: "2016",
       },
       { credential: "دراسات في هندسة البرمجيات وتطوير الأنظمة الخلفية" },
       { credential: "دراسات في التسويق الرقمي" },

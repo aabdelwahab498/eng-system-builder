@@ -31,6 +31,17 @@ export const Route = createFileRoute("/$locale/")({
         jobTitle: "Software Engineer",
         description: m.description,
         url: site.domain,
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Cairo University",
+        },
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "Bachelor of Engineering — Computer Science",
+          educationalLevel: "Bachelor",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+          dateCreated: "2016",
+        },
         knowsAbout: [
           "Software Engineering",
           "Backend Development",
@@ -124,6 +135,26 @@ function HomePage() {
           ))}
         </Stagger>
       </Section>
+
+      {/* 7 — Education */}
+      {t.profile.education && t.profile.education.length > 0 && (
+        <Section eyebrow={t.ui.education} title={t.ui.education}>
+          <Stagger className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" step={50}>
+            {t.profile.education.map((e) => (
+              <div key={e.credential} className="h-full bg-surface/70 p-6 sm:p-8">
+                <h3 className="font-display text-base font-medium">{e.credential}</h3>
+                {(e.institution || e.period) && (
+                  <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+                    {[e.institution, e.period].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+              </div>
+            ))}
+          </Stagger>
+        </Section>
+      )}
+
+
 
       <ContactCta />
     </>

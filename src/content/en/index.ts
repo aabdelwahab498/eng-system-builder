@@ -183,7 +183,7 @@ export const en: Dictionary = {
       "Digital Products",
     ],
     photo: { kind: "placeholder", alt: "Portrait of Eng. Ahmed Abdelwahab" },
-    cv: { url: "", label: "Download CV" },
+    cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "Download CV" },
     experience: [
       {
         role: "Software Engineer — full stack, backend and AI systems",
@@ -200,6 +200,7 @@ export const en: Dictionary = {
       {
         credential: "Bachelor of Engineering — Computer Science",
         institution: "Cairo University",
+        period: "2016",
       },
       { credential: "Software engineering and backend development studies" },
       { credential: "Digital marketing studies" },

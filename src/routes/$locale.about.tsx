@@ -5,6 +5,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
 import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
+import { getContent } from "@/content";
 import { buildHead, metaFor } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
@@ -13,7 +14,26 @@ export const Route = createFileRoute("/$locale/about")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "about");
-    return buildHead({ locale, path: "/about", title: m.title, description: m.description });
+    return buildHead({
+      locale,
+      path: "/about",
+      title: m.title,
+      description: m.description,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: getContent(locale).profile.displayName,
+        description: m.description,
+        alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "Bachelor of Engineering — Computer Science",
+          educationalLevel: "Bachelor",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+          dateCreated: "2016",
+        },
+      },
+    });
   },
   component: AboutPage,
 });
@@ -131,8 +151,10 @@ function AboutPage() {
                   {t.profile.education.map((e, i) => (
                     <Reveal as="li" key={e.credential} delay={i * 60} className="bg-surface/70 px-6 py-6">
                       <p className="font-display text-base font-medium">{e.credential}</p>
-                      {e.institution && (
-                        <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.institution}</p>
+                      {(e.institution || e.period) && (
+                        <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                          {[e.institution, e.period].filter(Boolean).join(" · ")}
+                        </p>
                       )}
                       {e.note && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.note}</p>}
                     </Reveal>
