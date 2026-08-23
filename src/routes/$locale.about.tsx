@@ -131,8 +131,10 @@ function AboutPage() {
                   {t.profile.education.map((e, i) => (
                     <Reveal as="li" key={e.credential} delay={i * 60} className="bg-surface/70 px-6 py-6">
                       <p className="font-display text-base font-medium">{e.credential}</p>
-                      {e.institution && (
-                        <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.institution}</p>
+                      {(e.institution || e.period) && (
+                        <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                          {[e.institution, e.period].filter(Boolean).join(" · ")}
+                        </p>
                       )}
                       {e.note && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.note}</p>}
                     </Reveal>
