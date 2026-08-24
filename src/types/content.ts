@@ -249,6 +249,10 @@ export type UiStrings = {
   courses: string;
   coursesIntro: string;
   noCourses: string;
+  certificates: string;
+  certificatesIntro: string;
+  noCertificates: string;
+  seeCertificates: string;
   searchPlaceholder: string;
   allTopics: string;
   relatedProjects: string;
@@ -277,7 +281,8 @@ export type MetaKey =
   | "factory"
   | "contact"
   | "cv"
-  | "courses";
+  | "courses"
+  | "certificates";
 
 export type Dictionary = {
   locale: Locale;

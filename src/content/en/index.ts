@@ -113,6 +113,12 @@ export const en: Dictionary = {
     coursesIntro:
       "Practical engineering courses and learning tracks on backend, AI and product building.",
     noCourses: "No courses are published yet. Courses will appear here once they are ready.",
+    certificates: "Certificates",
+    certificatesIntro:
+      "Professional certifications, credentials and verifiable qualifications.",
+    noCertificates:
+      "No certificates are published yet. Certificates will appear here once they are verified.",
+    seeCertificates: "See my certificates",
     searchPlaceholder: "Search articles",
     allTopics: "All topics",
     relatedProjects: "Related projects",
@@ -182,6 +188,11 @@ export const en: Dictionary = {
       title: "Courses — Ahmed Abdelwahab",
       description:
         "Practical engineering courses and learning tracks on backend, AI systems and building production digital products.",
+    },
+    certificates: {
+      title: "Certificates — Ahmed Abdelwahab",
+      description:
+        "Professional certifications and credentials of Ahmed Abdelwahab across software engineering, AI and cloud.",
     },
   },
 
