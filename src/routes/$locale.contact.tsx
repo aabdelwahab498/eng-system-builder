@@ -48,6 +48,7 @@ function ContactPage() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.contact, path: "/contact" }]} />
       <PageHeader eyebrow={t.ui.contact} title={t.ui.contact} subtitle={m.description} />
 
       <Section>

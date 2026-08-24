@@ -35,6 +35,7 @@ function ServicesPage() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.services, path: "/services" }]} />
       <PageHeader eyebrow={t.ui.services} title={t.ui.services} subtitle={t.contact.availability} />
       <Section>
         <div className="grid gap-6 md:grid-cols-2">

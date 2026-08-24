@@ -11,6 +11,7 @@ import { getCanonicalProjects, getCanonicalServices } from "@/content/api";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
 import { breadcrumbs, buildHead } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
@@ -47,10 +48,8 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
         },
         breadcrumbs(locale, [
           { name: t.profile.displayName, path: "" },
-          {
-            name: t.nav.find((n) => n.path === "/projects")?.label ?? "Projects",
-            path: "/projects",
-          },
+          { name: t.ui.gallery, path: "/gallery" },
+          { name: t.ui.ourWorks, path: "/projects" },
           { name: project.name, path: `/projects/${project.slug}` },
         ]),
       ],
@@ -92,6 +91,14 @@ function ProjectPage() {
 
   return (
     <>
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.gallery, path: "/gallery" },
+          { name: t.ui.ourWorks, path: "/projects" },
+          { name: project.name, path: `/projects/${project.slug}` },
+        ]}
+      />
       <PageHeader eyebrow={project.category} title={project.name} subtitle={project.summary}>
         <dl className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
           {[

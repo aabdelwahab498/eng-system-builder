@@ -6,7 +6,8 @@ import { ContactCta } from "@/components/site/ContactCta";
 import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
-import { buildHead, metaFor } from "@/lib/seo";
+import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
 
@@ -19,7 +20,10 @@ export const Route = createFileRoute("/$locale/about")({
       path: "/about",
       title: m.title,
       description: m.description,
-      jsonLd: {
+      jsonLd: [breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.about, path: "/about" },
+      ]), {
         "@context": "https://schema.org",
         "@type": "Person",
         name: getContent(locale).profile.displayName,
@@ -32,7 +36,7 @@ export const Route = createFileRoute("/$locale/about")({
           recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
           dateCreated: "2016",
         },
-      },
+      }],
     });
   },
   component: AboutPage,
@@ -43,6 +47,7 @@ function AboutPage() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.about, path: "/about" }]} />
       <PageHeader
         eyebrow={t.ui.about}
         title={t.profile.displayName}

@@ -84,6 +84,7 @@ function BlogIndex() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.writing, path: "/blog" }]} />
       <PageHeader
         eyebrow={t.ui.writing}
         title={locale === "ar" ? "مقالات وملاحظات" : "Articles & engineering notes"}
