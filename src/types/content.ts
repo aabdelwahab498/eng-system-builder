@@ -269,6 +269,8 @@ export type UiStrings = {
   roleLabel: string;
   scopeLabel: string;
   projectType: string;
+  videos: string;
+  images: string;
 
 };
 

@@ -149,6 +149,8 @@ export const en: Dictionary = {
     roleLabel: "Role",
     scopeLabel: "Scope",
     projectType: "Project type",
+    videos: "Videos",
+    images: "Stills",
 
   },
 
