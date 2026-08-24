@@ -113,6 +113,16 @@ export const en: Dictionary = {
     ctaTitle: "Have a project in mind?",
     ctaBody: "Tell me what you are building and I will tell you how I would engineer it.",
     idealFor: "Ideal for",
+    engineeringStack: "Engineering Stack",
+    stackIntro: "The technologies I design, build and ship production software with.",
+    whatIBuild: "What I Build",
+    whatIBuildIntro:
+      "Complete software products — architecture, APIs, interfaces, mobile apps, AI systems and production infrastructure.",
+    selectedWorkIntro: "Real systems, products and engineering work.",
+    roleLabel: "Role",
+    scopeLabel: "Scope",
+    projectType: "Project type",
+
   },
 
   meta: {
