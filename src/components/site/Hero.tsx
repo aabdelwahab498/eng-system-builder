@@ -6,7 +6,7 @@ import { SystemFlow } from "./SystemFlow";
 import { Typewriter } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { PowerShellPrompt } from "./PowerShellPrompt";
-import { SocialIcon, SOCIAL_LABEL, SOCIAL_BRAND_COLOR, type SocialPlatform } from "./SocialIcon";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
