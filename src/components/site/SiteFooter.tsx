@@ -88,9 +88,9 @@ export function SiteFooter() {
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {c.platform === "other" ? (
-                      <span className="font-mono text-xs">@</span>
+                      <span className="font-mono text-xs copper-icon">@</span>
                     ) : (
-                      <SocialIcon platform={c.platform} className="size-4" style={{ color: "#C9974B" }} />
+                      <SocialIcon platform={c.platform} className="size-4 copper-icon" />
                     )}
                     {c.label}
                   </a>
