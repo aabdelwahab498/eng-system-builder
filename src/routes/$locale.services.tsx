@@ -122,6 +122,22 @@ function ServicesPage() {
       <Breadcrumbs trail={[{ name: dict.ui.home, path: "" }, { name: dict.ui.services, path: "/services" }]} />
       <PageHeader eyebrow={dict.ui.services} title={t.question} subtitle={t.coreIntro} />
 
+      <Section>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            to="/$locale/pay"
+            params={{ locale }}
+            search={selected ? { service: selected.id } : {}}
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            {t.howToSubscribe}
+            <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
+          </Link>
+          <WhatsAppCta label={t.chat} />
+        </div>
+        <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>
+      </Section>
+
       <Section eyebrow={t.core} title={t.core} subtitle={t.coreIntro}>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {core.map((s, i) => (
