@@ -135,3 +135,32 @@ export const getCanonicalSocialLinks = () => canonicalProfile.socialLinks.filter
 /** CV and LinkedIn are derived views over the same canonical data. */
 export const getCv = (locale: Locale, variant: CvVariant = "general") => buildCv(variant, locale);
 export const getLinkedIn = (locale: Locale) => buildLinkedIn(locale);
+
+/* -------------------------------------------------------- commerce layer */
+/** Phase 5: services catalogue, payment structure and manual payment methods. */
+
+import {
+  CONTACT_NUMBERS,
+  paymentMethods as commercePaymentMethods,
+  paymentSteps as commercePaymentSteps,
+  services as serviceOfferings,
+} from "./canonical/commerce";
+import type { PaymentMethod, ServiceOffering } from "./canonical/commerce";
+
+const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+
+export const getServiceOfferings = (tier?: ServiceOffering["tier"]): ServiceOffering[] =>
+  serviceOfferings
+    .filter((s) => s.enabled && (tier ? s.tier === tier : true))
+    .sort(byOrder);
+
+export const getServiceOffering = (id: string) => serviceOfferings.find((s) => s.id === id);
+
+export const getPaymentMethods = (currency?: PaymentMethod["currency"]): PaymentMethod[] =>
+  commercePaymentMethods
+    .filter((m) => m.enabled && (currency ? m.currency === currency : true))
+    .sort(byOrder);
+
+export const getPaymentSteps = () => commercePaymentSteps;
+
+export const getContactNumbers = () => CONTACT_NUMBERS;
