@@ -101,6 +101,7 @@ export const ar: Dictionary = {
     cvPendingFile: "لم يتم نشر ملف PDF للتحميل بعد.",
     gallery: "المعرض",
     ourWorks: "أعمالنا",
+    myWorks: "أعمالي",
     breadcrumb: "مسار التنقل",
     galleryIntro: "واجهات وأنظمة ولقطات من المنتجات التي أبنيها.",
     noGallery: "لا توجد عناصر منشورة في المعرض بعد.",

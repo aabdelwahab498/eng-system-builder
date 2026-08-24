@@ -240,6 +240,7 @@ export type UiStrings = {
   cvPendingFile: string;
   gallery: string;
   ourWorks: string;
+  myWorks: string;
   breadcrumb: string;
   galleryIntro: string;
   noGallery: string;

@@ -70,6 +70,11 @@ export function Hero() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
+                <Link to="/$locale/gallery" params={{ locale }}>
+                  {t.ui.myWorks}
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
                 <Link to="/$locale/contact" params={{ locale }}>
                   {t.ui.letsBuild}
                 </Link>
