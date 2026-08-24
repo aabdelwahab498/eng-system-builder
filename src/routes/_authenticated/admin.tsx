@@ -15,7 +15,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const GROUPS: { title: string; kinds: ContentKind[] }[] = [
   { title: "Profile", kinds: ["profile", "experience", "education", "skill_group"] },
   { title: "Work", kinds: ["project", "product", "service"] },
-  { title: "Publishing", kinds: ["article", "announcement", "social_draft"] },
+  { title: "Publishing", kinds: ["article", "announcement", "gallery_item"] },
+  { title: "Growth", kinds: ["social_draft", "social_campaign", "marketing_campaign", "payment_method"] },
   { title: "Site", kinds: ["seo", "cv_settings"] },
 ];
 
