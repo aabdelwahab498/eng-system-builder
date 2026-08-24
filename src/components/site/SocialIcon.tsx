@@ -44,7 +44,7 @@ export function SocialIcon({
 }: {
   platform: SocialPlatform;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }) {
   const path = PATHS[platform];
   const classes = cn("size-4 shrink-0", className);
