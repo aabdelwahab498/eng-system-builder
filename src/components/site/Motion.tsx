@@ -244,7 +244,7 @@ export function Typewriter({
   const typing = count < text.length;
 
   return (
-    <Tag ref={ref as never} className={cn(className)}>
+    <Tag ref={ref as never} className={cn(className)} style={style}>
       {shown}
       <span
         aria-hidden
