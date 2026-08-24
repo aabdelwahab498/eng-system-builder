@@ -131,14 +131,7 @@ function HomePage() {
 
       {/* 2 — What I build */}
       <Section eyebrow={t.ui.capabilities} title={t.ui.whatIBuild} subtitle={t.ui.whatIBuildIntro}>
-        <Stagger className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" step={50}>
-          {t.profile.focusAreas.map((area, i) => (
-            <div key={area} className="h-full bg-surface/70 p-6 sm:p-8">
-              <span className="font-mono text-[11px] text-primary">{String(i + 1).padStart(2, "0")}</span>
-              <p className="mt-3 font-display text-base font-medium">{area}</p>
-            </div>
-          ))}
-        </Stagger>
+        <FocusMarquee items={t.profile.focusAreas} />
       </Section>
 
 
