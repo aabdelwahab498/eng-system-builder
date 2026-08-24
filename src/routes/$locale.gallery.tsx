@@ -110,13 +110,24 @@ function GalleryPage() {
 
       <Section>
         <Reveal>
-          <div className="mb-12 flex flex-col items-center gap-3 text-center">
-            <p className="font-display text-lg font-medium text-foreground sm:text-xl">
-              {locale === "ar"
-                ? "تفرّج… وشاهد أعمالنا"
-                : "Take a look… and watch our work"}
-            </p>
-            <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <div className="mb-12 flex flex-col items-center gap-4 text-center">
+            <div className="ps-box inline-flex max-w-full items-center gap-2 overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-4 py-2">
+              <span className="ps-prompt select-none font-digital text-base font-semibold text-emerald-400 sm:text-lg">
+                {locale === "ar" ? "«" : ">"}
+              </span>
+              <Typewriter
+                as="span"
+                text={locale === "ar" ? "تفرّج… وشاهد أعمالنا" : "Take a look… and watch our work"}
+                loop
+                speed={95}
+                startDelay={500}
+                holdDelay={2200}
+                deleteSpeed={45}
+                className="digital-green text-base font-semibold sm:text-lg"
+                cursorClassName="ps-caret"
+              />
+            </div>
+            <p className="digital-green mx-auto max-w-2xl text-sm opacity-80 sm:text-base">
               {locale === "ar"
                 ? "خذ وقتك، واستكبر بحرية. كل ما ستجده هنا صُنع بإبداع وحرفية وهدوء — لتهدأ بالك وتطمئن لما سنقدّمه لك."
                 : "Take your time and explore freely. Everything here was made with creativity, craftsmanship and calm — so you can feel at ease and confident in what we'll deliver for you."}
