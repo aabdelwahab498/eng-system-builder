@@ -9,6 +9,7 @@ import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
 import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
 import digitalOpsConsoleCover from "@/assets/projects/digital-ops-console.png.asset.json";
 import scriptoriaArCover from "@/assets/projects/scriptoria-ar.png.asset.json";
+import devShieldNexusCover from "@/assets/projects/dev-shield-nexus.png.asset.json";
 
 
 /**
