@@ -18,6 +18,7 @@ import ecCouncilCyber from "@/assets/certificates/ec-council-cyber-specializatio
 import networkDefense from "@/assets/certificates/network-defense-essentials.jpg.asset.json";
 import digitalForensics from "@/assets/certificates/digital-forensics-essentials.jpg.asset.json";
 import netDevOps from "@/assets/certificates/netdevops.jpg.asset.json";
+import operationsManagement from "@/assets/certificates/operations-management.jpg.asset.json";
 
 export type Certificate = {
   id: string;
@@ -197,6 +198,17 @@ export const certificates: Certificate[] = [
     date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/9XR8IWHOM8AU",
     image: managerialAccounting.url,
+  },
+  {
+    id: "operations-management",
+    title: {
+      en: "Operations Management: Quality and Supply Chain",
+      ar: "إدارة العمليات: الجودة وسلسلة التوريد",
+    },
+    issuer: { en: "University of Illinois Urbana-Champaign · Coursera", ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا" },
+    date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/JMYV14SWP3JI",
+    image: operationsManagement.url,
   },
   {
     id: "itil-4",
