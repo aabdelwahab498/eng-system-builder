@@ -190,8 +190,10 @@ export const en: Dictionary = {
     positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
       "I design and build production-ready software products across backend, frontend, mobile, AI and cloud infrastructure.",
-    shortBio: "",
-    longBio: "",
+    shortBio:
+      "Software Engineer and Product Builder focused on backend engineering, AI-powered systems, full-stack applications, and scalable software architecture.",
+    longBio:
+      "Experienced with C#, .NET, ASP.NET Core, REST APIs, SQL, React, TypeScript, Python, FastAPI, Docker, and AI/LLM technologies. Strong interest in AI agents, automation, system design, API architecture, software quality, and reusable engineering platforms.\n\nCurrently developing the Universal AI Software Factory, an AI-powered engineering platform for analyzing, generating, validating, and orchestrating software projects across backend, frontend, mobile, AI, database, QA, security, and DevOps domains.",
     philosophy: [
       {
         title: "Architecture first",
@@ -221,27 +223,52 @@ export const en: Dictionary = {
       "Cartoon AI",
     ],
     photo: { kind: "placeholder", alt: "Portrait of Eng. Ahmed Abdelwahab" },
+    location: "Cairo, Egypt",
     cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "Download CV" },
     experience: [
       {
-        role: "Software Engineer — full stack, backend and AI systems",
+        role: "Software Engineering & Product Development",
         kind: "engineering",
         summary:
-          "Designing and building backend services, web and mobile applications, and AI-driven systems, including the Universal AI Software Factory.",
+          "Backend and full-stack development focused on scalable APIs, system architecture, data management, integrations, AI services, Docker-based deployment, and automated quality validation.",
       },
-      { role: "Digital marketing", kind: "earlier" },
-      { role: "Teaching and academic work", kind: "earlier" },
-      { role: "Logistics", kind: "earlier" },
-      { role: "Quality control", kind: "earlier" },
+      {
+        role: "Digital Marketing & Google Ads",
+        kind: "earlier",
+        summary:
+          "Experience in digital marketing and performance advertising, combining technology with product thinking and user acquisition.",
+      },
+      {
+        role: "Logistics & Operations",
+        kind: "earlier",
+        summary:
+          "Previous operational experience that strengthened process optimization, planning, coordination, and structured problem solving.",
+      },
     ],
     education: [
       {
         credential: "Bachelor of Engineering — Computer Science",
         institution: "Cairo University",
-        period: "2016",
+        period: "2020",
       },
-      { credential: "Software engineering and backend development studies" },
-      { credential: "Digital marketing studies" },
+      {
+        credential: "Diploma — Software Engineering / Backend Development",
+        period: "2020",
+      },
+      {
+        credential: "Diploma — Basics of Modern Education",
+        period: "2021",
+      },
+      {
+        credential: "Diploma — Digital Marketing",
+        period: "2022",
+      },
+    ],
+    languages: [
+      { language: "Arabic", level: "Native" },
+      { language: "English", level: "Professional" },
+      { language: "French", level: "B2" },
+      { language: "German", level: "Developing" },
     ],
   },
 
@@ -353,13 +380,15 @@ export const en: Dictionary = {
       label: "Backend",
       description: "Services, business logic, persistence and integrations.",
       items: [
-        { name: ".NET", highlight: true },
         { name: "C#", highlight: true },
+        { name: ".NET", highlight: true },
         { name: "ASP.NET Core", highlight: true },
-        { name: "NestJS" },
-        { name: "FastAPI" },
+        { name: "EF Core" },
         { name: "REST APIs" },
-        { name: "Background jobs" },
+        { name: "Authentication" },
+        { name: "SQL Server" },
+        { name: "PostgreSQL" },
+        { name: "Redis" },
       ],
     },
     {
@@ -367,22 +396,14 @@ export const en: Dictionary = {
       label: "Frontend",
       description: "Product interfaces built for clarity and performance.",
       items: [
-        { name: "React", highlight: true },
         { name: "TypeScript", highlight: true },
+        { name: "JavaScript" },
+        { name: "React", highlight: true },
         { name: "Vite" },
+        { name: "HTML5" },
+        { name: "CSS3" },
         { name: "Tailwind CSS" },
-        { name: "shadcn/ui" },
-      ],
-    },
-    {
-      id: "mobile",
-      label: "Mobile",
-      description: "Cross-platform mobile applications.",
-      items: [
-        { name: "Flutter", highlight: true },
-        { name: "Dart", highlight: true },
-        { name: "Mobile architecture" },
-        { name: "App delivery" },
+        { name: "Bootstrap" },
       ],
     },
     {
@@ -392,43 +413,45 @@ export const en: Dictionary = {
       items: [
         { name: "Python", highlight: true },
         { name: "FastAPI", highlight: true },
-        { name: "LLM integrations", highlight: true },
+        { name: "LLM Integration", highlight: true },
         { name: "AI Agents" },
         { name: "AI Automation" },
         { name: "AI Orchestration" },
       ],
     },
     {
-      id: "databases",
-      label: "Databases",
-      description: "Data modeling, persistence and query design.",
+      id: "mobile",
+      label: "Mobile",
+      description: "Cross-platform mobile applications.",
       items: [
-        { name: "SQL Server" },
-        { name: "PostgreSQL" },
-        { name: "Supabase" },
-        { name: "Redis" },
-        { name: "SQL" },
+        { name: "Flutter", highlight: true },
+        { name: "Dart", highlight: true },
+        { name: "Cross-platform Development" },
       ],
     },
     {
       id: "devops",
-      label: "DevOps / Infrastructure",
+      label: "DevOps",
       description: "Deployment, runtime and operational structure.",
       items: [
         { name: "Docker", highlight: true },
-        { name: "Nginx" },
         { name: "Linux" },
+        { name: "NGINX" },
         { name: "Git" },
-        { name: "CI pipelines" },
+        { name: "GitHub" },
+        { name: "HTTPS/SSL" },
+        { name: "Reverse Proxy" },
+        { name: "Containerized Deployment" },
       ],
     },
     {
       id: "architecture",
-      label: "Architecture & Quality",
+      label: "Architecture",
       description: "How systems stay coherent as products grow.",
       items: [
         { name: "System Design", highlight: true },
         { name: "API Contracts", highlight: true },
+        { name: "Software Architecture" },
         { name: "Automated Testing" },
         { name: "Quality Gates" },
         { name: "Architecture Validation" },

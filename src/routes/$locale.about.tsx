@@ -29,12 +29,16 @@ export const Route = createFileRoute("/$locale/about")({
         name: getContent(locale).profile.displayName,
         description: m.description,
         alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+        knowsAbout: [
+          "C#", ".NET", "ASP.NET Core", "TypeScript", "React",
+          "Python", "FastAPI", "Docker", "AI agents", "System design",
+        ],
         hasCredential: {
           "@type": "EducationalOccupationalCredential",
           credentialCategory: "Bachelor of Engineering — Computer Science",
           educationalLevel: "Bachelor",
           recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
-          dateCreated: "2016",
+          dateCreated: "2020",
         },
       }],
     });
@@ -63,9 +67,17 @@ function AboutPage() {
       />
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
+        {t.profile.location && (
+          <p className="mb-6 font-mono text-[11px] text-muted-foreground">
+            {t.profile.location}
+          </p>
+        )}
         <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
           {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-          {t.profile.longBio && <p>{t.profile.longBio}</p>}
+          {t.profile.longBio &&
+            t.profile.longBio.split("\n\n").map((para, idx) => (
+              <p key={idx}>{para}</p>
+            ))}
           {!t.profile.shortBio && !t.profile.longBio && (
             <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
               {t.ui.contentPending}
@@ -86,6 +98,50 @@ function AboutPage() {
           ))}
         </div>
       </Section>
+
+      <Section eyebrow={t.ui.skills} title={t.ui.engineeringStack}>
+        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {t.ui.stackIntro}
+        </p>
+        <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {t.skills.map((group, i) => (
+            <Reveal key={group.id} delay={i * 50} className="bg-surface/70 px-6 py-6">
+              <p className="font-display text-base font-medium">{group.label}</p>
+              <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                {group.description}
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {group.items.map((item) => (
+                  <li
+                    key={item.name}
+                    className={
+                      "rounded-sm border px-2 py-1 font-mono text-[11px] " +
+                      (item.highlight
+                        ? "border-primary/40 bg-primary/10 text-foreground"
+                        : "border-border text-muted-foreground")
+                    }
+                  >
+                    {item.name}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {t.profile.languages && t.profile.languages.length > 0 && (
+        <Section eyebrow={t.ui.profile} title={t.ui.profile}>
+          <ul className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+            {t.profile.languages.map((l, i) => (
+              <Reveal as="li" key={l.language} delay={i * 50} className="bg-surface/70 px-6 py-6">
+                <p className="font-display text-base font-medium">{l.language}</p>
+                <p className="mt-1 font-mono text-[11px] text-muted-foreground">{l.level}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       <Section eyebrow="Philosophy" title={t.ui.about}>
         <div className="grid gap-6 sm:grid-cols-2">

@@ -186,8 +186,10 @@ export const ar: Dictionary = {
     positioning: "مهندس برمجيات · مطوّر Full Stack أول والذكاء الاصطناعي · باني منتجات",
     statement:
       "أصمّم وأبني منتجات برمجية جاهزة للإنتاج عبر الواجهة الخلفية والأمامية والموبايل والذكاء الاصطناعي والبنية السحابية.",
-    shortBio: "",
-    longBio: "",
+    shortBio:
+      "مهندس برمجيات وباني منتجات يركّز على هندسة الواجهة الخلفية وأنظمة الذكاء الاصطناعي والتطبيقات المتكاملة ومعمارية البرمجيات القابلة للتوسّع.",
+    longBio:
+      "خبرة في C# و.NET وASP.NET Core وREST APIs وSQL وReact وTypeScript وPython وFastAPI وDocker وتقنيات الذكاء الاصطناعي/LLM. اهتمام قوي بوكلاء الذكاء الاصطناعي والأتمتة وتصميم الأنظمة ومعمارية الواجهات البرمجية وجودة البرمجيات والمنصات الهندسية القابلة لإعادة الاستخدام.\n\nأطور حاليًا Universal AI Software Factory، منصة هندسية مدعومة بالذكاء الاصطناعي لتحليل وتوليد والتحقق من وتنسيق مشاريع البرمجيات عبر مجالات الواجهة الخلفية والأمامية والموبايل والذكاء الاصطناعي وقواعد البيانات وضمان الجودة والأمن وDevOps.",
     philosophy: [
       { title: "المعمارية أولًا", body: "تُصمَّم الأنظمة لتبقى مفهومة مع نمو المنتج." },
       { title: "عقود لا افتراضات", body: "الواجهات بين الخدمات صريحة ومُصدَّرة وقابلة للاختبار." },
@@ -205,27 +207,43 @@ export const ar: Dictionary = {
       "كرتون AI",
     ],
     photo: { kind: "placeholder", alt: "صورة م. أحمد عبد الوهاب" },
+    location: "القاهرة، مصر",
     cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "تحميل السيرة الذاتية" },
     experience: [
       {
-        role: "مهندس برمجيات — أنظمة Full Stack وخلفية وذكاء اصطناعي",
+        role: "هندسة البرمجيات وتطوير المنتجات",
         kind: "engineering",
         summary:
-          "تصميم وبناء خدمات خلفية وتطبيقات ويب وموبايل وأنظمة مدعومة بالذكاء الاصطناعي، ومن بينها Universal AI Software Factory.",
+          "تطوير الواجهة الخلفية والمتكامل يركّز على واجهات API القابلة للتوسّع ومعمارية الأنظمة وإدارة البيانات والتكاملات وخدمات الذكاء الاصطناعي والنشر عبر Docker والتحقق الآلي من الجودة.",
       },
-      { role: "التسويق الرقمي", kind: "earlier" },
-      { role: "التدريس والعمل الأكاديمي", kind: "earlier" },
-      { role: "اللوجستيات", kind: "earlier" },
-      { role: "مراقبة الجودة", kind: "earlier" },
+      {
+        role: "التسويق الرقمي وإعلانات جوجل",
+        kind: "earlier",
+        summary:
+          "خبرة في التسويق الرقمي والإعلانات الأدائية، تجمع بين التقنية والتفكير المنتجي واكتساب المستخدمين.",
+      },
+      {
+        role: "اللوجستيات والعمليات",
+        kind: "earlier",
+        summary:
+          "خبرة تشغيلية سابقة رسّخت تحسين العمليات والتخطيط والتنسيق وحل المشكلات المنظّم.",
+      },
     ],
     education: [
       {
         credential: "بكالوريوس هندسة — علوم الحاسب",
         institution: "جامعة القاهرة",
-        period: "2016",
+        period: "2020",
       },
-      { credential: "دراسات في هندسة البرمجيات وتطوير الأنظمة الخلفية" },
-      { credential: "دراسات في التسويق الرقمي" },
+      { credential: "دبلوم — هندسة البرمجيات / تطوير الواجهة الخلفية", period: "2020" },
+      { credential: "دبلوم — أساسيات التربية الحديثة", period: "2021" },
+      { credential: "دبلوم — التسويق الرقمي", period: "2022" },
+    ],
+    languages: [
+      { language: "العربية", level: "اللغة الأم" },
+      { language: "الإنجليزية", level: "احترافي" },
+      { language: "الفرنسية", level: "B2" },
+      { language: "الألمانية", level: "تطوير" },
     ],
   },
 
@@ -330,13 +348,15 @@ export const ar: Dictionary = {
       label: "الواجهة الخلفية",
       description: "الخدمات ومنطق الأعمال والتخزين والتكاملات.",
       items: [
-        { name: ".NET", highlight: true },
         { name: "C#", highlight: true },
+        { name: ".NET", highlight: true },
         { name: "ASP.NET Core", highlight: true },
-        { name: "NestJS" },
-        { name: "FastAPI" },
+        { name: "EF Core" },
         { name: "REST APIs" },
-        { name: "المهام الخلفية" },
+        { name: "المصادقة" },
+        { name: "SQL Server" },
+        { name: "PostgreSQL" },
+        { name: "Redis" },
       ],
     },
     {
@@ -344,11 +364,27 @@ export const ar: Dictionary = {
       label: "الواجهة الأمامية",
       description: "واجهات منتج تركّز على الوضوح والأداء.",
       items: [
-        { name: "React", highlight: true },
         { name: "TypeScript", highlight: true },
+        { name: "JavaScript" },
+        { name: "React", highlight: true },
         { name: "Vite" },
+        { name: "HTML5" },
+        { name: "CSS3" },
         { name: "Tailwind CSS" },
-        { name: "shadcn/ui" },
+        { name: "Bootstrap" },
+      ],
+    },
+    {
+      id: "ai",
+      label: "الذكاء الاصطناعي",
+      description: "دمج الذكاء الاصطناعي وتنسيقه داخل منتجات حقيقية.",
+      items: [
+        { name: "Python", highlight: true },
+        { name: "FastAPI", highlight: true },
+        { name: "دمج نماذج LLM", highlight: true },
+        { name: "وكلاء الذكاء الاصطناعي" },
+        { name: "أتمتة الذكاء الاصطناعي" },
+        { name: "تنسيق الذكاء الاصطناعي" },
       ],
     },
     {
@@ -358,52 +394,32 @@ export const ar: Dictionary = {
       items: [
         { name: "Flutter", highlight: true },
         { name: "Dart", highlight: true },
-        { name: "معمارية تطبيقات الموبايل" },
-        { name: "النشر على المتاجر" },
-      ],
-    },
-    {
-      id: "ai",
-      label: "الذكاء الاصطناعي",
-      description: "دمج الذكاء الاصطناعي وتنسيقه داخل منتجات حقيقية.",
-      items: [
-        { name: "تنسيق الذكاء الاصطناعي", highlight: true },
-        { name: "دمج النماذج" },
-        { name: "أنظمة التوجيه (Prompts)" },
-        { name: "خدمات الذكاء الاصطناعي" },
-      ],
-    },
-    {
-      id: "databases",
-      label: "قواعد البيانات",
-      description: "نمذجة البيانات والتخزين وتصميم الاستعلامات.",
-      items: [
-        { name: "SQL Server" },
-        { name: "PostgreSQL" },
-        { name: "Supabase" },
-        { name: "Redis" },
-        { name: "SQL" },
+        { name: "تطوير متعدد المنصات" },
       ],
     },
     {
       id: "devops",
-      label: "البنية والتشغيل",
+      label: "DevOps",
       description: "النشر وبيئات التشغيل والبنية التشغيلية.",
       items: [
         { name: "Docker", highlight: true },
-        { name: "Nginx" },
         { name: "Linux" },
+        { name: "NGINX" },
         { name: "Git" },
-        { name: "مسارات CI" },
+        { name: "GitHub" },
+        { name: "HTTPS/SSL" },
+        { name: "الوكيل العكسي" },
+        { name: "النشر عبر الحاويات" },
       ],
     },
     {
       id: "architecture",
-      label: "المعمارية والجودة",
+      label: "المعمارية",
       description: "كيف تبقى الأنظمة متماسكة مع نمو المنتج.",
       items: [
         { name: "تصميم الأنظمة", highlight: true },
         { name: "عقود الواجهات البرمجية", highlight: true },
+        { name: "معمارية البرمجيات" },
         { name: "الاختبارات الآلية" },
         { name: "بوابات الجودة" },
         { name: "التحقق من المعمارية" },
