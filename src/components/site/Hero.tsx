@@ -85,7 +85,7 @@ export function Hero() {
 
             <ul className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
-                const color = "#C9CEC6";
+                const color = "#C9974B";
                 return (
                   <li key={s.href}>
                     <a
