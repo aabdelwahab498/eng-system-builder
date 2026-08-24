@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
+import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
