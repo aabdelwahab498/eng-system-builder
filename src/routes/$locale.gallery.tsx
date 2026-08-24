@@ -7,6 +7,8 @@ import { Reveal } from "@/components/site/Reveal";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
+import { ProjectCard } from "@/components/site/ProjectCard";
+import { gallerySections, projectSectionSlugs } from "@/lib/gallery-sections";
 import { listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead } from "@/lib/seo";
@@ -203,13 +205,13 @@ function GalleryPage() {
               </span>
             </a>
             {videos.length > 0 && (
-              <div>
+              <div id="ai-videos" className="scroll-mt-28">
                 <h2 className="eyebrow mb-6">{t.ui.videos}</h2>
                 <div className="grid gap-6 md:grid-cols-2">{videos.map(renderCard)}</div>
               </div>
             )}
             {stills.length > 0 && (
-              <div>
+              <div id="images" className="scroll-mt-28">
                 <h2 className="eyebrow mb-6">{t.ui.images}</h2>
                 <ImageCatalog
                   rtl={locale === "ar"}
