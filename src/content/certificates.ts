@@ -31,6 +31,63 @@ export type Certificate = {
 /** Only facts printed on the uploaded certificates — nothing inferred. */
 export const certificates: Certificate[] = [
   {
+    id: "ai-diploma",
+    title: {
+      en: "Artificial Intelligence (AI) — Certificate of Diploma",
+      ar: "الذكاء الاصطناعي (AI) — دبلومة",
+    },
+    issuer: { en: "American Board of Professional Studies", ar: "المجلس الأمريكي للدراسات المهنية" },
+    date: { en: "Issued September 2025", ar: "صدرت في سبتمبر ٢٠٢٥" },
+    detail: {
+      en: "15 hours · Grade: Excellent · Serial No. 0035328",
+      ar: "١٥ ساعة · التقدير: ممتاز · رقم مسلسل ٠٠٣٥٣٢٨",
+    },
+    verifyUrl: "https://www.americanboard-us.com",
+    image: aiDiploma.url,
+  },
+  {
+    id: "ec-council-cyber-specialization",
+    title: {
+      en: "Cybersecurity Attack and Defense Fundamentals (Specialization, 3 courses)",
+      ar: "أساسيات الهجوم والدفاع في الأمن السيبراني (تخصص من ٣ دورات)",
+    },
+    issuer: { en: "EC-Council · Coursera", ar: "EC-Council · كورسيرا" },
+    date: { en: "Oct 3, 2024", ar: "٣ أكتوبر ٢٠٢٤" },
+    detail: {
+      en: "Ethical Hacking Essentials (EHE) · Network Defense Essentials (NDE) · Digital Forensics Essentials (DFE)",
+      ar: "أساسيات الاختراق الأخلاقي (EHE) · أساسيات الدفاع الشبكي (NDE) · أساسيات الأدلة الجنائية الرقمية (DFE)",
+    },
+    verifyUrl: "https://coursera.org/verify/specialization/QLG4FS7CSUIF",
+    image: ecCouncilCyber.url,
+  },
+  {
+    id: "network-defense-essentials",
+    title: { en: "Network Defense Essentials (NDE)", ar: "أساسيات الدفاع الشبكي (NDE)" },
+    issuer: { en: "EC-Council · Coursera", ar: "EC-Council · كورسيرا" },
+    date: { en: "Oct 3, 2024", ar: "٣ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/9LCGLWZXCUF8",
+    image: networkDefense.url,
+  },
+  {
+    id: "digital-forensics-essentials",
+    title: { en: "Digital Forensics Essentials (DFE)", ar: "أساسيات الأدلة الجنائية الرقمية (DFE)" },
+    issuer: { en: "EC-Council · Coursera", ar: "EC-Council · كورسيرا" },
+    date: { en: "Oct 3, 2024", ar: "٣ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/MUTXB6GCKDEZ",
+    image: digitalForensics.url,
+  },
+  {
+    id: "netdevops",
+    title: {
+      en: "DevOps for Network Automation (NetDevOps)",
+      ar: "DevOps لأتمتة الشبكات (NetDevOps)",
+    },
+    issuer: { en: "Cisco Learning and Certifications · Coursera", ar: "Cisco Learning and Certifications · كورسيرا" },
+    date: { en: "Sep 28, 2024", ar: "٢٨ سبتمبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/8BNKUWJACI3B",
+    image: netDevOps.url,
+  },
+  {
     id: "mini-mba",
     title: {
       en: "Mini MBA (Mini Master of Business Administration) — Certificate of Diploma",
