@@ -10,13 +10,13 @@ export const en: Dictionary = {
   htmlLang: "en",
 
   nav: [
-    { label: "Work", path: "/projects" },
+    { label: "About", path: "/about" },
+    { label: "Gallery", path: "/gallery" },
     { label: "Services", path: "/services" },
     { label: "Writing", path: "/blog" },
-    { label: "Gallery", path: "/gallery" },
-    { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
   ],
+
 
 
   ui: {
