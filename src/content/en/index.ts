@@ -10,16 +10,14 @@ export const en: Dictionary = {
   htmlLang: "en",
 
   nav: [
-    { label: "Projects", path: "/projects" },
-    { label: "Products", path: "/products" },
-    { label: "Skills", path: "/skills" },
+    { label: "Work", path: "/projects" },
     { label: "Services", path: "/services" },
     { label: "Writing", path: "/blog" },
     { label: "Gallery", path: "/gallery" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
-
   ],
+
 
   ui: {
     home: "Home",
