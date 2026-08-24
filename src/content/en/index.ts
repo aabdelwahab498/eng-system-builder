@@ -6,6 +6,7 @@ import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
 import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
 import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
+import wameedOsCover from "@/assets/projects/wameed-os.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
