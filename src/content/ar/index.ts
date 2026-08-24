@@ -2,6 +2,7 @@ import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
+import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
@@ -477,6 +478,51 @@ export const ar: Dictionary = {
           "Supabase للمصادقة والبيانات والتخزين",
           "دعم ثنائي اللغة (عربي/إنجليزي) وتبديل المظهر",
           "طبقة التفاعل والإثبات الاجتماعي",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "indusb2b",
+      name: "IndusB2B — سوق تجاري صناعي B2B",
+      category: "منصة ويب · تجارة ومؤشرات أسعار",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج البيانات والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "هندسة الواجهة الأمامية",
+        "معمارية الواجهة الخلفية",
+        "تصميم المنتج",
+      ],
+      summary:
+        "منصة تجارية B2B عربية لمواد البناء والمعدات الصناعية — بحث في الكتالوج، مقارنة الموردين، طلب عروض أسعار، ومؤشر يومي لأسعار السلع.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://grand-shelf-sync.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: indusB2BCover.url,
+          alt: "الصفحة الرئيسية لـ IndusB2B مع بطاقات الأقسام ومقارنة الموردين ومؤشر أسعار الحديد",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "IndusB2B سطح تجاري B2B يبحث فيه المشترون في كتالوج موحّد لمواد البناء والمعدات الصناعية، ويقارنون الموردين بالسعر والتوفر والتسليم، ويطلبون عروض أسعار ويتابعون أسعار السوق اليومية.",
+        problem:
+          "تتم المشتريات الصناعية في مصر عبر المكالمات وعروض الأسعار الورقية وكتالوجات الموردين المشتّتة — لا بحث موحّد ولا شفافية في الأسعار ولا مقارنة منظّمة للموردين.",
+        approach:
+          "كتالوج موحّد عبر عدة موردين، طبقة مقارنة على السعر والتوفر والتسليم، مسار طلب عرض سعر بردٌّ خلال 24 ساعة، ومؤشر أسعار يومي للسلع مثل الحديد والأسمنت والمواد المرتبطة.",
+        architecture: [
+          "واجهة React / TypeScript",
+          "نموذج بيانات الكتالوج الموحّد والموردين",
+          "طبقة مقارنة الموردين (سعر، توفر، تسليم)",
+          "مسار طلب عرض سعر",
+          "مؤشر أسعار السلع اليومي",
+          "Supabase للمصادقة والبيانات والتخزين",
         ],
         implementation: "",
         challenges: "",
