@@ -6,6 +6,9 @@ import { adminOverview, adminSeedContent } from "@/lib/cms/admin.functions";
 import { buildSeedItems } from "@/lib/cms/seed";
 import { KIND_LABELS, CONTENT_KINDS, type ContentKind } from "@/lib/cms/types";
 import { Button } from "@/components/ui/button";
+import { activityLog, clients, serviceRequests, subscribers } from "@/lib/admin/crm";
+import { paymentSubmissions } from "@/lib/payments/store";
+
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
