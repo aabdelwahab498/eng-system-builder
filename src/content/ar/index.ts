@@ -13,7 +13,7 @@ export const ar: Dictionary = {
     { label: "نبذة", path: "/about" },
     { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
-    { label: "المدونة", path: "/blog" },
+    { label: "المدونات", path: "/blog" },
     { label: "تواصل", path: "/contact" },
   ],
 
