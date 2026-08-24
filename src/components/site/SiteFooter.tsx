@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Section";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
+import { TechMarquee } from "./TechMarquee";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
@@ -40,6 +41,10 @@ export function SiteFooter() {
 
   return (
     <footer className="hairline py-14 sm:py-20">
+      <Container className="mb-14">
+        <TechMarquee label={t.ui.engineeringStack} />
+      </Container>
+
       <Container className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div>
           <p className="font-display text-lg font-semibold">{t.profile.displayName}</p>

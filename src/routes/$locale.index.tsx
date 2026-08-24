@@ -8,7 +8,6 @@ import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
-import { SkillsGrid } from "@/components/site/SkillsGrid";
 import { ContactCta } from "@/components/site/ContactCta";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
@@ -142,15 +141,6 @@ function HomePage() {
         </Stagger>
       </Section>
 
-      {/* 3 — Engineering stack */}
-      <Section
-        id="engineering-stack"
-        eyebrow={t.ui.capabilities}
-        title={t.ui.engineeringStack}
-        subtitle={t.profile.positioning}
-      >
-        <SkillsGrid categories={t.skills} />
-      </Section>
 
       {/* 4 — Services */}
       <Section eyebrow={t.ui.services} title={t.ui.services}>
