@@ -1,10 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
 import { Section } from "@/components/site/Section";
+import { Reveal } from "@/components/site/Reveal";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
+import { WhatsAppCta } from "@/components/commerce/WhatsAppCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
+import { getServiceOfferings } from "@/content/api";
+import { pickOrEn } from "@/content/schema";
 import { buildHead, metaFor } from "@/lib/seo";
 import { site } from "@/content";
 import type { Locale } from "@/types/content";
