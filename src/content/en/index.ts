@@ -15,6 +15,7 @@ export const en: Dictionary = {
     { label: "Skills", path: "/skills" },
     { label: "Services", path: "/services" },
     { label: "Writing", path: "/blog" },
+    { label: "Gallery", path: "/gallery" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
 
@@ -101,6 +102,19 @@ export const en: Dictionary = {
     phone: "Phone",
     email: "Email",
     cvPendingFile: "A downloadable PDF file has not been published yet.",
+    gallery: "Gallery",
+    galleryIntro: "Interfaces, systems and product visuals from the work.",
+    noGallery: "No gallery items published yet.",
+    writing: "Writing",
+    latestWriting: "Latest articles",
+    viewAllWriting: "All articles",
+    searchPlaceholder: "Search articles",
+    allTopics: "All topics",
+    relatedProjects: "Related projects",
+    relatedServices: "Related services",
+    ctaTitle: "Have a project in mind?",
+    ctaBody: "Tell me what you are building and I will tell you how I would engineer it.",
+    idealFor: "Ideal for",
   },
 
   meta: {

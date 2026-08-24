@@ -234,6 +234,19 @@ export type UiStrings = {
   phone: string;
   email: string;
   cvPendingFile: string;
+  gallery: string;
+  galleryIntro: string;
+  noGallery: string;
+  writing: string;
+  latestWriting: string;
+  viewAllWriting: string;
+  searchPlaceholder: string;
+  allTopics: string;
+  relatedProjects: string;
+  relatedServices: string;
+  ctaTitle: string;
+  ctaBody: string;
+  idealFor: string;
 };
 
 export type MetaKey =
