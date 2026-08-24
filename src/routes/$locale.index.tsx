@@ -81,7 +81,6 @@ function HomePage() {
 
   return (
     <>
-      <MatrixStrip height={190} />
       <Hero />
       <CapabilityStrip />
 
