@@ -56,8 +56,8 @@ export function Hero() {
               holdDelay={2600}
               startDelay={500}
               loop
-              className="mt-8 font-display text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl"
-              style={{ color: "#C9974B" }}
+              cursorClassName="copper-caret"
+              className="metallic-copper mt-8 font-display text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl"
             />
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t.profile.statement}
