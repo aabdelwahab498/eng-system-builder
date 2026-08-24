@@ -891,6 +891,51 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "smart-shelf-builder",
+      name: "Smart Shelf Builder — AI Catalog Intelligence",
+      category: "AI Platform · E-commerce & Catalog",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, AI ingestion and publishing pipeline",
+      disciplines: [
+        "AI Engineering",
+        "E-commerce",
+        "Full-Stack Engineering",
+        "Product Design",
+      ],
+      summary:
+        "An AI catalog intelligence platform that turns legacy PDFs, spreadsheets and folders of product photos into a living, branded digital catalog — the AI reads, structures, writes and translates the content, then publishes a shareable catalog automatically.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "OCR", "Computer Vision", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://smart-shelf-builder.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: smartShelfBuilderCover.url,
+          alt: "Smart Shelf Builder AI Catalog Builder landing page with a 'Turn any old catalog into a living digital one' headline, a 'Start building' call to action, and a sage-green dark theme with a Catalog Intelligence eyebrow",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Smart Shelf Builder is an AI catalog intelligence SaaS that ingests old product catalogs in any form — PDFs, spreadsheets and folders of product photos — and uses AI to read, structure, write and translate the content, then automatically publishes a branded, shareable digital catalog.",
+        problem:
+          "Businesses sit on outdated product data trapped in PDFs, spreadsheets and disorganized photo folders. Rebuilding a clean, multilingual, digital catalog by hand is slow, error-prone and never stays in sync with the source material.",
+        approach:
+          "A single ingestion-to-publishing pipeline: upload the legacy material, let AI read and structure it with computer vision and OCR, have language models write clean product copy and translate it, then publish a branded catalog that can be shared via a link — no manual data entry and no credit card required to start.",
+        architecture: [
+          "React / TypeScript landing and catalog client with a dark sage-green theme",
+          "AI ingestion: PDF parsing, spreadsheet reading and product-photo analysis via OCR and computer vision",
+          "LLM content engine that structures, writes and translates product data",
+          "Automatic branded catalog publishing with a shareable link",
+          "Multilingual output with a language selector",
+          "No-credit-card, self-serve onboarding flow",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
 
 
