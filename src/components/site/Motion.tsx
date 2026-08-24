@@ -146,13 +146,17 @@ export function Lift({ children, className }: { children: ReactElement; classNam
 }
 
 /** Typewriter effect: reveals text character-by-character with a blinking caret.
- *  Falls back to the full text immediately when reduced motion is preferred. */
+ *  Falls back to the full text immediately when reduced motion is preferred.
+ *  When `loop` is enabled, the text types out, holds, deletes, and repeats. */
 export function Typewriter({
   text,
   className,
   as: Tag = "h1",
   speed = 70,
   startDelay = 250,
+  loop = false,
+  holdDelay = 1400,
+  deleteSpeed = 38,
   cursorClassName,
 }: {
   text: string;
@@ -160,6 +164,9 @@ export function Typewriter({
   as?: "h1" | "h2" | "h3" | "p" | "span";
   speed?: number;
   startDelay?: number;
+  loop?: boolean;
+  holdDelay?: number;
+  deleteSpeed?: number;
   cursorClassName?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -196,19 +203,42 @@ export function Typewriter({
   useEffect(() => {
     if (!started || reduced) return;
     let i = 0;
+    let phase: "type" | "hold" | "delete" | "gap" = "type";
     let timer: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      i += 1;
-      setCount(i);
-      if (i < text.length) {
-        timer = setTimeout(tick, speed);
+
+    const step = () => {
+      if (phase === "type") {
+        i += 1;
+        setCount(i);
+        if (i < text.length) {
+          timer = setTimeout(step, speed);
+        } else if (loop) {
+          phase = "hold";
+          timer = setTimeout(step, holdDelay);
+        }
+      } else if (phase === "hold") {
+        phase = "delete";
+        timer = setTimeout(step, deleteSpeed);
+      } else if (phase === "delete") {
+        i -= 1;
+        setCount(i);
+        if (i > 0) {
+          timer = setTimeout(step, deleteSpeed);
+        } else {
+          phase = "gap";
+          timer = setTimeout(step, startDelay);
+        }
+      } else {
+        phase = "type";
+        timer = setTimeout(step, speed);
       }
     };
-    timer = setTimeout(tick, startDelay);
+    timer = setTimeout(step, startDelay);
     return () => clearTimeout(timer);
-  }, [started, reduced, speed, startDelay, text.length]);
+  }, [started, reduced, speed, startDelay, loop, holdDelay, deleteSpeed, text.length]);
 
   const shown = reduced ? text : text.slice(0, count);
+  const typing = count < text.length;
 
   return (
     <Tag ref={ref as never} className={cn(className)}>
@@ -216,7 +246,7 @@ export function Typewriter({
       <span
         aria-hidden
         className={cn("tw-caret", cursorClassName)}
-        style={{ opacity: count < text.length || reduced ? 1 : 0 }}
+        style={{ opacity: typing || reduced ? 1 : 0 }}
       />
     </Tag>
   );
