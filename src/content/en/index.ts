@@ -134,59 +134,59 @@ export const en: Dictionary = {
 
   meta: {
     home: {
-      title: "Eng. Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
+      title: "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
       description:
         "Personal engineering hub of Ahmed Abdelwahab: full stack development, AI engineering, software architecture, mobile and web product development.",
     },
     about: {
-      title: "About — Eng. Ahmed Abdelwahab",
+      title: "About — Ahmed Abdelwahab",
       description:
         "How Ahmed Abdelwahab approaches software engineering, architecture and AI-driven product development.",
     },
     projects: {
-      title: "Projects — Eng. Ahmed Abdelwahab",
+      title: "Projects — Ahmed Abdelwahab",
       description:
         "Engineering projects and case studies: Najmah Story Studio and the Universal AI Software Factory.",
     },
     products: {
-      title: "Products — Eng. Ahmed Abdelwahab",
+      title: "Products — Ahmed Abdelwahab",
       description:
         "Digital products built on the nextnext-gen ecosystem, each with its own subdomain and identity.",
     },
     skills: {
-      title: "Skills & Technology Stack — Eng. Ahmed Abdelwahab",
+      title: "Skills & Technology Stack — Ahmed Abdelwahab",
       description:
         "Backend, frontend, mobile (Flutter/Dart), AI, databases and DevOps technologies used in production work.",
     },
     services: {
-      title: "Services — Eng. Ahmed Abdelwahab",
+      title: "Services — Ahmed Abdelwahab",
       description:
         "Backend, web, mobile, AI, API integration, software architecture and digital product development services.",
     },
     factory: {
-      title: "Universal AI Software Factory — Eng. Ahmed Abdelwahab",
+      title: "Universal AI Software Factory — Ahmed Abdelwahab",
       description:
         "An AI software engineering platform that turns structured requirements into validated, production-oriented software systems.",
     },
     contact: {
-      title: "Contact — Eng. Ahmed Abdelwahab",
+      title: "Contact — Ahmed Abdelwahab",
       description:
         "Get in touch about backend engineering, AI systems, mobile applications and digital product work.",
     },
     cv: {
-      title: "CV — Eng. Ahmed Abdelwahab",
+      title: "CV — Ahmed Abdelwahab",
       description:
         "Curriculum vitae of Ahmed Abdelwahab: software engineering, full-stack development, AI engineering and product building.",
     },
     courses: {
-      title: "Courses — Eng. Ahmed Abdelwahab",
+      title: "Courses — Ahmed Abdelwahab",
       description:
         "Practical engineering courses and learning tracks on backend, AI systems and building production digital products.",
     },
   },
 
   profile: {
-    displayName: "Eng. Ahmed Abdelwahab",
+    displayName: "Ahmed Abdelwahab",
     positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
       "I design and build production-ready software products across backend, frontend, mobile, AI and cloud infrastructure.",
@@ -222,7 +222,7 @@ export const en: Dictionary = {
       "Video AI",
       "Cartoon AI",
     ],
-    photo: { kind: "placeholder", alt: "Portrait of Eng. Ahmed Abdelwahab" },
+    photo: { kind: "placeholder", alt: "Portrait of Ahmed Abdelwahab" },
     location: "Cairo, Egypt",
     cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "Download CV" },
     experience: [
