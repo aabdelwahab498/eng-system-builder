@@ -14,6 +14,7 @@ export const ar: Dictionary = {
     { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونات", path: "/blog" },
+    { label: "الكورسات", path: "/courses" },
     { label: "تواصل", path: "/contact" },
   ],
 
@@ -106,6 +107,10 @@ export const ar: Dictionary = {
     writing: "المدونات",
     latestWriting: "أحدث المقالات",
     viewAllWriting: "كل المقالات",
+    courses: "الكورسات",
+    coursesIntro:
+      "كورسات ومسارات تعليمية عملية في الواجهة الخلفية والذكاء الاصطناعي وبناء المنتجات.",
+    noCourses: "لا توجد كورسات منشورة بعد. ستظهر الكورسات هنا فور جاهزيتها.",
     searchPlaceholder: "ابحث في المقالات",
     allTopics: "كل المواضيع",
     relatedProjects: "مشاريع ذات صلة",
@@ -168,6 +173,11 @@ export const ar: Dictionary = {
       title: "السيرة الذاتية — م. أحمد عبد الوهاب",
       description:
         "السيرة الذاتية لأحمد عبد الوهاب: هندسة البرمجيات والتطوير المتكامل وهندسة الذكاء الاصطناعي وبناء المنتجات.",
+    },
+    courses: {
+      title: "الكورسات — م. أحمد عبد الوهاب",
+      description:
+        "كورسات ومسارات تعليمية عملية في الواجهة الخلفية وأنظمة الذكاء الاصطناعي وبناء المنتجات الرقمية.",
     },
   },
 

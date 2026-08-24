@@ -245,6 +245,9 @@ export type UiStrings = {
   writing: string;
   latestWriting: string;
   viewAllWriting: string;
+  courses: string;
+  coursesIntro: string;
+  noCourses: string;
   searchPlaceholder: string;
   allTopics: string;
   relatedProjects: string;
@@ -272,7 +275,8 @@ export type MetaKey =
   | "services"
   | "factory"
   | "contact"
-  | "cv";
+  | "cv"
+  | "courses";
 
 export type Dictionary = {
   locale: Locale;
