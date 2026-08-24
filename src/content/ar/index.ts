@@ -145,6 +145,8 @@ export const ar: Dictionary = {
     roleLabel: "الدور",
     scopeLabel: "النطاق",
     projectType: "نوع المشروع",
+    videos: "الفيديوهات",
+    images: "الصور",
 
   },
 
