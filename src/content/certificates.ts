@@ -26,6 +26,101 @@ export type Certificate = {
 /** Only facts printed on the uploaded certificates — nothing inferred. */
 export const certificates: Certificate[] = [
   {
+    id: "mini-mba",
+    title: {
+      en: "Mini MBA (Mini Master of Business Administration) — Certificate of Diploma",
+      ar: "ميني ماجستير إدارة الأعمال (Mini MBA) — دبلومة",
+    },
+    issuer: { en: "American Board of Professional Studies", ar: "المجلس الأمريكي للدراسات المهنية" },
+    date: { en: "Issued March 2026", ar: "صدرت في مارس ٢٠٢٦" },
+    detail: {
+      en: "60 hours · Grade: Excellent · Serial No. 0039955",
+      ar: "٦٠ ساعة · التقدير: ممتاز · رقم مسلسل ٠٠٣٩٩٥٥",
+    },
+    verifyUrl: "https://www.americanboard-us.com",
+    image: miniMba.url,
+  },
+  {
+    id: "training-of-trainers",
+    title: {
+      en: "International Training of Trainers Diploma (TOT)",
+      ar: "دبلومة إعداد المدربين الدولية (TOT)",
+    },
+    issuer: { en: "International Training College (I.T.C), UK", ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة" },
+    date: { en: "18-03-2026 to 18-06-2026", ar: "من ١٨-٠٣-٢٠٢٦ إلى ١٨-٠٦-٢٠٢٦" },
+    detail: {
+      en: "Grade: Excellent · Centre: BTC for Human Resources Development · Serial No. 1306260224",
+      ar: "التقدير: ممتاز · المركز: BTC لتنمية الموارد البشرية · رقم مسلسل ١٣٠٦٢٦٠٢٢٤",
+    },
+    verifyUrl: "https://www.itc-edu.uk",
+    image: trainingOfTrainers.url,
+  },
+  {
+    id: "digital-transformation-security",
+    title: {
+      en: "Digital Transformation and Information Security Program",
+      ar: "برنامج التحول الرقمي وأمن المعلومات",
+    },
+    issuer: {
+      en: "American University for Science, Technology and Entrepreneurship",
+      ar: "الجامعة الأمريكية للعلوم والتكنولوجيا وريادة الأعمال",
+    },
+    date: { en: "August 17, 2025", ar: "١٧ أغسطس ٢٠٢٥" },
+    detail: { en: "Serial number GD2026585", ar: "رقم مسلسل GD2026585" },
+    verifyUrl: "https://www.auste.org",
+    image: digitalTransformation.url,
+  },
+  {
+    id: "dm03-social-media",
+    title: {
+      en: "DM03: Online Advertising & Social Media",
+      ar: "DM03: الإعلان عبر الإنترنت ووسائل التواصل الاجتماعي",
+    },
+    issuer: { en: "USMx · University System of Maryland · edX", ar: "USMx · جامعة ولاية ماريلاند · edX" },
+    date: { en: "Issued December 26, 2024", ar: "صدرت في ٢٦ ديسمبر ٢٠٢٤" },
+    detail: {
+      en: "Verified Certificate ID 41f86c2123a747b4810637f9eda355d3",
+      ar: "معرّف الشهادة الموثقة 41f86c2123a747b4810637f9eda355d3",
+    },
+    image: dm03SocialMedia.url,
+  },
+  {
+    id: "verizon-skill-forward",
+    title: {
+      en: "VSFO01: Verizon Skill Forward Orientation Course",
+      ar: "VSFO01: دورة التوجيه في برنامج Verizon Skill Forward",
+    },
+    issuer: { en: "edX", ar: "edX" },
+    date: { en: "Issued December 11, 2024", ar: "صدرت في ١١ ديسمبر ٢٠٢٤" },
+    detail: {
+      en: "Verified Certificate ID 5d2b219bed07410da44efadcf5058bfe",
+      ar: "معرّف الشهادة الموثقة 5d2b219bed07410da44efadcf5058bfe",
+    },
+    image: verizonSkillForward.url,
+  },
+  {
+    id: "itil-v4-svs",
+    title: {
+      en: "Explanation of ITIL V4 Service Value System & its Components",
+      ar: "شرح نظام القيمة الخدمية ITIL V4 ومكوناته",
+    },
+    issuer: { en: "EDUCBA · Coursera", ar: "EDUCBA · كورسيرا" },
+    date: { en: "Oct 10, 2024", ar: "١٠ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/DRE61DKV7QJC",
+    image: itilV4Svs.url,
+  },
+  {
+    id: "managerial-accounting",
+    title: {
+      en: "Managerial Accounting: Cost Behaviors, Systems, and Analysis",
+      ar: "المحاسبة الإدارية: سلوك التكاليف والأنظمة والتحليل",
+    },
+    issuer: { en: "University of Illinois Urbana-Champaign · Coursera", ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا" },
+    date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/9XR8IWHOM8AU",
+    image: managerialAccounting.url,
+  },
+  {
     id: "itil-4",
     title: { en: "ITIL 4 Certification (Specialization, 4 courses)", ar: "شهادة ITIL 4 (تخصص من 4 دورات)" },
     issuer: { en: "EDUCBA · Coursera", ar: "EDUCBA · كورسيرا" },
