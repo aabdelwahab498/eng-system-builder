@@ -37,8 +37,8 @@ export function Hero() {
             <div className="flex items-center gap-4">
               <ProfileAvatar />
               <div>
-                <p className="eyebrow">{t.profile.positioning}</p>
-                <p className="mt-1 font-mono text-xs text-muted-foreground">nextnext-gen.com</p>
+                <PowerShellPrompt text={t.profile.positioning} />
+                <p className="mt-2 font-mono text-xs text-muted-foreground">nextnext-gen.com</p>
               </div>
             </div>
 
