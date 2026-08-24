@@ -247,6 +247,15 @@ export type UiStrings = {
   ctaTitle: string;
   ctaBody: string;
   idealFor: string;
+  engineeringStack: string;
+  stackIntro: string;
+  whatIBuild: string;
+  whatIBuildIntro: string;
+  selectedWorkIntro: string;
+  roleLabel: string;
+  scopeLabel: string;
+  projectType: string;
+
 };
 
 export type MetaKey =
