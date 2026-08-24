@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
+import { Typewriter } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
