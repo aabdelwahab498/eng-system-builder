@@ -4,7 +4,7 @@ import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
 import { Typewriter } from "./Motion";
-import { ProfileAvatar } from "./ProfileAvatar";
+import { PowerShellPrompt } from "./PowerShellPrompt";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
