@@ -51,8 +51,10 @@ export function Hero() {
             <Typewriter
               as="h1"
               text={t.profile.displayName.replace(/^Eng\.\s*/, "")}
-              speed={65}
-              startDelay={300}
+              speed={180}
+              deleteSpeed={70}
+              holdDelay={2600}
+              startDelay={500}
               loop
               className="mt-8 font-display text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl"
             />
