@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/types/content";
+import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
@@ -382,7 +383,52 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "dalil-masry",
+      name: "Dalil Masry — Egyptian Services Directory",
+      category: "Web Platform · Directory & Marketplace",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Frontend Engineering",
+        "Backend Architecture",
+        "Product Design",
+      ],
+      summary:
+        "An Arabic-first directory that brings services, clinics, shops and professional providers across Egypt into one searchable platform.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://dalil-masry-app.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: dalilMasryCover.url,
+          alt: "Dalil Masry homepage with search filters and provider statistics",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Dalil Masry is a bilingual directory where users search verified providers by sector, governorate, specialty or location, then compare ratings and prices before contacting them.",
+        problem:
+          "Finding trustworthy service providers in Egypt is fragmented across social pages and word of mouth, with no consistent structure, coverage or rating signal.",
+        approach:
+          "A single search surface backed by a normalized provider model: sectors, governorates, regions, specialties and reviews, with provider onboarding and a client dashboard.",
+        architecture: [
+          "React / TypeScript client",
+          "Search & filtering layer",
+          "Provider & sector data model",
+          "Supabase auth, data and storage",
+          "Provider onboarding workflow",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
+
 
   products: [],
 
