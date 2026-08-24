@@ -18,6 +18,7 @@ import ecCouncilCyber from "@/assets/certificates/ec-council-cyber-specializatio
 import networkDefense from "@/assets/certificates/network-defense-essentials.jpg.asset.json";
 import digitalForensics from "@/assets/certificates/digital-forensics-essentials.jpg.asset.json";
 import netDevOps from "@/assets/certificates/netdevops.jpg.asset.json";
+import operationsManagement from "@/assets/certificates/operations-management.jpg.asset.json";
 
 export type Certificate = {
   id: string;
