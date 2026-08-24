@@ -152,6 +152,7 @@ export function Lift({ children, className }: { children: ReactElement; classNam
 export function Typewriter({
   text,
   className,
+  style,
   as: Tag = "h1",
   speed = 70,
   startDelay = 250,
@@ -162,6 +163,7 @@ export function Typewriter({
 }: {
   text: string;
   className?: string;
+  style?: CSSProperties;
   as?: "h1" | "h2" | "h3" | "p" | "span";
   speed?: number;
   startDelay?: number;
