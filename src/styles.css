@@ -415,5 +415,4 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
   .metallic-copper { animation: none; background-position: 50% 50%; }
-  .copper-icon { animation: none; }
 }
