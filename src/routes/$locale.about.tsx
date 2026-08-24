@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
@@ -6,7 +6,8 @@ import { ContactCta } from "@/components/site/ContactCta";
 import { AboutAvatar } from "@/components/site/AboutAvatar";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
-import { buildHead, metaFor } from "@/lib/seo";
+import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
 
@@ -19,7 +20,10 @@ export const Route = createFileRoute("/$locale/about")({
       path: "/about",
       title: m.title,
       description: m.description,
-      jsonLd: {
+      jsonLd: [breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.about, path: "/about" },
+      ]), {
         "@context": "https://schema.org",
         "@type": "Person",
         name: getContent(locale).profile.displayName,
@@ -32,17 +36,18 @@ export const Route = createFileRoute("/$locale/about")({
           recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
           dateCreated: "2016",
         },
-      },
+      }],
     });
   },
   component: AboutPage,
 });
 
 function AboutPage() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.about, path: "/about" }]} />
       <PageHeader
         eyebrow={t.ui.about}
         title={t.profile.displayName}
@@ -91,16 +96,27 @@ function AboutPage() {
             </Reveal>
           ))}
         </div>
-        {t.profile.cv?.url && (
-          <Reveal className="mt-10">
-            <a
-              href={t.profile.cv.url}
-              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-secondary"
+        <Reveal className="mt-10 rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+          <p className="eyebrow">{t.ui.cv}</p>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t.ui.cvIntro}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Link
+              to="/$locale/cv"
+              params={{ locale }}
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
-              {t.profile.cv.label}
-            </a>
-          </Reveal>
-        )}
+              {t.ui.cv}
+            </Link>
+            {t.profile.cv?.url && (
+              <a
+                href={t.profile.cv.url}
+                className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                {t.profile.cv.label}
+              </a>
+            )}
+          </div>
+        </Reveal>
       </Section>
 
       {(t.profile.experience?.length || t.profile.education?.length) && (

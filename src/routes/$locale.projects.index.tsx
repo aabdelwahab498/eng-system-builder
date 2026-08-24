@@ -7,14 +7,26 @@ import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
-import { buildHead, metaFor } from "@/lib/seo";
+import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getContent } from "@/content";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/projects/")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "projects");
-    return buildHead({ locale, path: "/projects", title: m.title, description: m.description });
+    return buildHead({
+      locale,
+      path: "/projects",
+      title: m.title,
+      description: m.description,
+      jsonLd: breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.gallery, path: "/gallery" },
+        { name: getContent(locale).ui.ourWorks, path: "/projects" },
+      ]),
+    });
   },
   component: ProjectsPage,
 });
@@ -35,6 +47,13 @@ function ProjectsPage() {
 
   return (
     <>
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.gallery, path: "/gallery" },
+          { name: t.ui.ourWorks, path: "/projects" },
+        ]}
+      />
       <PageHeader
         eyebrow={t.ui.featuredProjects}
         title={t.ui.featuredProjects}

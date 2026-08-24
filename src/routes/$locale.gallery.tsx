@@ -8,7 +8,9 @@ import { FilterBar } from "@/components/site/FilterBar";
 import { ContactCta } from "@/components/site/ContactCta";
 import { listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
-import { buildHead } from "@/lib/seo";
+import { breadcrumbs, buildHead } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getContent } from "@/content";
 import type { GalleryItemData } from "@/lib/cms/types";
 import type { Locale } from "@/types/content";
 
@@ -23,6 +25,10 @@ export const Route = createFileRoute("/$locale/gallery")({
       description: isAr
         ? "لقطات من الواجهات والأنظمة والمنتجات الرقمية التي عملت عليها."
         : "Interfaces, systems and product visuals from engineering and product work.",
+      jsonLd: breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.gallery, path: "/gallery" },
+      ]),
     });
   },
   component: GalleryPage,
@@ -58,6 +64,7 @@ function GalleryPage() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.gallery, path: "/gallery" }]} />
       <PageHeader eyebrow={t.ui.gallery} title={t.ui.gallery} subtitle={t.ui.galleryIntro} />
       <Section>
         {categories.length > 1 && (

@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Languages, Menu, X } from "lucide-react";
+import { ChevronDown, Languages, Menu, X } from "lucide-react";
 import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -51,18 +51,55 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-0.5 xl:flex">
-          {t.nav.map((item) => (
-            <Link
-              key={item.path}
-              to={`/$locale${item.path}` as "/$locale/projects"}
-              params={{ locale }}
-              className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-              activeProps={{ className: "text-foreground" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {t.nav.map((item) =>
+            item.path === "/gallery" ? (
+              <div key={item.path} className="group relative">
+                <Link
+                  to="/$locale/gallery"
+                  params={{ locale }}
+                  className="flex items-center gap-1 rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                  activeProps={{ className: "text-foreground" }}
+                >
+                  {item.label}
+                  <ChevronDown className="size-3.5" aria-hidden />
+                </Link>
+                <div className="invisible absolute start-0 top-full z-50 min-w-56 translate-y-1 rounded-md border border-border bg-background/95 p-2 opacity-0 shadow-lg backdrop-blur-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <p className="px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    {t.ui.ourWorks}
+                  </p>
+                  <Link
+                    to="/$locale/projects"
+                    params={{ locale }}
+                    className="block rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  >
+                    {t.ui.viewAllProjects}
+                  </Link>
+                  {t.projects.map((p) => (
+                    <Link
+                      key={p.slug}
+                      to="/$locale/projects/$slug"
+                      params={{ locale, slug: p.slug }}
+                      className="block rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                    >
+                      {p.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.path}
+                to={`/$locale${item.path}` as "/$locale/projects"}
+                params={{ locale }}
+                className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                activeProps={{ className: "text-foreground" }}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
+
 
         <div className="flex items-center gap-2">
           <a
@@ -95,15 +132,40 @@ export function SiteHeader() {
         <div id="mobile-menu" className="border-t border-border bg-background/95 backdrop-blur-xl xl:hidden">
           <Container className="flex flex-col py-4">
             {t.nav.map((item) => (
-              <Link
-                key={item.path}
-                to={`/$locale${item.path}` as "/$locale/projects"}
-                params={{ locale }}
-                className="border-b border-border/60 py-4 font-display text-lg text-muted-foreground transition-colors last:border-0 hover:text-foreground"
-                activeProps={{ className: "text-foreground" }}
-              >
-                {item.label}
-              </Link>
+              <div key={item.path} className="border-b border-border/60 last:border-0">
+                <Link
+                  to={`/$locale${item.path}` as "/$locale/projects"}
+                  params={{ locale }}
+                  className="block py-4 font-display text-lg text-muted-foreground transition-colors hover:text-foreground"
+                  activeProps={{ className: "text-foreground" }}
+                >
+                  {item.label}
+                </Link>
+                {item.path === "/gallery" && (
+                  <div className="pb-4 ps-4">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {t.ui.ourWorks}
+                    </p>
+                    <Link
+                      to="/$locale/projects"
+                      params={{ locale }}
+                      className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {t.ui.viewAllProjects}
+                    </Link>
+                    {t.projects.map((p) => (
+                      <Link
+                        key={p.slug}
+                        to="/$locale/projects/$slug"
+                        params={{ locale, slug: p.slug }}
+                        className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        {p.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <a
               href={switchHref}

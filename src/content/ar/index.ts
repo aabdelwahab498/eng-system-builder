@@ -10,13 +10,13 @@ export const ar: Dictionary = {
   htmlLang: "ar",
 
   nav: [
-    { label: "الأعمال", path: "/projects" },
+    { label: "نبذة", path: "/about" },
+    { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونة", path: "/blog" },
-    { label: "المعرض", path: "/gallery" },
-    { label: "نبذة", path: "/about" },
     { label: "تواصل", path: "/contact" },
   ],
+
 
   ui: {
     home: "الرئيسية",
@@ -99,6 +99,8 @@ export const ar: Dictionary = {
     email: "البريد الإلكتروني",
     cvPendingFile: "لم يتم نشر ملف PDF للتحميل بعد.",
     gallery: "المعرض",
+    ourWorks: "أعمالنا",
+    breadcrumb: "مسار التنقل",
     galleryIntro: "واجهات وأنظمة ولقطات من المنتجات التي أبنيها.",
     noGallery: "لا توجد عناصر منشورة في المعرض بعد.",
     writing: "المدونة",
