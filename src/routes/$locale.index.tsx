@@ -130,7 +130,7 @@ function HomePage() {
             {c.start}
             <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
           </Link>
-          <WhatsAppCta label={c.chat} message="Hello Ahmed, I am interested in starting a project." />
+          <WhatsAppCta label={c.chat} />
         </div>
       </Section>
     </>
