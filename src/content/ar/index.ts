@@ -2,6 +2,7 @@ import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
+import wameedOsCover from "@/assets/projects/wameed-os.png.asset.json";
 import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
 import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
@@ -661,6 +662,52 @@ export const ar: Dictionary = {
           "تنبيهات مبنية على الحد الأدنى",
           "مصادقة وصلاحيات حسب الدور",
           "Supabase للمصادقة والبيانات والتخزين",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "wameed-os",
+      name: "Wameed OS — نظام تشغيل أعمال CRM و HR",
+      category: "منصة ويب · CRM و HR",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج البيانات والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "معمارية الواجهة الخلفية",
+        "تصميم المنتج",
+        "نمذجة البيانات",
+      ],
+      summary:
+        "نظام تشغيل أعمال موحّد يجمع خط أنابيب CRM وإدارة العملاء والعملاء المحتملين، وHR وتتبّع المشاريع والدفعات والحملات ومساعد ذكاء اصطناعي في لوحة تحكم ثنائية اللغة واحدة.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://wameed-flow-hub.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: wameedOsCover.url,
+          alt: "لوحة تحكم Wameed OS ببطاقات مؤشرات الإيرادات والمشاريع والعملاء المحتملين ومخطط الإيرادات ومخطط أنواع المشاريع",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Wameed OS مساحة عمل واحدة تدمج عمليات CRM وHR وإدارة المشاريع — لوحة تحكم تعرض الإيرادات والمشاريع النشطة والدفعات المعلّقة وأرباح الفريق إلى جانب خط أنابيب CRM والعملاء المحتملين والعملاء والمشاريع والدفعات والكانبان والحملات والمحافظ والأكاديمية والأداء والأتمتة ومساعد ذكاء اصطناعي.",
+        problem:
+          "تدير الفِرق المتنامية عمليات المبيعات والموارد البشرية والمشاريع عبر جداول وأدوات متفرّقة، فلا تظهر الإيرادات والعملاء وأداء الفريق من مكان واحد.",
+        approach:
+          "لوحة تحكم حسب الدور مبنية حول نموذج بيانات مشترك: يرتبط كل عميل محتمل وعميل ومشروع ودفع وفريق بمصدر واحد، مع بطاقات مؤشرات ومخططات وقوائم تتحدّث من نفس السجلات، إضافة إلى محرك أتمتة ومساعد ذكاء اصطناعي لتقليل العمل اليدوي.",
+        architecture: [
+          "واجهة لوحة تحكم React / TypeScript",
+          "نموذج بيانات خط أنابيب CRM والعملاء المحتملين والعملاء",
+          "وحدات HR: أرباح الفريق والأداء والتقييم",
+          "تتبّع المشاريع والدفعات والمحافظ والكانبان",
+          "وحدات الحملات والأكاديمية وقاعدة المعرفة",
+          "محرك أتمتة ومساعد ذكاء اصطناعي",
+          "Supabase للمصادقة والبيانات والتخزين بصلاحيات حسب الدور",
         ],
         implementation: "",
         challenges: "",
