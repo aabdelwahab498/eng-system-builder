@@ -1,5 +1,6 @@
 import type { Locale } from "@/types/content";
 
+import itcCertifiedTrainer from "@/assets/certificates/itc-certified-trainer-specialization.jpg";
 import itil4 from "@/assets/certificates/itil4.png.asset.json";
 import cyberSecurity from "@/assets/certificates/cyber-security.jpg.asset.json";
 import alxFoundations from "@/assets/certificates/alx-professional-foundations.png.asset.json";
