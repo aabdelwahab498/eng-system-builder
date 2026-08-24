@@ -112,11 +112,26 @@ export const certificates: Certificate[] = [
     issuer: { en: "International Training College (I.T.C), UK", ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة" },
     date: { en: "18-03-2026 to 18-06-2026", ar: "من ١٨-٠٣-٢٠٢٦ إلى ١٨-٠٦-٢٠٢٦" },
     detail: {
+      en: "Field: International Training of Trainers Diploma · Grade: Excellent · Centre: BTC for Human Resources Development · Serial No. 1306260224",
+      ar: "التخصص: دبلومة إعداد المدربين الدولية · التقدير: ممتاز · المركز: BTC لتنمية الموارد البشرية · رقم مسلسل ١٣٠٦٢٦٠٢٢٤",
+    },
+    verifyUrl: "https://www.itc-edu.uk",
+    image: trainingOfTrainers.url,
+  },
+  {
+    id: "itc-certified-trainer-specialization",
+    title: {
+      en: "Certified Trainer — IT, Information Security, E-marketing & Logistics Science",
+      ar: "مدرب معتمد — تكنولوجيا المعلومات وأمن المعلومات والتسويق الإلكتروني وعلوم اللوجستيات",
+    },
+    issuer: { en: "International Training College (I.T.C), UK", ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة" },
+    date: { en: "18-03-2026 to 18-06-2026", ar: "من ١٨-٠٣-٢٠٢٦ إلى ١٨-٠٦-٢٠٢٦" },
+    detail: {
       en: "Certified Trainer in Information Technology, Information Security, E-marketing and Logistics Science · Grade: Excellent · Centre: BTC for Human Resources Development · Serial No. 1306260224",
       ar: "مدرب معتمد في تكنولوجيا المعلومات وأمن المعلومات والتسويق الإلكتروني وعلوم اللوجستيات · التقدير: ممتاز · المركز: BTC لتنمية الموارد البشرية · رقم مسلسل ١٣٠٦٢٦٠٢٢٤",
     },
     verifyUrl: "https://www.itc-edu.uk",
-    image: trainingOfTrainers.url,
+    image: itcCertifiedTrainer,
   },
   {
     id: "digital-transformation-security",
