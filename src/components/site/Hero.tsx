@@ -6,7 +6,7 @@ import { SystemFlow } from "./SystemFlow";
 import { Typewriter } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { PowerShellPrompt } from "./PowerShellPrompt";
-import { SocialIcon, SOCIAL_LABEL, SOCIAL_BRAND_COLOR, type SocialPlatform } from "./SocialIcon";
+import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
@@ -84,8 +84,7 @@ export function Hero() {
 
             <ul className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
-                const color =
-                  s.isMail ? "currentColor" : SOCIAL_BRAND_COLOR[s.platform];
+                const color = "#C9CEC6";
                 return (
                   <li key={s.href}>
                     <a
@@ -99,7 +98,8 @@ export function Hero() {
                       }}
                       aria-label={s.label}
                       title={s.label}
-                      className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card/40 text-muted-foreground transition-all hover:scale-110 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card/40 transition-all hover:scale-110 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      style={{ color }}
                     >
                       {s.isMail ? (
                         <Mail className="size-5" aria-hidden />
