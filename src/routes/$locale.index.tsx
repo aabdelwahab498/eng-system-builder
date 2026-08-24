@@ -58,8 +58,6 @@ export const Route = createFileRoute("/$locale/")({
   component: HomePage,
 });
 
-const ALL = "__all__";
-
 function pickText(value: { en: string; ar: string | null } | undefined, locale: Locale) {
   if (!value) return "";
   return locale === "ar" && value.ar ? value.ar : value.en;
@@ -67,14 +65,7 @@ function pickText(value: { en: string; ar: string | null } | undefined, locale: 
 
 function HomePage() {
   const { locale, t } = useLocale();
-  const [workFilter, setWorkFilter] = useState(ALL);
 
-  const categories = useMemo(
-    () => Array.from(new Set(t.projects.map((p) => p.category))),
-    [t.projects],
-  );
-
-  const work = workFilter === ALL ? t.projects : t.projects.filter((p) => p.category === workFilter);
 
   const { data: articles = [] } = useQuery({
     queryKey: ["public", "articles"],
