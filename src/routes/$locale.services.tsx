@@ -58,6 +58,8 @@ const copy = {
     attachment: "Optional attachment (brief, mockup)",
     send: "Send request on WhatsApp",
     toPayment: "Continue to deposit payment",
+    howToSubscribe: "How to subscribe to our services",
+    afterAgreement: "Payment methods are shared after we agree on the scope of your project.",
     structure: "Project payment structure",
     structureIntro:
       "A simple, transparent model: the project starts after the deposit, and the balance is paid after final approval.",
