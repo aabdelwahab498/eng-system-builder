@@ -200,6 +200,17 @@ export const certificates: Certificate[] = [
     image: managerialAccounting.url,
   },
   {
+    id: "operations-management",
+    title: {
+      en: "Operations Management: Quality and Supply Chain",
+      ar: "إدارة العمليات: الجودة وسلسلة التوريد",
+    },
+    issuer: { en: "University of Illinois Urbana-Champaign · Coursera", ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا" },
+    date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/JMYV14SWP3JI",
+    image: operationsManagement.url,
+  },
+  {
     id: "itil-4",
     title: { en: "ITIL 4 Certification (Specialization, 4 courses)", ar: "شهادة ITIL 4 (تخصص من 4 دورات)" },
     issuer: { en: "EDUCBA · Coursera", ar: "EDUCBA · كورسيرا" },
