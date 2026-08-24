@@ -15,6 +15,7 @@ export function SiteFooter() {
         { label: t.ui.featuredProjects, path: "/projects" },
         { label: t.ui.services, path: "/services" },
         { label: t.ui.writing, path: "/blog" },
+        { label: t.ui.courses, path: "/courses" },
         { label: t.ui.gallery, path: "/gallery" },
       ],
     },

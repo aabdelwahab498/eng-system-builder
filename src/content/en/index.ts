@@ -109,6 +109,10 @@ export const en: Dictionary = {
     writing: "Blogs",
     latestWriting: "Latest articles",
     viewAllWriting: "All articles",
+    courses: "Courses",
+    coursesIntro:
+      "Practical engineering courses and learning tracks on backend, AI and product building.",
+    noCourses: "No courses are published yet. Courses will appear here once they are ready.",
     searchPlaceholder: "Search articles",
     allTopics: "All topics",
     relatedProjects: "Related projects",
@@ -173,6 +177,11 @@ export const en: Dictionary = {
       title: "CV — Eng. Ahmed Abdelwahab",
       description:
         "Curriculum vitae of Ahmed Abdelwahab: software engineering, full-stack development, AI engineering and product building.",
+    },
+    courses: {
+      title: "Courses — Eng. Ahmed Abdelwahab",
+      description:
+        "Practical engineering courses and learning tracks on backend, AI systems and building production digital products.",
     },
   },
 
