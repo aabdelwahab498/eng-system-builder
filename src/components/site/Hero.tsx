@@ -85,7 +85,6 @@ export function Hero() {
 
             <ul className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
-                const color = "#C9974B";
                 return (
                   <li key={s.href}>
                     <a
@@ -100,15 +99,13 @@ export function Hero() {
                       aria-label={s.label}
                       title={s.label}
                       className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card/40 transition-all hover:scale-110 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                      style={{ color }}
                     >
                       {s.isMail ? (
-                        <Mail className="size-5" aria-hidden />
+                        <Mail className="size-5 copper-icon" aria-hidden />
                       ) : (
                         <SocialIcon
                           platform={s.platform}
-                          className="size-5"
-                          style={{ color }}
+                          className="size-5 copper-icon"
                         />
                       )}
                     </a>
