@@ -10,6 +10,7 @@ import wameedOsCover from "@/assets/projects/wameed-os.png.asset.json";
 import digitalOpsConsoleCover from "@/assets/projects/digital-ops-console.png.asset.json";
 import scriptoriaArCover from "@/assets/projects/scriptoria-ar.png.asset.json";
 import devShieldNexusCover from "@/assets/projects/dev-shield-nexus.png.asset.json";
+import smartShelfBuilderCover from "@/assets/projects/smart-shelf-builder.png.asset.json";
 
 
 /**
