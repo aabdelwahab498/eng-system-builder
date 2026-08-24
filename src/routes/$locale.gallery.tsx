@@ -112,7 +112,7 @@ function GalleryPage() {
         <Reveal>
           <div className="mb-12 flex flex-col items-center gap-4 text-center">
             <div className="ps-box inline-flex max-w-full items-center gap-2 overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-4 py-2">
-              <span className="ps-prompt select-none font-digital text-base font-semibold text-emerald-400 sm:text-lg">
+              <span className="ps-prompt digital-green select-none text-base font-semibold sm:text-lg">
                 {locale === "ar" ? "«" : ">"}
               </span>
               <Typewriter
