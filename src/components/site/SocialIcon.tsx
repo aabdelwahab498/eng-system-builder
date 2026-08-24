@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import {
   siGithub,
   siFacebook,
@@ -39,9 +40,11 @@ export type SocialPlatform =
 export function SocialIcon({
   platform,
   className,
+  style,
 }: {
   platform: SocialPlatform;
   className?: string;
+  style?: CSSProperties;
 }) {
   const path = PATHS[platform];
   const classes = cn("size-4 shrink-0", className);
@@ -54,6 +57,7 @@ export function SocialIcon({
       aria-hidden="true"
       viewBox="0 0 24 24"
       className={classes}
+      style={style}
       fill="currentColor"
     >
       <path d={path} />
@@ -72,4 +76,19 @@ export const SOCIAL_LABEL: Record<SocialPlatform, string> = {
   youtube: "YouTube",
   medium: "Medium",
   other: "Link",
+};
+
+/** Official brand colors. Used when icons are shown side-by-side
+ *  in their recognizable hues instead of a monochrome pill. */
+export const SOCIAL_BRAND_COLOR: Record<SocialPlatform, string> = {
+  github: "#ffffff",
+  linkedin: "#0A66C2",
+  facebook: "#1877F2",
+  instagram: "#E1306C",
+  whatsapp: "#25D366",
+  snapchat: "#FFFC00",
+  x: "#ffffff",
+  youtube: "#FF0000",
+  medium: "#ffffff",
+  other: "currentColor",
 };
