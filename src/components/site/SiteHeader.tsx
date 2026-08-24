@@ -5,6 +5,7 @@ import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
+import { gallerySections } from "@/lib/gallery-sections";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
