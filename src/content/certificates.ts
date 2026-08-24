@@ -27,6 +27,12 @@ import kubernetesBasics from "@/assets/certificates/kubernetes-basics-devops.png
 import agileScrumIbm from "@/assets/certificates/agile-scrum-ibm.png.asset.json";
 import csmPracticeExam from "@/assets/certificates/csm-practice-exam.png.asset.json";
 import introDevopsIbm from "@/assets/certificates/intro-devops-ibm.png.asset.json";
+import itFundamentals from "@/assets/certificates/it-fundamentals-ibm.png.asset.json";
+import introSoftwareEngineering from "@/assets/certificates/intro-software-engineering-ibm.png.asset.json";
+import introRisk from "@/assets/certificates/intro-risk-management.png.asset.json";
+import marketRisk from "@/assets/certificates/market-risk-management.png.asset.json";
+import operationalRisk from "@/assets/certificates/operational-risk-management.png.asset.json";
+import riskSpecialization from "@/assets/certificates/risk-management-specialization.png.asset.json";
 
 export type Certificate = {
   id: string;
@@ -40,6 +46,70 @@ export type Certificate = {
 
 /** Only facts printed on the uploaded certificates — nothing inferred. */
 export const certificates: Certificate[] = [
+  {
+    id: "risk-management-specialization",
+    title: {
+      en: "Risk Management (Specialization, 4 courses)",
+      ar: "إدارة المخاطر (تخصص من ٤ دورات)",
+    },
+    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    detail: {
+      en: "Introduction to Risk Management · Credit Risk Management: Frameworks and Strategies · Market Risk Management: Frameworks & Strategies · Operational Risk Management: Frameworks & Strategies",
+      ar: "مقدمة في إدارة المخاطر · إدارة مخاطر الائتمان · إدارة مخاطر السوق · إدارة المخاطر التشغيلية",
+    },
+    verifyUrl: "https://coursera.org/verify/specialization/TGJVZV3M7FWN",
+    image: riskSpecialization.url,
+  },
+  {
+    id: "intro-risk-management",
+    title: { en: "Introduction to Risk Management", ar: "مقدمة في إدارة المخاطر" },
+    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/AHH2C8S5QYA1",
+    image: introRisk.url,
+  },
+  {
+    id: "market-risk-management",
+    title: {
+      en: "Market Risk Management: Frameworks & Strategies",
+      ar: "إدارة مخاطر السوق: الأطر والاستراتيجيات",
+    },
+    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/XVYTKRIFTNLS",
+    image: marketRisk.url,
+  },
+  {
+    id: "operational-risk-management",
+    title: {
+      en: "Operational Risk Management: Frameworks & Strategies",
+      ar: "إدارة المخاطر التشغيلية: الأطر والاستراتيجيات",
+    },
+    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/8SNP4ILBK8HS",
+    image: operationalRisk.url,
+  },
+  {
+    id: "intro-software-engineering-ibm",
+    title: { en: "Introduction to Software Engineering", ar: "مقدمة في هندسة البرمجيات" },
+    issuer: { en: "IBM · Coursera", ar: "IBM · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/ZWFDZ4XYGWOU",
+    image: introSoftwareEngineering.url,
+  },
+  {
+    id: "it-fundamentals-ibm",
+    title: {
+      en: "Information Technology (IT) Fundamentals for Everyone",
+      ar: "أساسيات تكنولوجيا المعلومات (IT) للجميع",
+    },
+    issuer: { en: "IBM · Coursera", ar: "IBM · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/VS1EZ01Y5KL8",
+    image: itFundamentals.url,
+  },
   {
     id: "sql-intro-davidson",
     title: {
