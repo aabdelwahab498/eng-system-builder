@@ -136,67 +136,6 @@ function HomePage() {
       </Section>
 
 
-      {/* 4 — Services */}
-      <Section eyebrow={t.ui.services} title={t.ui.services}>
-        <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" step={60}>
-          {t.services.map((service) => (
-            <div
-              key={service.id}
-              className="lift flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 sm:p-8"
-            >
-              <h3 className="font-display text-lg font-medium">{service.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.outcome}</p>
-              <ul className="mt-5 space-y-2">
-                {service.deliverables.slice(0, 3).map((d) => (
-                  <li key={d} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="mt-2 size-1 shrink-0 rounded-full bg-primary" aria-hidden />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </Stagger>
-        <Reveal className="mt-10">
-          <Link
-            to="/$locale/services"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.ui.services} <ArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
-      </Section>
-
-
-      {/* 5 — Universal AI Software Factory */}
-      <Section eyebrow={t.ui.factory} title={t.factory.title} subtitle={t.factory.tagline}>
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
-          <Reveal>
-            <p className="text-sm leading-relaxed text-muted-foreground">{t.factory.what}</p>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{t.factory.problem}</p>
-            <Link
-              to="/$locale/projects/$slug"
-              params={{ locale, slug: "universal-ai-software-factory" }}
-              className="mt-8 inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-            >
-              {t.ui.exploreFactory} <ArrowUpRight className="size-4" />
-            </Link>
-          </Reveal>
-          <Reveal delay={90}>
-            <ul className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
-              {t.factory.architecture.map((step, i) => (
-                <li key={step} className="bg-surface/70 p-4">
-                  <span className="font-mono text-[11px] text-primary">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="mt-2 text-sm text-foreground">{step}</p>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-      </Section>
 
       {/* 6 — Writing */}
       {latestArticles.length > 0 && (
