@@ -5,6 +5,7 @@ import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
+import { gallerySections } from "@/lib/gallery-sections";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -67,22 +68,14 @@ export function SiteHeader() {
                   <p className="px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                     {t.ui.ourWorks}
                   </p>
-                  <Link
-                    to="/$locale/projects"
-                    params={{ locale }}
-                    className="block rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                  >
-                    {t.ui.viewAllProjects}
-                  </Link>
-                  {t.projects.map((p) => (
-                    <Link
-                      key={p.slug}
-                      to="/$locale/projects/$slug"
-                      params={{ locale, slug: p.slug }}
+                  {gallerySections.map((s) => (
+                    <a
+                      key={s.id}
+                      href={`/${locale}/gallery#${s.id}`}
                       className="block rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                     >
-                      {p.name}
-                    </Link>
+                      {s.label[locale]}
+                    </a>
                   ))}
                 </div>
               </div>
@@ -146,22 +139,14 @@ export function SiteHeader() {
                     <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       {t.ui.ourWorks}
                     </p>
-                    <Link
-                      to="/$locale/projects"
-                      params={{ locale }}
-                      className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
-                    >
-                      {t.ui.viewAllProjects}
-                    </Link>
-                    {t.projects.map((p) => (
-                      <Link
-                        key={p.slug}
-                        to="/$locale/projects/$slug"
-                        params={{ locale, slug: p.slug }}
+                    {gallerySections.map((s) => (
+                      <a
+                        key={s.id}
+                        href={`/${locale}/gallery#${s.id}`}
                         className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
                       >
-                        {p.name}
-                      </Link>
+                        {s.label[locale]}
+                      </a>
                     ))}
                   </div>
                 )}
