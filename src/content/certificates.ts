@@ -39,6 +39,91 @@ export type Certificate = {
 };
 
 /** Only facts printed on the uploaded certificates — nothing inferred. */
+  {
+    id: "sql-intro-davidson",
+    title: {
+      en: "DavidsonX_D007: Introduction to SQL",
+      ar: "DavidsonX_D007: مقدمة في SQL",
+    },
+    issuer: { en: "DavidsonX · Davidson College · edX", ar: "DavidsonX · كلية ديفيدسون · edX" },
+    date: { en: "Issued December 20, 2024", ar: "صدرت في ٢٠ ديسمبر ٢٠٢٤" },
+    detail: {
+      en: "Verified Certificate ID 184baaafe234dcebf721cce89146344",
+      ar: "معرّف الشهادة الموثقة 184baaafe234dcebf721cce89146344",
+    },
+    image: sqlIntroDavidson.url,
+  },
+  {
+    id: "sql-concepts-ibm",
+    title: {
+      en: "DB0303EN: SQL Concepts for Data Engineers",
+      ar: "DB0303EN: مفاهيم SQL لمهندسي البيانات",
+    },
+    issuer: { en: "IBM · edX", ar: "IBM · edX" },
+    date: { en: "Issued December 17, 2024", ar: "صدرت في ١٧ ديسمبر ٢٠٢٤" },
+    detail: {
+      en: "Verified Certificate ID caf1f3bd97ea4178bf421ed318671b39",
+      ar: "معرّف الشهادة الموثقة caf1f3bd97ea4178bf421ed318671b39",
+    },
+    image: sqlConceptsIbm.url,
+  },
+  {
+    id: "supply-chain-management",
+    title: {
+      en: "Supply Chain Management | إدارة سلاسل الإمداد",
+      ar: "إدارة سلاسل الإمداد | Supply Chain Management",
+    },
+    issuer: { en: "Alfaisal University | KLD · Coursera", ar: "جامعة الفيصل | KLD · كورسيرا" },
+    date: { en: "Oct 26, 2024", ar: "٢٦ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/IQOSLWIDQQJB",
+    image: supplyChain.url,
+  },
+  {
+    id: "devops-prerequisite",
+    title: { en: "DevOps Prerequisite Course", ar: "دورة متطلبات DevOps" },
+    issuer: { en: "KodeKloud · Coursera", ar: "KodeKloud · كورسيرا" },
+    date: { en: "Oct 18, 2024", ar: "١٨ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/SHZKWEPGBLDR",
+    image: devopsPrerequisite.url,
+  },
+  {
+    id: "kubernetes-basics-devops",
+    title: { en: "Kubernetes Basics for DevOps", ar: "أساسيات Kubernetes لـ DevOps" },
+    issuer: { en: "KodeKloud · Coursera", ar: "KodeKloud · كورسيرا" },
+    date: { en: "Oct 19, 2024", ar: "١٩ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/YK9VZUNHLR0S",
+    image: kubernetesBasics.url,
+  },
+  {
+    id: "agile-scrum-ibm",
+    title: {
+      en: "Introduction to Agile Development and Scrum",
+      ar: "مقدمة في التطوير الرشيق و Scrum",
+    },
+    issuer: { en: "IBM · Coursera", ar: "IBM · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/0N8LVF5KOUCQ",
+    image: agileScrumIbm.url,
+  },
+  {
+    id: "csm-practice-exam",
+    title: {
+      en: "Practice Exam for Certified Scrum Master (CSM) Certification",
+      ar: "اختبار تدريبي لشهادة Certified Scrum Master (CSM)",
+    },
+    issuer: { en: "SkillUp EdTech · Coursera", ar: "SkillUp EdTech · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/O7BJKBNCC0WH",
+    image: csmPracticeExam.url,
+  },
+  {
+    id: "intro-devops-ibm",
+    title: { en: "Introduction to DevOps", ar: "مقدمة في DevOps" },
+    issuer: { en: "IBM · Coursera", ar: "IBM · كورسيرا" },
+    date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
+    verifyUrl: "https://coursera.org/verify/92ES0LAVX9SM",
+    image: introDevopsIbm.url,
+  },
 export const certificates: Certificate[] = [
   {
     id: "ai-diploma",
