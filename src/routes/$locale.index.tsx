@@ -69,7 +69,6 @@ function pickText(value: { en: string; ar: string | null } | undefined, locale: 
 
 function HomePage() {
   const { locale, t } = useLocale();
-  const topSkills = t.skills.slice(0, 3);
   const [workFilter, setWorkFilter] = useState(ALL);
 
   const categories = useMemo(
