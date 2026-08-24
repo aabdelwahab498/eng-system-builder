@@ -63,6 +63,21 @@ function ProjectPage() {
   const project = t.projects.find((p) => p.slug === slug);
   if (!project) return null;
 
+  // Related work: same category first, then any other project, capped at two.
+  const related = [
+    ...t.projects.filter((p) => p.slug !== slug && p.category === project.category),
+    ...t.projects.filter((p) => p.slug !== slug && p.category !== project.category),
+  ].slice(0, 2);
+
+  // Services linked to this project through the canonical layer.
+  const canonicalId = getCanonicalProjects().find((p) => p.slug === slug)?.id;
+  const relatedServiceIds = canonicalId
+    ? getCanonicalServices()
+        .filter((s) => (s.relatedProjects ?? []).includes(canonicalId))
+        .map((s) => s.id)
+    : [];
+  const relatedServices = t.services.filter((s) => relatedServiceIds.includes(s.id));
+
   const cs = project.caseStudy;
   const blocks = [
     { label: t.ui.overview, body: cs.overview },
