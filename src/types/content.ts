@@ -58,6 +58,8 @@ export type Project = {
   category: string;
   status: string;
   role?: string;
+  scope?: string;
+  disciplines?: string[];
   solution?: string;
   features?: string[];
   summary: string;
@@ -100,7 +102,8 @@ export type SkillCategoryId =
   | "mobile"
   | "ai"
   | "databases"
-  | "devops";
+  | "devops"
+  | "architecture";
 
 export type SkillCategory = {
   id: SkillCategoryId;

@@ -10,15 +10,12 @@ export const ar: Dictionary = {
   htmlLang: "ar",
 
   nav: [
-    { label: "المشاريع", path: "/projects" },
-    { label: "المنتجات", path: "/products" },
-    { label: "المهارات", path: "/skills" },
+    { label: "الأعمال", path: "/projects" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونة", path: "/blog" },
     { label: "المعرض", path: "/gallery" },
     { label: "نبذة", path: "/about" },
     { label: "تواصل", path: "/contact" },
-
   ],
 
   ui: {
