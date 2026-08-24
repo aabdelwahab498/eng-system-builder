@@ -8,7 +8,6 @@ import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
-import { SkillsGrid } from "@/components/site/SkillsGrid";
 import { ContactCta } from "@/components/site/ContactCta";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
