@@ -1,30 +1,111 @@
 import { Link, Outlet, createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
+import { ExternalLink, LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { adminIsAdmin } from "@/lib/cms/admin.functions";
+import { adminIsAdmin, adminOverview } from "@/lib/cms/admin.functions";
 import { Button } from "@/components/ui/button";
-import { KIND_LABELS, type ContentKind } from "@/lib/cms/types";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ADMIN_NAV, type AdminNavItem } from "@/lib/admin/nav";
+import { clients, serviceRequests, subscribers } from "@/lib/admin/crm";
+import { paymentSubmissions } from "@/lib/payments/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Studio — Content Admin" }, { name: "robots", content: "noindex, nofollow" }] }),
+  head: () => ({
+    meta: [
+      { title: "Admin Studio — Control Center" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   component: AdminLayout,
 });
 
-const GROUPS: { title: string; kinds: ContentKind[] }[] = [
-  { title: "Profile", kinds: ["profile", "experience", "education", "skill_group"] },
-  { title: "Work", kinds: ["project", "product", "service"] },
-  { title: "Publishing", kinds: ["article", "announcement", "gallery_item"] },
-  { title: "Growth", kinds: ["social_draft", "social_campaign", "marketing_campaign", "payment_method"] },
-  { title: "Site", kinds: ["seo", "cv_settings"] },
-];
+function useBadgeCounts() {
+  const overview = useServerFn(adminOverview);
+  const { data: content } = useQuery({ queryKey: ["admin", "overview"], queryFn: () => overview() });
+  const { data: local } = useQuery({
+    queryKey: ["admin", "local-counts"],
+    queryFn: async () => ({
+      requests: (await serviceRequests.list()).filter((r) => r.status === "new").length,
+      payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review").length,
+      clients: (await clients.list()).length,
+      subscribers: (await subscribers.list()).length,
+    }),
+  });
+
+  return (item: AdminNavItem): number | null => {
+    if (item.kind) return content?.byKind?.[item.kind]?.total ?? null;
+    if (item.counter) return local?.[item.counter] ?? null;
+    return null;
+  };
+}
+
+function NavList({
+  collapsed,
+  onNavigate,
+}: {
+  collapsed?: boolean;
+  onNavigate?: () => void;
+}) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const badgeFor = useBadgeCounts();
+
+  return (
+    <nav className="space-y-5">
+      {ADMIN_NAV.map((group) => (
+        <div key={group.title} className="space-y-1">
+          {!collapsed && (
+            <p className="px-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
+              {group.title}
+            </p>
+          )}
+          {group.items.map((item) => {
+            const active =
+              item.href === "/admin"
+                ? pathname === "/admin" || pathname === "/admin/"
+                : pathname.startsWith(item.href);
+            const badge = badgeFor(item);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={onNavigate}
+                title={item.label}
+                className={cn(
+                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
+                  active && "bg-surface text-foreground",
+                  collapsed && "justify-center",
+                )}
+              >
+                <Icon className="h-4 w-4 shrink-0" aria-hidden />
+                {!collapsed && (
+                  <>
+                    <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                    {badge !== null && badge > 0 && (
+                      <span className="rounded-full border border-border px-1.5 font-mono text-[10px] text-muted-foreground">
+                        {badge}
+                      </span>
+                    )}
+                  </>
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      ))}
+    </nav>
+  );
+}
 
 function AdminLayout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const checkAdmin = useServerFn(adminIsAdmin);
+  const [collapsed, setCollapsed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "is-admin"],
@@ -60,95 +141,67 @@ function AdminLayout() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[1400px] gap-6 px-4 py-8 lg:px-6">
-      <aside className="hidden w-56 shrink-0 lg:block">
+    <div className="mx-auto flex w-full max-w-[1500px] gap-6 px-4 py-8 lg:px-6">
+      <aside className={cn("hidden shrink-0 lg:block", collapsed ? "w-14" : "w-60")}>
         <div className="sticky top-24 space-y-6">
-          <Link to="/admin" className="block">
-            <p className="eyebrow">Studio</p>
-            <p className="mt-1 font-display text-lg font-semibold text-foreground">Content admin</p>
-          </Link>
-
-          <nav className="space-y-5">
-            {GROUPS.map((group) => (
-              <div key={group.title} className="space-y-1">
-                <p className="px-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
-                  {group.title}
+          <div className={cn("flex items-center gap-2", collapsed && "justify-center")}>
+            {!collapsed && (
+              <Link to="/admin" className="block min-w-0 flex-1">
+                <p className="eyebrow">Admin studio</p>
+                <p className="mt-1 truncate font-display text-lg font-semibold text-foreground">
+                  Control center
                 </p>
-                {group.kinds.map((kind) => {
-                  const href = `/admin/content/${kind}`;
-                  return (
-                    <Link
-                      key={kind}
-                      to="/admin/content/$kind"
-                      params={{ kind }}
-                      className={cn(
-                        "block rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
-                        pathname.startsWith(href) && "bg-surface text-foreground",
-                      )}
-                    >
-                      {KIND_LABELS[kind]}
-                    </Link>
-                  );
-                })}
-              </div>
-            ))}
-            <div className="space-y-1">
-              <p className="px-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
-                Assets
-              </p>
-              <Link
-                to="/admin/media"
-                className={cn(
-                  "block rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
-                  pathname.startsWith("/admin/media") && "bg-surface text-foreground",
-                )}
-              >
-                Media
               </Link>
-              <Link
-                to="/admin/payments"
-                className={cn(
-                  "block rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
-                  pathname.startsWith("/admin/payments") && "bg-surface text-foreground",
-                )}
-              >
-                Payments
-              </Link>
-            </div>
-          </nav>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              onClick={() => setCollapsed((v) => !v)}
+            >
+              {collapsed ? (
+                <PanelLeftOpen className="h-4 w-4" />
+              ) : (
+                <PanelLeftClose className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
 
-          <div className="space-y-2 border-t border-border pt-4">
-            <Link to="/" className="block text-xs text-muted-foreground hover:text-foreground">
-              View site
+          <NavList collapsed={collapsed} />
+
+          <div className={cn("space-y-2 border-t border-border pt-4", collapsed && "text-center")}>
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {!collapsed && "View site"}
             </Link>
             <button
               onClick={signOut}
-              className="text-xs text-muted-foreground hover:text-foreground"
+              className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
             >
-              Sign out
+              <LogOut className="h-3.5 w-3.5" />
+              {!collapsed && "Sign out"}
             </button>
           </div>
         </div>
       </aside>
 
       <div className="min-w-0 flex-1">
-        <div className="mb-6 flex flex-wrap gap-2 lg:hidden">
-          {GROUPS.flatMap((g) => g.kinds).map((kind) => (
-            <Link
-              key={kind}
-              to="/admin/content/$kind"
-              params={{ kind }}
-              className="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground"
-            >
-              {KIND_LABELS[kind]}
-            </Link>
-          ))}
-          <Link to="/admin/media" className="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-            Media
-          </Link>
-          <Link to="/admin/payments" className="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-            Payments
-          </Link>
+        <div className="mb-6 lg:hidden">
+          <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Menu className="h-4 w-4" />
+                Admin menu
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-72 overflow-y-auto">
+              <p className="eyebrow mb-4">Admin studio</p>
+              <NavList onNavigate={() => setDrawerOpen(false)} />
+            </SheetContent>
+          </Sheet>
         </div>
         <Outlet />
       </div>

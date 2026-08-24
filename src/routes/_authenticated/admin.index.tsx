@@ -6,6 +6,9 @@ import { adminOverview, adminSeedContent } from "@/lib/cms/admin.functions";
 import { buildSeedItems } from "@/lib/cms/seed";
 import { KIND_LABELS, CONTENT_KINDS, type ContentKind } from "@/lib/cms/types";
 import { Button } from "@/components/ui/button";
+import { activityLog, clients, serviceRequests, subscribers } from "@/lib/admin/crm";
+import { paymentSubmissions } from "@/lib/payments/store";
+
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -29,6 +32,38 @@ function AdminDashboard() {
     },
     onError: (error) => toast.error(error instanceof Error ? error.message : "Import failed"),
   });
+  const { data: business } = useQuery({
+    queryKey: ["admin", "local-counts"],
+    queryFn: async () => ({
+      requests: (await serviceRequests.list()).filter((r) => r.status === "new").length,
+      payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review")
+        .length,
+      clients: (await clients.list()).length,
+      subscribers: (await subscribers.list()).length,
+    }),
+  });
+
+  const { data: recent = { requests: [], payments: [], activity: [] } } = useQuery({
+    queryKey: ["admin", "recent-business"],
+    queryFn: async () => ({
+      requests: (await serviceRequests.list()).slice(0, 5).map((r) => ({
+        id: r.id,
+        label: `${r.name} — ${r.service || "Service"}`,
+        meta: r.status,
+      })),
+      payments: (await paymentSubmissions.list()).slice(0, 5).map((p) => ({
+        id: p.id,
+        label: `${p.clientName || "Client"} — ${p.amount ?? ""} ${p.currency ?? ""}`.trim(),
+        meta: p.status,
+      })),
+      activity: (await activityLog.list()).slice(0, 5).map((a) => ({
+        id: a.id,
+        label: a.action,
+        meta: new Date(a.createdAt).toLocaleDateString(),
+      })),
+    }),
+  });
+
 
   const byKind = data?.byKind ?? {};
   const totals = Object.values(byKind).reduce(
@@ -62,11 +97,16 @@ function AdminDashboard() {
         </Button>
       </header>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Entries", value: totals.total },
-          { label: "Published", value: totals.published },
-          { label: "Drafts & review", value: totals.draft },
+          { label: "Total projects", value: byKind['project']?.total ?? 0 },
+          { label: "Published projects", value: byKind['project']?.published ?? 0 },
+          { label: "Published articles", value: byKind['article']?.published ?? 0 },
+          { label: "Active services", value: byKind['service']?.published ?? 0 },
+          { label: "Gallery items", value: byKind['gallery_item']?.total ?? 0 },
+          { label: "Pending requests", value: business?.requests ?? 0 },
+          { label: "Pending payments", value: business?.payments ?? 0 },
+          { label: "Clients / subscribers", value: `${business?.clients ?? 0} / ${business?.subscribers ?? 0}` },
         ].map((stat) => (
           <div key={stat.label} className="rounded-lg border border-border bg-surface/50 p-4">
             <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -76,6 +116,42 @@ function AdminDashboard() {
           </div>
         ))}
       </div>
+
+      <p className="font-mono text-[11px] text-muted-foreground">
+        Content KPIs come from the live content store · {totals.total} entries, {totals.published}{" "}
+        published, {totals.draft} in progress. Business KPIs are local to this browser until a
+        backend is connected.
+      </p>
+
+      <section className="grid gap-3 lg:grid-cols-3">
+        {[
+          { title: "Recent service requests", href: "/admin/requests", rows: recent.requests },
+          { title: "Recent payment submissions", href: "/admin/payments", rows: recent.payments },
+          { title: "Recent admin activity", href: "/admin/activity", rows: recent.activity },
+        ].map((panel) => (
+          <div key={panel.title} className="rounded-lg border border-border p-4">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-medium text-foreground">{panel.title}</h2>
+              <Link to={panel.href} className="text-xs text-muted-foreground hover:text-foreground">
+                Open
+              </Link>
+            </div>
+            {panel.rows.length === 0 ? (
+              <p className="mt-3 text-xs text-muted-foreground">Nothing yet.</p>
+            ) : (
+              <ul className="mt-3 space-y-2">
+                {panel.rows.map((row) => (
+                  <li key={row.id} className="flex items-center justify-between gap-2 text-xs">
+                    <span className="truncate text-foreground">{row.label}</span>
+                    <span className="font-mono text-[10px] text-muted-foreground">{row.meta}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </section>
+
 
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
