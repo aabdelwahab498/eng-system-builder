@@ -750,7 +750,54 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "digital-ops-console",
+      name: "Digital Operations Console — Projects, Clients & AI Command Center",
+      category: "Web Platform · Operations & Automation",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, multi-tenant data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Backend Architecture",
+        "DevOps & Infrastructure",
+        "AI Automation",
+      ],
+      summary:
+        "A multi-tenant digital operations command center that unifies project, client, infrastructure, automation and AI-solution management behind JWT-ready auth and Dockerized deployment — a single console to run operations at scale.",
+      tech: ["React", "TypeScript", "Docker", "JWT", "PostgreSQL", "Automation", "AI"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://digitaloperations-pro.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: digitalOpsConsoleCover.url,
+          alt: "Digital Operations Console hero with command-center headline, teal console buttons and a futuristic dashboard illustration",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Digital Operations Console is a SaaS-grade command center that consolidates projects, clients, infrastructure, automation and AI solutions into one multi-tenant, JWT-ready, Dockerized platform — surfacing 17 active projects, 99.98% uptime and 44k automation runs from a single dashboard.",
+        problem:
+          "Engineering and operations teams juggle projects, clients, servers, automations and AI workloads across disconnected tools, so infrastructure health, client delivery and automation throughput are never visible together.",
+        approach:
+          "A multi-tenant console built around a shared operations graph: every project, client, server, automation run and AI solution links to one tenant-scoped data model, with a real-time dashboard of KPIs, an automations engine, and AI-solution orchestration — all behind JWT auth and containerized for repeatable deployment.",
+        architecture: [
+          "React / TypeScript console client with dark command-center UI",
+          "Multi-tenant data model with JWT-ready authentication",
+          "Dockerized deployment for portable, repeatable releases",
+          "Projects, clients and infrastructure inventory modules",
+          "Automation engine tracking runs and throughput",
+          "AI-solution orchestration and management layer",
+          "Real-time KPI dashboard (uptime, active projects, automation runs)",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
+
 
 
 
