@@ -473,6 +473,50 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "wameedh-hub",
+      name: "Wameedh Hub — Learning & Professional Growth Platform",
+      category: "Web Platform · Education & Coaching",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Frontend Engineering",
+        "Backend Architecture",
+        "Product Design",
+      ],
+      summary:
+        "A bilingual educational platform offering courses, services and coaching to help professionals build confidence, sharpen skills and advance their careers.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://wameedhhub.com/" }],
+      media: [
+        {
+          kind: "image",
+          src: wameedhHubCover.url,
+          alt: "Wameedh Hub homepage with courses, services and sign-up call to action",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Wameedh Hub is a learning and professional growth platform that brings courses, coaching services and skill-building content into one bilingual experience with sign-up, theming and live social proof.",
+        problem:
+          "Aspiring professionals struggle to find structured learning paths and coaching in one place, with no clear progression from skill-building to practical application.",
+        approach:
+          "A unified landing and learning surface: a hero-driven conversion flow, course and service catalogs, authentication, a theme toggle and bilingual support, layered with live-engagement cues.",
+        architecture: [
+          "React / TypeScript client",
+          "Courses and services data model",
+          "Supabase auth, data and storage",
+          "Bilingual (EN/AR) and theme switching",
+          "Social-proof and engagement layer",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
 
 
