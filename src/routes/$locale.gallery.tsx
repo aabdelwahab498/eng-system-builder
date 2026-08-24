@@ -104,6 +104,44 @@ function GalleryPage() {
     <>
       <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.gallery, path: "/gallery" }]} />
       <PageHeader eyebrow={t.ui.gallery} title={t.ui.gallery} subtitle={t.ui.galleryIntro} />
+
+      <Section>
+        <nav aria-label={t.ui.gallery} className="flex flex-wrap gap-2">
+          {gallerySections.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="rounded-sm border border-border px-3 py-2 font-mono text-xs text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+            >
+              {s.label[locale]}
+            </a>
+          ))}
+        </nav>
+
+        <div className="mt-16 space-y-20">
+          {(["web-apps", "websites", "mobile-apps"] as const).map((id) => {
+            const section = gallerySections.find((s) => s.id === id)!;
+            const list = t.projects.filter((p) => projectSectionSlugs[id].includes(p.slug));
+            return (
+              <div key={id} id={id} className="scroll-mt-28">
+                <h2 className="eyebrow mb-6">{section.label[locale]}</h2>
+                {list.length === 0 ? (
+                  <div className="rounded-lg border border-dashed border-border-strong p-10 text-center">
+                    <p className="text-sm text-muted-foreground">{t.ui.contentPending}</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    {list.map((project) => (
+                      <ProjectCard key={project.slug} project={project} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
       <Section>
         {categories.length > 1 && (
           <FilterBar
