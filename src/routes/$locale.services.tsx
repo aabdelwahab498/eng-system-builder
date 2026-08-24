@@ -58,6 +58,8 @@ const copy = {
     attachment: "Optional attachment (brief, mockup)",
     send: "Send request on WhatsApp",
     toPayment: "Continue to deposit payment",
+    howToSubscribe: "How to subscribe to our services",
+    afterAgreement: "Payment methods are shared after we agree on the scope of your project.",
     structure: "Project payment structure",
     structureIntro:
       "A simple, transparent model: the project starts after the deposit, and the balance is paid after final approval.",
@@ -88,6 +90,8 @@ const copy = {
     attachment: "مرفق اختياري (بريف أو تصميم)",
     send: "إرسال الطلب عبر واتساب",
     toPayment: "المتابعة إلى دفع المقدم",
+    howToSubscribe: "كيف تشترك في خدماتنا",
+    afterAgreement: "تُشارَك طرق الدفع بعد الاتفاق على نطاق مشروعك.",
     structure: "هيكل الدفع للمشروع",
     structureIntro: "نموذج بسيط وواضح: يبدأ المشروع بعد المقدم، ويُسدَّد الباقي بعد الاعتماد النهائي.",
     ctaTitle: "عندك مشروع في بالك؟",
@@ -165,7 +169,7 @@ function ServicesPage() {
             search={selected ? { service: selected.id } : {}}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
-            {t.toPayment}
+            {t.howToSubscribe}
             <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
           </Link>
           <WhatsAppCta
@@ -177,6 +181,7 @@ function ServicesPage() {
             }
           />
         </div>
+        <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>
       </Section>
     </>
   );
@@ -346,7 +351,7 @@ function ProjectRequestPanel({
           search={{ service: service.id }}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
         >
-          {t.toPayment}
+          {t.howToSubscribe}
           <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
         </Link>
       </div>
