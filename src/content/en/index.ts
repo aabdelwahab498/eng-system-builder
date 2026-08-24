@@ -1,5 +1,6 @@
 import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
+import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
@@ -427,7 +428,52 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "shifa-travel",
+      name: "Shifa Travel — Medical Tourism Platform",
+      category: "Web Platform · Healthcare & Travel",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Frontend Engineering",
+        "Backend Architecture",
+        "Product Design",
+      ],
+      summary:
+        "A bilingual medical-tourism platform connecting patients with accredited hospitals, doctors, treatment packages and end-to-end travel coordination.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://journey-cure-haven.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: shifaTravelCover.url,
+          alt: "Shifa Travel homepage showing accredited doctors, treatment stats and consultation booking",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Shifa Travel guides a patient from browsing treatments and accredited medical centers to booking a consultation, with travel, accommodation and follow-up handled in one journey.",
+        problem:
+          "Medical travel is scattered across brokers and chat threads: no verified provider data, no clear pricing packages and no continuity after the procedure.",
+        approach:
+          "One structured journey model: treatments, centers, doctors, packages and travel partners, plus a consultation request flow and a personal coordinator view.",
+        architecture: [
+          "React / TypeScript client",
+          "Treatments, centers and doctors data model",
+          "Packages and travel partner layer",
+          "Consultation request workflow",
+          "Supabase auth, data and storage",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
+
 
 
   products: [],
