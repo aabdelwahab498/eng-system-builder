@@ -75,6 +75,11 @@ export function Hero() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="ghost">
+                <Link to="/$locale/certificates" params={{ locale }}>
+                  {t.ui.seeCertificates}
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="ghost">
                 <Link to="/$locale/cv" params={{ locale }}>
                   {t.ui.cv}
                   <ArrowUpRight className="size-4" />
