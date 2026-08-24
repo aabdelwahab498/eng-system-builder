@@ -8,7 +8,9 @@ import { FilterBar } from "@/components/site/FilterBar";
 import { Input } from "@/components/ui/input";
 import { listPublicArticles } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
-import { buildHead } from "@/lib/seo";
+import { breadcrumbs, buildHead } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getContent } from "@/content";
 import type { Locale } from "@/types/content";
 import type { ArticleData } from "@/lib/cms/types";
 
@@ -25,6 +27,10 @@ export const Route = createFileRoute("/$locale/blog/")({
       description: isAr
         ? "مقالات عن هندسة البرمجيات، أنظمة الذكاء الاصطناعي وبناء المنتجات الرقمية."
         : "Notes on software engineering, AI systems and building production digital products.",
+      jsonLd: breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.writing, path: "/blog" },
+      ]),
     });
   },
   component: BlogIndex,

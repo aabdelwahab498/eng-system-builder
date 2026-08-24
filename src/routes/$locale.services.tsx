@@ -4,7 +4,9 @@ import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
-import { buildHead, metaFor } from "@/lib/seo";
+import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getContent } from "@/content";
 import { getCanonicalServices } from "@/content/api";
 import { pickOrEn } from "@/content/schema";
 import type { Locale } from "@/types/content";
@@ -13,7 +15,16 @@ export const Route = createFileRoute("/$locale/services")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "services");
-    return buildHead({ locale, path: "/services", title: m.title, description: m.description });
+    return buildHead({
+      locale,
+      path: "/services",
+      title: m.title,
+      description: m.description,
+      jsonLd: breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.services, path: "/services" },
+      ]),
+    });
   },
   component: ServicesPage,
 });

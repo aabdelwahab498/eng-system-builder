@@ -7,14 +7,25 @@ import { ContactIntent } from "@/components/site/ContactIntent";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "@/components/site/SocialIcon";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
-import { buildHead, metaFor } from "@/lib/seo";
+import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getContent } from "@/content";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/contact")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "contact");
-    return buildHead({ locale, path: "/contact", title: m.title, description: m.description });
+    return buildHead({
+      locale,
+      path: "/contact",
+      title: m.title,
+      description: m.description,
+      jsonLd: breadcrumbs(locale, [
+        { name: getContent(locale).profile.displayName, path: "" },
+        { name: getContent(locale).ui.contact, path: "/contact" },
+      ]),
+    });
   },
   component: ContactPage,
 });
