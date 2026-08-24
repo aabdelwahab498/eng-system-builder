@@ -42,7 +42,6 @@ export type Certificate = {
 export const certificates: Certificate[] = [
   {
     id: "sql-intro-davidson",
-    id: "sql-intro-davidson",
     title: {
       en: "DavidsonX_D007: Introduction to SQL",
       ar: "DavidsonX_D007: مقدمة في SQL",
@@ -126,7 +125,7 @@ export const certificates: Certificate[] = [
     verifyUrl: "https://coursera.org/verify/92ES0LAVX9SM",
     image: introDevopsIbm.url,
   },
-export const certificates: Certificate[] = [
+
   {
     id: "ai-diploma",
     title: {
