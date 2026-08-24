@@ -3,7 +3,7 @@ import profilePhoto from "@/assets/profile-ahmed.png.asset.json";
 import { cn } from "@/lib/utils";
 
 /**
- * Circular profile avatar for Eng. Ahmed Abdelwahab.
+ * Circular profile avatar for Ahmed Abdelwahab.
  * Responsive size keeps it consistent across mobile → desktop.
  */
 export function ProfileAvatar({ className }: { className?: string }) {
