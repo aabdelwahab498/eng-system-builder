@@ -13,7 +13,7 @@ export const en: Dictionary = {
     { label: "About", path: "/about" },
     { label: "Gallery", path: "/gallery" },
     { label: "Services", path: "/services" },
-    { label: "Writing", path: "/blog" },
+    { label: "Blogs", path: "/blog" },
     { label: "Contact", path: "/contact" },
   ],
 
@@ -105,7 +105,7 @@ export const en: Dictionary = {
     breadcrumb: "Breadcrumb",
     galleryIntro: "Interfaces, systems and product visuals from the work.",
     noGallery: "No gallery items published yet.",
-    writing: "Writing",
+    writing: "Blogs",
     latestWriting: "Latest articles",
     viewAllWriting: "All articles",
     searchPlaceholder: "Search articles",

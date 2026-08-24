@@ -71,7 +71,7 @@ function ArticlePage() {
         params={{ locale: locale as Locale }}
         className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground"
       >
-        ← {isAr ? "المدونة" : "Writing"}
+        ← {isAr ? "المدونات" : "Blogs"}
       </Link>
       <h1 className="mt-6 font-display text-3xl font-semibold text-foreground">
         {pick(data.title)}

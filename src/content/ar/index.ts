@@ -13,7 +13,7 @@ export const ar: Dictionary = {
     { label: "نبذة", path: "/about" },
     { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
-    { label: "المدونة", path: "/blog" },
+    { label: "المدونات", path: "/blog" },
     { label: "تواصل", path: "/contact" },
   ],
 
@@ -103,7 +103,7 @@ export const ar: Dictionary = {
     breadcrumb: "مسار التنقل",
     galleryIntro: "واجهات وأنظمة ولقطات من المنتجات التي أبنيها.",
     noGallery: "لا توجد عناصر منشورة في المعرض بعد.",
-    writing: "المدونة",
+    writing: "المدونات",
     latestWriting: "أحدث المقالات",
     viewAllWriting: "كل المقالات",
     searchPlaceholder: "ابحث في المقالات",
