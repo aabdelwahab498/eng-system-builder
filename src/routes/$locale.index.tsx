@@ -142,15 +142,6 @@ function HomePage() {
         </Stagger>
       </Section>
 
-      {/* 3 — Engineering stack */}
-      <Section
-        id="engineering-stack"
-        eyebrow={t.ui.capabilities}
-        title={t.ui.engineeringStack}
-        subtitle={t.profile.positioning}
-      >
-        <SkillsGrid categories={t.skills} />
-      </Section>
 
       {/* 4 — Services */}
       <Section eyebrow={t.ui.services} title={t.ui.services}>
