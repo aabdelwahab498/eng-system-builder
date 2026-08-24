@@ -271,6 +271,9 @@ export type UiStrings = {
   projectType: string;
   videos: string;
   images: string;
+  youtubeCtaTitle: string;
+  youtubeCtaBody: string;
+  youtubeCtaButton: string;
 
 };
 
