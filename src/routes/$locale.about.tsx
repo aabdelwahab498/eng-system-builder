@@ -67,6 +67,11 @@ function AboutPage() {
       />
 
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
+        {t.profile.location && (
+          <p className="mb-6 font-mono text-[11px] text-muted-foreground">
+            {t.profile.location}
+          </p>
+        )}
         <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
           {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
           {t.profile.longBio &&
