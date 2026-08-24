@@ -39,9 +39,11 @@ export type SocialPlatform =
 export function SocialIcon({
   platform,
   className,
+  style,
 }: {
   platform: SocialPlatform;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const path = PATHS[platform];
   const classes = cn("size-4 shrink-0", className);
@@ -54,6 +56,7 @@ export function SocialIcon({
       aria-hidden="true"
       viewBox="0 0 24 24"
       className={classes}
+      style={style}
       fill="currentColor"
     >
       <path d={path} />
