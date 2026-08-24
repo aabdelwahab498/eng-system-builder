@@ -21,6 +21,26 @@ export function ProjectCard({ project }: { project: Project }) {
       <h3 className="mt-4 font-display text-2xl font-semibold">{project.name}</h3>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
 
+      {(project.disciplines?.length ?? 0) > 0 && (
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {project.disciplines!.map((d) => (
+            <li
+              key={d}
+              className="rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-[11px] text-primary"
+            >
+              {d}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {project.role && (
+        <p className="mt-4 font-mono text-[11px] text-muted-foreground">
+          {t.ui.roleLabel}: {project.role}
+        </p>
+      )}
+
+
       {project.media[0] && (
         <MediaSlot media={project.media[0]} note={t.ui.mediaPlaceholder} className="mt-6" />
       )}
