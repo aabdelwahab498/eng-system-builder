@@ -128,26 +128,52 @@ function BlogIndex() {
               : t.ui.noMatches}
           </p>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {visible.map((article, index) => {
               const data = article.data as unknown as ArticleData;
+              const title = pick(data.title, locale);
               return (
                 <Reveal key={article.id} delay={index * 60}>
                   <Link
                     to="/$locale/blog/$slug"
                     params={{ locale, slug: article.slug }}
-                    className="block h-full rounded-lg border border-border p-5 transition-colors hover:border-primary/60"
+                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/40 transition-colors hover:border-primary/60"
                   >
-                    <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                      {data.category || (locale === "ar" ? "مقال" : "Article")}
-                      {article.publishedAt
-                        ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale === "ar" ? "ar-EG" : "en-GB")}`
-                        : ""}
-                    </p>
-                    <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-                      {pick(data.title, locale)}
-                    </h2>
-                    <p className="mt-2 text-sm text-muted-foreground">{pick(data.excerpt, locale)}</p>
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+                      {data.coverImageUrl ? (
+                        <img
+                          src={data.coverImageUrl}
+                          alt={title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gradient-to-br from-primary/20 via-background to-background" />
+                      )}
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
+                      {data.category ? (
+                        <span className="absolute bottom-3 left-3 rounded border border-border/70 bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground backdrop-blur">
+                          {data.category}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                        {article.publishedAt
+                          ? new Date(article.publishedAt).toLocaleDateString(
+                              locale === "ar" ? "ar-EG" : "en-GB",
+                            )
+                          : locale === "ar"
+                            ? "مقال"
+                            : "Article"}
+                      </p>
+                      <h2 className="mt-2 font-display text-lg font-semibold text-foreground">
+                        {title}
+                      </h2>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {pick(data.excerpt, locale)}
+                      </p>
+                    </div>
                   </Link>
                 </Reveal>
               );
