@@ -181,6 +181,10 @@ export type Database = {
         | "seo"
         | "cv_settings"
         | "social_draft"
+        | "gallery_item"
+        | "social_campaign"
+        | "marketing_campaign"
+        | "payment_method"
       workflow_state:
         | "draft"
         | "review"
@@ -328,6 +332,10 @@ export const Constants = {
         "seo",
         "cv_settings",
         "social_draft",
+        "gallery_item",
+        "social_campaign",
+        "marketing_campaign",
+        "payment_method",
       ],
       workflow_state: ["draft", "review", "scheduled", "published", "archived"],
     },
