@@ -398,16 +398,15 @@ export const ar: Dictionary = {
   ],
 
   capabilityStrip: [
-    ".NET / C#",
-    "ASP.NET Core",
-    "Python",
-    "Flutter / Dart",
-    "React",
-    "TypeScript",
-    "SQL",
-    "أنظمة ذكاء اصطناعي",
-    "Docker",
+    "هندسة Full-Stack",
+    "هندسة الذكاء الاصطناعي",
+    "الواجهة الخلفية وواجهات API",
+    "هندسة الواجهة الأمامية",
+    "الموبايل — Flutter",
+    "السحابة وDevOps",
     "معمارية البرمجيات",
+    "بناء المنتجات",
+
   ],
 
   services: [
