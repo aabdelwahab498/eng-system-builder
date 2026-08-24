@@ -65,7 +65,7 @@ export function Hero() {
 
             <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild size="lg" className="digital-green">
-                <Link to="/$locale/projects" params={{ locale }}>
+                <Link to="/$locale/gallery" params={{ locale }}>
                   {t.ui.viewWork}
                 </Link>
               </Button>
