@@ -351,7 +351,7 @@ function ProjectRequestPanel({
           search={{ service: service.id }}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
         >
-          {t.toPayment}
+          {t.howToSubscribe}
           <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
         </Link>
       </div>
