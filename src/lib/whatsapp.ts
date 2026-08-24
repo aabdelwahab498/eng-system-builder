@@ -8,14 +8,14 @@ export const WHATSAPP_LINK = CONTACT_NUMBERS.whatsappShortLink;
 
 /**
  * Build a WhatsApp click-to-chat link.
- * - With a message: deep link to wa.me carrying a prefilled message (same number).
- * - Without a message: the canonical wa.link short link.
+ * - With a message: api.whatsapp.com deep link carrying a prefilled message (same number).
+ * - Without a message: the canonical WhatsApp link.
  */
 export function whatsappLink(message?: string) {
   const text = message?.trim();
+  const digits = WHATSAPP_NUMBER.replace(/\D/g, "");
   if (text) {
-    const digits = WHATSAPP_NUMBER.replace(/\D/g, "");
-    return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+    return `https://api.whatsapp.com/send?phone=${digits}&text=${encodeURIComponent(text)}`;
   }
   return WHATSAPP_LINK;
 }
