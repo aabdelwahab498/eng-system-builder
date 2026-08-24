@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { FilterBar } from "@/components/site/FilterBar";
+import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
 import { listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
@@ -171,10 +172,23 @@ function GalleryPage() {
             )}
             {stills.length > 0 && (
               <div>
-                {videos.length > 0 && <h2 className="eyebrow mb-6">{t.ui.images}</h2>}
-                <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 [&>*]:mb-6">
-                  {stills.map(renderCard)}
-                </div>
+                <h2 className="eyebrow mb-6">{t.ui.images}</h2>
+                <ImageCatalog
+                  rtl={locale === "ar"}
+                  labels={{
+                    previous: locale === "ar" ? "السابق" : "Previous",
+                    next: locale === "ar" ? "التالي" : "Next",
+                    close: locale === "ar" ? "إغلاق" : "Close",
+                    expand: locale === "ar" ? "عرض بملء الشاشة" : "View full screen",
+                  }}
+                  items={stills.map((entry) => ({
+                    id: entry.id,
+                    src: entry.data.mediaUrl,
+                    title: pick(entry.data.title, locale),
+                    caption: pick(entry.data.caption, locale),
+                    credit: entry.data.credit,
+                  }))}
+                />
               </div>
             )}
           </div>
