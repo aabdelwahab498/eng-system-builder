@@ -93,6 +93,7 @@ export function PowerShellPrompt({
   }, [started, reduced, speed, startDelay, holdDelay, deleteSpeed, text]);
 
   const typing = words.length < wordList.length;
+  const visibleText = reduced ? text : words.join(" ");
 
   return (
     <div
@@ -102,12 +103,18 @@ export function PowerShellPrompt({
         className,
       )}
     >
-      <div className="flex items-start gap-2">
+      {/* Invisible full-text layer reserves a stable width so the
+          background never resizes while the typed text grows/shrinks. */}
+      <span aria-hidden className="invisible whitespace-nowrap">
+        {prompt} {text}
+        <span className="inline-block w-[0.5em]" />
+      </span>
+      <div className="absolute inset-0 flex items-start gap-2 px-3 py-2">
         <span className="ps-prompt shrink-0 select-none font-semibold text-emerald-400">
           {prompt}
         </span>
         <span className="ps-text font-semibold text-emerald-400">
-          {reduced ? text : words.join(" ")}
+          {visibleText}
           <span aria-hidden className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")} />
         </span>
       </div>
