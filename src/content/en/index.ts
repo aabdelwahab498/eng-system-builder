@@ -9,6 +9,7 @@ import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
 import wameedOsCover from "@/assets/projects/wameed-os.png.asset.json";
 import digitalOpsConsoleCover from "@/assets/projects/digital-ops-console.png.asset.json";
 import scriptoriaArCover from "@/assets/projects/scriptoria-ar.png.asset.json";
+import devShieldNexusCover from "@/assets/projects/dev-shield-nexus.png.asset.json";
 
 
 /**
@@ -837,6 +838,52 @@ export const en: Dictionary = {
           "Prompt Guardian that cleans and enforces the brief before generation",
           "Voice studio and text-to-speech narration pipeline",
           "Automations and content factory for repeatable production",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "dev-shield-nexus",
+      name: "DevShield Nexus — AI Software Assurance & DevSecOps",
+      category: "AI Platform · Quality & Security",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, AI orchestration and deployment",
+      disciplines: [
+        "AI Engineering",
+        "DevSecOps",
+        "Full-Stack Engineering",
+        "Product Design",
+      ],
+      summary:
+        "An AI-powered software assurance platform that analyzes websites, applications, APIs and source code in a single pass — covering AI testing, security analysis, SEO intelligence, performance optimization and automated remediation.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "DevSecOps", "GitHub", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://dev-shield-nexus.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: devShieldNexusCover.url,
+          alt: "DevShield Nexus AI Software Assurance home screen with a 'How can I help improve your software today?' hero, website URL analysis input, and a sidebar of Automation, Security, Quality, AI Analysis, Fix Center, Remediation and SEO Intelligence modules",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "DevShield Nexus is an AI software assurance cockpit that runs discovery, testing, security, SEO, performance and accessibility analysis on websites, applications, APIs and source code in a single pass, then routes findings to a Fix Center and Remediation pipeline for automated remediation.",
+        problem:
+          "Teams run quality, security, SEO, performance and accessibility checks across disconnected tools, so coverage gaps and slow remediation leave issues unresolved across the software lifecycle.",
+        approach:
+          "A unified assurance workspace built around a single analysis pass: enter a URL or connect a repository, and the platform runs discovery, AI testing, security analysis, SEO intelligence, performance and accessibility together, then funnels every finding into a Fix Center and automated Remediation flow — all behind a role-aware dashboard.",
+        architecture: [
+          "React / TypeScript cockpit client with a dark command-center UI",
+          "Single-pass discovery: testing, security, SEO, performance, accessibility",
+          "AI Software Assurance Copilot for guided analysis and remediation",
+          "Website URL analysis, GitHub integration and project upload entry points",
+          "Fix Center and Remediation pipeline for automated remediation",
+          "Modules: Automation, Security, Quality, AI Analysis, SEO Intelligence, Release",
+          "Team, Reports and Settings management with versioned feature roadmap",
         ],
         implementation: "",
         challenges: "",
