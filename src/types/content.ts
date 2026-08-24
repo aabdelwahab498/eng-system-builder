@@ -132,6 +132,7 @@ export type Profile = {
   location?: string;
   experience?: Experience[];
   education?: Education[];
+  languages?: { language: string; level: string }[];
   cv?: { url: string; label: string; updated?: string };
 };
 
