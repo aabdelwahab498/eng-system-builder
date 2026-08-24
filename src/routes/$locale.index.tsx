@@ -6,9 +6,7 @@ import { CapabilityStrip, Hero } from "@/components/site/Hero";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
-import { ContactCta } from "@/components/site/ContactCta";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
-import { MatrixHud } from "@/components/site/MatrixHud";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
@@ -83,7 +81,6 @@ function HomePage() {
 
   return (
     <>
-      <MatrixHud />
       <Hero />
       <CapabilityStrip />
 
