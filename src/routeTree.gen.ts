@@ -22,6 +22,7 @@ import { Route as LocaleGalleryRouteImport } from './routes/$locale.gallery'
 import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
+import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as LocaleBlogIndexRouteImport } from './routes/$locale.blog.index'
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale.blog.$slug'
@@ -98,6 +99,11 @@ const LocaleServicesRoute = LocaleServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleSkillsRoute = LocaleSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
+  '/$locale/skills': typeof LocaleSkillsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/$locale/gallery': typeof LocaleGalleryRoute
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/services': typeof LocaleServicesRoute
+  '/$locale/skills': typeof LocaleSkillsRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
@@ -216,6 +224,7 @@ export interface FileRoutesById {
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
+  '/$locale/skills': typeof LocaleSkillsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
@@ -243,6 +252,7 @@ export interface FileRouteTypes {
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
+    | '/$locale/skills'
     | '/admin'
     | '/$locale/'
     | '/$locale/blog/$slug'
@@ -265,6 +275,7 @@ export interface FileRouteTypes {
     | '/$locale/gallery'
     | '/$locale/products'
     | '/$locale/services'
+    | '/$locale/skills'
     | '/$locale'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
+    | '/$locale/skills'
     | '/_authenticated/admin'
     | '/$locale/'
     | '/$locale/blog/$slug'
@@ -402,6 +414,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/$locale/services'
       preLoaderRoute: typeof LocaleServicesRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/skills': {
+      id: '/$locale/skills'
+      path: '/skills'
+      fullPath: '/$locale/skills'
+      preLoaderRoute: typeof LocaleSkillsRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/_authenticated/admin': {
@@ -565,6 +584,7 @@ interface LocaleRouteChildren {
   LocaleProductsRoute: typeof LocaleProductsRoute
   LocaleProjectsRoute: typeof LocaleProjectsRouteWithChildren
   LocaleServicesRoute: typeof LocaleServicesRoute
+  LocaleSkillsRoute: typeof LocaleSkillsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
 }
 
@@ -577,6 +597,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleProductsRoute: LocaleProductsRoute,
   LocaleProjectsRoute: LocaleProjectsRouteWithChildren,
   LocaleServicesRoute: LocaleServicesRoute,
+  LocaleSkillsRoute: LocaleSkillsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
 }
 
