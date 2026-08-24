@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
-import { MatrixStrip } from "@/components/site/MatrixHud";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
@@ -82,7 +81,6 @@ function HomePage() {
 
   return (
     <>
-      <MatrixStrip height={190} />
       <Hero />
       <CapabilityStrip />
 
