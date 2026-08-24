@@ -61,6 +61,43 @@ function GalleryPage() {
   );
 
   const visible = filter === ALL ? entries : entries.filter((e) => e.data.category === filter);
+  const videos = visible.filter((e) => e.data.mediaType === "video");
+  const stills = visible.filter((e) => e.data.mediaType !== "video");
+
+  const renderCard = (entry: { id: string; data: GalleryItemData }, i: number) => (
+    <Reveal key={entry.id} delay={i * 50} className="break-inside-avoid">
+      <figure className="overflow-hidden rounded-lg border border-border bg-surface/60">
+        {entry.data.mediaType === "video" ? (
+          <video
+            src={entry.data.mediaUrl}
+            controls
+            playsInline
+            preload="metadata"
+            className="w-full"
+            aria-label={pick(entry.data.title, locale)}
+          />
+        ) : (
+          <img
+            src={entry.data.mediaUrl}
+            alt={pick(entry.data.caption, locale) || pick(entry.data.title, locale)}
+            loading="lazy"
+            className="w-full object-cover"
+          />
+        )}
+        <figcaption className="space-y-1 p-4">
+          <p className="font-display text-sm font-medium text-foreground">
+            {pick(entry.data.title, locale)}
+          </p>
+          {pick(entry.data.caption, locale) && (
+            <p className="text-sm text-muted-foreground">{pick(entry.data.caption, locale)}</p>
+          )}
+          {entry.data.credit && (
+            <p className="font-mono text-[11px] text-muted-foreground">{entry.data.credit}</p>
+          )}
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
 
   return (
     <>
@@ -87,39 +124,21 @@ function GalleryPage() {
             <p className="text-sm text-muted-foreground">{t.ui.noGallery}</p>
           </div>
         ) : (
-          <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 [&>*]:mb-6">
-            {visible.map((entry, i) => (
-              <Reveal key={entry.id} delay={i * 50} className="break-inside-avoid">
-                <figure className="overflow-hidden rounded-lg border border-border bg-surface/60">
-                  {entry.data.mediaType === "video" ? (
-                    <video
-                      src={entry.data.mediaUrl}
-                      controls
-                      className="w-full"
-                      aria-label={pick(entry.data.title, locale)}
-                    />
-                  ) : (
-                    <img
-                      src={entry.data.mediaUrl}
-                      alt={pick(entry.data.caption, locale) || pick(entry.data.title, locale)}
-                      loading="lazy"
-                      className="w-full object-cover"
-                    />
-                  )}
-                  <figcaption className="space-y-1 p-4">
-                    <p className="font-display text-sm font-medium text-foreground">
-                      {pick(entry.data.title, locale)}
-                    </p>
-                    {pick(entry.data.caption, locale) && (
-                      <p className="text-sm text-muted-foreground">{pick(entry.data.caption, locale)}</p>
-                    )}
-                    {entry.data.credit && (
-                      <p className="font-mono text-[11px] text-muted-foreground">{entry.data.credit}</p>
-                    )}
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
+          <div className="space-y-16">
+            {videos.length > 0 && (
+              <div>
+                <h2 className="eyebrow mb-6">{t.ui.videos}</h2>
+                <div className="grid gap-6 md:grid-cols-2">{videos.map(renderCard)}</div>
+              </div>
+            )}
+            {stills.length > 0 && (
+              <div>
+                {videos.length > 0 && <h2 className="eyebrow mb-6">{t.ui.images}</h2>}
+                <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 [&>*]:mb-6">
+                  {stills.map(renderCard)}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </Section>
