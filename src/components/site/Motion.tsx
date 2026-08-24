@@ -144,3 +144,80 @@ export function Lift({ children, className }: { children: ReactElement; classNam
     className: cn("lift", (children.props as { className?: string }).className, className),
   } as never);
 }
+
+/** Typewriter effect: reveals text character-by-character with a blinking caret.
+ *  Falls back to the full text immediately when reduced motion is preferred. */
+export function Typewriter({
+  text,
+  className,
+  as: Tag = "h1",
+  speed = 70,
+  startDelay = 250,
+  cursorClassName,
+}: {
+  text: string;
+  className?: string;
+  as?: "h1" | "h2" | "h3" | "p" | "span";
+  speed?: number;
+  startDelay?: number;
+  cursorClassName?: string;
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setReduced(true);
+      setCount(text.length);
+      return;
+    }
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setStarted(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setStarted(true);
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [text.length]);
+
+  useEffect(() => {
+    if (!started || reduced) return;
+    let i = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      i += 1;
+      setCount(i);
+      if (i < text.length) {
+        timer = setTimeout(tick, speed);
+      }
+    };
+    timer = setTimeout(tick, startDelay);
+    return () => clearTimeout(timer);
+  }, [started, reduced, speed, startDelay, text.length]);
+
+  const shown = reduced ? text : text.slice(0, count);
+
+  return (
+    <Tag ref={ref as never} className={cn(className)}>
+      {shown}
+      <span
+        aria-hidden
+        className={cn("tw-caret", cursorClassName)}
+        style={{ opacity: count < text.length || reduced ? 1 : 0 }}
+      />
+    </Tag>
+  );
+}

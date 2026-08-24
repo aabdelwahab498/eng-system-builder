@@ -213,6 +213,27 @@
   opacity: 1;
 }
 
+/* Typewriter caret */
+@utility tw-caret {
+  display: inline-block;
+  width: 0.06em;
+  margin-left: 0.08em;
+  background: currentColor;
+  align-self: stretch;
+  animation: tw-blink 1s steps(1) infinite;
+}
+
+@keyframes tw-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @utility lift {
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),

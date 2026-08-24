@@ -3,7 +3,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
-import { TextReveal } from "./Motion";
+import { Typewriter } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
@@ -41,10 +41,11 @@ export function Hero() {
               </div>
             </div>
 
-            <TextReveal
+            <Typewriter
               as="h1"
               text={t.profile.displayName}
-              step={60}
+              speed={65}
+              startDelay={300}
               className="mt-8 font-display text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl"
             />
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
