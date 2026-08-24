@@ -7,6 +7,8 @@ import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
 import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
 import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
+import digitalOpsConsoleCover from "@/assets/projects/digital-ops-console.png.asset.json";
+
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
@@ -714,7 +716,54 @@ export const ar: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "digital-ops-console",
+      name: "Digital Operations Console — مركز قيادة المشاريع والعملاء والذكاء الاصطناعي",
+      category: "منصة ويب · العمليات والأتمتة",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج بيانات متعدد المستأجرين والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "معمارية الواجهة الخلفية",
+        "ديف أوبس والبنية التحتية",
+        "أتمتة الذكاء الاصطناعي",
+      ],
+      summary:
+        "مركز قيادة عمليات رقمية متعدد المستأجرين يوحّد إدارة المشاريع والعملاء والبنية التحتية والأتمتة وحلول الذكاء الاصطناعي خلف مصادقة JWT ونشر Dockerized — وحدة تحكم واحدة لإدارة العمليات على نطاق واسع.",
+      tech: ["React", "TypeScript", "Docker", "JWT", "PostgreSQL", "أتمتة", "ذكاء اصطناعي"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://digitaloperations-pro.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: digitalOpsConsoleCover.url,
+          alt: "واجهة Digital Operations Console بعنوان مركز القيادة وأزرار بروقز وأيقونة لوحة تحكم مستقبلية",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Digital Operations Console منصة بمستوى SaaS تدمج المشاريع والعملاء والبنية التحتية والأتمتة وحلول الذكاء الاصطناعي في وحدة متعددة المستأجرين جاهزة لـ JWT ومنشورة عبر Docker — تعرض 17 مشروعًا نشطًا و99.98% وقت تشغيل و44 ألف دورة أتمتة من لوحة واحدة.",
+        problem:
+          "تدير فِرق الهندسة والعمليات المشاريع والعملاء والخوادم والأتمتة وأعباء الذكاء الاصطناعي عبر أدوات متفرّقة، فلا تظهر صحة البنية التحتية وتسليم العملاء وإنتاجية الأتمتة معًا.",
+        approach:
+          "وحدة تحكم متعددة المستأجرين مبنية حول رسم عمليات مشترك: يرتبط كل مشروع وعميل وخادم ودورة أتمتة وحل ذكاء اصطناعي بنموذج بيانات محصور بالمستأجر، مع لوحة مؤشرات لحظية ومحرك أتمتة وتنظيم حلول الذكاء الاصطناعي — كل ذلك خلف مصادقة JWT وحاويات لنشر مكرَّر.",
+        architecture: [
+          "واجهة وحدة تحكم React / TypeScript بتصميم مركز قيادة داكن",
+          "نموذج بيانات متعدد المستأجرين مع مصادقة JWT جاهزة",
+          "نشر Dockerized لإصدارات محمولة ومكرَّرة",
+          "وحدات المشاريع والعملاء وجرد البنية التحتية",
+          "محرك أتمتة يتتبّع الدورات والإنتاجية",
+          "طبقة تنظيم وإدارة حلول الذكاء الاصطناعي",
+          "لوحة مؤشرات لحظية (وقت التشغيل، المشاريع النشطة، دورات الأتمتة)",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
+
 
 
 
