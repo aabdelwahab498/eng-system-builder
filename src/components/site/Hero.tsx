@@ -57,13 +57,19 @@ export function Hero() {
                   {t.ui.viewWork}
                 </Link>
               </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link to="/$locale/contact" params={{ locale }}>
+                  {t.ui.letsBuild}
+                </Link>
+              </Button>
               <Button asChild size="lg" variant="ghost">
                 <Link to="/$locale/cv" params={{ locale }}>
-                  {t.ui.downloadCv}
+                  {t.ui.cv}
                   <ArrowUpRight className="size-4" />
                 </Link>
               </Button>
             </div>
+
 
             <ul className="mt-8 flex flex-wrap items-center gap-2">
               {socials.map((s) => (
