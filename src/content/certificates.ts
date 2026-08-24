@@ -19,6 +19,14 @@ import networkDefense from "@/assets/certificates/network-defense-essentials.jpg
 import digitalForensics from "@/assets/certificates/digital-forensics-essentials.jpg.asset.json";
 import netDevOps from "@/assets/certificates/netdevops.jpg.asset.json";
 import operationsManagement from "@/assets/certificates/operations-management.jpg.asset.json";
+import sqlIntroDavidson from "@/assets/certificates/sql-intro-davidson.png.asset.json";
+import sqlConceptsIbm from "@/assets/certificates/sql-concepts-ibm.png.asset.json";
+import supplyChain from "@/assets/certificates/supply-chain-management.png.asset.json";
+import devopsPrerequisite from "@/assets/certificates/devops-prerequisite.png.asset.json";
+import kubernetesBasics from "@/assets/certificates/kubernetes-basics-devops.png.asset.json";
+import agileScrumIbm from "@/assets/certificates/agile-scrum-ibm.png.asset.json";
+import csmPracticeExam from "@/assets/certificates/csm-practice-exam.png.asset.json";
+import introDevopsIbm from "@/assets/certificates/intro-devops-ibm.png.asset.json";
 
 export type Certificate = {
   id: string;
