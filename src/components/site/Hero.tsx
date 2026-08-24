@@ -92,6 +92,11 @@ export function Hero() {
                       href={s.href}
                       target={s.href.startsWith("mailto:") ? undefined : "_blank"}
                       rel="noreferrer noopener"
+                      onClick={(e) => {
+                        if (s.href.startsWith("mailto:")) return;
+                        e.preventDefault();
+                        window.open(s.href, "_blank", "noopener,noreferrer");
+                      }}
                       aria-label={s.label}
                       title={s.label}
                       className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card/40 text-muted-foreground transition-all hover:scale-110 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"

@@ -80,6 +80,11 @@ export function SiteFooter() {
                     href={c.href}
                     target={c.href.startsWith("mailto:") ? undefined : "_blank"}
                     rel="noreferrer noopener"
+                    onClick={(e) => {
+                      if (c.href.startsWith("mailto:")) return;
+                      e.preventDefault();
+                      window.open(c.href, "_blank", "noopener,noreferrer");
+                    }}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {c.platform === "other" ? (
