@@ -190,8 +190,10 @@ export const en: Dictionary = {
     positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
       "I design and build production-ready software products across backend, frontend, mobile, AI and cloud infrastructure.",
-    shortBio: "",
-    longBio: "",
+    shortBio:
+      "Software Engineer and Product Builder focused on backend engineering, AI-powered systems, full-stack applications, and scalable software architecture.",
+    longBio:
+      "Experienced with C#, .NET, ASP.NET Core, REST APIs, SQL, React, TypeScript, Python, FastAPI, Docker, and AI/LLM technologies. Strong interest in AI agents, automation, system design, API architecture, software quality, and reusable engineering platforms.\n\nCurrently developing the Universal AI Software Factory, an AI-powered engineering platform for analyzing, generating, validating, and orchestrating software projects across backend, frontend, mobile, AI, database, QA, security, and DevOps domains.",
     philosophy: [
       {
         title: "Architecture first",
@@ -221,27 +223,52 @@ export const en: Dictionary = {
       "Cartoon AI",
     ],
     photo: { kind: "placeholder", alt: "Portrait of Eng. Ahmed Abdelwahab" },
+    location: "Cairo, Egypt",
     cv: { url: "/cv-ahmed-abdelwahab.pdf", label: "Download CV" },
     experience: [
       {
-        role: "Software Engineer — full stack, backend and AI systems",
+        role: "Software Engineering & Product Development",
         kind: "engineering",
         summary:
-          "Designing and building backend services, web and mobile applications, and AI-driven systems, including the Universal AI Software Factory.",
+          "Backend and full-stack development focused on scalable APIs, system architecture, data management, integrations, AI services, Docker-based deployment, and automated quality validation.",
       },
-      { role: "Digital marketing", kind: "earlier" },
-      { role: "Teaching and academic work", kind: "earlier" },
-      { role: "Logistics", kind: "earlier" },
-      { role: "Quality control", kind: "earlier" },
+      {
+        role: "Digital Marketing & Google Ads",
+        kind: "earlier",
+        summary:
+          "Experience in digital marketing and performance advertising, combining technology with product thinking and user acquisition.",
+      },
+      {
+        role: "Logistics & Operations",
+        kind: "earlier",
+        summary:
+          "Previous operational experience that strengthened process optimization, planning, coordination, and structured problem solving.",
+      },
     ],
     education: [
       {
         credential: "Bachelor of Engineering — Computer Science",
         institution: "Cairo University",
-        period: "2016",
+        period: "2020",
       },
-      { credential: "Software engineering and backend development studies" },
-      { credential: "Digital marketing studies" },
+      {
+        credential: "Diploma — Software Engineering / Backend Development",
+        period: "2020",
+      },
+      {
+        credential: "Diploma — Basics of Modern Education",
+        period: "2021",
+      },
+      {
+        credential: "Diploma — Digital Marketing",
+        period: "2022",
+      },
+    ],
+    languages: [
+      { language: "Arabic", level: "Native" },
+      { language: "English", level: "Professional" },
+      { language: "French", level: "B2" },
+      { language: "German", level: "Developing" },
     ],
   },
 
