@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/types/content";
+import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.

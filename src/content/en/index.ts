@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/types/content";
+import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
