@@ -14,6 +14,7 @@ export const en: Dictionary = {
     { label: "Gallery", path: "/gallery" },
     { label: "Services", path: "/services" },
     { label: "Blogs", path: "/blog" },
+    { label: "Courses", path: "/courses" },
     { label: "Contact", path: "/contact" },
   ],
 

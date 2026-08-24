@@ -14,6 +14,7 @@ export const ar: Dictionary = {
     { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونات", path: "/blog" },
+    { label: "الكورسات", path: "/courses" },
     { label: "تواصل", path: "/contact" },
   ],
 
