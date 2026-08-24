@@ -797,6 +797,52 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "scriptoria-ar",
+      name: "Scriptoria — Arabic AI Creator Studio",
+      category: "AI Platform · Content & Media",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, AI orchestration and deployment",
+      disciplines: [
+        "AI Engineering",
+        "Full-Stack Engineering",
+        "Product Design",
+        "Arabic NLP",
+      ],
+      summary:
+        "An Arabic-first AI studio that turns a short brief into a ready-to-publish video ad, social reel or YouTube script — handling the script, the Arabic dialect, the voice and the visuals end-to-end.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "AI", "Text-to-Speech", "Arabic NLP", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://scriptoria-ar.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: scriptoriaArCover.url,
+          alt: "Scriptoria Arabic AI Creator Studio dashboard with a 'What do you want to create today?' hero and video-ad, social-reel and YouTube format cards",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Scriptoria is an Arabic-first AI creator studio that produces short-form video ads, social reels and long-form YouTube scripts from a brief — writing the script, choosing the Arabic dialect, generating the voice and assembling the visuals in one workflow, with a creator-mode workspace, AI identity, voice studio and automations.",
+        problem:
+          "Arabic content creators need a tool that handles the whole production pipeline — script, dialect, voice and visuals — in one place, instead of stitching together separate tools that don't respect Arabic dialects and pronunciation.",
+        approach:
+          "A studio workspace that takes a format and a brief, then runs a guarded, dialect-aware generation pipeline: a Prompt Guardian fixes the brief before generation, an AI brain and voice layer produce dialect-accurate scripts and narration, and a visual assembly step turns it into a publishable video.",
+        architecture: [
+          "React / TypeScript studio client with creator and studio modes",
+          "Format-first flows: video ad (20–30s), social reel (15–45s), YouTube (3–10 min)",
+          "AI identity layer: AI avatar, voice, brain, characters and brand",
+          "8 Arabic dialects with an accurate-Arabic pronunciation dictionary",
+          "Prompt Guardian that cleans and enforces the brief before generation",
+          "Voice studio and text-to-speech narration pipeline",
+          "Automations and content factory for repeatable production",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
 
 
