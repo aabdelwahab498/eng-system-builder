@@ -34,9 +34,11 @@ import { Route as LocaleCoursesIndexRouteImport } from './routes/$locale.courses
 import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projects.index'
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale.projects.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminActivityRouteImport } from './routes/_authenticated/admin.activity'
 import { Route as AuthenticatedAdminAnnouncementsRouteImport } from './routes/_authenticated/admin.announcements'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authenticated/admin.campaigns'
+import { Route as AuthenticatedAdminClientsRouteImport } from './routes/_authenticated/admin.clients'
 import { Route as AuthenticatedAdminCvRouteImport } from './routes/_authenticated/admin.cv'
 import { Route as AuthenticatedAdminGalleryRouteImport } from './routes/_authenticated/admin.gallery'
 import { Route as AuthenticatedAdminLinkedinRouteImport } from './routes/_authenticated/admin.linkedin'
@@ -45,8 +47,10 @@ import { Route as AuthenticatedAdminPaymentMethodsRouteImport } from './routes/_
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin.profile'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin.projects'
+import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminSeoRouteImport } from './routes/_authenticated/admin.seo'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin.services'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminSkillsRouteImport } from './routes/_authenticated/admin.skills'
 import { Route as AuthenticatedAdminSocialRouteImport } from './routes/_authenticated/admin.social'
 import { Route as AuthenticatedAdminContentKindRouteImport } from './routes/_authenticated/admin.content.$kind'
@@ -178,6 +182,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminActivityRoute =
+  AuthenticatedAdminActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAnnouncementsRoute =
   AuthenticatedAdminAnnouncementsRouteImport.update({
     id: '/announcements',
@@ -193,6 +203,12 @@ const AuthenticatedAdminCampaignsRoute =
   AuthenticatedAdminCampaignsRouteImport.update({
     id: '/campaigns',
     path: '/campaigns',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminClientsRoute =
+  AuthenticatedAdminClientsRouteImport.update({
+    id: '/clients',
+    path: '/clients',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminCvRoute = AuthenticatedAdminCvRouteImport.update({
@@ -241,6 +257,12 @@ const AuthenticatedAdminProjectsRoute =
     path: '/projects',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminRequestsRoute =
+  AuthenticatedAdminRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSeoRoute = AuthenticatedAdminSeoRouteImport.update({
   id: '/seo',
   path: '/seo',
@@ -250,6 +272,12 @@ const AuthenticatedAdminServicesRoute =
   AuthenticatedAdminServicesRouteImport.update({
     id: '/services',
     path: '/services',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminSkillsRoute =
@@ -308,9 +336,11 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/admin/activity': typeof AuthenticatedAdminActivityRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/admin/clients': typeof AuthenticatedAdminClientsRoute
   '/admin/cv': typeof AuthenticatedAdminCvRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
@@ -319,8 +349,10 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/skills': typeof AuthenticatedAdminSkillsRoute
   '/admin/social': typeof AuthenticatedAdminSocialRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
@@ -347,9 +379,11 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/admin/activity': typeof AuthenticatedAdminActivityRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/admin/clients': typeof AuthenticatedAdminClientsRoute
   '/admin/cv': typeof AuthenticatedAdminCvRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
@@ -358,8 +392,10 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/skills': typeof AuthenticatedAdminSkillsRoute
   '/admin/social': typeof AuthenticatedAdminSocialRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
@@ -393,9 +429,11 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/_authenticated/admin/activity': typeof AuthenticatedAdminActivityRoute
   '/_authenticated/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/_authenticated/admin/clients': typeof AuthenticatedAdminClientsRoute
   '/_authenticated/admin/cv': typeof AuthenticatedAdminCvRoute
   '/_authenticated/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/_authenticated/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
@@ -404,8 +442,10 @@ export interface FileRoutesById {
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
+  '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/skills': typeof AuthenticatedAdminSkillsRoute
   '/_authenticated/admin/social': typeof AuthenticatedAdminSocialRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
@@ -440,9 +480,11 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/admin/activity'
     | '/admin/announcements'
     | '/admin/blog'
     | '/admin/campaigns'
+    | '/admin/clients'
     | '/admin/cv'
     | '/admin/gallery'
     | '/admin/linkedin'
@@ -451,8 +493,10 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/profile'
     | '/admin/projects'
+    | '/admin/requests'
     | '/admin/seo'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/skills'
     | '/admin/social'
     | '/$locale/blog/'
@@ -479,9 +523,11 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/admin/activity'
     | '/admin/announcements'
     | '/admin/blog'
     | '/admin/campaigns'
+    | '/admin/clients'
     | '/admin/cv'
     | '/admin/gallery'
     | '/admin/linkedin'
@@ -490,8 +536,10 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/profile'
     | '/admin/projects'
+    | '/admin/requests'
     | '/admin/seo'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/skills'
     | '/admin/social'
     | '/$locale/blog'
@@ -524,9 +572,11 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/_authenticated/admin/activity'
     | '/_authenticated/admin/announcements'
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/campaigns'
+    | '/_authenticated/admin/clients'
     | '/_authenticated/admin/cv'
     | '/_authenticated/admin/gallery'
     | '/_authenticated/admin/linkedin'
@@ -535,8 +585,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/profile'
     | '/_authenticated/admin/projects'
+    | '/_authenticated/admin/requests'
     | '/_authenticated/admin/seo'
     | '/_authenticated/admin/services'
+    | '/_authenticated/admin/settings'
     | '/_authenticated/admin/skills'
     | '/_authenticated/admin/social'
     | '/$locale/blog/'
@@ -735,6 +787,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/activity': {
+      id: '/_authenticated/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AuthenticatedAdminActivityRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/announcements': {
       id: '/_authenticated/admin/announcements'
       path: '/announcements'
@@ -754,6 +813,13 @@ declare module '@tanstack/react-router' {
       path: '/campaigns'
       fullPath: '/admin/campaigns'
       preLoaderRoute: typeof AuthenticatedAdminCampaignsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/clients': {
+      id: '/_authenticated/admin/clients'
+      path: '/clients'
+      fullPath: '/admin/clients'
+      preLoaderRoute: typeof AuthenticatedAdminClientsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/cv': {
@@ -812,6 +878,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminProjectsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/requests': {
+      id: '/_authenticated/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/seo': {
       id: '/_authenticated/admin/seo'
       path: '/seo'
@@ -824,6 +897,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/admin/services'
       preLoaderRoute: typeof AuthenticatedAdminServicesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/skills': {
@@ -889,9 +969,11 @@ const AuthenticatedAdminContentKindRouteWithChildren =
   )
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminActivityRoute: typeof AuthenticatedAdminActivityRoute
   AuthenticatedAdminAnnouncementsRoute: typeof AuthenticatedAdminAnnouncementsRoute
   AuthenticatedAdminBlogRoute: typeof AuthenticatedAdminBlogRoute
   AuthenticatedAdminCampaignsRoute: typeof AuthenticatedAdminCampaignsRoute
+  AuthenticatedAdminClientsRoute: typeof AuthenticatedAdminClientsRoute
   AuthenticatedAdminCvRoute: typeof AuthenticatedAdminCvRoute
   AuthenticatedAdminGalleryRoute: typeof AuthenticatedAdminGalleryRoute
   AuthenticatedAdminLinkedinRoute: typeof AuthenticatedAdminLinkedinRoute
@@ -900,8 +982,10 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
   AuthenticatedAdminProjectsRoute: typeof AuthenticatedAdminProjectsRoute
+  AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminSeoRoute: typeof AuthenticatedAdminSeoRoute
   AuthenticatedAdminServicesRoute: typeof AuthenticatedAdminServicesRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminSkillsRoute: typeof AuthenticatedAdminSkillsRoute
   AuthenticatedAdminSocialRoute: typeof AuthenticatedAdminSocialRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -909,9 +993,11 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminActivityRoute: AuthenticatedAdminActivityRoute,
   AuthenticatedAdminAnnouncementsRoute: AuthenticatedAdminAnnouncementsRoute,
   AuthenticatedAdminBlogRoute: AuthenticatedAdminBlogRoute,
   AuthenticatedAdminCampaignsRoute: AuthenticatedAdminCampaignsRoute,
+  AuthenticatedAdminClientsRoute: AuthenticatedAdminClientsRoute,
   AuthenticatedAdminCvRoute: AuthenticatedAdminCvRoute,
   AuthenticatedAdminGalleryRoute: AuthenticatedAdminGalleryRoute,
   AuthenticatedAdminLinkedinRoute: AuthenticatedAdminLinkedinRoute,
@@ -920,8 +1006,10 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
   AuthenticatedAdminProjectsRoute: AuthenticatedAdminProjectsRoute,
+  AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminSeoRoute: AuthenticatedAdminSeoRoute,
   AuthenticatedAdminServicesRoute: AuthenticatedAdminServicesRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminSkillsRoute: AuthenticatedAdminSkillsRoute,
   AuthenticatedAdminSocialRoute: AuthenticatedAdminSocialRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
