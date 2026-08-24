@@ -12,19 +12,21 @@ export function SiteFooter() {
       title: t.ui.work,
       links: [
         { label: t.ui.featuredProjects, path: "/projects" },
-        { label: t.ui.products, path: "/products" },
+        { label: t.ui.services, path: "/services" },
+        { label: t.ui.writing, path: "/blog" },
+        { label: t.ui.gallery, path: "/gallery" },
       ],
     },
     {
       title: t.ui.profile,
       links: [
         { label: t.ui.about, path: "/about" },
-        { label: t.ui.skills, path: "/skills" },
-        { label: t.ui.services, path: "/services" },
         { label: t.ui.cv, path: "/cv" },
+        { label: t.ui.contact, path: "/contact" },
       ],
     },
   ];
+
 
   const canonicalEmail = getCanonicalContact().find((c) => c.kind === "email")?.value;
   const channels = [

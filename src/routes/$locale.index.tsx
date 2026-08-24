@@ -8,7 +8,6 @@ import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
-import { EmptyProducts, ProductCard } from "@/components/site/ProductCard";
 import { SkillsGrid } from "@/components/site/SkillsGrid";
 import { ContactCta } from "@/components/site/ContactCta";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
@@ -70,7 +69,6 @@ function pickText(value: { en: string; ar: string | null } | undefined, locale: 
 
 function HomePage() {
   const { locale, t } = useLocale();
-  const topSkills = t.skills.slice(0, 3);
   const [workFilter, setWorkFilter] = useState(ALL);
 
   const categories = useMemo(
@@ -132,7 +130,29 @@ function HomePage() {
         </Reveal>
       </Section>
 
-      {/* 2 — Services */}
+      {/* 2 — What I build */}
+      <Section eyebrow={t.ui.capabilities} title={t.ui.whatIBuild} subtitle={t.ui.whatIBuildIntro}>
+        <Stagger className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" step={50}>
+          {t.profile.focusAreas.map((area, i) => (
+            <div key={area} className="h-full bg-surface/70 p-6 sm:p-8">
+              <span className="font-mono text-[11px] text-primary">{String(i + 1).padStart(2, "0")}</span>
+              <p className="mt-3 font-display text-base font-medium">{area}</p>
+            </div>
+          ))}
+        </Stagger>
+      </Section>
+
+      {/* 3 — Engineering stack */}
+      <Section
+        id="engineering-stack"
+        eyebrow={t.ui.capabilities}
+        title={t.ui.engineeringStack}
+        subtitle={t.profile.positioning}
+      >
+        <SkillsGrid categories={t.skills} />
+      </Section>
+
+      {/* 4 — Services */}
       <Section eyebrow={t.ui.services} title={t.ui.services}>
         <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" step={60}>
           {t.services.map((service) => (
@@ -164,32 +184,6 @@ function HomePage() {
         </Reveal>
       </Section>
 
-      {/* 3 — Capabilities */}
-      <Section eyebrow={t.ui.capabilities} title={t.ui.skills}>
-        <SkillsGrid categories={topSkills} />
-        <Reveal className="mt-10">
-          <Link
-            to="/$locale/skills"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.ui.viewAllSkills} <ArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
-      </Section>
-
-      {/* 4 — Products ecosystem */}
-      <Section eyebrow={t.ui.products} title={t.ui.products} subtitle={t.ui.productsIntro}>
-        {t.products.length > 0 ? (
-          <Stagger className="grid gap-6 sm:grid-cols-2" step={80}>
-            {t.products.map((product) => (
-              <ProductCard key={product.slug} product={product} />
-            ))}
-          </Stagger>
-        ) : (
-          <EmptyProducts message={t.ui.noProducts} />
-        )}
-      </Section>
 
       {/* 5 — Universal AI Software Factory */}
       <Section eyebrow={t.ui.factory} title={t.factory.title} subtitle={t.factory.tagline}>

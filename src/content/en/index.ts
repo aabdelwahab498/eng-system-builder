@@ -10,16 +10,14 @@ export const en: Dictionary = {
   htmlLang: "en",
 
   nav: [
-    { label: "Projects", path: "/projects" },
-    { label: "Products", path: "/products" },
-    { label: "Skills", path: "/skills" },
+    { label: "Work", path: "/projects" },
     { label: "Services", path: "/services" },
     { label: "Writing", path: "/blog" },
     { label: "Gallery", path: "/gallery" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
-
   ],
+
 
   ui: {
     home: "Home",
@@ -115,6 +113,16 @@ export const en: Dictionary = {
     ctaTitle: "Have a project in mind?",
     ctaBody: "Tell me what you are building and I will tell you how I would engineer it.",
     idealFor: "Ideal for",
+    engineeringStack: "Engineering Stack",
+    stackIntro: "The technologies I design, build and ship production software with.",
+    whatIBuild: "What I Build",
+    whatIBuildIntro:
+      "Complete software products — architecture, APIs, interfaces, mobile apps, AI systems and production infrastructure.",
+    selectedWorkIntro: "Real systems, products and engineering work.",
+    roleLabel: "Role",
+    scopeLabel: "Scope",
+    projectType: "Project type",
+
   },
 
   meta: {
@@ -169,7 +177,7 @@ export const en: Dictionary = {
     displayName: "Eng. Ahmed Abdelwahab",
     positioning: "Software Engineer · Senior Full Stack Developer & AI · Product Builder",
     statement:
-      "Engineering full stack systems, AI-powered applications and digital products — from architecture to production.",
+      "I design and build production-ready software products across backend, frontend, mobile, AI and cloud infrastructure.",
     shortBio: "",
     longBio: "",
     philosophy: [
@@ -237,8 +245,17 @@ export const en: Dictionary = {
     {
       slug: "najmah",
       name: "Najmah Story Studio",
-      category: "AI-powered web application",
+      category: "AI Product · Full-Stack Web Application",
       status: "Existing project",
+      role: "Architect and sole engineer",
+      scope: "Frontend, backend, data, AI services and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Frontend Engineering",
+        "Backend Architecture",
+        "AI Engineering",
+        "Infrastructure",
+      ],
       summary:
         "An Arabic-first AI application for creating personalized stories and digital story experiences.",
       tech: ["React", "TypeScript", "NestJS", "Supabase", "AI services", "PDF", "Audio"],
@@ -269,8 +286,17 @@ export const en: Dictionary = {
     {
       slug: "universal-ai-software-factory",
       name: "Universal AI Software Factory",
-      category: "AI software engineering platform",
+      category: "AI Software Engineering Platform",
       status: "Active / evolving",
+      role: "Architect and sole engineer",
+      scope: "Platform architecture, AI orchestration, generation tracks and quality gates",
+      disciplines: [
+        "Software Architecture",
+        "AI Engineering",
+        "Backend Architecture",
+        "Automation",
+        "Infrastructure",
+      ],
       summary:
         "A platform that transforms structured software requirements into validated, production-oriented software systems through specialized generation and quality workflows.",
       tech: ["ASP.NET Core", "C#", "Python", "FastAPI", "React", "TypeScript", "Docker", "Nginx"],
@@ -350,10 +376,12 @@ export const en: Dictionary = {
       label: "AI",
       description: "AI integration and orchestration inside real products.",
       items: [
-        { name: "AI orchestration", highlight: true },
-        { name: "Model integration" },
-        { name: "Prompt systems" },
-        { name: "AI services" },
+        { name: "Python", highlight: true },
+        { name: "FastAPI", highlight: true },
+        { name: "LLM integrations", highlight: true },
+        { name: "AI Agents" },
+        { name: "AI Automation" },
+        { name: "AI Orchestration" },
       ],
     },
     {
@@ -380,19 +408,29 @@ export const en: Dictionary = {
         { name: "CI pipelines" },
       ],
     },
+    {
+      id: "architecture",
+      label: "Architecture & Quality",
+      description: "How systems stay coherent as products grow.",
+      items: [
+        { name: "System Design", highlight: true },
+        { name: "API Contracts", highlight: true },
+        { name: "Automated Testing" },
+        { name: "Quality Gates" },
+        { name: "Architecture Validation" },
+      ],
+    },
   ],
 
   capabilityStrip: [
-    ".NET / C#",
-    "ASP.NET Core",
-    "Python",
-    "Flutter / Dart",
-    "React",
-    "TypeScript",
-    "SQL",
-    "AI Systems",
-    "Docker",
+    "Full-Stack Engineering",
+    "AI Engineering",
+    "Backend & APIs",
+    "Frontend Engineering",
+    "Mobile — Flutter",
+    "Cloud & DevOps",
     "Software Architecture",
+    "Product Building",
   ],
 
   services: [

@@ -93,10 +93,38 @@ function ProjectPage() {
   return (
     <>
       <PageHeader eyebrow={project.category} title={project.name} subtitle={project.summary}>
+        <dl className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: t.ui.projectType, value: project.category },
+            { label: t.ui.roleLabel, value: project.role },
+            { label: t.ui.scopeLabel, value: project.scope },
+            { label: t.ui.status, value: project.status },
+          ]
+            .filter((f) => f.value)
+            .map((f) => (
+              <div key={f.label} className="bg-surface/70 p-4">
+                <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {f.label}
+                </dt>
+                <dd className="mt-2 text-sm text-foreground">{f.value}</dd>
+              </div>
+            ))}
+        </dl>
+
+        {(project.disciplines?.length ?? 0) > 0 && (
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {project.disciplines!.map((d) => (
+              <li
+                key={d}
+                className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs text-primary"
+              >
+                {d}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <span className="rounded-sm border border-border px-3 py-1 font-mono text-[11px] text-muted-foreground">
-            {t.ui.status}: {project.status}
-          </span>
           {project.links?.map((link) => (
             <a
               key={link.url}
@@ -111,6 +139,7 @@ function ProjectPage() {
           ))}
         </div>
       </PageHeader>
+
 
       {project.media[0] && (
         <Section bordered={false} className="pt-0">

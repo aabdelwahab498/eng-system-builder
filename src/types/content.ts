@@ -58,6 +58,8 @@ export type Project = {
   category: string;
   status: string;
   role?: string;
+  scope?: string;
+  disciplines?: string[];
   solution?: string;
   features?: string[];
   summary: string;
@@ -100,7 +102,8 @@ export type SkillCategoryId =
   | "mobile"
   | "ai"
   | "databases"
-  | "devops";
+  | "devops"
+  | "architecture";
 
 export type SkillCategory = {
   id: SkillCategoryId;
@@ -247,6 +250,15 @@ export type UiStrings = {
   ctaTitle: string;
   ctaBody: string;
   idealFor: string;
+  engineeringStack: string;
+  stackIntro: string;
+  whatIBuild: string;
+  whatIBuildIntro: string;
+  selectedWorkIntro: string;
+  roleLabel: string;
+  scopeLabel: string;
+  projectType: string;
+
 };
 
 export type MetaKey =
