@@ -21,6 +21,7 @@ import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
 import { Route as LocaleCoursesRouteImport } from './routes/$locale.courses'
 import { Route as LocaleCvRouteImport } from './routes/$locale.cv'
 import { Route as LocaleGalleryRouteImport } from './routes/$locale.gallery'
+import { Route as LocalePayRouteImport } from './routes/$locale.pay'
 import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
@@ -34,6 +35,7 @@ import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projec
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale.projects.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin.media'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminContentKindRouteImport } from './routes/_authenticated/admin.content.$kind'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 import { Route as AuthenticatedAdminContentKindIndexRouteImport } from './routes/_authenticated/admin.content.$kind.index'
@@ -96,6 +98,11 @@ const LocaleCvRoute = LocaleCvRouteImport.update({
 const LocaleGalleryRoute = LocaleGalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocalePayRoute = LocalePayRouteImport.update({
+  id: '/pay',
+  path: '/pay',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleProductsRoute = LocaleProductsRouteImport.update({
@@ -163,6 +170,12 @@ const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
   path: '/media',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminContentKindRoute =
   AuthenticatedAdminContentKindRouteImport.update({
     id: '/content/$kind',
@@ -198,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/$locale/courses': typeof LocaleCoursesRouteWithChildren
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/gallery': typeof LocaleGalleryRoute
+  '/$locale/pay': typeof LocalePayRoute
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
@@ -207,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/certificates/': typeof LocaleCertificatesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
@@ -224,6 +239,7 @@ export interface FileRoutesByTo {
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/gallery': typeof LocaleGalleryRoute
+  '/$locale/pay': typeof LocalePayRoute
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
@@ -231,6 +247,7 @@ export interface FileRoutesByTo {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
   '/$locale/certificates': typeof LocaleCertificatesIndexRoute
   '/$locale/courses': typeof LocaleCoursesIndexRoute
@@ -253,6 +270,7 @@ export interface FileRoutesById {
   '/$locale/courses': typeof LocaleCoursesRouteWithChildren
   '/$locale/cv': typeof LocaleCvRoute
   '/$locale/gallery': typeof LocaleGalleryRoute
+  '/$locale/pay': typeof LocalePayRoute
   '/$locale/products': typeof LocaleProductsRoute
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
@@ -262,6 +280,7 @@ export interface FileRoutesById {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/certificates/': typeof LocaleCertificatesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
@@ -285,6 +304,7 @@ export interface FileRouteTypes {
     | '/$locale/courses'
     | '/$locale/cv'
     | '/$locale/gallery'
+    | '/$locale/pay'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
@@ -294,6 +314,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/admin/media'
+    | '/admin/payments'
     | '/$locale/blog/'
     | '/$locale/certificates/'
     | '/$locale/courses/'
@@ -311,6 +332,7 @@ export interface FileRouteTypes {
     | '/$locale/contact'
     | '/$locale/cv'
     | '/$locale/gallery'
+    | '/$locale/pay'
     | '/$locale/products'
     | '/$locale/services'
     | '/$locale/skills'
@@ -318,6 +340,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/admin/media'
+    | '/admin/payments'
     | '/$locale/blog'
     | '/$locale/certificates'
     | '/$locale/courses'
@@ -339,6 +362,7 @@ export interface FileRouteTypes {
     | '/$locale/courses'
     | '/$locale/cv'
     | '/$locale/gallery'
+    | '/$locale/pay'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
@@ -348,6 +372,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/_authenticated/admin/media'
+    | '/_authenticated/admin/payments'
     | '/$locale/blog/'
     | '/$locale/certificates/'
     | '/$locale/courses/'
@@ -453,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleGalleryRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/pay': {
+      id: '/$locale/pay'
+      path: '/pay'
+      fullPath: '/$locale/pay'
+      preLoaderRoute: typeof LocalePayRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/products': {
       id: '/$locale/products'
       path: '/products'
@@ -544,6 +576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/content/$kind': {
       id: '/_authenticated/admin/content/$kind'
       path: '/content/$kind'
@@ -594,12 +633,14 @@ const AuthenticatedAdminContentKindRouteWithChildren =
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminContentKindRoute: typeof AuthenticatedAdminContentKindRouteWithChildren
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
+  AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminContentKindRoute:
     AuthenticatedAdminContentKindRouteWithChildren,
@@ -678,6 +719,7 @@ interface LocaleRouteChildren {
   LocaleCoursesRoute: typeof LocaleCoursesRouteWithChildren
   LocaleCvRoute: typeof LocaleCvRoute
   LocaleGalleryRoute: typeof LocaleGalleryRoute
+  LocalePayRoute: typeof LocalePayRoute
   LocaleProductsRoute: typeof LocaleProductsRoute
   LocaleProjectsRoute: typeof LocaleProjectsRouteWithChildren
   LocaleServicesRoute: typeof LocaleServicesRoute
@@ -693,6 +735,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleCoursesRoute: LocaleCoursesRouteWithChildren,
   LocaleCvRoute: LocaleCvRoute,
   LocaleGalleryRoute: LocaleGalleryRoute,
+  LocalePayRoute: LocalePayRoute,
   LocaleProductsRoute: LocaleProductsRoute,
   LocaleProjectsRoute: LocaleProjectsRouteWithChildren,
   LocaleServicesRoute: LocaleServicesRoute,

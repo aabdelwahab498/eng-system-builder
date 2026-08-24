@@ -105,6 +105,15 @@ function AdminLayout() {
               >
                 Media
               </Link>
+              <Link
+                to="/admin/payments"
+                className={cn(
+                  "block rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
+                  pathname.startsWith("/admin/payments") && "bg-surface text-foreground",
+                )}
+              >
+                Payments
+              </Link>
             </div>
           </nav>
 
@@ -136,6 +145,9 @@ function AdminLayout() {
           ))}
           <Link to="/admin/media" className="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
             Media
+          </Link>
+          <Link to="/admin/payments" className="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
+            Payments
           </Link>
         </div>
         <Outlet />
