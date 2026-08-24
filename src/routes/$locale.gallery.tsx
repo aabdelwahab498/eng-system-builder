@@ -108,6 +108,21 @@ function GalleryPage() {
       <PageHeader eyebrow={t.ui.gallery} title={t.ui.gallery} subtitle={t.ui.galleryIntro} />
 
       <Section>
+        <Reveal>
+          <div className="mb-12 flex flex-col items-center gap-3 text-center">
+            <p className="font-display text-lg font-medium text-foreground sm:text-xl">
+              {locale === "ar"
+                ? "تفرّج… وشاهد أعمالنا"
+                : "Take a look… and watch our work"}
+            </p>
+            <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
+              {locale === "ar"
+                ? "خذ وقتك، واستكبر بحرية. كل ما ستجده هنا صُنع بإبداع وحرفية وهدوء — لتهدأ بالك وتطمئن لما سنقدّمه لك."
+                : "Take your time and explore freely. Everything here was made with creativity, craftsmanship and calm — so you can feel at ease and confident in what we'll deliver for you."}
+            </p>
+          </div>
+        </Reveal>
+
         <nav aria-label={t.ui.gallery} className="flex flex-wrap gap-2">
           {gallerySections.map((s) => (
             <a
