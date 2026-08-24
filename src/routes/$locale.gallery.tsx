@@ -106,7 +106,6 @@ function GalleryPage() {
   return (
     <>
       <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.gallery, path: "/gallery" }]} />
-      <PageHeader eyebrow={t.ui.gallery} title={t.ui.gallery} subtitle={t.ui.galleryIntro} />
 
       <Section>
         <Reveal>
