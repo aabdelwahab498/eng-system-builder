@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocaleBlogRouteImport } from './routes/$locale.blog'
+import { Route as LocaleCertificatesRouteImport } from './routes/$locale.certificates'
 import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
 import { Route as LocaleCoursesRouteImport } from './routes/$locale.courses'
 import { Route as LocaleCvRouteImport } from './routes/$locale.cv'
@@ -27,6 +28,7 @@ import { Route as LocaleSkillsRouteImport } from './routes/$locale.skills'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as LocaleBlogIndexRouteImport } from './routes/$locale.blog.index'
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale.blog.$slug'
+import { Route as LocaleCertificatesIndexRouteImport } from './routes/$locale.certificates.index'
 import { Route as LocaleCoursesIndexRouteImport } from './routes/$locale.courses.index'
 import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projects.index'
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale.projects.$slug'
@@ -69,6 +71,11 @@ const LocaleAboutRoute = LocaleAboutRouteImport.update({
 const LocaleBlogRoute = LocaleBlogRouteImport.update({
   id: '/blog',
   path: '/blog',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleCertificatesRoute = LocaleCertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleContactRoute = LocaleContactRouteImport.update({
@@ -126,6 +133,11 @@ const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => LocaleBlogRoute,
 } as any)
+const LocaleCertificatesIndexRoute = LocaleCertificatesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleCertificatesRoute,
+} as any)
 const LocaleCoursesIndexRoute = LocaleCoursesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -181,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/blog': typeof LocaleBlogRouteWithChildren
+  '/$locale/certificates': typeof LocaleCertificatesRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/courses': typeof LocaleCoursesRouteWithChildren
   '/$locale/cv': typeof LocaleCvRoute
@@ -195,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/certificates/': typeof LocaleCertificatesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -218,6 +232,7 @@ export interface FileRoutesByTo {
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
+  '/$locale/certificates': typeof LocaleCertificatesIndexRoute
   '/$locale/courses': typeof LocaleCoursesIndexRoute
   '/$locale/projects': typeof LocaleProjectsIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -233,6 +248,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/blog': typeof LocaleBlogRouteWithChildren
+  '/$locale/certificates': typeof LocaleCertificatesRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/courses': typeof LocaleCoursesRouteWithChildren
   '/$locale/cv': typeof LocaleCvRoute
@@ -247,6 +263,7 @@ export interface FileRoutesById {
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/certificates/': typeof LocaleCertificatesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -263,6 +280,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/$locale/about'
     | '/$locale/blog'
+    | '/$locale/certificates'
     | '/$locale/contact'
     | '/$locale/courses'
     | '/$locale/cv'
@@ -277,6 +295,7 @@ export interface FileRouteTypes {
     | '/$locale/projects/$slug'
     | '/admin/media'
     | '/$locale/blog/'
+    | '/$locale/certificates/'
     | '/$locale/courses/'
     | '/$locale/projects/'
     | '/admin/'
@@ -300,6 +319,7 @@ export interface FileRouteTypes {
     | '/$locale/projects/$slug'
     | '/admin/media'
     | '/$locale/blog'
+    | '/$locale/certificates'
     | '/$locale/courses'
     | '/$locale/projects'
     | '/admin'
@@ -314,6 +334,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/$locale/about'
     | '/$locale/blog'
+    | '/$locale/certificates'
     | '/$locale/contact'
     | '/$locale/courses'
     | '/$locale/cv'
@@ -328,6 +349,7 @@ export interface FileRouteTypes {
     | '/$locale/projects/$slug'
     | '/_authenticated/admin/media'
     | '/$locale/blog/'
+    | '/$locale/certificates/'
     | '/$locale/courses/'
     | '/$locale/projects/'
     | '/_authenticated/admin/'
@@ -394,6 +416,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/$locale/blog'
       preLoaderRoute: typeof LocaleBlogRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/certificates': {
+      id: '/$locale/certificates'
+      path: '/certificates'
+      fullPath: '/$locale/certificates'
+      preLoaderRoute: typeof LocaleCertificatesRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/contact': {
@@ -472,6 +501,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$locale/blog/$slug'
       preLoaderRoute: typeof LocaleBlogSlugRouteImport
       parentRoute: typeof LocaleBlogRoute
+    }
+    '/$locale/certificates/': {
+      id: '/$locale/certificates/'
+      path: '/'
+      fullPath: '/$locale/certificates/'
+      preLoaderRoute: typeof LocaleCertificatesIndexRouteImport
+      parentRoute: typeof LocaleCertificatesRoute
     }
     '/$locale/courses/': {
       id: '/$locale/courses/'
@@ -597,6 +633,17 @@ const LocaleBlogRouteWithChildren = LocaleBlogRoute._addFileChildren(
   LocaleBlogRouteChildren,
 )
 
+interface LocaleCertificatesRouteChildren {
+  LocaleCertificatesIndexRoute: typeof LocaleCertificatesIndexRoute
+}
+
+const LocaleCertificatesRouteChildren: LocaleCertificatesRouteChildren = {
+  LocaleCertificatesIndexRoute: LocaleCertificatesIndexRoute,
+}
+
+const LocaleCertificatesRouteWithChildren =
+  LocaleCertificatesRoute._addFileChildren(LocaleCertificatesRouteChildren)
+
 interface LocaleCoursesRouteChildren {
   LocaleCoursesIndexRoute: typeof LocaleCoursesIndexRoute
 }
@@ -626,6 +673,7 @@ const LocaleProjectsRouteWithChildren = LocaleProjectsRoute._addFileChildren(
 interface LocaleRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
   LocaleBlogRoute: typeof LocaleBlogRouteWithChildren
+  LocaleCertificatesRoute: typeof LocaleCertificatesRouteWithChildren
   LocaleContactRoute: typeof LocaleContactRoute
   LocaleCoursesRoute: typeof LocaleCoursesRouteWithChildren
   LocaleCvRoute: typeof LocaleCvRoute
@@ -640,6 +688,7 @@ interface LocaleRouteChildren {
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
   LocaleBlogRoute: LocaleBlogRouteWithChildren,
+  LocaleCertificatesRoute: LocaleCertificatesRouteWithChildren,
   LocaleContactRoute: LocaleContactRoute,
   LocaleCoursesRoute: LocaleCoursesRouteWithChildren,
   LocaleCvRoute: LocaleCvRoute,
