@@ -96,39 +96,7 @@ function HomePage() {
       <Hero />
       <CapabilityStrip />
 
-      {/* 1 — Selected work, filterable */}
-      <Section eyebrow={t.ui.selectedWork} title={t.ui.featuredProjects}>
-        {categories.length > 1 && (
-          <FilterBar
-            className="mb-10"
-            label={t.ui.filterBy}
-            active={workFilter}
-            onChange={setWorkFilter}
-            options={[
-              { id: ALL, label: t.ui.allCategories },
-              ...categories.map((c) => ({ id: c, label: c })),
-            ]}
-          />
-        )}
-        {work.length > 0 ? (
-          <Stagger className="grid gap-6 lg:grid-cols-2" step={90}>
-            {work.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </Stagger>
-        ) : (
-          <p className="text-sm text-muted-foreground">{t.ui.noMatches}</p>
-        )}
-        <Reveal className="mt-10">
-          <Link
-            to="/$locale/projects"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.ui.viewAllProjects} <ArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
-      </Section>
+
 
       {/* 2 — What I build */}
       <Section eyebrow={t.ui.capabilities} title={t.ui.whatIBuild} subtitle={t.ui.whatIBuildIntro}>
