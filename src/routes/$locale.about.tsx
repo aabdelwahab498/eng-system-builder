@@ -29,12 +29,16 @@ export const Route = createFileRoute("/$locale/about")({
         name: getContent(locale).profile.displayName,
         description: m.description,
         alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+        knowsAbout: [
+          "C#", ".NET", "ASP.NET Core", "TypeScript", "React",
+          "Python", "FastAPI", "Docker", "AI agents", "System design",
+        ],
         hasCredential: {
           "@type": "EducationalOccupationalCredential",
           credentialCategory: "Bachelor of Engineering — Computer Science",
           educationalLevel: "Bachelor",
           recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
-          dateCreated: "2016",
+          dateCreated: "2020",
         },
       }],
     });
