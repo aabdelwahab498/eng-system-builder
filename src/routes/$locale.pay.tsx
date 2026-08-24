@@ -20,9 +20,8 @@ import { cn } from "@/lib/utils";
 type PaySearch = { service?: string };
 
 export const Route = createFileRoute("/$locale/pay")({
-  validateSearch: (search: Record<string, unknown>): PaySearch => ({
-    service: typeof search.service === "string" ? search.service : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): PaySearch =>
+    typeof search["service"] === "string" ? { service: search["service"] } : {},
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const title =

@@ -46,7 +46,7 @@ export const localPaymentSubmissions: PaymentSubmissionRepository = {
     return submission;
   },
   async setStatus(id, status, note) {
-    write(read().map((s) => (s.id === id ? { ...s, status, note: note ?? s.note } : s)));
+    write(read().map((s) => (s.id === id ? { ...s, status, ...(note ? { note } : {}) } : s)));
   },
 };
 
