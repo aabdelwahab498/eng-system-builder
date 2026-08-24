@@ -174,11 +174,6 @@ function ServicesPage() {
           </Link>
           <WhatsAppCta
             label={t.chat}
-            message={
-              selected
-                ? `Hello Ahmed, I am interested in your ${selected.title.en} service.`
-                : "Hello Ahmed, I am interested in starting a project."
-            }
           />
         </div>
         <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>

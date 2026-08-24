@@ -76,6 +76,8 @@ export const CONTACT_NUMBERS = {
   /** Chat / support only. */
   whatsapp: "+201105725029",
   whatsappDisplay: "+20 11 0572 5029",
+  /** Canonical WhatsApp short link used for all generic contact CTAs. */
+  whatsappShortLink: "https://wa.link/2oh0qi",
   /** Vodafone Cash wallet — payments only, NOT WhatsApp. */
   vodafoneCash: "+201050064380",
   vodafoneCashDisplay: "+20 10 5006 4380",

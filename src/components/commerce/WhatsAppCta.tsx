@@ -1,9 +1,10 @@
 import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { WHATSAPP_DISPLAY, whatsappLink } from "@/lib/whatsapp";
+import { WHATSAPP_DISPLAY, WHATSAPP_LINK, whatsappLink } from "@/lib/whatsapp";
 
 type Props = {
-  message: string;
+  /** Optional prefilled message. When omitted, the canonical wa.link short link is used. */
+  message?: string;
   label: string;
   className?: string;
   showNumber?: boolean;
@@ -13,7 +14,7 @@ type Props = {
 export function WhatsAppCta({ message, label, className, showNumber = true }: Props) {
   return (
     <a
-      href={whatsappLink(message)}
+      href={message?.trim() ? whatsappLink(message) : WHATSAPP_LINK}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(

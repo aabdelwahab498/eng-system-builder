@@ -159,14 +159,7 @@ function PayPage() {
           <p className="mt-3 text-sm text-muted-foreground">{t.pending}</p>
           <p className="mt-2 text-sm text-muted-foreground">{t.next}</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <WhatsAppCta
-              label={t.contact}
-              message={
-                service
-                  ? `Hello Ahmed, I submitted a payment proof for my ${service.title.en} project.`
-                  : "Hello Ahmed, I submitted a payment proof for my project."
-              }
-            />
+            <WhatsAppCta label={t.contact} />
             <button
               type="button"
               onClick={() => {
@@ -290,7 +283,7 @@ function PayPage() {
             >
               {t.submit}
             </button>
-            <WhatsAppCta label={t.contact} message="Hello Ahmed, I am interested in starting a project." />
+            <WhatsAppCta label={t.contact} />
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">{t.noVerify}</p>

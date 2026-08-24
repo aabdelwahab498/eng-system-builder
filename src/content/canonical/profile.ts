@@ -143,7 +143,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     platform: "whatsapp",
-    url: "https://wa.me/201105725029",
+    url: "https://wa.link/2oh0qi",
     status: "verified",
     provenance: { sourceType: "user-provided", source: "Phase 5 socials" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
