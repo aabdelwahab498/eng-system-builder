@@ -65,11 +65,6 @@ export function ImageCatalog({
   return (
     <div className={cn("select-none", className)}>
       <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)]">
-        {/* spine highlight, gives the catalog/booklet feel */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-border-strong/70 to-transparent sm:block"
-        />
 
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-background/60">
           <img
