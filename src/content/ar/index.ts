@@ -10,13 +10,13 @@ export const ar: Dictionary = {
   htmlLang: "ar",
 
   nav: [
-    { label: "الأعمال", path: "/projects" },
+    { label: "نبذة", path: "/about" },
+    { label: "المعرض", path: "/gallery" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونة", path: "/blog" },
-    { label: "المعرض", path: "/gallery" },
-    { label: "نبذة", path: "/about" },
     { label: "تواصل", path: "/contact" },
   ],
+
 
   ui: {
     home: "الرئيسية",
