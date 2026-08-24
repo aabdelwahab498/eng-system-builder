@@ -285,20 +285,7 @@ function HomePage() {
         </Section>
       )}
 
-      {/* 8 — How I work */}
-      <Section eyebrow={t.ui.howIWork} title={t.ui.howIWork}>
-        <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" step={60}>
-          {t.profile.philosophy.map((p, i) => (
-            <div key={p.title} className="lift h-full rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
-              <span className="font-mono text-[11px] text-primary">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-3 font-display text-lg font-medium">{p.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-            </div>
-          ))}
-        </Stagger>
-      </Section>
-
-      {/* 9 — Education */}
+      {/* 8 — Education */}
       {t.profile.education && t.profile.education.length > 0 && (
         <Section eyebrow={t.ui.education} title={t.ui.education}>
           <Stagger className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" step={50}>
