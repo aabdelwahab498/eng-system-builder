@@ -41,7 +41,11 @@ function CvPage() {
 
   return (
     <>
-      <PageHeader eyebrow={t.ui.cv} title={t.ui.cv} subtitle={t.ui.cvIntro} />
+      <PageHeader
+        eyebrow={t.ui.cv}
+        title={cv.profile.identity.professionalName}
+        subtitle={pickOrEn(cv.profile.positioning.shortHeadline, locale)}
+      />
 
       <Section>
         <div className="no-print mb-10 flex flex-wrap items-center gap-3">
