@@ -234,6 +234,66 @@
   }
 }
 
+/* Lustrous metallic copper/bronze fill for headings (background-clip text). */
+@utility metallic-copper {
+  background: linear-gradient(
+    100deg,
+    #3a1208 0%,
+    #8b2d13 16%,
+    #c45a1f 34%,
+    #f6b46a 50%,
+    #c45a1f 66%,
+    #8b2d13 84%,
+    #3a1208 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: copper-shimmer 5.5s ease-in-out infinite;
+}
+
+@keyframes copper-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Glossy copper glow for icon glyphs (SVG currentColor). */
+@utility copper-icon {
+  color: #d4661f;
+  filter:
+    drop-shadow(0 0 3px rgba(212, 102, 31, 0.45))
+    drop-shadow(0 0 1px rgba(246, 180, 106, 0.55));
+  animation: copper-icon-shine 4.8s ease-in-out infinite;
+}
+
+@keyframes copper-icon-shine {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 3px rgba(212, 102, 31, 0.4))
+      drop-shadow(0 0 1px rgba(246, 180, 106, 0.5));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 7px rgba(246, 180, 106, 0.8))
+      drop-shadow(0 0 2px rgba(255, 210, 140, 0.85));
+  }
+}
+
+/* Visible caret for the copper-gradient typewriter heading. */
+@utility copper-caret {
+  color: #f6b46a;
+  box-shadow: 0 0 6px rgba(246, 180, 106, 0.7);
+}
+
+
 /* PowerShell-style prompt box */
 @utility ps-box {
   box-shadow:
