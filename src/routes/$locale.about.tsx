@@ -69,7 +69,10 @@ function AboutPage() {
       <Section eyebrow={t.ui.overview} title={t.profile.statement}>
         <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
           {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-          {t.profile.longBio && <p>{t.profile.longBio}</p>}
+          {t.profile.longBio &&
+            t.profile.longBio.split("\n\n").map((para, idx) => (
+              <p key={idx}>{para}</p>
+            ))}
           {!t.profile.shortBio && !t.profile.longBio && (
             <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
               {t.ui.contentPending}
