@@ -702,6 +702,52 @@ export const en: Dictionary = {
         outcome: "",
       },
     },
+    {
+      slug: "wameed-os",
+      name: "Wameed OS — CRM & HR Business Operating System",
+      category: "Web Platform · CRM & HR",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Backend Architecture",
+        "Product Design",
+        "Data Modeling",
+      ],
+      summary:
+        "A unified business operating system combining CRM pipeline, lead and client management, HR, project tracking, payments, campaigns and an AI assistant in one bilingual dashboard.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://wameed-flow-hub.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: wameedOsCover.url,
+          alt: "Wameed OS dashboard with revenue, project and lead KPI cards, revenue chart and project-types donut",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Wameed OS is a single workspace that consolidates CRM, HR and project operations — a dashboard that surfaces revenue, active projects, pending payments and team earnings alongside a CRM pipeline, leads and clients, projects, payments, kanban, campaigns, wallets, academy, performance, automations and an AI assistant.",
+        problem:
+          "Growing teams run sales, people and project operations across disconnected spreadsheets and tools, so revenue, leads and team performance are never visible from one place.",
+        approach:
+          "A role-aware dashboard built around a shared data model: every lead, client, project, payment and team member links back to a single source, with KPI cards, charts and lists that update from the same records, plus an automations engine and AI assistant to reduce manual work.",
+        architecture: [
+          "React / TypeScript dashboard client",
+          "CRM pipeline, leads and clients data model",
+          "HR: team earnings, performance and feedback modules",
+          "Projects, payments, wallets and kanban tracking",
+          "Campaigns, academy and knowledge base modules",
+          "Automations engine and AI assistant",
+          "Supabase auth, data and storage with role-aware access",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
   ],
 
 
