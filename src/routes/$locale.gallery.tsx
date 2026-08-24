@@ -153,7 +153,7 @@ function GalleryPage() {
                   <p className="font-display text-base font-semibold text-foreground sm:text-lg">
                     {t.ui.youtubeCtaTitle}
                   </p>
-                  <p className="max-w-xl text-sm text-muted-foreground">{t.ui.youtubeCtaBody}</p>
+                  <p className="max-w-xl text-sm text-foreground/70">{t.ui.youtubeCtaBody}</p>
                 </div>
               </div>
               <span className="relative inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[#ff0000] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(255,0,0,0.45)] transition-transform group-hover:scale-105 sm:self-center">
