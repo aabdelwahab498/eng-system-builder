@@ -27,6 +27,12 @@ import kubernetesBasics from "@/assets/certificates/kubernetes-basics-devops.png
 import agileScrumIbm from "@/assets/certificates/agile-scrum-ibm.png.asset.json";
 import csmPracticeExam from "@/assets/certificates/csm-practice-exam.png.asset.json";
 import introDevopsIbm from "@/assets/certificates/intro-devops-ibm.png.asset.json";
+import itFundamentals from "@/assets/certificates/it-fundamentals-ibm.png.asset.json";
+import introSoftwareEngineering from "@/assets/certificates/intro-software-engineering-ibm.png.asset.json";
+import introRisk from "@/assets/certificates/intro-risk-management.png.asset.json";
+import marketRisk from "@/assets/certificates/market-risk-management.png.asset.json";
+import operationalRisk from "@/assets/certificates/operational-risk-management.png.asset.json";
+import riskSpecialization from "@/assets/certificates/risk-management-specialization.png.asset.json";
 
 export type Certificate = {
   id: string;
