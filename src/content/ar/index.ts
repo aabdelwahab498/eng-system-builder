@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
+import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
@@ -432,6 +433,50 @@ export const ar: Dictionary = {
           "طبقة الباقات وشركاء السفر",
           "مسار طلب الاستشارة",
           "Supabase للمصادقة والبيانات والتخزين",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "wameedh-hub",
+      name: "وَمِيد هَب — منصّة التعلّم والتطوير المهني",
+      category: "منصة ويب · تعليم وتدريب",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج البيانات والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "هندسة الواجهة الأمامية",
+        "معمارية الواجهة الخلفية",
+        "تصميم المنتج",
+      ],
+      summary:
+        "منصة تعليمية ثنائية اللغة تقدّم الكورسات والخدمات والتدريب لمساعدة المهنيين على بناء الثقة وصقل المهارات والتقدّم المهني.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://wameedhhub.com/" }],
+      media: [
+        {
+          kind: "image",
+          src: wameedhHubCover.url,
+          alt: "الصفحة الرئيسية لمنصة وَمِيد هَب مع الكورسات والخدمات ودعوة التسجيل",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "وَمِيد هَب منصة تعلّم وتطوير مهني تجمع الكورسات والتدريب وخدمات بناء المهارات في تجربة ثنائية اللغة مع تسجيل وتبديل مظهر وإشارات تفاعل حية.",
+        problem:
+          "يحتار المهتمون بالتطوّر المهني في إيجاد مسارات تعلّم منظّمة وتدريب في مكان واحد، دون مسار واضح من بناء المهارة إلى التطبيق العملي.",
+        approach:
+          "واجهة موحّدة للتعلّم والتحويل: صفحة رئيسية موجّهة للتحويل، فهارس للكورسات والخدمات، مصادقة، تبديل مظهر، ودعم ثنائي اللغة، مع إشارات اجتماعية حية.",
+        architecture: [
+          "واجهة React / TypeScript",
+          "نموذج بيانات الكورسات والخدمات",
+          "Supabase للمصادقة والبيانات والتخزين",
+          "دعم ثنائي اللغة (عربي/إنجليزي) وتبديل المظهر",
+          "طبقة التفاعل والإثبات الاجتماعي",
         ],
         implementation: "",
         challenges: "",
