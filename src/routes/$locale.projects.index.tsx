@@ -45,8 +45,6 @@ function ProjectsPage() {
 
   const visible = filter === ALL ? t.projects : t.projects.filter((p) => p.category === filter);
 
-  const { locale } = Route.useParams();
-
   return (
     <>
       <Breadcrumbs

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
@@ -43,7 +43,7 @@ export const Route = createFileRoute("/$locale/about")({
 });
 
 function AboutPage() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   return (
     <>
@@ -96,16 +96,27 @@ function AboutPage() {
             </Reveal>
           ))}
         </div>
-        {t.profile.cv?.url && (
-          <Reveal className="mt-10">
-            <a
-              href={t.profile.cv.url}
-              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-secondary"
+        <Reveal className="mt-10 rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+          <p className="eyebrow">{t.ui.cv}</p>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t.ui.cvIntro}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Link
+              to="/$locale/cv"
+              params={{ locale }}
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
-              {t.profile.cv.label}
-            </a>
-          </Reveal>
-        )}
+              {t.ui.cv}
+            </Link>
+            {t.profile.cv?.url && (
+              <a
+                href={t.profile.cv.url}
+                className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                {t.profile.cv.label}
+              </a>
+            )}
+          </div>
+        </Reveal>
       </Section>
 
       {(t.profile.experience?.length || t.profile.education?.length) && (
