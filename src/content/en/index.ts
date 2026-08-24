@@ -151,6 +151,9 @@ export const en: Dictionary = {
     projectType: "Project type",
     videos: "Videos",
     images: "Stills",
+    youtubeCtaTitle: "Watch all our cartoon episodes on YouTube",
+    youtubeCtaBody: "If you'd like to follow all our cartoon videos and episodes on YouTube, tap the link. We'd love your support — subscribe and hit the like button.",
+    youtubeCtaButton: "Subscribe on YouTube",
 
   },
 

@@ -125,6 +125,44 @@ function GalleryPage() {
           </div>
         ) : (
           <div className="space-y-16">
+            <a
+              href="https://www.youtube.com/@MADO674/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-border bg-surface/60 p-6 transition-colors hover:border-strong sm:flex-row sm:items-center sm:justify-between sm:p-8"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,0,0,0.10), rgba(15,23,42,0.6) 60%), linear-gradient(135deg, #0f172a, #1e1b2e)",
+              }}
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-30 blur-3xl transition-opacity group-hover:opacity-60"
+                style={{ background: "radial-gradient(circle, #ff0000, transparent 70%)" }}
+              />
+              <div className="relative flex items-start gap-4">
+                <span
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#ff0000] shadow-[0_0_24px_rgba(255,0,0,0.55)]"
+                  aria-hidden
+                >
+                  <svg viewBox="0 0 24 24" className="h-7 w-7 text-white" fill="currentColor" aria-hidden>
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z" />
+                  </svg>
+                </span>
+                <div className="space-y-1">
+                  <p className="font-display text-base font-semibold text-white sm:text-lg">
+                    {t.ui.youtubeCtaTitle}
+                  </p>
+                  <p className="max-w-xl text-sm text-white/70">{t.ui.youtubeCtaBody}</p>
+                </div>
+              </div>
+              <span className="relative inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[#ff0000] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(255,0,0,0.45)] transition-transform group-hover:scale-105 sm:self-center">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z" />
+                </svg>
+                {t.ui.youtubeCtaButton}
+              </span>
+            </a>
             {videos.length > 0 && (
               <div>
                 <h2 className="eyebrow mb-6">{t.ui.videos}</h2>
