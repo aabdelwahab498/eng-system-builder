@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Section";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
+import { TechMarquee } from "./TechMarquee";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
