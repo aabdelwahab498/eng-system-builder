@@ -18,6 +18,7 @@ import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocaleBlogRouteImport } from './routes/$locale.blog'
 import { Route as LocaleContactRouteImport } from './routes/$locale.contact'
 import { Route as LocaleCvRouteImport } from './routes/$locale.cv'
+import { Route as LocaleGalleryRouteImport } from './routes/$locale.gallery'
 import { Route as LocaleProductsRouteImport } from './routes/$locale.products'
 import { Route as LocaleProjectsRouteImport } from './routes/$locale.projects'
 import { Route as LocaleServicesRouteImport } from './routes/$locale.services'
@@ -78,6 +79,11 @@ const LocaleContactRoute = LocaleContactRouteImport.update({
 const LocaleCvRoute = LocaleCvRouteImport.update({
   id: '/cv',
   path: '/cv',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleGalleryRoute = LocaleGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleProductsRoute = LocaleProductsRouteImport.update({
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
+  '/$locale/gallery': typeof LocaleGalleryRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
+  '/$locale/gallery': typeof LocaleGalleryRoute
   '/$locale/services': typeof LocaleServicesRoute
   '/$locale/skills': typeof LocaleSkillsRoute
   '/$locale': typeof LocaleIndexRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
   '/$locale/cv': typeof LocaleCvRoute
+  '/$locale/gallery': typeof LocaleGalleryRoute
   '/$locale/products': typeof LocaleProductsRouteWithChildren
   '/$locale/projects': typeof LocaleProjectsRouteWithChildren
   '/$locale/services': typeof LocaleServicesRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/$locale/blog'
     | '/$locale/contact'
     | '/$locale/cv'
+    | '/$locale/gallery'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/$locale/about'
     | '/$locale/contact'
     | '/$locale/cv'
+    | '/$locale/gallery'
     | '/$locale/services'
     | '/$locale/skills'
     | '/$locale'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/$locale/blog'
     | '/$locale/contact'
     | '/$locale/cv'
+    | '/$locale/gallery'
     | '/$locale/products'
     | '/$locale/projects'
     | '/$locale/services'
@@ -396,6 +408,13 @@ declare module '@tanstack/react-router' {
       path: '/cv'
       fullPath: '/$locale/cv'
       preLoaderRoute: typeof LocaleCvRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/gallery': {
+      id: '/$locale/gallery'
+      path: '/gallery'
+      fullPath: '/$locale/gallery'
+      preLoaderRoute: typeof LocaleGalleryRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/products': {
@@ -611,6 +630,7 @@ interface LocaleRouteChildren {
   LocaleBlogRoute: typeof LocaleBlogRouteWithChildren
   LocaleContactRoute: typeof LocaleContactRoute
   LocaleCvRoute: typeof LocaleCvRoute
+  LocaleGalleryRoute: typeof LocaleGalleryRoute
   LocaleProductsRoute: typeof LocaleProductsRouteWithChildren
   LocaleProjectsRoute: typeof LocaleProjectsRouteWithChildren
   LocaleServicesRoute: typeof LocaleServicesRoute
@@ -623,6 +643,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleBlogRoute: LocaleBlogRouteWithChildren,
   LocaleContactRoute: LocaleContactRoute,
   LocaleCvRoute: LocaleCvRoute,
+  LocaleGalleryRoute: LocaleGalleryRoute,
   LocaleProductsRoute: LocaleProductsRouteWithChildren,
   LocaleProjectsRoute: LocaleProjectsRouteWithChildren,
   LocaleServicesRoute: LocaleServicesRoute,
