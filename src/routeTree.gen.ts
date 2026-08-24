@@ -42,6 +42,7 @@ import { Route as AuthenticatedAdminClientsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminCvRouteImport } from './routes/_authenticated/admin.cv'
 import { Route as AuthenticatedAdminGalleryRouteImport } from './routes/_authenticated/admin.gallery'
 import { Route as AuthenticatedAdminLinkedinRouteImport } from './routes/_authenticated/admin.linkedin'
+import { Route as AuthenticatedAdminLocalizationRouteImport } from './routes/_authenticated/admin.localization'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin.media'
 import { Route as AuthenticatedAdminPaymentMethodsRouteImport } from './routes/_authenticated/admin.payment-methods'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
@@ -228,6 +229,12 @@ const AuthenticatedAdminLinkedinRoute =
     path: '/linkedin',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminLocalizationRoute =
+  AuthenticatedAdminLocalizationRouteImport.update({
+    id: '/localization',
+    path: '/localization',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -344,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/admin/cv': typeof AuthenticatedAdminCvRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
+  '/admin/localization': typeof AuthenticatedAdminLocalizationRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/payment-methods': typeof AuthenticatedAdminPaymentMethodsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -387,6 +395,7 @@ export interface FileRoutesByTo {
   '/admin/cv': typeof AuthenticatedAdminCvRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
+  '/admin/localization': typeof AuthenticatedAdminLocalizationRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/payment-methods': typeof AuthenticatedAdminPaymentMethodsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -437,6 +446,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/cv': typeof AuthenticatedAdminCvRoute
   '/_authenticated/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/_authenticated/admin/linkedin': typeof AuthenticatedAdminLinkedinRoute
+  '/_authenticated/admin/localization': typeof AuthenticatedAdminLocalizationRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/payment-methods': typeof AuthenticatedAdminPaymentMethodsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -488,6 +498,7 @@ export interface FileRouteTypes {
     | '/admin/cv'
     | '/admin/gallery'
     | '/admin/linkedin'
+    | '/admin/localization'
     | '/admin/media'
     | '/admin/payment-methods'
     | '/admin/payments'
@@ -531,6 +542,7 @@ export interface FileRouteTypes {
     | '/admin/cv'
     | '/admin/gallery'
     | '/admin/linkedin'
+    | '/admin/localization'
     | '/admin/media'
     | '/admin/payment-methods'
     | '/admin/payments'
@@ -580,6 +592,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/cv'
     | '/_authenticated/admin/gallery'
     | '/_authenticated/admin/linkedin'
+    | '/_authenticated/admin/localization'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/payment-methods'
     | '/_authenticated/admin/payments'
@@ -843,6 +856,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminLinkedinRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/localization': {
+      id: '/_authenticated/admin/localization'
+      path: '/localization'
+      fullPath: '/admin/localization'
+      preLoaderRoute: typeof AuthenticatedAdminLocalizationRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/media': {
       id: '/_authenticated/admin/media'
       path: '/media'
@@ -977,6 +997,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCvRoute: typeof AuthenticatedAdminCvRoute
   AuthenticatedAdminGalleryRoute: typeof AuthenticatedAdminGalleryRoute
   AuthenticatedAdminLinkedinRoute: typeof AuthenticatedAdminLinkedinRoute
+  AuthenticatedAdminLocalizationRoute: typeof AuthenticatedAdminLocalizationRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminPaymentMethodsRoute: typeof AuthenticatedAdminPaymentMethodsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
@@ -1001,6 +1022,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCvRoute: AuthenticatedAdminCvRoute,
   AuthenticatedAdminGalleryRoute: AuthenticatedAdminGalleryRoute,
   AuthenticatedAdminLinkedinRoute: AuthenticatedAdminLinkedinRoute,
+  AuthenticatedAdminLocalizationRoute: AuthenticatedAdminLocalizationRoute,
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminPaymentMethodsRoute: AuthenticatedAdminPaymentMethodsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
