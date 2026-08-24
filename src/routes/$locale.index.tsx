@@ -1,13 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { Stagger } from "@/components/site/Motion";
-import { FilterBar } from "@/components/site/FilterBar";
-import { ProjectCard } from "@/components/site/ProjectCard";
 import { ContactCta } from "@/components/site/ContactCta";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
