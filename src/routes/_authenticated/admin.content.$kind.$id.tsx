@@ -14,7 +14,7 @@ import {
   type LocalizedText,
   type WorkflowState,
 } from "@/lib/cms/types";
-import { slugify } from "@/lib/cms/slug";
+import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { Markdown } from "@/lib/cms/markdown";
 import { Button } from "@/components/ui/button";
