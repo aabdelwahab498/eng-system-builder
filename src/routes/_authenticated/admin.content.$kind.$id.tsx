@@ -14,7 +14,7 @@ import {
   type LocalizedText,
   type WorkflowState,
 } from "@/lib/cms/types";
-import { slugify } from "@/lib/cms/slug";
+import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { Markdown } from "@/lib/cms/markdown";
 import { Button } from "@/components/ui/button";
@@ -179,12 +179,21 @@ function ContentEditor() {
     setDraft((prev) => ({ ...prev, data: { ...prev.data, ...partial } }));
 
   const saveMutation = useMutation({
-    mutationFn: () =>
-      save({
+    mutationFn: () => {
+      const titleSource =
+        String((draft.data as Record<string, unknown>)["title_en"] ?? "") ||
+        String((draft.data as Record<string, unknown>)["title_ar"] ?? "") ||
+        String((draft.data as Record<string, unknown>)["name_en"] ?? "");
+      const slug = slugify(draft.slug || titleSource);
+      if (!isValidSlug(slug)) {
+        throw new Error("Add a title or a valid slug (lowercase words separated by hyphens).");
+      }
+      if (slug !== draft.slug) patch({ slug });
+      return save({
         data: {
           ...(isNew ? {} : { id }),
           kind: contentKind,
-          slug: draft.slug,
+          slug,
           state: draft.state,
           visibility: draft.visibility,
           featured: draft.featured,
@@ -192,7 +201,9 @@ function ContentEditor() {
           data: draft.data,
           scheduledAt: draft.scheduledAt,
         },
-      }),
+      });
+    },
+
     onSuccess: (item) => {
       toast.success("Saved");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
