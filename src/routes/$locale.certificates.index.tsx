@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
+import { certificates, pick } from "@/content/certificates";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/certificates/")({
@@ -41,21 +42,52 @@ function CertificatesIndex() {
         subtitle={t.ui.certificatesIntro}
       />
       <Section>
-        <Reveal>
-          <div className="flex flex-col items-center gap-6 rounded-lg border border-border bg-surface/40 p-12 text-center">
-            <span className="grid size-14 place-items-center rounded-full border border-border text-primary">
-              <Award className="size-7" aria-hidden />
-            </span>
-            <div className="max-w-md space-y-2">
-              <p className="font-display text-lg font-semibold text-foreground">
-                {t.ui.comingSoon}
-              </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {t.ui.noCertificates}
-              </p>
-            </div>
-          </div>
-        </Reveal>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {certificates.map((cert, index) => (
+            <Reveal key={cert.id} delay={index * 60}>
+              <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface/40 transition-colors hover:border-primary/50">
+                <a
+                  href={cert.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block overflow-hidden border-b border-border bg-background/60"
+                >
+                  <img
+                    src={cert.image}
+                    alt={pick(cert.title, locale)}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </a>
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <h2 className="font-display text-base font-semibold leading-snug text-foreground">
+                    {pick(cert.title, locale)}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">{pick(cert.issuer, locale)}</p>
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                    {pick(cert.date, locale)}
+                  </p>
+                  {cert.detail ? (
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {pick(cert.detail, locale)}
+                    </p>
+                  ) : null}
+                  {cert.verifyUrl ? (
+                    <a
+                      href={cert.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-medium text-primary hover:underline"
+                    >
+                      {locale === "ar" ? "تحقق من الشهادة" : "Verify certificate"}
+                      <ExternalLink className="size-3.5" aria-hidden />
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </Section>
     </>
   );
