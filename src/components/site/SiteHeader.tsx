@@ -138,22 +138,14 @@ export function SiteHeader() {
                     <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       {t.ui.ourWorks}
                     </p>
-                    <Link
-                      to="/$locale/projects"
-                      params={{ locale }}
-                      className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
-                    >
-                      {t.ui.viewAllProjects}
-                    </Link>
-                    {t.projects.map((p) => (
-                      <Link
-                        key={p.slug}
-                        to="/$locale/projects/$slug"
-                        params={{ locale, slug: p.slug }}
+                    {gallerySections.map((s) => (
+                      <a
+                        key={s.id}
+                        href={`/${locale}/gallery#${s.id}`}
                         className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
                       >
-                        {p.name}
-                      </Link>
+                        {s.label[locale]}
+                      </a>
                     ))}
                   </div>
                 )}
