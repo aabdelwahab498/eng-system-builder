@@ -6,6 +6,8 @@ import { Reveal } from "@/components/site/Reveal";
 import { MediaSlot } from "@/components/site/MediaSlot";
 import { Pipeline } from "@/components/site/SystemFlow";
 import { ContactCta } from "@/components/site/ContactCta";
+import { ProjectCard } from "@/components/site/ProjectCard";
+import { getCanonicalProjects, getCanonicalServices } from "@/content/api";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
 import { breadcrumbs, buildHead } from "@/lib/seo";
