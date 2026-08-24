@@ -73,3 +73,18 @@ export const SOCIAL_LABEL: Record<SocialPlatform, string> = {
   medium: "Medium",
   other: "Link",
 };
+
+/** Official brand colors. Used when icons are shown side-by-side
+ *  in their recognizable hues instead of a monochrome pill. */
+export const SOCIAL_BRAND_COLOR: Record<SocialPlatform, string> = {
+  github: "#ffffff",
+  linkedin: "#0A66C2",
+  facebook: "#1877F2",
+  instagram: "#E1306C",
+  whatsapp: "#25D366",
+  snapchat: "#FFFC00",
+  x: "#ffffff",
+  youtube: "#FF0000",
+  medium: "#ffffff",
+  other: "currentColor",
+};
