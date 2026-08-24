@@ -3,6 +3,9 @@ import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
 import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
+import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
+import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
+import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
@@ -522,6 +525,141 @@ export const ar: Dictionary = {
           "طبقة مقارنة الموردين (سعر، توفر، تسليم)",
           "مسار طلب عرض سعر",
           "مؤشر أسعار السلع اليومي",
+          "Supabase للمصادقة والبيانات والتخزين",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "aurea-clinic-os",
+      name: "Aurea Clinic OS — نظام إدارة عيادات التجميل",
+      category: "منصة ويب · تشغيل الرعاية الصحية",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج البيانات والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "تصميم المنتج",
+        "معمارية الواجهة الخلفية",
+        "تمثيل البيانات",
+      ],
+      summary:
+        "نظام تشغيلي لعيادات التجميل — العملاء المحتملون وإدارة العلاقات، المرضى، المواعيد، خطط العلاج، الجلسات، الفوترة، الحملات والتحليلات في مساحة عمل واحدة.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Recharts"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://clinic-artistry-os.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: aureaClinicCover.url,
+          alt: "لوحة تحكم Aurea Clinic OS بمؤشرات العملاء والإيرادات والمواعيد ورسوم التحويل",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "يمنح Aurea Clinic OS العيادة مساحة عمل واحدة لدورة حياة المريض كاملة: استقبال العميل المحتمل، تحويله إلى مريض، وضع خطة علاج، حجز الجلسات، الفوترة وقياس النتائج.",
+        problem:
+          "تُدار العيادات عبر جداول البيانات ومحادثات واتساب والملفات الورقية — لا مسار موحّد ولا رؤية للإيرادات ولا ربط موثوق بين الإنفاق التسويقي والمرضى المتحوّلين.",
+        approach:
+          "مساحة عمل مبنية على مسار CRM، وسجل إكلينيكي (مرضى وخطط علاج وجلسات)، وطبقة فوترة، ولوحة تحكم تربط العملاء بالإيرادات على مدى 12 شهرًا متحركة.",
+        architecture: [
+          "واجهة React / TypeScript بمساحة عمل ثابتة",
+          "مسار العملاء المحتملين ومراحل CRM",
+          "سجلات المرضى وخطط العلاج وتتبع الجلسات",
+          "وحدات الفوترة والفواتير والحملات",
+          "مكتبة صور قبل/بعد",
+          "Supabase للمصادقة وأمان الصفوف والبيانات",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "maison-parfum",
+      name: "Maison Parfum — متجر عطور فاخرة",
+      category: "منصة ويب · تجارة إلكترونية",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والمتجر ومسار السلة والدفع والخلفية والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "هندسة الواجهة الأمامية",
+        "معمارية التجارة الإلكترونية",
+        "تصميم الهوية والمنتج",
+      ],
+      summary:
+        "متجر عطور فاخر ثنائي اللغة بمجموعات منسّقة للرجال والنساء والجميع، ومسار لتصميم عطر مخصص، وسلة وحسابات، وهوية بصرية تحريرية.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://perfume-joy-store.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: maisonParfumCover.url,
+          alt: "واجهة متجر Maison Parfum بزجاجة عطر وبطاقات المجموعات للرجال والنساء والجميع",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Maison Parfum متجر عطور راقٍ: كتالوج منسّق، ومجموعات مصنّفة، ومسار «اصنع عطرك»، وسلة ودفع، مع تبديل بين العربية والإنجليزية والوضعين الفاتح والداكن.",
+        problem:
+          "تبيع العلامات الصغيرة عبر رسائل السوشيال ميديا دون بنية كتالوج ولا سلة موثوقة ولا متجر ثنائي اللغة يعكس القيمة المتصوَّرة للمنتج.",
+        approach:
+          "متجر تحريري تحمل فيه الطباعة والصور الهوية، مدعومًا بكتالوج منظّم ومسار قابل للتخصيص لصناعة العطر وطبقة سلة وحسابات تقليدية.",
+        architecture: [
+          "واجهة متجر React / TypeScript",
+          "كتالوج المنتجات وتصنيف المجموعات",
+          "مسار تخصيص العطر",
+          "حالة السلة والحساب والطلبات",
+          "دعم ثنائي اللغة مع تبديل السمة",
+          "Supabase للمصادقة والبيانات والتخزين",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "stockhub",
+      name: "StockHub — نظام إدارة المخازن",
+      category: "منصة ويب · تشغيل ومخزون",
+      status: "نسخة حية",
+      role: "المعماري والمهندس الوحيد",
+      scope: "تصميم المنتج والواجهة والخلفية ونموذج البيانات والنشر",
+      disciplines: [
+        "هندسة متكاملة",
+        "معمارية الواجهة الخلفية",
+        "تصميم المنتج",
+        "نمذجة البيانات",
+      ],
+      summary:
+        "نظام مخازن ومخزون عربي أولًا — إدارة المنتجات بالتصنيفات والأسعار، وتتبع حركات الإدخال والإخراج، وتنبيهات ذكية عند انخفاض الكمية.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "معاينة حية", url: "https://prod-warden.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: stockHubCover.url,
+          alt: "الصفحة الرئيسية لـ StockHub ببطاقات التنبيهات الذكية وتتبع المخزون وإدارة المنتجات",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "يدير StockHub المنتجات ومستويات المخزون وحركات المخزن في واجهة عربية واحدة، مع تنبيهات تُطلق تلقائيًا عند نزول أي صنف تحت الحد الأدنى.",
+        problem:
+          "يتابع الموزعون الصغار المخزون على جداول البيانات: الكميات تنحرف عن الواقع، والحركات غير مسجّلة، والنقص يُكتشف فقط عند تعذّر تنفيذ الطلب.",
+        approach:
+          "نموذج بيانات قائم على سجل حركات يعدّل المخزون مع كل إدخال أو إخراج، مع حد أدنى لكل منتج يقود التنبيهات التلقائية، وواجهة ثنائية الاتجاه.",
+        architecture: [
+          "واجهة React / TypeScript بتخطيط RTL أولًا",
+          "كتالوج المنتجات بالتصنيفات والأسعار",
+          "سجل حركات المخزون (إدخال / إخراج)",
+          "تنبيهات مبنية على الحد الأدنى",
+          "مصادقة وصلاحيات حسب الدور",
           "Supabase للمصادقة والبيانات والتخزين",
         ],
         implementation: "",

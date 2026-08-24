@@ -3,6 +3,9 @@ import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
 import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
+import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
+import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
+import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
 
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
@@ -556,6 +559,141 @@ export const en: Dictionary = {
           "Supplier comparison layer (price, availability, delivery)",
           "RFQ workflow with response target",
           "Daily commodity price ticker",
+          "Supabase auth, data and storage",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "aurea-clinic-os",
+      name: "Aurea Clinic OS — Aesthetic Clinic Management",
+      category: "Web Platform · Healthcare Operations",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Product Design",
+        "Backend Architecture",
+        "Data Visualization",
+      ],
+      summary:
+        "An operations system for aesthetic clinics — leads and CRM, patients, appointments, treatment plans, sessions, billing, campaigns and analytics in one workspace.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Recharts"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://clinic-artistry-os.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: aureaClinicCover.url,
+          alt: "Aurea Clinic OS dashboard with lead, revenue and appointment metrics and conversion charts",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Aurea Clinic OS gives an aesthetic clinic one workspace for the full patient lifecycle: capture a lead, convert it to a patient, plan treatments, book sessions, invoice and measure results.",
+        problem:
+          "Clinics run on spreadsheets, WhatsApp threads and paper files — no shared pipeline, no revenue visibility and no reliable link between marketing spend and converted patients.",
+        approach:
+          "A role-aware workspace built around a CRM pipeline, a clinical record (patients, treatment plans, sessions), a billing layer, and a dashboard that ties leads and revenue together over a rolling 12 months.",
+        architecture: [
+          "React / TypeScript client with a persistent workspace shell",
+          "Lead pipeline and CRM stages",
+          "Patient records, treatment plans and session tracking",
+          "Billing, invoices and campaign modules",
+          "Before/after media library",
+          "Supabase auth, row-level security and data",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "maison-parfum",
+      name: "Maison Parfum — Luxury Fragrance E-Commerce",
+      category: "Web Platform · E-Commerce",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, storefront, cart and checkout flow, backend and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Frontend Engineering",
+        "E-Commerce Architecture",
+        "Brand & Product Design",
+      ],
+      summary:
+        "A bilingual luxury fragrance storefront with curated collections for him, her and all, a custom perfume builder, cart and account flows, and an editorial brand aesthetic.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://perfume-joy-store.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: maisonParfumCover.url,
+          alt: "Maison Parfum storefront hero with a perfume bottle and collection cards for him, her and all",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "Maison Parfum is a premium fragrance storefront: curated catalog, gendered collections, a 'create your perfume' path, cart and checkout, plus EN/AR switching and light/dark themes.",
+        problem:
+          "Small fragrance brands sell through social DMs with no catalog structure, no reliable cart and no bilingual storefront that matches the perceived value of the product.",
+        approach:
+          "An editorial storefront where typography and imagery carry the brand, backed by a structured catalog, a configurable custom-perfume flow and a conventional cart/account layer.",
+        architecture: [
+          "React / TypeScript storefront",
+          "Product catalog and collection taxonomy",
+          "Custom perfume configuration flow",
+          "Cart, account and order state",
+          "Bilingual EN/AR with theme switching",
+          "Supabase auth, data and storage",
+        ],
+        implementation: "",
+        challenges: "",
+        outcome: "",
+      },
+    },
+    {
+      slug: "stockhub",
+      name: "StockHub — Inventory Management System",
+      category: "Web Platform · Operations & Inventory",
+      status: "Live preview",
+      role: "Architect and sole engineer",
+      scope: "Product design, frontend, backend, data model and deployment",
+      disciplines: [
+        "Full-Stack Engineering",
+        "Backend Architecture",
+        "Product Design",
+        "Data Modeling",
+      ],
+      summary:
+        "An Arabic-first warehouse and inventory system — product management with categories and pricing, stock movement tracking for inbound and outbound, and smart low-stock alerts.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Vite"],
+      featured: true,
+      links: [{ label: "Live preview", url: "https://prod-warden.lovable.app/" }],
+      media: [
+        {
+          kind: "image",
+          src: stockHubCover.url,
+          alt: "StockHub Arabic hero with feature cards for smart alerts, stock tracking and product management",
+        },
+      ],
+      caseStudy: {
+        overview:
+          "StockHub manages products, stock levels and warehouse movements in one Arabic-first interface, with alerts that fire automatically when an item drops below its reorder threshold.",
+        problem:
+          "Small distributors track stock in spreadsheets: quantities drift from reality, movements are unlogged, and shortages are discovered only when an order cannot be fulfilled.",
+        approach:
+          "A movement-ledger data model where every inbound and outbound entry adjusts stock, plus per-product minimum thresholds that drive automatic alerts and a bilingual RTL/LTR interface.",
+        architecture: [
+          "React / TypeScript client with RTL-first layout",
+          "Product catalog with categories and pricing",
+          "Stock movement ledger (inbound / outbound)",
+          "Threshold-based low-stock alerting",
+          "Authentication and role-aware access",
           "Supabase auth, data and storage",
         ],
         implementation: "",
