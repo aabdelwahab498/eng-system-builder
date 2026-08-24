@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { QuickWhatsApp } from "@/components/site/QuickWhatsApp";
 import { AnnouncementBar } from "@/components/site/AnnouncementBar";
 import { Toaster } from "@/components/ui/sonner";
 import { getContent } from "@/content";
@@ -160,6 +161,7 @@ function RootComponent() {
           <Outlet />
         </main>
         {!isStudio && <SiteFooter />}
+        {!isStudio && <QuickWhatsApp />}
       </div>
       <Toaster />
     </QueryClientProvider>
