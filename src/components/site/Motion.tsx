@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -151,6 +152,7 @@ export function Lift({ children, className }: { children: ReactElement; classNam
 export function Typewriter({
   text,
   className,
+  style,
   as: Tag = "h1",
   speed = 70,
   startDelay = 250,
@@ -161,6 +163,7 @@ export function Typewriter({
 }: {
   text: string;
   className?: string;
+  style?: CSSProperties;
   as?: "h1" | "h2" | "h3" | "p" | "span";
   speed?: number;
   startDelay?: number;
@@ -241,7 +244,7 @@ export function Typewriter({
   const typing = count < text.length;
 
   return (
-    <Tag ref={ref as never} className={cn(className)}>
+    <Tag ref={ref as never} className={cn(className)} style={style}>
       {shown}
       <span
         aria-hidden
