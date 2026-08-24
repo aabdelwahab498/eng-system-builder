@@ -56,6 +56,7 @@
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-digital: "VT323", "Share Tech Mono", ui-monospace, monospace;
 }
 
 :root {
@@ -267,6 +268,17 @@
 /* Glossy copper fill for icon glyphs (SVG currentColor) — static, no shimmer. */
 @utility copper-icon {
   color: #d4661f;
+}
+
+/* Retro digital — glowing phosphor-green terminal text */
+@utility digital-green {
+  font-family: var(--font-digital);
+  color: #4ade80;
+  text-shadow:
+    0 0 4px rgba(74, 222, 128, 0.8),
+    0 0 10px rgba(74, 222, 128, 0.5),
+    0 0 22px rgba(34, 197, 94, 0.35);
+  letter-spacing: 0.02em;
 }
 
 @utility copper-caret {

@@ -64,22 +64,22 @@ export function Hero() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="digital-green">
                 <Link to="/$locale/projects" params={{ locale }}>
                   {t.ui.viewWork}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="digital-green">
                 <Link to="/$locale/contact" params={{ locale }}>
                   {t.ui.letsBuild}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost">
+              <Button asChild size="lg" variant="ghost" className="digital-green">
                 <Link to="/$locale/certificates" params={{ locale }}>
                   {t.ui.seeCertificates}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost">
+              <Button asChild size="lg" variant="ghost" className="digital-green">
                 <Link to="/$locale/cv" params={{ locale }}>
                   {t.ui.cv}
                   <ArrowUpRight className="size-4" />
