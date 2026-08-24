@@ -90,7 +90,7 @@ export function SiteFooter() {
                     {c.platform === "other" ? (
                       <span className="font-mono text-xs">@</span>
                     ) : (
-                      <SocialIcon platform={c.platform} className="size-4" />
+                      <SocialIcon platform={c.platform} className="size-4" style={{ color: "#C9CEC6" }} />
                     )}
                     {c.label}
                   </a>
