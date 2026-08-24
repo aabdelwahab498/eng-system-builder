@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Languages, Menu, X } from "lucide-react";
+import { ChevronDown, Languages, Menu, X } from "lucide-react";
 import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -132,15 +132,40 @@ export function SiteHeader() {
         <div id="mobile-menu" className="border-t border-border bg-background/95 backdrop-blur-xl xl:hidden">
           <Container className="flex flex-col py-4">
             {t.nav.map((item) => (
-              <Link
-                key={item.path}
-                to={`/$locale${item.path}` as "/$locale/projects"}
-                params={{ locale }}
-                className="border-b border-border/60 py-4 font-display text-lg text-muted-foreground transition-colors last:border-0 hover:text-foreground"
-                activeProps={{ className: "text-foreground" }}
-              >
-                {item.label}
-              </Link>
+              <div key={item.path} className="border-b border-border/60 last:border-0">
+                <Link
+                  to={`/$locale${item.path}` as "/$locale/projects"}
+                  params={{ locale }}
+                  className="block py-4 font-display text-lg text-muted-foreground transition-colors hover:text-foreground"
+                  activeProps={{ className: "text-foreground" }}
+                >
+                  {item.label}
+                </Link>
+                {item.path === "/gallery" && (
+                  <div className="pb-4 ps-4">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {t.ui.ourWorks}
+                    </p>
+                    <Link
+                      to="/$locale/projects"
+                      params={{ locale }}
+                      className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {t.ui.viewAllProjects}
+                    </Link>
+                    {t.projects.map((p) => (
+                      <Link
+                        key={p.slug}
+                        to="/$locale/projects/$slug"
+                        params={{ locale, slug: p.slug }}
+                        className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        {p.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <a
               href={switchHref}
