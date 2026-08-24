@@ -1,8 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
+import { FilterBar } from "@/components/site/FilterBar";
+import { Input } from "@/components/ui/input";
 import { listPublicArticles } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead } from "@/lib/seo";
@@ -27,6 +30,8 @@ export const Route = createFileRoute("/$locale/blog/")({
   component: BlogIndex,
 });
 
+const ALL = "__all__";
+
 function pick(value: { en: string; ar: string | null } | undefined, locale: Locale) {
   if (!value) return "";
   return locale === "ar" && value.ar ? value.ar : value.en;
@@ -34,15 +39,47 @@ function pick(value: { en: string; ar: string | null } | undefined, locale: Loca
 
 function BlogIndex() {
   const { locale, t } = useLocale();
+  const [category, setCategory] = useState(ALL);
+  const [query, setQuery] = useState("");
+
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["public", "articles"],
     queryFn: () => listPublicArticles(),
   });
 
+  const categories = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          articles
+            .map((a) => (a.data as unknown as ArticleData).category)
+            .filter((c): c is string => Boolean(c)),
+        ),
+      ),
+    [articles],
+  );
+
+  const visible = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return articles.filter((article) => {
+      const data = article.data as unknown as ArticleData;
+      if (category !== ALL && data.category !== category) return false;
+      if (!needle) return true;
+      const haystack = [
+        pick(data.title, locale),
+        pick(data.excerpt, locale),
+        ...(data.tags ?? []),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(needle);
+    });
+  }, [articles, category, query, locale]);
+
   return (
     <>
       <PageHeader
-        eyebrow={locale === "ar" ? "المدونة" : "Writing"}
+        eyebrow={t.ui.writing}
         title={locale === "ar" ? "مقالات وملاحظات" : "Articles & engineering notes"}
         subtitle={
           locale === "ar"
@@ -51,15 +88,41 @@ function BlogIndex() {
         }
       />
       <Section>
+        <div className="mb-10 flex flex-wrap items-center gap-4">
+          <Input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t.ui.searchPlaceholder}
+            aria-label={t.ui.searchPlaceholder}
+            className="h-10 max-w-xs"
+          />
+          {categories.length > 0 && (
+            <FilterBar
+              label={t.ui.filterBy}
+              active={category}
+              onChange={setCategory}
+              options={[
+                { id: ALL, label: t.ui.allTopics },
+                ...categories.map((c) => ({ id: c, label: c })),
+              ]}
+            />
+          )}
+        </div>
+
         {isLoading ? (
           <p className="text-sm text-muted-foreground">{t.ui.contentPending}</p>
-        ) : articles.length === 0 ? (
+        ) : visible.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet."}
+            {articles.length === 0
+              ? locale === "ar"
+                ? "لا توجد مقالات منشورة بعد."
+                : "No published articles yet."
+              : t.ui.noMatches}
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
-            {articles.map((article, index) => {
+            {visible.map((article, index) => {
               const data = article.data as unknown as ArticleData;
               return (
                 <Reveal key={article.id} delay={index * 60}>
