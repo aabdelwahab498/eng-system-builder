@@ -20,6 +20,10 @@ export const CONTENT_KINDS = [
   "seo",
   "cv_settings",
   "social_draft",
+  "gallery_item",
+  "social_campaign",
+  "marketing_campaign",
+  "payment_method",
 ] as const;
 
 export type ContentKind = (typeof CONTENT_KINDS)[number];
@@ -121,6 +125,47 @@ export type CvSettingsData = {
   featuredProjectSlugs: string[];
 };
 
+export type GalleryItemData = {
+  title: LocalizedText;
+  caption: LocalizedText;
+  mediaUrl: string;
+  mediaType: "image" | "video";
+  category: string;
+  credit?: string;
+  linkUrl?: string;
+};
+
+export type SocialCampaignData = {
+  name: LocalizedText;
+  objective: LocalizedText;
+  platforms: string[];
+  startsAt?: string | null;
+  endsAt?: string | null;
+  outcome: "draft" | "ready" | "scheduled" | "published";
+  notes: LocalizedText;
+};
+
+export type MarketingCampaignData = {
+  name: LocalizedText;
+  channel: "email" | "search" | "social" | "content" | "other";
+  audience: LocalizedText;
+  message: LocalizedText;
+  landingUrl?: string;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  outcome: "planned" | "running" | "paused" | "completed";
+};
+
+export type PaymentMethodData = {
+  label: LocalizedText;
+  provider: string;
+  instructions: LocalizedText;
+  /** Account handle / IBAN / link. Hidden in the admin UI unless revealed. */
+  accountReference: string;
+  currency: string;
+  showOnSite: boolean;
+};
+
 /** Generic payload for canonical entities managed through the JSON editor. */
 export type CanonicalPayload = JsonObject;
 
@@ -151,5 +196,9 @@ export const KIND_LABELS: Record<ContentKind, string> = {
   announcement: "Announcements",
   seo: "SEO",
   cv_settings: "CV",
+  gallery_item: "Gallery",
+  social_campaign: "Social campaigns",
+  marketing_campaign: "Marketing",
+  payment_method: "Payments",
   social_draft: "Social",
 };
