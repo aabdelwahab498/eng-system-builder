@@ -99,11 +99,11 @@ function AdminDashboard() {
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Total projects", value: byKind.project?.total ?? 0 },
-          { label: "Published projects", value: byKind.project?.published ?? 0 },
-          { label: "Published articles", value: byKind.article?.published ?? 0 },
-          { label: "Active services", value: byKind.service?.published ?? 0 },
-          { label: "Gallery items", value: byKind.gallery_item?.total ?? 0 },
+          { label: "Total projects", value: byKind['project']?.total ?? 0 },
+          { label: "Published projects", value: byKind['project']?.published ?? 0 },
+          { label: "Published articles", value: byKind['article']?.published ?? 0 },
+          { label: "Active services", value: byKind['service']?.published ?? 0 },
+          { label: "Gallery items", value: byKind['gallery_item']?.total ?? 0 },
           { label: "Pending requests", value: business?.requests ?? 0 },
           { label: "Pending payments", value: business?.payments ?? 0 },
           { label: "Clients / subscribers", value: `${business?.clients ?? 0} / ${business?.subscribers ?? 0}` },
