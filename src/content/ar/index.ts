@@ -7,6 +7,8 @@ import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 import aureaClinicCover from "@/assets/projects/aurea-clinic.png.asset.json";
 import maisonParfumCover from "@/assets/projects/maison-parfum.png.asset.json";
 import stockHubCover from "@/assets/projects/stockhub.png.asset.json";
+import digitalOpsConsoleCover from "@/assets/projects/digital-ops-console.png.asset.json";
+
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
