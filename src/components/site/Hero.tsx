@@ -82,25 +82,33 @@ export function Hero() {
             </div>
 
 
-            <ul className="mt-8 flex flex-wrap items-center gap-2">
-              {socials.map((s) => (
-                <li key={s.href}>
-                  <a
-                    href={s.href}
-                    target={s.href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel="noreferrer noopener"
-                    aria-label={s.label}
-                    className="inline-flex h-10 items-center gap-2 rounded-sm border border-border px-3 font-mono text-xs text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                  >
-                    {s.isMail ? (
-                      <Mail className="size-4" aria-hidden />
-                    ) : (
-                      <SocialIcon platform={s.platform} className="size-4" />
-                    )}
-                    {s.label}
-                  </a>
-                </li>
-              ))}
+            <ul className="mt-8 flex flex-wrap items-center gap-3">
+              {socials.map((s) => {
+                const color =
+                  s.isMail ? "currentColor" : SOCIAL_BRAND_COLOR[s.platform];
+                return (
+                  <li key={s.href}>
+                    <a
+                      href={s.href}
+                      target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+                      rel="noreferrer noopener"
+                      aria-label={s.label}
+                      title={s.label}
+                      className="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card/40 text-muted-foreground transition-all hover:scale-110 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                    >
+                      {s.isMail ? (
+                        <Mail className="size-5" aria-hidden />
+                      ) : (
+                        <SocialIcon
+                          platform={s.platform}
+                          className="size-5"
+                          style={{ color }}
+                        />
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </Reveal>
 
