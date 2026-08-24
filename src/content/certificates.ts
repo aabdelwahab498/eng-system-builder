@@ -39,7 +39,9 @@ export type Certificate = {
 };
 
 /** Only facts printed on the uploaded certificates — nothing inferred. */
+export const certificates: Certificate[] = [
   {
+    id: "sql-intro-davidson",
     id: "sql-intro-davidson",
     title: {
       en: "DavidsonX_D007: Introduction to SQL",
