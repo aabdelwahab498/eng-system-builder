@@ -3,7 +3,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
 import { SystemFlow } from "./SystemFlow";
-import { TextReveal } from "./Motion";
+import { Typewriter } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { Button } from "@/components/ui/button";
