@@ -83,11 +83,15 @@ function ArticlePage() {
           : ""}
       </p>
       {data.coverImageUrl ? (
-        <img
-          src={data.coverImageUrl}
-          alt={pick(data.title)}
-          className="mt-8 w-full rounded-lg border border-border object-cover"
-        />
+        <figure className="mt-8 overflow-hidden rounded-xl border border-border">
+          <div className="aspect-[16/9] w-full bg-muted">
+            <img
+              src={data.coverImageUrl}
+              alt={pick(data.title)}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </figure>
       ) : null}
       <div className="mt-8">
         <Markdown source={pick(data.body)} />
