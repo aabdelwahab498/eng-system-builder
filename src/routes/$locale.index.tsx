@@ -9,6 +9,7 @@ import { Stagger } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ContactCta } from "@/components/site/ContactCta";
+import { FocusMarquee } from "@/components/site/FocusMarquee";
 import { listPublicArticles, listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
