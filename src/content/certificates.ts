@@ -5,6 +5,13 @@ import cyberSecurity from "@/assets/certificates/cyber-security.jpg.asset.json";
 import alxFoundations from "@/assets/certificates/alx-professional-foundations.png.asset.json";
 import agileLeadership from "@/assets/certificates/agile-leadership.png.asset.json";
 import aspnetCore from "@/assets/certificates/aspnet-core-solid.png.asset.json";
+import miniMba from "@/assets/certificates/mini-mba.jpg.asset.json";
+import digitalTransformation from "@/assets/certificates/digital-transformation-security.jpg.asset.json";
+import trainingOfTrainers from "@/assets/certificates/training-of-trainers.jpg.asset.json";
+import dm03SocialMedia from "@/assets/certificates/dm03-social-media.png.asset.json";
+import verizonSkillForward from "@/assets/certificates/verizon-skill-forward.png.asset.json";
+import itilV4Svs from "@/assets/certificates/itil-v4-svs.png.asset.json";
+import managerialAccounting from "@/assets/certificates/managerial-accounting.png.asset.json";
 
 export type Certificate = {
   id: string;
