@@ -29,6 +29,38 @@ function AdminDashboard() {
     },
     onError: (error) => toast.error(error instanceof Error ? error.message : "Import failed"),
   });
+  const { data: business } = useQuery({
+    queryKey: ["admin", "local-counts"],
+    queryFn: async () => ({
+      requests: (await serviceRequests.list()).filter((r) => r.status === "new").length,
+      payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review")
+        .length,
+      clients: (await clients.list()).length,
+      subscribers: (await subscribers.list()).length,
+    }),
+  });
+
+  const { data: recent = { requests: [], payments: [], activity: [] } } = useQuery({
+    queryKey: ["admin", "recent-business"],
+    queryFn: async () => ({
+      requests: (await serviceRequests.list()).slice(0, 5).map((r) => ({
+        id: r.id,
+        label: `${r.name} — ${r.service || "Service"}`,
+        meta: r.status,
+      })),
+      payments: (await paymentSubmissions.list()).slice(0, 5).map((p) => ({
+        id: p.id,
+        label: `${p.clientName || "Client"} — ${p.amount ?? ""} ${p.currency ?? ""}`.trim(),
+        meta: p.status,
+      })),
+      activity: (await activityLog.list()).slice(0, 5).map((a) => ({
+        id: a.id,
+        label: a.action,
+        meta: new Date(a.createdAt).toLocaleDateString(),
+      })),
+    }),
+  });
+
 
   const byKind = data?.byKind ?? {};
   const totals = Object.values(byKind).reduce(
