@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X, Expand } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,9 +10,11 @@ export type CatalogItem = {
   credit?: string | undefined;
 };
 
+type Flip = { dir: 1 | -1; from: number };
+
 /**
- * Catalog-style image browser: one large spread you flip through, with a
- * thumbnail strip, keyboard arrows, counter and a full-screen lightbox.
+ * Book-style image catalog: an open two-page spread with a real page-turn
+ * animation, thumbnail strip, keyboard arrows and a full-screen lightbox.
  */
 export function ImageCatalog({
   items,
@@ -27,20 +29,30 @@ export function ImageCatalog({
 }) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
-  const [dir, setDir] = useState<1 | -1>(1);
+  const [flip, setFlip] = useState<Flip | null>(null);
+  const busy = useRef(false);
 
   const count = items.length;
+
   const go = useCallback(
-    (next: number) => {
-      if (count === 0) return;
-      setDir(next > index ? 1 : -1);
-      setIndex(((next % count) + count) % count);
+    (target: number, direction?: 1 | -1) => {
+      if (count === 0 || busy.current) return;
+      const nextIndex = ((target % count) + count) % count;
+      if (nextIndex === index) return;
+      const dir: 1 | -1 = direction ?? (nextIndex > index ? 1 : -1);
+      busy.current = true;
+      setFlip({ dir, from: index });
+      setIndex(nextIndex);
+      window.setTimeout(() => {
+        busy.current = false;
+        setFlip(null);
+      }, 790);
     },
     [count, index],
   );
 
-  const prev = useCallback(() => go(index - 1), [go, index]);
-  const next = useCallback(() => go(index + 1), [go, index]);
+  const prev = useCallback(() => go(index - 1, -1), [go, index]);
+  const next = useCallback(() => go(index + 1, 1), [go, index]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -60,50 +72,67 @@ export function ImageCatalog({
   }, [lightbox]);
 
   if (count === 0) return null;
+
   const active = items[index]!;
+  const old = flip ? items[flip.from]! : null;
+
+  // While turning, the static spread already shows the destination half.
+  const leftItem = flip && flip.dir === 1 && old ? old : active;
+  const rightItem = flip && flip.dir === -1 && old ? old : active;
+  const leftIndex = leftItem === active ? index : flip!.from;
+  const rightIndex = rightItem === active ? index : flip!.from;
 
   return (
     <div className={cn("select-none", className)}>
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.7)]">
+      <div className="book-scene">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)]">
+          <div className="book-spread relative grid aspect-[16/10] w-full grid-cols-2">
+            <div className="book-page book-page-left">
+              <ImagePage item={leftItem} />
+            </div>
+            <div className="book-page book-page-right">
+              <TextPage item={rightItem} index={rightIndex} count={count} />
+            </div>
 
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-background/60">
-          <img
-            key={active.id}
-            src={active.src}
-            alt={active.caption || active.title}
-            loading="lazy"
-            className={cn(
-              "absolute inset-0 h-full w-full object-contain p-4 sm:p-8",
-              dir === 1 ? "animate-catalog-in-next" : "animate-catalog-in-prev",
+            <div className="book-spine" aria-hidden />
+
+            {flip && old && (
+              <div className={cn("flip-page", flip.dir === 1 ? "flip-page-next" : "flip-page-prev")}>
+                <div className="flip-face book-page">
+                  {flip.dir === 1 ? (
+                    <TextPage item={old} index={flip.from} count={count} />
+                  ) : (
+                    <ImagePage item={old} />
+                  )}
+                </div>
+                <div className="flip-face flip-face-back book-page">
+                  {flip.dir === 1 ? (
+                    <ImagePage item={active} />
+                  ) : (
+                    <TextPage item={active} index={index} count={count} />
+                  )}
+                </div>
+              </div>
             )}
-          />
 
-          <button
-            type="button"
-            onClick={() => setLightbox(true)}
-            aria-label={labels.expand}
-            className="absolute right-4 top-4 z-20 rounded-full border border-border bg-background/80 p-2 text-muted-foreground backdrop-blur transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            <Expand className="size-4" aria-hidden />
-          </button>
+            <button
+              type="button"
+              onClick={() => setLightbox(true)}
+              aria-label={labels.expand}
+              className="absolute right-4 top-4 z-50 rounded-full border border-border bg-background/80 p-2 text-muted-foreground backdrop-blur transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              <Expand className="size-4" aria-hidden />
+            </button>
 
-          <NavButton side="start" rtl={rtl} label={labels.previous} onClick={prev} />
-          <NavButton side="end" rtl={rtl} label={labels.next} onClick={next} />
-        </div>
-
-        <div className="flex flex-col gap-1 border-t border-border px-5 py-4 sm:px-8">
-          <div className="flex items-baseline justify-between gap-4">
-            <p className="font-display text-base font-medium text-foreground">{active.title}</p>
-            <p className="shrink-0 font-mono text-[11px] tracking-widest text-muted-foreground">
-              {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-            </p>
+            <NavButton side="start" rtl={rtl} label={labels.previous} onClick={prev} />
+            <NavButton side="end" rtl={rtl} label={labels.next} onClick={next} />
           </div>
-          {active.caption && <p className="text-sm text-muted-foreground">{active.caption}</p>}
-          {active.credit && (
-            <p className="font-mono text-[11px] text-muted-foreground/80">{active.credit}</p>
-          )}
         </div>
       </div>
+
+      <p className="sr-only" aria-live="polite">
+        {active.title} — {index + 1} / {count} ({leftIndex + 1})
+      </p>
 
       {/* thumbnail strip */}
       <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
@@ -176,6 +205,42 @@ export function ImageCatalog({
   );
 }
 
+function ImagePage({ item }: { item: CatalogItem }) {
+  return (
+    <img
+      src={item.src}
+      alt={item.caption || item.title}
+      loading="lazy"
+      className="absolute inset-0 h-full w-full object-contain p-4 sm:p-7"
+    />
+  );
+}
+
+function TextPage({
+  item,
+  index,
+  count,
+}: {
+  item: CatalogItem;
+  index: number;
+  count: number;
+}) {
+  return (
+    <div className="flex h-full flex-col justify-center gap-3 px-6 py-6 sm:px-10">
+      <p className="font-mono text-[11px] tracking-[0.3em] text-muted-foreground">
+        {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+      </p>
+      <h3 className="font-display text-xl font-medium text-foreground sm:text-2xl">{item.title}</h3>
+      {item.caption && (
+        <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{item.caption}</p>
+      )}
+      {item.credit && (
+        <p className="font-mono text-[11px] text-muted-foreground/80">{item.credit}</p>
+      )}
+    </div>
+  );
+}
+
 function NavButton({
   side,
   rtl,
@@ -195,7 +260,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "absolute top-1/2 z-20 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        "absolute top-1/2 z-50 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
         onLeft ? "left-3" : "right-3",
       )}
     >
