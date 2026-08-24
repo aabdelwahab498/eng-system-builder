@@ -101,6 +101,8 @@ export const en: Dictionary = {
     email: "Email",
     cvPendingFile: "A downloadable PDF file has not been published yet.",
     gallery: "Gallery",
+    ourWorks: "Our Works",
+    breadcrumb: "Breadcrumb",
     galleryIntro: "Interfaces, systems and product visuals from the work.",
     noGallery: "No gallery items published yet.",
     writing: "Writing",

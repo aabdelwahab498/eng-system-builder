@@ -99,6 +99,8 @@ export const ar: Dictionary = {
     email: "البريد الإلكتروني",
     cvPendingFile: "لم يتم نشر ملف PDF للتحميل بعد.",
     gallery: "المعرض",
+    ourWorks: "أعمالنا",
+    breadcrumb: "مسار التنقل",
     galleryIntro: "واجهات وأنظمة ولقطات من المنتجات التي أبنيها.",
     noGallery: "لا توجد عناصر منشورة في المعرض بعد.",
     writing: "المدونة",

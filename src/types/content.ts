@@ -238,6 +238,8 @@ export type UiStrings = {
   email: string;
   cvPendingFile: string;
   gallery: string;
+  ourWorks: string;
+  breadcrumb: string;
   galleryIntro: string;
   noGallery: string;
   writing: string;
