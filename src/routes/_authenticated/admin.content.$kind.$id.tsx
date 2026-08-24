@@ -90,6 +90,46 @@ function defaultData(kind: ContentKind): JsonObject {
       };
     case "social_draft":
       return { platform: "linkedin", content: "", link: "", outcome: "draft" };
+    case "gallery_item":
+      return {
+        title: emptyLocalized(),
+        caption: emptyLocalized(),
+        mediaUrl: "",
+        mediaType: "image",
+        category: "",
+        credit: "",
+        linkUrl: "",
+      };
+    case "social_campaign":
+      return {
+        name: emptyLocalized(),
+        objective: emptyLocalized(),
+        platforms: [],
+        startsAt: null,
+        endsAt: null,
+        outcome: "draft",
+        notes: emptyLocalized(),
+      };
+    case "marketing_campaign":
+      return {
+        name: emptyLocalized(),
+        channel: "content",
+        audience: emptyLocalized(),
+        message: emptyLocalized(),
+        landingUrl: "",
+        startsAt: null,
+        endsAt: null,
+        outcome: "planned",
+      };
+    case "payment_method":
+      return {
+        label: emptyLocalized(),
+        provider: "",
+        instructions: emptyLocalized(),
+        accountReference: "",
+        currency: "USD",
+        showOnSite: false,
+      };
     default:
       return {};
   }
@@ -200,6 +240,16 @@ function ContentEditor() {
             <SeoForm data={draft.data} patch={patchData} />
           ) : contentKind === "social_draft" ? (
             <SocialForm data={draft.data} patch={patchData} />
+          ) : contentKind === "gallery_item" ? (
+            <GalleryForm data={draft.data} patch={patchData} onTitle={(t) =>
+              setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
+            } />
+          ) : contentKind === "social_campaign" ? (
+            <SocialCampaignForm data={draft.data} patch={patchData} />
+          ) : contentKind === "marketing_campaign" ? (
+            <MarketingForm data={draft.data} patch={patchData} />
+          ) : contentKind === "payment_method" ? (
+            <PaymentForm data={draft.data} patch={patchData} />
           ) : (
             <JsonForm value={jsonText} onChange={(next) => patch({ data: next })} kind={contentKind} />
           )}
@@ -502,6 +552,184 @@ function JsonForm({
         />
       </Field>
       {error ? <p className="text-xs text-destructive">{error}</p> : null}
+    </div>
+  );
+}
+
+function listField(value: unknown) {
+  return Array.isArray(value) ? (value as string[]).join(", ") : "";
+}
+
+function GalleryForm({
+  data,
+  patch,
+  onTitle,
+}: {
+  data: JsonObject;
+  patch: (partial: JsonObject) => void;
+  onTitle: (title: string) => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <LocalizedField
+        label="Title"
+        value={localized(data["title"])}
+        onChange={(v) => {
+          patch({ title: v });
+          onTitle(v.en);
+        }}
+      />
+      <LocalizedField label="Caption" value={localized(data["caption"])} onChange={(v) => patch({ caption: v })} multiline rows={3} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Media URL" hint="Upload in Media, then paste the URL here.">
+          <Input value={str(data["mediaUrl"])} onChange={(e) => patch({ mediaUrl: e.target.value })} />
+        </Field>
+        <Field label="Media type">
+          <Select value={str(data["mediaType"]) || "image"} onValueChange={(v) => patch({ mediaType: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="image">Image</SelectItem>
+              <SelectItem value="video">Video</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Category">
+          <Input value={str(data["category"])} onChange={(e) => patch({ category: e.target.value })} />
+        </Field>
+        <Field label="Link (optional)">
+          <Input value={str(data["linkUrl"])} onChange={(e) => patch({ linkUrl: e.target.value })} />
+        </Field>
+      </div>
+      <Field label="Credit (optional)">
+        <Input value={str(data["credit"])} onChange={(e) => patch({ credit: e.target.value })} />
+      </Field>
+      {str(data["mediaUrl"]) && str(data["mediaType"]) !== "video" ? (
+        <img
+          src={str(data["mediaUrl"])}
+          alt={localized(data["title"]).en || "Gallery preview"}
+          className="max-h-64 w-full rounded-md border border-border object-cover"
+        />
+      ) : null}
+    </div>
+  );
+}
+
+function SocialCampaignForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+  return (
+    <div className="space-y-5">
+      <LocalizedField label="Campaign name" value={localized(data["name"])} onChange={(v) => patch({ name: v })} />
+      <LocalizedField label="Objective" value={localized(data["objective"])} onChange={(v) => patch({ objective: v })} multiline rows={3} />
+      <Field label="Platforms" hint="Comma separated, e.g. linkedin, x, instagram.">
+        <Input
+          value={listField(data["platforms"])}
+          onChange={(e) => patch({ platforms: e.target.value.split(",").map((v) => v.trim()).filter(Boolean) })}
+        />
+      </Field>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Field label="Starts at">
+          <Input type="datetime-local" value={str(data["startsAt"]).slice(0, 16)} onChange={(e) => patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+        </Field>
+        <Field label="Ends at">
+          <Input type="datetime-local" value={str(data["endsAt"]).slice(0, 16)} onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+        </Field>
+        <Field label="Status" hint="Tracking label only — nothing is auto-posted.">
+          <Select value={str(data["outcome"]) || "draft"} onValueChange={(v) => patch({ outcome: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {["draft", "ready", "scheduled", "published"].map((v) => (
+                <SelectItem key={v} value={v}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+      </div>
+      <LocalizedField label="Notes" value={localized(data["notes"])} onChange={(v) => patch({ notes: v })} multiline rows={4} />
+    </div>
+  );
+}
+
+function MarketingForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+  return (
+    <div className="space-y-5">
+      <LocalizedField label="Campaign name" value={localized(data["name"])} onChange={(v) => patch({ name: v })} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Channel">
+          <Select value={str(data["channel"]) || "content"} onValueChange={(v) => patch({ channel: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {["email", "search", "social", "content", "other"].map((v) => (
+                <SelectItem key={v} value={v}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Status">
+          <Select value={str(data["outcome"]) || "planned"} onValueChange={(v) => patch({ outcome: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {["planned", "running", "paused", "completed"].map((v) => (
+                <SelectItem key={v} value={v}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+      </div>
+      <LocalizedField label="Audience" value={localized(data["audience"])} onChange={(v) => patch({ audience: v })} multiline rows={2} />
+      <LocalizedField label="Message" value={localized(data["message"])} onChange={(v) => patch({ message: v })} multiline rows={4} />
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Field label="Landing URL">
+          <Input value={str(data["landingUrl"])} onChange={(e) => patch({ landingUrl: e.target.value })} />
+        </Field>
+        <Field label="Starts at">
+          <Input type="datetime-local" value={str(data["startsAt"]).slice(0, 16)} onChange={(e) => patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+        </Field>
+        <Field label="Ends at">
+          <Input type="datetime-local" value={str(data["endsAt"]).slice(0, 16)} onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+function PaymentForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <div className="space-y-5">
+      <LocalizedField label="Label" value={localized(data["label"])} onChange={(v) => patch({ label: v })} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Provider" hint="Free text — no gateway is connected.">
+          <Input value={str(data["provider"])} onChange={(e) => patch({ provider: e.target.value })} />
+        </Field>
+        <Field label="Currency">
+          <Input value={str(data["currency"])} onChange={(e) => patch({ currency: e.target.value })} />
+        </Field>
+      </div>
+      <LocalizedField label="Instructions" value={localized(data["instructions"])} onChange={(v) => patch({ instructions: v })} multiline rows={4} />
+      <Field label="Account reference" hint="Sensitive. Only shown publicly when the switch below is on.">
+        <div className="flex gap-2">
+          <Input
+            type={revealed ? "text" : "password"}
+            value={str(data["accountReference"])}
+            onChange={(e) => patch({ accountReference: e.target.value })}
+          />
+          <Button type="button" variant="outline" onClick={() => setRevealed((v) => !v)}>
+            {revealed ? "Hide" : "Reveal"}
+          </Button>
+        </div>
+      </Field>
+      <ToggleRow
+        label="Show on public site"
+        checked={Boolean(data["showOnSite"])}
+        onChange={(value) => patch({ showOnSite: value })}
+      />
     </div>
   );
 }

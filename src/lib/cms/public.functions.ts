@@ -79,3 +79,19 @@ export const listPublicAnnouncements = createServerFn({ method: "GET" }).handler
     });
   },
 );
+
+/**
+ * Generic published read for any content kind. RLS still restricts results to
+ * rows that are published and flagged public.
+ */
+export const listPublicByKind = createServerFn({ method: "GET" })
+  .inputValidator((input: { kind: string }) => ({ kind: String(input.kind) }))
+  .handler(async ({ data: input }): Promise<ContentItem[]> => {
+    const { data, error } = await publicClient()
+      .from("content_items")
+      .select(CONTENT_COLUMNS)
+      .eq("kind", input.kind)
+      .order("sort_order", { ascending: true });
+    if (error) return [];
+    return (data as ContentRow[]).map(toContentItem);
+  });

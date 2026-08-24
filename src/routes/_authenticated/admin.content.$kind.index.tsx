@@ -2,14 +2,28 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
+import { useState } from "react";
+import { ArrowDown, ArrowUp, Copy } from "lucide-react";
 import {
   adminDeleteContent,
   adminListContent,
+  adminReorder,
+  adminSaveContent,
   adminSetState,
 } from "@/lib/cms/admin.functions";
 import { KIND_LABELS, WORKFLOW_STATES, type ContentKind } from "@/lib/cms/types";
 import { StateBadge } from "@/components/admin/fields";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   Select,
   SelectContent,
@@ -42,6 +56,9 @@ function KindList() {
   const list = useServerFn(adminListContent);
   const setState = useServerFn(adminSetState);
   const remove = useServerFn(adminDeleteContent);
+  const reorder = useServerFn(adminReorder);
+  const save = useServerFn(adminSaveContent);
+  const [pendingDelete, setPendingDelete] = useState<{ id: string; slug: string } | null>(null);
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["admin", "content", contentKind],
@@ -67,6 +84,46 @@ function KindList() {
     },
     onError: (error) => toast.error(error instanceof Error ? error.message : "Delete failed"),
   });
+
+  const duplicateMutation = useMutation({
+    mutationFn: (item: (typeof items)[number]) =>
+      save({
+        data: {
+          kind: contentKind,
+          slug: `${item.slug}-copy`,
+          state: "draft",
+          visibility: { ...item.visibility, public: false },
+          featured: false,
+          sortOrder: item.sortOrder + 1,
+          data: item.data,
+          scheduledAt: null,
+        },
+      }),
+    onSuccess: () => {
+      toast.success("Duplicated as draft");
+      invalidate();
+    },
+    onError: (error) => toast.error(error instanceof Error ? error.message : "Duplicate failed"),
+  });
+
+  const reorderMutation = useMutation({
+    mutationFn: (payload: { items: { id: string; sortOrder: number }[] }) => reorder({ data: payload }),
+    onSuccess: invalidate,
+    onError: (error) => toast.error(error instanceof Error ? error.message : "Reorder failed"),
+  });
+
+  function move(index: number, direction: -1 | 1) {
+    const target = index + direction;
+    if (target < 0 || target >= items.length) return;
+    const a = items[index]!;
+    const b = items[target]!;
+    reorderMutation.mutate({
+      items: [
+        { id: a.id, sortOrder: b.sortOrder },
+        { id: b.id, sortOrder: a.sortOrder },
+      ],
+    });
+  }
 
   return (
     <div className="space-y-6">
@@ -94,7 +151,7 @@ function KindList() {
         </div>
       ) : (
         <ul className="divide-y divide-border rounded-lg border border-border">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <li key={item.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
               <div className="min-w-0 flex-1">
                 <Link
@@ -109,6 +166,35 @@ function KindList() {
                   {item.visibility.public ? " · public" : " · hidden"}
                   {item.featured ? " · featured" : ""}
                 </p>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Move up"
+                  disabled={index === 0 || reorderMutation.isPending}
+                  onClick={() => move(index, -1)}
+                >
+                  <ArrowUp className="size-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Move down"
+                  disabled={index === items.length - 1 || reorderMutation.isPending}
+                  onClick={() => move(index, 1)}
+                >
+                  <ArrowDown className="size-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Duplicate entry"
+                  disabled={duplicateMutation.isPending}
+                  onClick={() => duplicateMutation.mutate(item)}
+                >
+                  <Copy className="size-4" />
+                </Button>
               </div>
               <StateBadge state={item.state} />
               <Select
@@ -130,11 +216,7 @@ function KindList() {
                 variant="ghost"
                 size="sm"
                 className="text-xs text-muted-foreground"
-                onClick={() => {
-                  if (confirm(`Delete "${item.slug}"? This cannot be undone.`)) {
-                    deleteMutation.mutate(item.id);
-                  }
-                }}
+                onClick={() => setPendingDelete({ id: item.id, slug: item.slug })}
               >
                 Delete
               </Button>
@@ -142,6 +224,28 @@ function KindList() {
           ))}
         </ul>
       )}
+
+      <AlertDialog open={pendingDelete !== null} onOpenChange={(open) => !open && setPendingDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this entry?</AlertDialogTitle>
+            <AlertDialogDescription>
+              “{pendingDelete?.slug}” will be permanently removed. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingDelete) deleteMutation.mutate(pendingDelete.id);
+                setPendingDelete(null);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

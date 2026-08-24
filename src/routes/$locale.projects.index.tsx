@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
+import { FilterBar } from "@/components/site/FilterBar";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ContactCta } from "@/components/site/ContactCta";
 import { useLocale } from "@/hooks/useLocale";
@@ -41,30 +42,16 @@ function ProjectsPage() {
       />
       <Section>
         {categories.length > 1 && (
-          <div
-            role="group"
-            aria-label={t.ui.filterBy}
-            className="mb-10 flex flex-wrap items-center gap-2"
-          >
-            {[{ id: ALL, label: t.ui.allCategories }, ...categories.map((c) => ({ id: c, label: c }))].map(
-              (c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setFilter(c.id)}
-                  aria-pressed={filter === c.id}
-                  className={
-                    "rounded-sm border px-3 py-2 font-mono text-xs transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none " +
-                    (filter === c.id
-                      ? "border-primary/50 bg-primary/10 text-primary"
-                      : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground")
-                  }
-                >
-                  {c.label}
-                </button>
-              ),
-            )}
-          </div>
+          <FilterBar
+            className="mb-10"
+            label={t.ui.filterBy}
+            active={filter}
+            onChange={setFilter}
+            options={[
+              { id: ALL, label: t.ui.allCategories },
+              ...categories.map((c) => ({ id: c, label: c })),
+            ]}
+          />
         )}
 
         {visible.length > 0 ? (

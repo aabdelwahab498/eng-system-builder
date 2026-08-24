@@ -15,6 +15,7 @@ export const ar: Dictionary = {
     { label: "المهارات", path: "/skills" },
     { label: "الخدمات", path: "/services" },
     { label: "المدونة", path: "/blog" },
+    { label: "المعرض", path: "/gallery" },
     { label: "نبذة", path: "/about" },
     { label: "تواصل", path: "/contact" },
 
@@ -100,6 +101,19 @@ export const ar: Dictionary = {
     phone: "الهاتف",
     email: "البريد الإلكتروني",
     cvPendingFile: "لم يتم نشر ملف PDF للتحميل بعد.",
+    gallery: "المعرض",
+    galleryIntro: "واجهات وأنظمة ولقطات من المنتجات التي أبنيها.",
+    noGallery: "لا توجد عناصر منشورة في المعرض بعد.",
+    writing: "المدونة",
+    latestWriting: "أحدث المقالات",
+    viewAllWriting: "كل المقالات",
+    searchPlaceholder: "ابحث في المقالات",
+    allTopics: "كل المواضيع",
+    relatedProjects: "مشاريع ذات صلة",
+    relatedServices: "خدمات ذات صلة",
+    ctaTitle: "لديك مشروع في ذهنك؟",
+    ctaBody: "أخبرني بما تبنيه وسأشرح لك كيف سأهندسه.",
+    idealFor: "مناسب لـ",
   },
 
   meta: {

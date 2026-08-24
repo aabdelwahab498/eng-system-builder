@@ -6,6 +6,8 @@ import { Reveal } from "@/components/site/Reveal";
 import { MediaSlot } from "@/components/site/MediaSlot";
 import { Pipeline } from "@/components/site/SystemFlow";
 import { ContactCta } from "@/components/site/ContactCta";
+import { ProjectCard } from "@/components/site/ProjectCard";
+import { getCanonicalProjects, getCanonicalServices } from "@/content/api";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent, site } from "@/content";
 import { breadcrumbs, buildHead } from "@/lib/seo";
@@ -62,6 +64,21 @@ function ProjectPage() {
   const { t } = useLocale();
   const project = t.projects.find((p) => p.slug === slug);
   if (!project) return null;
+
+  // Related work: same category first, then any other project, capped at two.
+  const related = [
+    ...t.projects.filter((p) => p.slug !== slug && p.category === project.category),
+    ...t.projects.filter((p) => p.slug !== slug && p.category !== project.category),
+  ].slice(0, 2);
+
+  // Services linked to this project through the canonical layer.
+  const canonicalId = getCanonicalProjects().find((p) => p.slug === slug)?.id;
+  const relatedServiceIds = canonicalId
+    ? getCanonicalServices()
+        .filter((s) => (s.relatedProjects ?? []).includes(canonicalId))
+        .map((s) => s.id)
+    : [];
+  const relatedServices = t.services.filter((s) => relatedServiceIds.includes(s.id));
 
   const cs = project.caseStudy;
   const blocks = [
@@ -137,6 +154,44 @@ function ProjectPage() {
           </Link>
         </Reveal>
       </Section>
+
+      {related.length > 0 && (
+        <Section eyebrow={t.ui.relatedProjects} title={t.ui.relatedProjects}>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {related.map((p, i) => (
+              <Reveal key={p.slug} delay={i * 60}>
+                <ProjectCard project={p} />
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {relatedServices.length > 0 && (
+        <Section eyebrow={t.ui.relatedServices} title={t.ui.relatedServices}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedServices.map((service, i) => (
+              <Reveal
+                key={service.id}
+                delay={i * 60}
+                className="h-full rounded-lg border border-border bg-surface/60 p-6"
+              >
+                <h3 className="font-display text-lg font-medium">{service.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.outcome}</p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-10">
+            <Link
+              to="/$locale/services"
+              params={{ locale }}
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
+            >
+              {t.ui.services} <ArrowUpRight className="size-4" />
+            </Link>
+          </Reveal>
+        </Section>
+      )}
 
       <ContactCta />
     </>

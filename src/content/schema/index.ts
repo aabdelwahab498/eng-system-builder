@@ -385,3 +385,68 @@ export const pick = <T,>(value: Localized<T>, locale: Locale): T | null =>
 /** Resolve with English fallback — use only where a gap must not break the UI. */
 export const pickOrEn = <T,>(value: Localized<T>, locale: Locale): T =>
   (locale === "ar" ? (value.ar ?? value.en) : value.en);
+
+/* ------------------------------------------------- phase 4 additions */
+/**
+ * Additive models for gallery, social/marketing campaign records and payment
+ * methods. Same `Tracked` + `Localized` conventions as every other entity —
+ * no separate content system.
+ */
+
+export type GalleryMediaType = "image" | "video";
+
+export type GalleryItem = Tracked<{
+  id: string;
+  slug: string;
+  title: Localized<string>;
+  caption: Localized<string>;
+  mediaUrl: string;
+  mediaType: GalleryMediaType;
+  category: string;
+  credit?: string;
+  linkUrl?: string;
+}>;
+
+export type CampaignState = "draft" | "ready" | "scheduled" | "published";
+
+export type SocialCampaign = Tracked<{
+  id: string;
+  slug: string;
+  name: Localized<string>;
+  objective: Localized<string>;
+  platforms: string[];
+  startsAt?: string | null;
+  endsAt?: string | null;
+  state: CampaignState;
+  notes: Localized<string>;
+}>;
+
+export type MarketingChannel = "email" | "search" | "social" | "content" | "other";
+
+export type MarketingCampaign = Tracked<{
+  id: string;
+  slug: string;
+  name: Localized<string>;
+  channel: MarketingChannel;
+  audience: Localized<string>;
+  message: Localized<string>;
+  landingUrl?: string;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  outcome: "planned" | "running" | "paused" | "completed";
+}>;
+
+/**
+ * Payment method record. Purely a data contract: no gateway is wired up, and
+ * `accountReference` is only rendered publicly when `showOnSite` is true.
+ */
+export type PaymentMethod = Tracked<{
+  id: string;
+  slug: string;
+  label: Localized<string>;
+  provider: string;
+  instructions: Localized<string>;
+  accountReference: string;
+  currency: string;
+  showOnSite: boolean;
+}>;
