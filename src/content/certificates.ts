@@ -12,6 +12,11 @@ import dm03SocialMedia from "@/assets/certificates/dm03-social-media.png.asset.j
 import verizonSkillForward from "@/assets/certificates/verizon-skill-forward.png.asset.json";
 import itilV4Svs from "@/assets/certificates/itil-v4-svs.png.asset.json";
 import managerialAccounting from "@/assets/certificates/managerial-accounting.png.asset.json";
+import aiDiploma from "@/assets/certificates/ai-diploma.jpg.asset.json";
+import ecCouncilCyber from "@/assets/certificates/ec-council-cyber-specialization.jpg.asset.json";
+import networkDefense from "@/assets/certificates/network-defense-essentials.jpg.asset.json";
+import digitalForensics from "@/assets/certificates/digital-forensics-essentials.jpg.asset.json";
+import netDevOps from "@/assets/certificates/netdevops.jpg.asset.json";
 
 export type Certificate = {
   id: string;
