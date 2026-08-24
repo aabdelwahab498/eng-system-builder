@@ -171,6 +171,13 @@ function AboutPage() {
                 {t.profile.cv.label}
               </a>
             )}
+            <Link
+              to="/$locale/certificates"
+              params={{ locale }}
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-secondary"
+            >
+              {t.ui.seeCertificates}
+            </Link>
           </div>
         </Reveal>
       </Section>

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/$locale/gallery")({
     return buildHead({
       locale,
       path: "/gallery",
-      title: isAr ? "المعرض — أحمد عبد الوهاب" : "Gallery — Eng. Ahmed Abdelwahab",
+      title: isAr ? "المعرض — أحمد عبد الوهاب" : "Gallery — Ahmed Abdelwahab",
       description: isAr
         ? "لقطات من الواجهات والأنظمة والمنتجات الرقمية التي عملت عليها."
         : "Interfaces, systems and product visuals from engineering and product work.",

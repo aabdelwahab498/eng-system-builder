@@ -20,7 +20,7 @@ import type {
  */
 
 export const identity: Identity = {
-  displayName: "Eng. Ahmed Abdelwahab",
+  displayName: "Ahmed Abdelwahab",
   professionalName: "Ahmed Abdelwahab",
   shortName: "Ahmed",
   monogram: "AA",

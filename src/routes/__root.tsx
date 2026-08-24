@@ -88,11 +88,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Eng. Ahmed Abdelwahab — Software Engineer, Backend & AI, Product Builder" },
+      { title: "Ahmed Abdelwahab — Software Engineer, Backend & AI, Product Builder" },
       { name: "description", content: "Personal engineering hub of Ahmed Abdelwahab: backend systems, AI engineering, software architecture, mobile and web product development." },
-      { name: "author", content: "Eng. Ahmed Abdelwahab" },
+      { name: "author", content: "Ahmed Abdelwahab" },
       { name: "robots", content: "index, follow" },
-      { property: "og:site_name", content: "Eng. Ahmed Abdelwahab" },
+      { property: "og:site_name", content: "Ahmed Abdelwahab" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0b0e12" },
@@ -113,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Eng. Ahmed Abdelwahab",
+          name: "Ahmed Abdelwahab",
           url: "https://nextnext-gen.com",
           inLanguage: ["en", "ar"],
         }),
