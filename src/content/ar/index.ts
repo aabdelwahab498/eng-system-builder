@@ -2,6 +2,7 @@ import type { Dictionary } from "@/types/content";
 import dalilMasryCover from "@/assets/projects/dalil-masry.png.asset.json";
 import shifaTravelCover from "@/assets/projects/shifa-travel.png.asset.json";
 import wameedhHubCover from "@/assets/projects/wameedh-hub.png.asset.json";
+import indusB2BCover from "@/assets/projects/indusb2b.png.asset.json";
 
 /**
  * مصدر المحتوى العربي — يُحرَّر يدويًا ولا يُترجم آليًا.
