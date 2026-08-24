@@ -37,7 +37,13 @@ export function Hero() {
             <div className="flex items-center gap-4">
               <ProfileAvatar />
               <div>
-                <PowerShellPrompt text={t.profile.positioning} />
+                <PowerShellPrompt
+                  text={t.profile.positioning}
+                  speed={260}
+                  deleteSpeed={90}
+                  holdDelay={2600}
+                  startDelay={700}
+                />
                 <p className="mt-2 font-mono text-xs text-muted-foreground">nextnext-gen.com</p>
               </div>
             </div>

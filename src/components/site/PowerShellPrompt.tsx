@@ -98,7 +98,7 @@ export function PowerShellPrompt({
     <div
       ref={ref}
       className={cn(
-        "ps-box relative w-fit max-w-full overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-3 py-2 font-mono text-xs sm:text-sm",
+        "ps-box relative max-w-full overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-3 py-2 font-mono text-xs sm:text-sm",
         className,
       )}
     >
