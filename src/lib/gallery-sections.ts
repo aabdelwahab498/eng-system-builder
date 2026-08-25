@@ -5,8 +5,8 @@ export const gallerySections: {
   id: GallerySectionId;
   label: { en: string; ar: string };
 }[] = [
-  { id: "web-apps", label: { en: "Web Applications", ar: "تطبيقات الويب" } },
   { id: "websites", label: { en: "Websites", ar: "المواقع الإلكترونية" } },
+  { id: "web-apps", label: { en: "Web Applications", ar: "تطبيقات الويب" } },
   { id: "mobile-apps", label: { en: "Mobile Apps", ar: "تطبيقات الموبايل" } },
   { id: "ai-videos", label: { en: "AI Videos", ar: "فيديوهات الذكاء الاصطناعي" } },
   { id: "images", label: { en: "Image Gallery", ar: "معرض الصور" } },
