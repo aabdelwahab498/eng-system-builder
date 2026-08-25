@@ -365,7 +365,10 @@ function ClientsPage() {
                     <TableHead>Name</TableHead>
                     <TableHead>Contact</TableHead>
                     <TableHead>Service</TableHead>
+                    <TableHead>Plan</TableHead>
+                    <TableHead>Amount</TableHead>
                     <TableHead>Payment</TableHead>
+                    <TableHead>Renewal</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead />
                   </TableRow>
@@ -381,8 +384,53 @@ function ClientsPage() {
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{c.service}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {c.paymentStatus || "—"}
+                        {planLabel(c.plan)}
                       </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {money(c.amount, c.currency)}
+                        {c.paidAmount ? (
+                          <>
+                            <br />
+                            paid {money(c.paidAmount, c.currency)}
+                          </>
+                        ) : null}
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={c.paymentState ?? "unpaid"}
+                          onValueChange={(value) =>
+                            clients
+                              .update(c.id, { paymentState: value as PaymentState })
+                              .then(() => invalidate())
+                          }
+                        >
+                          <SelectTrigger className="w-40">
+                            <SelectValue placeholder={paymentLabel(c.paymentState)} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {PAYMENT_STATES.map((p) => (
+                              <SelectItem key={p.value} value={p.value}>
+                                {p.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {c.paymentMethod || c.paymentStatus ? (
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            {[c.paymentMethod, c.paymentStatus].filter(Boolean).join(" · ")}
+                          </p>
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {c.nextRenewalAt || "—"}
+                        {c.lastPaymentAt ? (
+                          <>
+                            <br />
+                            last {c.lastPaymentAt}
+                          </>
+                        ) : null}
+                      </TableCell>
+
                       <TableCell>
                         <Select
                           value={c.status}
