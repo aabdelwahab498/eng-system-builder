@@ -155,27 +155,39 @@ function AdminDashboard() {
 
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Collections
+          Quick actions
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {CONTENT_KINDS.map((kind: ContentKind) => {
-            const stat = byKind[kind] ?? { total: 0, published: 0, draft: 0 };
-            return (
-              <Link
-                key={kind}
-                to="/admin/content/$kind"
-                params={{ kind }}
-                className="rounded-lg border border-border p-4 transition-colors hover:border-primary/60"
-              >
-                <p className="text-sm font-medium text-foreground">{KIND_LABELS[kind]}</p>
-                <p className="mt-1 font-mono text-[11px] text-muted-foreground">
-                  {stat.total} entries · {stat.published} live · {stat.draft} in progress
-                </p>
-              </Link>
-            );
-          })}
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "+ Add project", kind: "project" as ContentKind },
+            { label: "+ Write article", kind: "article" as ContentKind },
+            { label: "+ Add gallery item", kind: "gallery_item" as ContentKind },
+            { label: "+ Add service", kind: "service" as ContentKind },
+          ].map((action) => (
+            <Link
+              key={action.kind}
+              to="/admin/content/$kind/$id"
+              params={{ kind: action.kind, id: "new" }}
+              className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+            >
+              {action.label}
+            </Link>
+          ))}
+          <Link
+            to="/admin/social"
+            className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+          >
+            + New social post
+          </Link>
+          <Link
+            to="/admin/requests"
+            className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+          >
+            View requests
+          </Link>
         </div>
       </section>
+
 
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
