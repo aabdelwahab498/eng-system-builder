@@ -94,7 +94,9 @@ function BlogIndex() {
             ? "ملاحظات عن الأنظمة التي أبنيها وكيف تُبنى."
             : "Notes on the systems I build and how they are built."
         }
-      />
+      >
+        <BlogChannels />
+      </PageHeader>
       <Section>
         <div className="mb-10 flex flex-wrap items-center gap-4">
           <Input
