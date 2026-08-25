@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
-import { certificates, pick } from "@/content/certificates";
+import { orderedCertificates, pick } from "@/content/certificates";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/certificates/")({
@@ -37,13 +37,22 @@ function CertificatesIndex() {
   const [page, setPage] = useState(0);
   const isAr = locale === "ar";
 
-  const items = certificates.map((cert) => ({
+  const items = orderedCertificates.map((cert) => ({
     id: cert.id,
     src: cert.image,
     title: pick(cert.title, locale),
-    caption: [pick(cert.issuer, locale), pick(cert.date, locale)].filter(Boolean).join(" · "),
-    credit: cert.detail ? pick(cert.detail, locale) : undefined,
+    caption: pick(cert.issuer, locale),
+    meta: [
+      { label: isAr ? "الجهة" : "Issuer", value: pick(cert.issuer, locale) },
+      { label: isAr ? "التاريخ" : "Date", value: pick(cert.date, locale) },
+      ...(cert.detail
+        ? [{ label: isAr ? "التفاصيل" : "Details", value: pick(cert.detail, locale) }]
+        : []),
+    ],
+    linkUrl: cert.verifyUrl,
+    linkLabel: isAr ? "تحقق من الشهادة" : "Verify certificate",
   }));
+
 
   return (
     <>
@@ -78,7 +87,7 @@ function CertificatesIndex() {
 
       <Section>
         <div className="grid gap-6 sm:grid-cols-2">
-          {certificates.map((cert, index) => (
+          {orderedCertificates.map((cert, index) => (
             <Reveal key={cert.id} delay={index * 60}>
               <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface/40 transition-colors hover:border-primary/50">
                 <a

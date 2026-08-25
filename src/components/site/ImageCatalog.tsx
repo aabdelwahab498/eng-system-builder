@@ -8,7 +8,11 @@ export type CatalogItem = {
   title: string;
   caption?: string | undefined;
   credit?: string | undefined;
+  meta?: { label: string; value: string }[] | undefined;
+  linkUrl?: string | undefined;
+  linkLabel?: string | undefined;
 };
+
 
 type Flip = { dir: 1 | -1; from: number };
 
@@ -231,7 +235,7 @@ function TextPage({
   count: number;
 }) {
   return (
-    <div className="flex h-full flex-col justify-center gap-3 px-6 py-6 sm:px-10">
+    <div className="flex h-full flex-col justify-center gap-3 overflow-y-auto px-6 py-6 sm:px-10">
       <p className="font-mono text-[11px] tracking-[0.3em] text-muted-foreground">
         {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
       </p>
@@ -239,12 +243,35 @@ function TextPage({
       {item.caption && (
         <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{item.caption}</p>
       )}
+      {item.meta && item.meta.length > 0 && (
+        <dl className="mt-1 grid gap-2 border-t border-border/60 pt-3 text-sm">
+          {item.meta.map((row) => (
+            <div key={row.label} className="grid grid-cols-[7rem_1fr] gap-3">
+              <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/80">
+                {row.label}
+              </dt>
+              <dd className="leading-relaxed text-foreground/90">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
       {item.credit && (
-        <p className="font-mono text-[11px] text-muted-foreground/80">{item.credit}</p>
+        <p className="font-mono text-[11px] leading-relaxed text-muted-foreground/80">{item.credit}</p>
+      )}
+      {item.linkUrl && (
+        <a
+          href={item.linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/40 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+        >
+          {item.linkLabel ?? "Verify"}
+        </a>
       )}
     </div>
   );
 }
+
 
 function NavButton({
   side,
