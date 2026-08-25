@@ -48,7 +48,7 @@ export function SiteHeader() {
           aria-label={t.profile.displayName}
         >
           <NextGenMark />
-          <span className="digital-green text-sm tracking-tight sm:text-base">
+          <span className="digital-green text-lg tracking-tight sm:text-xl">
             {t.profile.displayName}
           </span>
         </Link>

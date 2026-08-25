@@ -25,11 +25,11 @@ export function NextGenMark({ className }: { className?: string }) {
           {Array.from({ length: teeth }).map((_, i) => (
             <rect
               key={i}
-              x="42"
-              y="3"
-              width="16"
-              height="20"
-              rx="3.5"
+              x="43.5"
+              y="7"
+              width="13"
+              height="13"
+              rx="4"
               fill="url(#ng-gear)"
               transform={`rotate(${(360 / teeth) * i} 50 50)`}
             />
