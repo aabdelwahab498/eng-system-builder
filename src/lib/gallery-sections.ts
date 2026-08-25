@@ -25,6 +25,6 @@ export const projectSectionSlugs: Record<"web-apps" | "websites" | "mobile-apps"
   ],
   // Strongest / most complete first: Wameedh Hub ships on its own production
   // domain; the rest follow by platform breadth and deployment maturity.
-  websites: ["wameedh-hub", "indusb2b", "dalil-masry", "shifa-travel", "maison-parfum"],
+  websites: ["wameedh-hub", "indusb2b", "shifa-travel", "dalil-masry", "maison-parfum"],
   "mobile-apps": [],
 };
