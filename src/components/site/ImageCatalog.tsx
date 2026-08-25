@@ -8,7 +8,11 @@ export type CatalogItem = {
   title: string;
   caption?: string | undefined;
   credit?: string | undefined;
+  meta?: { label: string; value: string }[] | undefined;
+  linkUrl?: string | undefined;
+  linkLabel?: string | undefined;
 };
+
 
 type Flip = { dir: 1 | -1; from: number };
 
