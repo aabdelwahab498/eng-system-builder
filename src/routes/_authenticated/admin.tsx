@@ -8,6 +8,7 @@ import { adminIsAdmin, adminOverview } from "@/lib/cms/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ADMIN_NAV, type AdminNavItem } from "@/lib/admin/nav";
+import { AdminTabs } from "@/components/admin/AdminTabs";
 import { clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { cn } from "@/lib/utils";
@@ -53,49 +54,40 @@ function NavList({
   const badgeFor = useBadgeCounts();
 
   return (
-    <nav className="space-y-5">
-      {ADMIN_NAV.map((group) => (
-        <div key={group.title} className="space-y-1">
-          {!collapsed && (
-            <p className="px-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
-              {group.title}
-            </p>
-          )}
-          {group.items.map((item) => {
-            const active =
-              item.href === "/admin"
-                ? pathname === "/admin" || pathname === "/admin/"
-                : pathname.startsWith(item.href);
-            const badge = badgeFor(item);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                to={item.href}
-                onClick={onNavigate}
-                title={item.label}
-                className={cn(
-                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
-                  active && "bg-surface text-foreground",
-                  collapsed && "justify-center",
+    <nav className="space-y-1">
+      {ADMIN_NAV.map((item) => {
+        const active =
+          item.href === "/admin"
+            ? pathname === "/admin" || pathname === "/admin/"
+            : pathname.startsWith(item.href) || item.match.some((m) => pathname.startsWith(m));
+        const badge = badgeFor(item);
+        const Icon = item.icon;
+        return (
+          <Link
+            key={item.label}
+            to={item.href}
+            onClick={onNavigate}
+            title={item.label}
+            className={cn(
+              "flex items-center gap-2 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground",
+              active && "bg-surface text-foreground",
+              collapsed && "justify-center",
+            )}
+          >
+            <Icon className="h-4 w-4 shrink-0" aria-hidden />
+            {!collapsed && (
+              <>
+                <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                {badge !== null && badge > 0 && (
+                  <span className="rounded-full border border-border px-1.5 font-mono text-[10px] text-muted-foreground">
+                    {badge}
+                  </span>
                 )}
-              >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden />
-                {!collapsed && (
-                  <>
-                    <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                    {badge !== null && badge > 0 && (
-                      <span className="rounded-full border border-border px-1.5 font-mono text-[10px] text-muted-foreground">
-                        {badge}
-                      </span>
-                    )}
-                  </>
-                )}
-              </Link>
-            );
-          })}
-        </div>
-      ))}
+              </>
+            )}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
@@ -203,6 +195,7 @@ function AdminLayout() {
             </SheetContent>
           </Sheet>
         </div>
+        <AdminTabs />
         <Outlet />
       </div>
     </div>
