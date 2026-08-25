@@ -597,6 +597,10 @@ function ClientsPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Source</TableHead>
+                    <TableHead>Plan</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Payment</TableHead>
+                    <TableHead>Renewal</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead />
                   </TableRow>
@@ -609,6 +613,37 @@ function ClientsPage() {
                         {s.name || "—"}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{s.source}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {planLabel(s.plan)}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {money(s.amount, s.currency)}
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={s.paymentState ?? "unpaid"}
+                          onValueChange={(value) =>
+                            subscribers
+                              .update(s.id, { paymentState: value as PaymentState })
+                              .then(() => invalidate())
+                          }
+                        >
+                          <SelectTrigger className="w-40">
+                            <SelectValue placeholder={paymentLabel(s.paymentState)} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {PAYMENT_STATES.map((p) => (
+                              <SelectItem key={p.value} value={p.value}>
+                                {p.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {s.nextRenewalAt || "—"}
+                      </TableCell>
+
                       <TableCell>
                         <Select
                           value={s.status}
