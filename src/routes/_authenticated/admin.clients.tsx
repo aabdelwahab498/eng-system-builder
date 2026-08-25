@@ -549,17 +549,28 @@ function ClientsPage() {
                         </Select>
                       </TableCell>
                       <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label="Delete client"
-                          onClick={() =>
-                            setPendingDelete({ kind: "client", id: c.id, label: c.name })
-                          }
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-1.5"
+                            onClick={() => setBillingClient(c)}
+                          >
+                            <Receipt className="h-3.5 w-3.5" /> Billing
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label="Delete client"
+                            onClick={() =>
+                              setPendingDelete({ kind: "client", id: c.id, label: c.name })
+                            }
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>
