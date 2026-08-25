@@ -5,11 +5,16 @@ import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
 import {
   CLIENT_STATUSES,
+  CURRENCIES,
+  PAYMENT_STATES,
+  SUBSCRIPTION_PLANS,
   activityLog,
   clients,
   subscribers,
   type Client,
   type ClientStatus,
+  type PaymentState,
+  type SubscriptionPlan,
   type Subscriber,
 } from "@/lib/admin/crm";
 import { Button } from "@/components/ui/button";
