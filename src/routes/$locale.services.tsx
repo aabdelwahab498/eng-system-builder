@@ -9,6 +9,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PaymentTimeline } from "@/components/commerce/PaymentTimeline";
 import { WhatsAppCta } from "@/components/commerce/WhatsAppCta";
+import { ContactChannelPicker } from "@/components/commerce/ContactChannelPicker";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { getContent } from "@/content";
@@ -117,6 +118,13 @@ function ServicesPage() {
   const extended = useMemo(() => offerings.filter((s) => s.tier === "extended"), [offerings]);
   const selected = offerings.find((s) => s.id === selectedId) ?? null;
 
+  const selectService = (id: string) => {
+    setSelectedId(id);
+    window.setTimeout(() => {
+      document.getElementById("project-request")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
+
   return (
     <>
       <Breadcrumbs trail={[{ name: dict.ui.home, path: "" }, { name: dict.ui.services, path: "/services" }]} />
@@ -148,7 +156,7 @@ function ServicesPage() {
               locale={locale}
               deliverablesLabel={t.deliverables}
               selected={selectedId === s.id}
-              onSelect={() => setSelectedId(s.id)}
+              onSelect={() => selectService(s.id)}
             />
           ))}
         </div>
@@ -164,7 +172,7 @@ function ServicesPage() {
               locale={locale}
               deliverablesLabel={t.deliverables}
               selected={selectedId === s.id}
-              onSelect={() => setSelectedId(s.id)}
+              onSelect={() => selectService(s.id)}
             />
           ))}
         </div>
@@ -172,7 +180,9 @@ function ServicesPage() {
 
       {selected && (
         <Section eyebrow={t.request} title={t.request} subtitle={t.requestIntro}>
-          <ProjectRequestPanel service={selected} t={t} locale={locale} />
+          <div id="project-request" className="scroll-mt-28">
+            <ProjectRequestPanel service={selected} t={t} locale={locale} />
+          </div>
         </Section>
       )}
 
@@ -353,6 +363,8 @@ function ProjectRequestPanel({
           <input className={field} maxLength={300} value={form.attachment} onChange={(e) => set("attachment")(e.target.value)} placeholder="https://…" />
         </label>
       </div>
+
+      <ContactChannelPicker message={message} locale={locale} className="mt-6" />
 
       <div className="mt-6 flex flex-wrap gap-3">
         <WhatsAppCta label={t.send} message={message} showNumber={false} />
