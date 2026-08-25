@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Receipt, Trash2 } from "lucide-react";
+import { SUBSCRIPTION_STATES } from "@/lib/admin/billing";
+import { ClientBillingDialog } from "@/components/admin/ClientBillingDialog";
+
 import {
   CLIENT_STATUSES,
   CURRENCIES,
