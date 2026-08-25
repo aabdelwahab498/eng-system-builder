@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Project } from "@/types/content";
 import { MediaSlot } from "./MediaSlot";
 import { useLocale } from "@/hooks/useLocale";
 
 export function ProjectCard({ project }: { project: Project }) {
   const { locale, t } = useLocale();
+  const liveUrl = project.links?.find((l) => /^https?:\/\//.test(l.url))?.url;
 
   return (
     <article className="lift group flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-colors hover:border-border-strong sm:p-8">
@@ -57,7 +58,19 @@ export function ProjectCard({ project }: { project: Project }) {
       </ul>
 
       <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-5">
-        <span className="font-mono text-[11px] text-muted-foreground">{project.status}</span>
+        {liveUrl ? (
+          <a
+            href={liveUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline"
+          >
+            {project.status}
+            <ExternalLink className="size-3" />
+          </a>
+        ) : (
+          <span className="font-mono text-[11px] text-muted-foreground">{project.status}</span>
+        )}
         <Link
           to="/$locale/projects/$slug"
           params={{ locale, slug: project.slug }}
