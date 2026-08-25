@@ -98,12 +98,26 @@ const money = (amount?: string, currency?: string) =>
   amount ? `${amount} ${currency ?? ""}`.trim() : "—";
 
 
+type SortKey = "recent" | "lastPayment" | "nextRenewal";
+
+const SORTS: { value: SortKey; label: string }[] = [
+  { value: "recent", label: "Newest first" },
+  { value: "lastPayment", label: "Last payment" },
+  { value: "nextRenewal", label: "Next renewal" },
+];
+
 function ClientsPage() {
   const qc = useQueryClient();
   const [clientDraft, setClientDraft] = useState(EMPTY_CLIENT);
   const [subDraft, setSubDraft] = useState(EMPTY_SUB);
   const [clientOpen, setClientOpen] = useState(false);
   const [subOpen, setSubOpen] = useState(false);
+  const [billingClient, setBillingClient] = useState<Client | null>(null);
+  const [search, setSearch] = useState("");
+  const [filterPayment, setFilterPayment] = useState<string>("all");
+  const [filterPlan, setFilterPlan] = useState<string>("all");
+  const [filterSub, setFilterSub] = useState<string>("all");
+  const [sortKey, setSortKey] = useState<SortKey>("recent");
   const [pendingDelete, setPendingDelete] = useState<
     { kind: "client" | "subscriber"; id: string; label: string } | null
   >(null);
@@ -113,6 +127,28 @@ function ClientsPage() {
     queryKey: ["admin", "subscribers"],
     queryFn: () => subscribers.list(),
   });
+
+  const allClients = clientQuery.data ?? [];
+  const visibleClients = allClients
+    .filter((c: Client) => {
+      const q = search.trim().toLowerCase();
+      if (q && ![c.name, c.email, c.service, c.invoiceRef].some((f) => (f ?? "").toLowerCase().includes(q)))
+        return false;
+      if (filterPayment !== "all" && (c.paymentState ?? "unpaid") !== filterPayment) return false;
+      if (filterPlan !== "all" && (c.plan ?? "none") !== filterPlan) return false;
+      if (filterSub !== "all" && (c.subscriptionState ?? "active") !== filterSub) return false;
+      return true;
+    })
+    .sort((a: Client, b: Client) => {
+      if (sortKey === "lastPayment") return (b.lastPaymentAt ?? "").localeCompare(a.lastPaymentAt ?? "");
+      if (sortKey === "nextRenewal") {
+        const av = a.nextRenewalAt || "9999-12-31";
+        const bv = b.nextRenewalAt || "9999-12-31";
+        return av.localeCompare(bv);
+      }
+      return b.createdAt.localeCompare(a.createdAt);
+    });
+
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["admin", "clients"] });
