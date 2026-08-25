@@ -179,7 +179,7 @@ function GalleryPage() {
                   <div className="rounded-lg border border-dashed border-border-strong p-10 text-center">
                     <p className="text-sm text-muted-foreground">{t.ui.contentPending}</p>
                   </div>
-                ) : id === "websites" ? (
+                ) : (
                   <ProjectCatalog
                     rtl={locale === "ar"}
                     locale={locale}
@@ -192,12 +192,6 @@ function GalleryPage() {
                       viewProject: t.ui.viewProject,
                     }}
                   />
-                ) : (
-                  <div className="grid gap-6 lg:grid-cols-2">
-                    {list.map((project) => (
-                      <ProjectCard key={project.slug} project={project} />
-                    ))}
-                  </div>
                 )}
               </div>
             );
