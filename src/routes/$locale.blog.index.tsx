@@ -1,9 +1,8 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
-import { Reveal } from "@/components/site/Reveal";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { BlogChannels } from "@/components/site/BlogChannels";
