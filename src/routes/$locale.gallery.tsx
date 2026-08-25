@@ -7,6 +7,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { Typewriter } from "@/components/site/Motion";
 import { FilterBar } from "@/components/site/FilterBar";
 import { ImageCatalog } from "@/components/site/ImageCatalog";
+import { VideoCatalog } from "@/components/site/VideoCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { gallerySections, projectSectionSlugs } from "@/lib/gallery-sections";
