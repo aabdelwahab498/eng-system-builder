@@ -174,6 +174,36 @@ function GalleryPage() {
       </Section>
 
       <Section>
+        <Reveal>
+          <div className="mb-12 flex flex-col items-center gap-4 text-center">
+            <div className="ps-box inline-flex max-w-full items-center gap-2 overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-4 py-2">
+              <span className="ps-prompt digital-green select-none text-base font-semibold sm:text-lg">
+                {locale === "ar" ? "«" : ">"}
+              </span>
+              <Typewriter
+                as="span"
+                text={
+                  locale === "ar"
+                    ? "أستطيع أن أُنتج لك مثل هذه الفيديوهات وأكثر حسب طلبك"
+                    : "I can produce videos like these and more — on demand, per your request"
+                }
+                loop
+                speed={80}
+                startDelay={500}
+                holdDelay={2600}
+                deleteSpeed={40}
+                className="digital-green text-base font-semibold sm:text-lg"
+                cursorClassName="ps-caret"
+              />
+            </div>
+            <p className="digital-green mx-auto max-w-2xl text-sm opacity-80 sm:text-base">
+              {locale === "ar"
+                ? "كل فيديو تراه هنا صُنع بالكامل بالذكاء الاصطناعي — من الفكرة إلى الإخراج. أخبرني بما تريد، وسأبنيه لك."
+                : "Every video here was crafted end-to-end with AI — from concept to final cut. Tell me what you need, and I'll build it for you."}
+            </p>
+          </div>
+        </Reveal>
+
         {categories.length > 1 && (
           <FilterBar
             className="mb-10"
