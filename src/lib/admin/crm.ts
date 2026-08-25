@@ -60,7 +60,9 @@ export type Client = {
   status: ClientStatus;
   /* Payment & subscription */
   plan?: SubscriptionPlan;
+  subscriptionState?: "active" | "paused" | "cancelled";
   paymentState?: PaymentState;
+
   paymentMethod?: string;
   amount?: string;
   currency?: string;

@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Receipt, Trash2 } from "lucide-react";
+import { SUBSCRIPTION_STATES } from "@/lib/admin/billing";
+import { ClientBillingDialog } from "@/components/admin/ClientBillingDialog";
+
 import {
   CLIENT_STATUSES,
   CURRENCIES,
@@ -98,12 +101,26 @@ const money = (amount?: string, currency?: string) =>
   amount ? `${amount} ${currency ?? ""}`.trim() : "—";
 
 
+type SortKey = "recent" | "lastPayment" | "nextRenewal";
+
+const SORTS: { value: SortKey; label: string }[] = [
+  { value: "recent", label: "Newest first" },
+  { value: "lastPayment", label: "Last payment" },
+  { value: "nextRenewal", label: "Next renewal" },
+];
+
 function ClientsPage() {
   const qc = useQueryClient();
   const [clientDraft, setClientDraft] = useState(EMPTY_CLIENT);
   const [subDraft, setSubDraft] = useState(EMPTY_SUB);
   const [clientOpen, setClientOpen] = useState(false);
   const [subOpen, setSubOpen] = useState(false);
+  const [billingClient, setBillingClient] = useState<Client | null>(null);
+  const [search, setSearch] = useState("");
+  const [filterPayment, setFilterPayment] = useState<string>("all");
+  const [filterPlan, setFilterPlan] = useState<string>("all");
+  const [filterSub, setFilterSub] = useState<string>("all");
+  const [sortKey, setSortKey] = useState<SortKey>("recent");
   const [pendingDelete, setPendingDelete] = useState<
     { kind: "client" | "subscriber"; id: string; label: string } | null
   >(null);
@@ -113,6 +130,28 @@ function ClientsPage() {
     queryKey: ["admin", "subscribers"],
     queryFn: () => subscribers.list(),
   });
+
+  const allClients = clientQuery.data ?? [];
+  const visibleClients = allClients
+    .filter((c: Client) => {
+      const q = search.trim().toLowerCase();
+      if (q && ![c.name, c.email, c.service, c.invoiceRef].some((f) => (f ?? "").toLowerCase().includes(q)))
+        return false;
+      if (filterPayment !== "all" && (c.paymentState ?? "unpaid") !== filterPayment) return false;
+      if (filterPlan !== "all" && (c.plan ?? "none") !== filterPlan) return false;
+      if (filterSub !== "all" && (c.subscriptionState ?? "active") !== filterSub) return false;
+      return true;
+    })
+    .sort((a: Client, b: Client) => {
+      if (sortKey === "lastPayment") return (b.lastPaymentAt ?? "").localeCompare(a.lastPaymentAt ?? "");
+      if (sortKey === "nextRenewal") {
+        const av = a.nextRenewalAt || "9999-12-31";
+        const bv = b.nextRenewalAt || "9999-12-31";
+        return av.localeCompare(bv);
+      }
+      return b.createdAt.localeCompare(a.createdAt);
+    });
+
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["admin", "clients"] });
@@ -353,11 +392,71 @@ function ClientsPage() {
             </DialogContent>
           </Dialog>
 
-          {(clientQuery.data ?? []).length === 0 ? (
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+            <Input
+              placeholder="Search name, email, invoice…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Select value={filterPayment} onValueChange={setFilterPayment}>
+              <SelectTrigger aria-label="Filter by payment state">
+                <SelectValue placeholder="Payment state" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All payment states</SelectItem>
+                {PAYMENT_STATES.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={filterPlan} onValueChange={setFilterPlan}>
+              <SelectTrigger aria-label="Filter by plan">
+                <SelectValue placeholder="Plan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All plans</SelectItem>
+                {SUBSCRIPTION_PLANS.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={filterSub} onValueChange={setFilterSub}>
+              <SelectTrigger aria-label="Filter by subscription state">
+                <SelectValue placeholder="Subscription" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Active &amp; paused</SelectItem>
+                {SUBSCRIPTION_STATES.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>
+                    {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={sortKey} onValueChange={(v) => setSortKey(v as SortKey)}>
+              <SelectTrigger aria-label="Sort clients">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SORTS.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>
+                    Sort: {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {visibleClients.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-              No clients yet.
+              {allClients.length === 0 ? "No clients yet." : "No clients match these filters."}
             </div>
           ) : (
+
             <div className="overflow-x-auto rounded-lg border border-border">
               <Table>
                 <TableHeader>
@@ -374,7 +473,7 @@ function ClientsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {(clientQuery.data ?? []).map((c: Client) => (
+                  {visibleClients.map((c: Client) => (
                     <TableRow key={c.id}>
                       <TableCell className="font-medium text-foreground">{c.name}</TableCell>
                       <TableCell className="text-xs text-muted-foreground">
@@ -453,17 +552,28 @@ function ClientsPage() {
                         </Select>
                       </TableCell>
                       <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label="Delete client"
-                          onClick={() =>
-                            setPendingDelete({ kind: "client", id: c.id, label: c.name })
-                          }
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-1.5"
+                            onClick={() => setBillingClient(c)}
+                          >
+                            <Receipt className="h-3.5 w-3.5" /> Billing
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label="Delete client"
+                            onClick={() =>
+                              setPendingDelete({ kind: "client", id: c.id, label: c.name })
+                            }
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>
@@ -683,7 +793,14 @@ function ClientsPage() {
         </TabsContent>
       </Tabs>
 
+      <ClientBillingDialog
+        client={billingClient}
+        open={Boolean(billingClient)}
+        onOpenChange={(o) => !o && setBillingClient(null)}
+      />
+
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(o) => !o && setPendingDelete(null)}>
+
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this record?</AlertDialogTitle>
