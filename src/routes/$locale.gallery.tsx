@@ -10,7 +10,6 @@ import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { VideoCatalog } from "@/components/site/VideoCatalog";
 import { ProjectCatalog } from "@/components/site/ProjectCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
-import { ProjectCard } from "@/components/site/ProjectCard";
 import { gallerySections, projectSectionSlugs } from "@/lib/gallery-sections";
 import { listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
@@ -179,7 +178,7 @@ function GalleryPage() {
                   <div className="rounded-lg border border-dashed border-border-strong p-10 text-center">
                     <p className="text-sm text-muted-foreground">{t.ui.contentPending}</p>
                   </div>
-                ) : id === "websites" ? (
+                ) : (
                   <ProjectCatalog
                     rtl={locale === "ar"}
                     locale={locale}
@@ -192,12 +191,6 @@ function GalleryPage() {
                       viewProject: t.ui.viewProject,
                     }}
                   />
-                ) : (
-                  <div className="grid gap-6 lg:grid-cols-2">
-                    {list.map((project) => (
-                      <ProjectCard key={project.slug} project={project} />
-                    ))}
-                  </div>
                 )}
               </div>
             );
