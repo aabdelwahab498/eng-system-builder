@@ -32,24 +32,7 @@ const COPY: Record<Locale, { intro: string }> = {
   },
 };
 
-const LABELS: Record<Locale, Record<string, string>> = {
-  en: {
-    quora: "Quora",
-    reddit: "Reddit",
-    stackexchange: "Stack Exchange",
-    facebook: "Facebook",
-    glassdoor: "Glassdoor",
-    linkedin: "LinkedIn",
-  },
-  ar: {
-    quora: "كورا",
-    reddit: "ريديت",
-    stackexchange: "ستاك إكستشينج",
-    facebook: "فيسبوك",
-    glassdoor: "جلاسدور",
-    linkedin: "لينكدإن",
-  },
-};
+const LABELS: Record<Locale, Record<ChannelKey, string>> = {
 
 export function BlogChannels() {
   const { locale } = useLocale();
