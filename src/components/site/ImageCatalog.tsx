@@ -21,11 +21,15 @@ export function ImageCatalog({
   rtl = false,
   labels,
   className,
+  aspectClassName,
+  onIndexChange,
 }: {
   items: CatalogItem[];
   rtl?: boolean;
   labels: { previous: string; next: string; close: string; expand: string };
   className?: string;
+  aspectClassName?: string;
+  onIndexChange?: (index: number) => void;
 }) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
