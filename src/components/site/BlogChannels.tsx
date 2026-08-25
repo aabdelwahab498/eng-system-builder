@@ -6,7 +6,7 @@ import {
   siGlassdoor,
 } from "simple-icons";
 import { useLocale } from "@/hooks/useLocale";
-import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
+import { getCanonicalSocialLinks } from "@/content/api";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/content";
 
