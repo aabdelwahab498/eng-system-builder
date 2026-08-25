@@ -199,7 +199,7 @@ function ClientsPage() {
                   ["country", "Country"],
                   ["service", "Requested service"],
                   ["projects", "Projects"],
-                  ["paymentStatus", "Payment status"],
+                  ["paymentStatus", "Payment note"],
                 ] as const).map(([key, label]) => (
                   <div key={key} className="space-y-1.5">
                     <Label htmlFor={key}>{label}</Label>
@@ -210,7 +210,138 @@ function ClientsPage() {
                     />
                   </div>
                 ))}
+
+                <div className="pt-2">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    Payment &amp; subscription
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label>Subscription plan</Label>
+                    <Select
+                      value={clientDraft.plan}
+                      onValueChange={(v) =>
+                        setClientDraft({ ...clientDraft, plan: v as SubscriptionPlan })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SUBSCRIPTION_PLANS.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Payment state</Label>
+                    <Select
+                      value={clientDraft.paymentState}
+                      onValueChange={(v) =>
+                        setClientDraft({ ...clientDraft, paymentState: v as PaymentState })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PAYMENT_STATES.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="amount">Agreed amount</Label>
+                    <Input
+                      id="amount"
+                      inputMode="decimal"
+                      value={clientDraft.amount}
+                      onChange={(e) => setClientDraft({ ...clientDraft, amount: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Currency</Label>
+                    <Select
+                      value={clientDraft.currency}
+                      onValueChange={(v) => setClientDraft({ ...clientDraft, currency: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CURRENCIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="paidAmount">Paid so far</Label>
+                    <Input
+                      id="paidAmount"
+                      inputMode="decimal"
+                      value={clientDraft.paidAmount}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, paidAmount: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="paymentMethod">Payment method</Label>
+                    <Input
+                      id="paymentMethod"
+                      placeholder="Instapay, Vodafone Cash, Wise…"
+                      value={clientDraft.paymentMethod}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, paymentMethod: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lastPaymentAt">Last payment date</Label>
+                    <Input
+                      id="lastPaymentAt"
+                      type="date"
+                      value={clientDraft.lastPaymentAt}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, lastPaymentAt: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="nextRenewalAt">Next renewal</Label>
+                    <Input
+                      id="nextRenewalAt"
+                      type="date"
+                      value={clientDraft.nextRenewalAt}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, nextRenewalAt: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="invoiceRef">Invoice / reference</Label>
+                    <Input
+                      id="invoiceRef"
+                      value={clientDraft.invoiceRef}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, invoiceRef: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
+
               <DialogFooter>
                 <Button
                   onClick={() => addClient.mutate()}
