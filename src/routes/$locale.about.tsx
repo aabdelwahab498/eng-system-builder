@@ -54,7 +54,9 @@ function AboutPage() {
       <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.about, path: "/about" }]} />
       <PageHeader
         eyebrow={t.ui.about}
-        title={t.profile.displayName}
+        title={t.profile.displayName.replace(/^Eng\.\s*/, "")}
+        titleTypewriter
+        titleClassName="metallic-copper"
         subtitle={t.profile.positioning}
         media={
           <AboutAvatar
