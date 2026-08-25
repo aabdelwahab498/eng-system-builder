@@ -44,6 +44,10 @@ export type ClientStatus =
   | "returning"
   | "archived";
 
+export type SubscriptionPlan = "none" | "one_time" | "monthly" | "quarterly" | "yearly" | "retainer";
+
+export type PaymentState = "unpaid" | "deposit_paid" | "partially_paid" | "paid" | "overdue" | "refunded";
+
 export type Client = {
   id: string;
   name: string;
@@ -54,6 +58,16 @@ export type Client = {
   projects: string;
   paymentStatus: string;
   status: ClientStatus;
+  /* Payment & subscription */
+  plan?: SubscriptionPlan;
+  paymentState?: PaymentState;
+  paymentMethod?: string;
+  amount?: string;
+  currency?: string;
+  paidAmount?: string;
+  lastPaymentAt?: string;
+  nextRenewalAt?: string;
+  invoiceRef?: string;
   createdAt: string;
 };
 
@@ -63,8 +77,14 @@ export type Subscriber = {
   name: string;
   source: string;
   status: "subscribed" | "unsubscribed";
+  plan?: SubscriptionPlan;
+  paymentState?: PaymentState;
+  amount?: string;
+  currency?: string;
+  nextRenewalAt?: string;
   createdAt: string;
 };
+
 
 export type ActivityEntry = {
   id: string;
