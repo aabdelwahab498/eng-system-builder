@@ -267,7 +267,22 @@ function GalleryPage() {
             {videos.length > 0 && (
               <div id="ai-videos" className="scroll-mt-28">
                 <h2 className="eyebrow mb-6">{t.ui.videos}</h2>
-                <div className="grid gap-6 md:grid-cols-2">{videos.map(renderCard)}</div>
+                <VideoCatalog
+                  rtl={locale === "ar"}
+                  labels={{
+                    previous: locale === "ar" ? "السابق" : "Previous",
+                    next: locale === "ar" ? "التالي" : "Next",
+                    close: locale === "ar" ? "إغلاق" : "Close",
+                    expand: locale === "ar" ? "عرض بملء الشاشة" : "View full screen",
+                  }}
+                  items={videos.map((entry) => ({
+                    id: entry.id,
+                    src: entry.data.mediaUrl,
+                    title: pick(entry.data.title, locale),
+                    caption: pick(entry.data.caption, locale),
+                    credit: entry.data.credit,
+                  }))}
+                />
               </div>
             )}
             {stills.length > 0 && (
