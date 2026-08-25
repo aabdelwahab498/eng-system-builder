@@ -68,6 +68,15 @@ const EMPTY_CLIENT = {
   projects: "",
   paymentStatus: "",
   status: "lead" as ClientStatus,
+  plan: "none" as SubscriptionPlan,
+  paymentState: "unpaid" as PaymentState,
+  paymentMethod: "",
+  amount: "",
+  currency: "EGP",
+  paidAmount: "",
+  lastPaymentAt: "",
+  nextRenewalAt: "",
+  invoiceRef: "",
 };
 
 const EMPTY_SUB = {
@@ -75,7 +84,19 @@ const EMPTY_SUB = {
   name: "",
   source: "Website",
   status: "subscribed" as Subscriber["status"],
+  plan: "none" as SubscriptionPlan,
+  paymentState: "unpaid" as PaymentState,
+  amount: "",
+  currency: "EGP",
+  nextRenewalAt: "",
 };
+
+const planLabel = (v?: string) =>
+  SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
+const paymentLabel = (v?: string) => PAYMENT_STATES.find((p) => p.value === v)?.label ?? "Unpaid";
+const money = (amount?: string, currency?: string) =>
+  amount ? `${amount} ${currency ?? ""}`.trim() : "—";
+
 
 function ClientsPage() {
   const qc = useQueryClient();
