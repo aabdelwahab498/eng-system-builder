@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Container } from "./Section";
 import { Reveal } from "./Reveal";
+import { Typewriter } from "./Motion";
 import { cn } from "@/lib/utils";
 
 export function PageHeader({
@@ -9,12 +10,16 @@ export function PageHeader({
   subtitle,
   children,
   media,
+  titleClassName,
+  titleTypewriter,
 }: {
   eyebrow: string;
   title: string;
   subtitle?: string;
   children?: ReactNode;
   media?: ReactNode;
+  titleClassName?: string;
+  titleTypewriter?: boolean;
 }) {
   return (
     <section className="relative overflow-hidden pt-16 pb-14 sm:pt-24 sm:pb-20">
