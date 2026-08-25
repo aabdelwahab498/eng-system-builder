@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
-import { certificates, pick } from "@/content/certificates";
+import { orderedCertificates, pick } from "@/content/certificates";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/certificates/")({
@@ -87,7 +87,7 @@ function CertificatesIndex() {
 
       <Section>
         <div className="grid gap-6 sm:grid-cols-2">
-          {certificates.map((cert, index) => (
+          {orderedCertificates.map((cert, index) => (
             <Reveal key={cert.id} delay={index * 60}>
               <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface/40 transition-colors hover:border-primary/50">
                 <a
