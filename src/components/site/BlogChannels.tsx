@@ -21,14 +21,12 @@ type Channel = {
   path: string;
 };
 
-const COPY: Record<Locale, { intro: string; ar: Record<string, string> }> = {
+const COPY: Record<Locale, { intro: string }> = {
   en: {
     intro: "You can also read our technical articles on",
-    ar: {},
   },
   ar: {
     intro: "يمكنك أيضًا الإطلاع على مقالاتنا التقنية على",
-    ar: {},
   },
 };
 
