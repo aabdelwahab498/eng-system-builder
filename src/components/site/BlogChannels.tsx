@@ -56,8 +56,7 @@ export function BlogChannels() {
 
   const facebook = getCanonicalSocialLinks().find((s) => s.platform === "facebook")?.url;
   const linkedin = getCanonicalSocialLinks().find((s) => s.platform === "linkedin")?.url;
-  const name = getCanonicalContact().length ? "Ahmed Abdelwahab" : "Ahmed Abdelwahab";
-  const enc = encodeURIComponent(name);
+  const enc = encodeURIComponent("Ahmed Abdelwahab");
 
   const channels: Channel[] = [
     {
