@@ -389,11 +389,71 @@ function ClientsPage() {
             </DialogContent>
           </Dialog>
 
-          {(clientQuery.data ?? []).length === 0 ? (
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+            <Input
+              placeholder="Search name, email, invoice…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Select value={filterPayment} onValueChange={setFilterPayment}>
+              <SelectTrigger aria-label="Filter by payment state">
+                <SelectValue placeholder="Payment state" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All payment states</SelectItem>
+                {PAYMENT_STATES.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={filterPlan} onValueChange={setFilterPlan}>
+              <SelectTrigger aria-label="Filter by plan">
+                <SelectValue placeholder="Plan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All plans</SelectItem>
+                {SUBSCRIPTION_PLANS.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={filterSub} onValueChange={setFilterSub}>
+              <SelectTrigger aria-label="Filter by subscription state">
+                <SelectValue placeholder="Subscription" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Active &amp; paused</SelectItem>
+                {SUBSCRIPTION_STATES.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>
+                    {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={sortKey} onValueChange={(v) => setSortKey(v as SortKey)}>
+              <SelectTrigger aria-label="Sort clients">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SORTS.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>
+                    Sort: {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {visibleClients.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-              No clients yet.
+              {allClients.length === 0 ? "No clients yet." : "No clients match these filters."}
             </div>
           ) : (
+
             <div className="overflow-x-auto rounded-lg border border-border">
               <Table>
                 <TableHeader>
