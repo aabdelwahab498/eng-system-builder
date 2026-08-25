@@ -155,6 +155,22 @@ function GalleryPage() {
             const list = order
               .map((slug) => t.projects.find((p) => p.slug === slug))
               .filter((p): p is NonNullable<typeof p> => Boolean(p));
+            const catalogItems = list.map((project) => {
+              const shot = project.media[0];
+              const liveUrl = project.links?.find((l) => /^https?:\/\//.test(l.url))?.url;
+              return {
+                id: project.slug,
+                src: shot?.kind === "image" ? shot.src : undefined,
+                placeholder: shot?.label ?? t.ui.mediaPlaceholder,
+                title: project.name,
+                caption: project.summary,
+                credit: project.category,
+                tech: project.tech,
+                status: project.status,
+                liveUrl,
+                slug: project.slug,
+              };
+            });
             return (
               <div key={id} id={id} className="scroll-mt-28">
                 <h2 className="eyebrow mb-6">{section.label[locale]}</h2>
@@ -162,6 +178,19 @@ function GalleryPage() {
                   <div className="rounded-lg border border-dashed border-border-strong p-10 text-center">
                     <p className="text-sm text-muted-foreground">{t.ui.contentPending}</p>
                   </div>
+                ) : id === "websites" ? (
+                  <ProjectCatalog
+                    rtl={locale === "ar"}
+                    locale={locale}
+                    items={catalogItems}
+                    labels={{
+                      previous: locale === "ar" ? "السابق" : "Previous",
+                      next: locale === "ar" ? "التالي" : "Next",
+                      close: locale === "ar" ? "إغلاق" : "Close",
+                      expand: locale === "ar" ? "عرض بملء الشاشة" : "View full screen",
+                      viewProject: t.ui.viewProject,
+                    }}
+                  />
                 ) : (
                   <div className="grid gap-6 lg:grid-cols-2">
                     {list.map((project) => (
