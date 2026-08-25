@@ -47,6 +47,7 @@ export function ImageCatalog({
       busy.current = true;
       setFlip({ dir, from: index });
       setIndex(nextIndex);
+      onIndexChange?.(nextIndex);
       window.setTimeout(() => {
         busy.current = false;
         setFlip(null);
