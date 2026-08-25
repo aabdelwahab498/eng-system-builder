@@ -470,7 +470,7 @@ function ClientsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {(clientQuery.data ?? []).map((c: Client) => (
+                  {visibleClients.map((c: Client) => (
                     <TableRow key={c.id}>
                       <TableCell className="font-medium text-foreground">{c.name}</TableCell>
                       <TableCell className="text-xs text-muted-foreground">
