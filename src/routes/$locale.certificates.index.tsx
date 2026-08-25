@@ -32,6 +32,16 @@ export const Route = createFileRoute("/$locale/certificates/")({
 
 function CertificatesIndex() {
   const { locale, t } = useLocale();
+  const [page, setPage] = useState(0);
+  const isAr = locale === "ar";
+
+  const items = certificates.map((cert) => ({
+    id: cert.id,
+    src: cert.image,
+    title: pick(cert.title, locale),
+    caption: [pick(cert.issuer, locale), pick(cert.date, locale)].filter(Boolean).join(" · "),
+    credit: cert.detail ? pick(cert.detail, locale) : undefined,
+  }));
 
   return (
     <>
