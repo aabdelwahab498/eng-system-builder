@@ -147,7 +147,7 @@ function GalleryPage() {
         </nav>
 
         <div className="mt-16 space-y-20">
-          {(["web-apps", "websites", "mobile-apps"] as const).map((id) => {
+          {(["websites", "web-apps", "mobile-apps"] as const).map((id) => {
             const section = gallerySections.find((s) => s.id === id)!;
             const order = projectSectionSlugs[id];
             const list = order
