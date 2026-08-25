@@ -158,16 +158,17 @@ function GalleryPage() {
             const catalogItems = list.map((project) => {
               const shot = project.media[0];
               const liveUrl = project.links?.find((l) => /^https?:\/\//.test(l.url))?.url;
+              const src = shot?.kind === "image" ? shot.src : undefined;
               return {
                 id: project.slug,
-                src: shot?.kind === "image" ? shot.src : undefined,
+                ...(src ? { src } : {}),
                 placeholder: shot?.label ?? t.ui.mediaPlaceholder,
                 title: project.name,
                 caption: project.summary,
                 credit: project.category,
                 tech: project.tech,
                 status: project.status,
-                liveUrl,
+                ...(liveUrl ? { liveUrl } : {}),
                 slug: project.slug,
               };
             });
