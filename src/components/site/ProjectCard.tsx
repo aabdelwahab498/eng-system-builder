@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Project } from "@/types/content";
 import { MediaSlot } from "./MediaSlot";
 import { useLocale } from "@/hooks/useLocale";
 
 export function ProjectCard({ project }: { project: Project }) {
   const { locale, t } = useLocale();
+  const liveUrl = project.links?.find((l) => /^https?:\/\//.test(l.url))?.url;
 
   return (
     <article className="lift group flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-colors hover:border-border-strong sm:p-8">
