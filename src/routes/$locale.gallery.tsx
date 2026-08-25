@@ -287,6 +287,33 @@ function GalleryPage() {
             )}
             {stills.length > 0 && (
               <div id="images" className="scroll-mt-28">
+                <div className="mb-8 flex flex-col items-center gap-3 text-center">
+                  <div className="ps-box inline-flex max-w-full items-center gap-2 overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-4 py-2">
+                    <span className="ps-prompt digital-green select-none text-base font-semibold sm:text-lg">
+                      {locale === "ar" ? "«" : ">"}
+                    </span>
+                    <Typewriter
+                      as="span"
+                      text={
+                        locale === "ar"
+                          ? "أستطيع أن أُنتج لك صورًا جميلة للشخصيات والمواقف الكارتونية المختلفة وأكثر حسب طلبك"
+                          : "I can craft beautiful images of characters and cartoon scenes — and more, on demand"
+                      }
+                      loop
+                      speed={80}
+                      startDelay={500}
+                      holdDelay={2600}
+                      deleteSpeed={40}
+                      className="digital-green text-base font-semibold sm:text-lg"
+                      cursorClassName="ps-caret"
+                    />
+                  </div>
+                  <p className="digital-green mx-auto max-w-2xl text-sm opacity-80 sm:text-base">
+                    {locale === "ar"
+                      ? "كل صورة هنا وُلدت من خيال الذكاء الاصطناعي — شخصيات ومشاهد وقصص تُرسم خصيصًا لك. أخبرني بفكرتك، وسأُحوّلها إلى صورة."
+                      : "Every image here was born from AI imagination — characters, scenes and stories drawn just for you. Share your idea, and I'll turn it into an image."}
+                  </p>
+                </div>
                 <h2 className="eyebrow mb-6">{t.ui.images}</h2>
                 <ImageCatalog
                   rtl={locale === "ar"}
