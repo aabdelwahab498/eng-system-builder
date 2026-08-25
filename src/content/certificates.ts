@@ -435,3 +435,55 @@ export const certificates: Certificate[] = [
 
 export const pick = (value: { en: string; ar: string }, locale: Locale) =>
   locale === "ar" ? value.ar : value.en;
+
+/**
+ * Display order: strongest technical / portfolio-relevant credentials first
+ * (security, cloud & DevOps, engineering, data, AI), then delivery frameworks,
+ * then business & general professional certificates.
+ */
+const displayOrder: string[] = [
+  "ec-council-cyber-specialization",
+  "network-defense-essentials",
+  "digital-forensics-essentials",
+  "cyber-security",
+  "netdevops",
+  "kubernetes-basics-devops",
+  "devops-prerequisite",
+  "intro-devops-ibm",
+  "aspnet-core-solid",
+  "intro-software-engineering-ibm",
+  "sql-intro-davidson",
+  "sql-concepts-ibm",
+  "ai-diploma",
+  "itil-4",
+  "itil-v4-svs",
+  "agile-scrum-ibm",
+  "csm-practice-exam",
+  "agile-leadership",
+  "it-fundamentals-ibm",
+  "digital-transformation-security",
+  "risk-management-specialization",
+  "intro-risk-management",
+  "market-risk-management",
+  "operational-risk-management",
+  "supply-chain-management",
+  "operations-management",
+  "managerial-accounting",
+  "mini-mba",
+  "training-of-trainers",
+  "itc-certified-trainer-specialization",
+  "dm03-social-media",
+  "verizon-skill-forward",
+  "alx-professional-foundations",
+];
+
+const rank = (id: string) => {
+  const i = displayOrder.indexOf(id);
+  return i === -1 ? displayOrder.length : i;
+};
+
+/** Certificates ordered for the portfolio: technical depth first. */
+export const orderedCertificates: Certificate[] = [...certificates].sort(
+  (a, b) => rank(a.id) - rank(b.id),
+);
+
