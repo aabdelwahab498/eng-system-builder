@@ -24,7 +24,7 @@ export const projectSectionSlugs: Record<"web-apps" | "websites" | "mobile-apps"
     "scriptoria-ar",
   ],
   // Strongest / most complete first: Wameedh Hub ships on its own production
-  // domain; the rest follow by platform breadth and deployment maturity.
+  // domain, then IndusB2B, then Shifa Travel, Dalil Masry, Maison Parfum.
   websites: ["wameedh-hub", "indusb2b", "shifa-travel", "dalil-masry", "maison-parfum"],
   "mobile-apps": [],
 };
