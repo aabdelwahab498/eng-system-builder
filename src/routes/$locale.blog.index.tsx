@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { FilterBar } from "@/components/site/FilterBar";
+import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { BlogChannels } from "@/components/site/BlogChannels";
 import { Input } from "@/components/ui/input";
 import { listPublicArticles } from "@/lib/cms/public.functions";
@@ -48,6 +49,7 @@ function BlogIndex() {
   const { locale, t } = useLocale();
   const [category, setCategory] = useState(ALL);
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["public", "articles"],
@@ -131,56 +133,52 @@ function BlogIndex() {
               : t.ui.noMatches}
           </p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {visible.map((article, index) => {
-              const data = article.data as unknown as ArticleData;
-              const title = pick(data.title, locale);
-              return (
-                <Reveal key={article.id} delay={index * 60}>
-                  <Link
-                    to="/$locale/blog/$slug"
-                    params={{ locale, slug: article.slug }}
-                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/40 transition-colors hover:border-primary/60"
-                  >
-                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
-                      {data.coverImageUrl ? (
-                        <img
-                          src={data.coverImageUrl}
-                          alt={title}
-                          loading="lazy"
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="h-full w-full bg-gradient-to-br from-primary/20 via-background to-background" />
-                      )}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
-                      {data.category ? (
-                        <span className="absolute bottom-3 left-3 rounded border border-border/70 bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground backdrop-blur">
-                          {data.category}
-                        </span>
-                      ) : null}
-                    </div>
-                    <div className="flex flex-1 flex-col p-5">
-                      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                        {article.publishedAt
-                          ? new Date(article.publishedAt).toLocaleDateString(
-                              locale === "ar" ? "ar-EG" : "en-GB",
-                            )
-                          : locale === "ar"
-                            ? "مقال"
-                            : "Article"}
-                      </p>
-                      <h2 className="mt-2 font-display text-lg font-semibold text-foreground">
-                        {title}
-                      </h2>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {pick(data.excerpt, locale)}
-                      </p>
-                    </div>
-                  </Link>
-                </Reveal>
-              );
-            })}
+          <div className="space-y-4">
+            <ImageCatalog
+              items={visible.map((article) => {
+                const data = article.data as unknown as ArticleData;
+                const meta: { label: string; value: string }[] = [];
+                if (data.category)
+                  meta.push({
+                    label: locale === "ar" ? "التصنيف" : "Category",
+                    value: data.category,
+                  });
+                if (article.publishedAt)
+                  meta.push({
+                    label: locale === "ar" ? "التاريخ" : "Date",
+                    value: new Date(article.publishedAt).toLocaleDateString(
+                      locale === "ar" ? "ar-EG" : "en-GB",
+                    ),
+                  });
+                if (data.tags?.length)
+                  meta.push({
+                    label: locale === "ar" ? "الوسوم" : "Tags",
+                    value: data.tags.join(" · "),
+                  });
+                return {
+                  id: article.id,
+                  src: data.coverImageUrl ?? "",
+                  title: pick(data.title, locale),
+                  caption: pick(data.excerpt, locale),
+                  meta,
+                  linkUrl: `/${locale}/blog/${article.slug}`,
+                  linkLabel: locale === "ar" ? "اقرأ المقال" : "Read article",
+                  linkExternal: false,
+                };
+              })}
+              rtl={locale === "ar"}
+              labels={{
+                previous: locale === "ar" ? "السابق" : "Previous",
+                next: locale === "ar" ? "التالي" : "Next",
+                close: locale === "ar" ? "إغلاق" : "Close",
+                expand: locale === "ar" ? "تكبير" : "Expand",
+              }}
+              onIndexChange={setPage}
+            />
+            <p className="text-center font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              {String(Math.min(page + 1, visible.length)).padStart(2, "0")} /{" "}
+              {String(visible.length).padStart(2, "0")}
+            </p>
           </div>
         )}
       </Section>
