@@ -5,11 +5,16 @@ import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
 import {
   CLIENT_STATUSES,
+  CURRENCIES,
+  PAYMENT_STATES,
+  SUBSCRIPTION_PLANS,
   activityLog,
   clients,
   subscribers,
   type Client,
   type ClientStatus,
+  type PaymentState,
+  type SubscriptionPlan,
   type Subscriber,
 } from "@/lib/admin/crm";
 import { Button } from "@/components/ui/button";
@@ -63,6 +68,15 @@ const EMPTY_CLIENT = {
   projects: "",
   paymentStatus: "",
   status: "lead" as ClientStatus,
+  plan: "none" as SubscriptionPlan,
+  paymentState: "unpaid" as PaymentState,
+  paymentMethod: "",
+  amount: "",
+  currency: "EGP",
+  paidAmount: "",
+  lastPaymentAt: "",
+  nextRenewalAt: "",
+  invoiceRef: "",
 };
 
 const EMPTY_SUB = {
@@ -70,7 +84,19 @@ const EMPTY_SUB = {
   name: "",
   source: "Website",
   status: "subscribed" as Subscriber["status"],
+  plan: "none" as SubscriptionPlan,
+  paymentState: "unpaid" as PaymentState,
+  amount: "",
+  currency: "EGP",
+  nextRenewalAt: "",
 };
+
+const planLabel = (v?: string) =>
+  SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
+const paymentLabel = (v?: string) => PAYMENT_STATES.find((p) => p.value === v)?.label ?? "Unpaid";
+const money = (amount?: string, currency?: string) =>
+  amount ? `${amount} ${currency ?? ""}`.trim() : "—";
+
 
 function ClientsPage() {
   const qc = useQueryClient();
@@ -173,7 +199,7 @@ function ClientsPage() {
                   ["country", "Country"],
                   ["service", "Requested service"],
                   ["projects", "Projects"],
-                  ["paymentStatus", "Payment status"],
+                  ["paymentStatus", "Payment note"],
                 ] as const).map(([key, label]) => (
                   <div key={key} className="space-y-1.5">
                     <Label htmlFor={key}>{label}</Label>
@@ -184,7 +210,138 @@ function ClientsPage() {
                     />
                   </div>
                 ))}
+
+                <div className="pt-2">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    Payment &amp; subscription
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label>Subscription plan</Label>
+                    <Select
+                      value={clientDraft.plan}
+                      onValueChange={(v) =>
+                        setClientDraft({ ...clientDraft, plan: v as SubscriptionPlan })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SUBSCRIPTION_PLANS.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Payment state</Label>
+                    <Select
+                      value={clientDraft.paymentState}
+                      onValueChange={(v) =>
+                        setClientDraft({ ...clientDraft, paymentState: v as PaymentState })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PAYMENT_STATES.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="amount">Agreed amount</Label>
+                    <Input
+                      id="amount"
+                      inputMode="decimal"
+                      value={clientDraft.amount}
+                      onChange={(e) => setClientDraft({ ...clientDraft, amount: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Currency</Label>
+                    <Select
+                      value={clientDraft.currency}
+                      onValueChange={(v) => setClientDraft({ ...clientDraft, currency: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CURRENCIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="paidAmount">Paid so far</Label>
+                    <Input
+                      id="paidAmount"
+                      inputMode="decimal"
+                      value={clientDraft.paidAmount}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, paidAmount: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="paymentMethod">Payment method</Label>
+                    <Input
+                      id="paymentMethod"
+                      placeholder="Instapay, Vodafone Cash, Wise…"
+                      value={clientDraft.paymentMethod}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, paymentMethod: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lastPaymentAt">Last payment date</Label>
+                    <Input
+                      id="lastPaymentAt"
+                      type="date"
+                      value={clientDraft.lastPaymentAt}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, lastPaymentAt: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="nextRenewalAt">Next renewal</Label>
+                    <Input
+                      id="nextRenewalAt"
+                      type="date"
+                      value={clientDraft.nextRenewalAt}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, nextRenewalAt: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="invoiceRef">Invoice / reference</Label>
+                    <Input
+                      id="invoiceRef"
+                      value={clientDraft.invoiceRef}
+                      onChange={(e) =>
+                        setClientDraft({ ...clientDraft, invoiceRef: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
+
               <DialogFooter>
                 <Button
                   onClick={() => addClient.mutate()}
@@ -208,7 +365,10 @@ function ClientsPage() {
                     <TableHead>Name</TableHead>
                     <TableHead>Contact</TableHead>
                     <TableHead>Service</TableHead>
+                    <TableHead>Plan</TableHead>
+                    <TableHead>Amount</TableHead>
                     <TableHead>Payment</TableHead>
+                    <TableHead>Renewal</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead />
                   </TableRow>
@@ -224,8 +384,53 @@ function ClientsPage() {
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{c.service}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {c.paymentStatus || "—"}
+                        {planLabel(c.plan)}
                       </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {money(c.amount, c.currency)}
+                        {c.paidAmount ? (
+                          <>
+                            <br />
+                            paid {money(c.paidAmount, c.currency)}
+                          </>
+                        ) : null}
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={c.paymentState ?? "unpaid"}
+                          onValueChange={(value) =>
+                            clients
+                              .update(c.id, { paymentState: value as PaymentState })
+                              .then(() => invalidate())
+                          }
+                        >
+                          <SelectTrigger className="w-40">
+                            <SelectValue placeholder={paymentLabel(c.paymentState)} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {PAYMENT_STATES.map((p) => (
+                              <SelectItem key={p.value} value={p.value}>
+                                {p.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {c.paymentMethod || c.paymentStatus ? (
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            {[c.paymentMethod, c.paymentStatus].filter(Boolean).join(" · ")}
+                          </p>
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {c.nextRenewalAt || "—"}
+                        {c.lastPaymentAt ? (
+                          <>
+                            <br />
+                            last {c.lastPaymentAt}
+                          </>
+                        ) : null}
+                      </TableCell>
+
                       <TableCell>
                         <Select
                           value={c.status}
@@ -293,7 +498,85 @@ function ClientsPage() {
                     />
                   </div>
                 ))}
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label>Plan</Label>
+                    <Select
+                      value={subDraft.plan}
+                      onValueChange={(v) => setSubDraft({ ...subDraft, plan: v as SubscriptionPlan })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SUBSCRIPTION_PLANS.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Payment state</Label>
+                    <Select
+                      value={subDraft.paymentState}
+                      onValueChange={(v) =>
+                        setSubDraft({ ...subDraft, paymentState: v as PaymentState })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PAYMENT_STATES.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="sub-amount">Amount</Label>
+                    <Input
+                      id="sub-amount"
+                      inputMode="decimal"
+                      value={subDraft.amount}
+                      onChange={(e) => setSubDraft({ ...subDraft, amount: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Currency</Label>
+                    <Select
+                      value={subDraft.currency}
+                      onValueChange={(v) => setSubDraft({ ...subDraft, currency: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CURRENCIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="sub-renewal">Next renewal</Label>
+                    <Input
+                      id="sub-renewal"
+                      type="date"
+                      value={subDraft.nextRenewalAt}
+                      onChange={(e) => setSubDraft({ ...subDraft, nextRenewalAt: e.target.value })}
+                    />
+                  </div>
+                </div>
               </div>
+
               <DialogFooter>
                 <Button onClick={() => addSub.mutate()} disabled={!subDraft.email}>
                   Save subscriber
@@ -314,6 +597,10 @@ function ClientsPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Source</TableHead>
+                    <TableHead>Plan</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Payment</TableHead>
+                    <TableHead>Renewal</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead />
                   </TableRow>
@@ -326,6 +613,37 @@ function ClientsPage() {
                         {s.name || "—"}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{s.source}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {planLabel(s.plan)}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {money(s.amount, s.currency)}
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={s.paymentState ?? "unpaid"}
+                          onValueChange={(value) =>
+                            subscribers
+                              .update(s.id, { paymentState: value as PaymentState })
+                              .then(() => invalidate())
+                          }
+                        >
+                          <SelectTrigger className="w-40">
+                            <SelectValue placeholder={paymentLabel(s.paymentState)} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {PAYMENT_STATES.map((p) => (
+                              <SelectItem key={p.value} value={p.value}>
+                                {p.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {s.nextRenewalAt || "—"}
+                      </TableCell>
+
                       <TableCell>
                         <Select
                           value={s.status}

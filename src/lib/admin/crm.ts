@@ -44,6 +44,10 @@ export type ClientStatus =
   | "returning"
   | "archived";
 
+export type SubscriptionPlan = "none" | "one_time" | "monthly" | "quarterly" | "yearly" | "retainer";
+
+export type PaymentState = "unpaid" | "deposit_paid" | "partially_paid" | "paid" | "overdue" | "refunded";
+
 export type Client = {
   id: string;
   name: string;
@@ -54,6 +58,16 @@ export type Client = {
   projects: string;
   paymentStatus: string;
   status: ClientStatus;
+  /* Payment & subscription */
+  plan?: SubscriptionPlan;
+  paymentState?: PaymentState;
+  paymentMethod?: string;
+  amount?: string;
+  currency?: string;
+  paidAmount?: string;
+  lastPaymentAt?: string;
+  nextRenewalAt?: string;
+  invoiceRef?: string;
   createdAt: string;
 };
 
@@ -63,8 +77,14 @@ export type Subscriber = {
   name: string;
   source: string;
   status: "subscribed" | "unsubscribed";
+  plan?: SubscriptionPlan;
+  paymentState?: PaymentState;
+  amount?: string;
+  currency?: string;
+  nextRenewalAt?: string;
   createdAt: string;
 };
+
 
 export type ActivityEntry = {
   id: string;
@@ -212,3 +232,24 @@ export const CLIENT_STATUSES: { value: ClientStatus; label: string }[] = [
 ];
 
 export const ADMIN_WHATSAPP = "https://api.whatsapp.com/send?phone=201105725029";
+
+export const SUBSCRIPTION_PLANS: { value: SubscriptionPlan; label: string }[] = [
+  { value: "none", label: "No plan" },
+  { value: "one_time", label: "One-time project" },
+  { value: "monthly", label: "Monthly subscription" },
+  { value: "quarterly", label: "Quarterly subscription" },
+  { value: "yearly", label: "Yearly subscription" },
+  { value: "retainer", label: "Support retainer" },
+];
+
+export const PAYMENT_STATES: { value: PaymentState; label: string }[] = [
+  { value: "unpaid", label: "Unpaid" },
+  { value: "deposit_paid", label: "Deposit paid" },
+  { value: "partially_paid", label: "Partially paid" },
+  { value: "paid", label: "Paid" },
+  { value: "overdue", label: "Overdue" },
+  { value: "refunded", label: "Refunded" },
+];
+
+export const CURRENCIES = ["EGP", "USD", "EUR", "SAR", "AED"];
+
