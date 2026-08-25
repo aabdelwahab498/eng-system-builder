@@ -91,7 +91,7 @@ export function ImageCatalog({
     <div className={cn("select-none", className)}>
       <div className="book-scene">
         <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)]">
-          <div className="book-spread relative grid aspect-[16/10] w-full grid-cols-2">
+          <div className={cn("book-spread relative grid w-full grid-cols-2", aspectClassName ?? "aspect-[16/10]")}>
             <div className="book-page book-page-left">
               <ImagePage item={leftItem} />
             </div>
