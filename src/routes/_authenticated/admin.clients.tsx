@@ -793,7 +793,14 @@ function ClientsPage() {
         </TabsContent>
       </Tabs>
 
+      <ClientBillingDialog
+        client={billingClient}
+        open={Boolean(billingClient)}
+        onOpenChange={(o) => !o && setBillingClient(null)}
+      />
+
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(o) => !o && setPendingDelete(null)}>
+
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this record?</AlertDialogTitle>
