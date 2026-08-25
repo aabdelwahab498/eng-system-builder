@@ -498,7 +498,85 @@ function ClientsPage() {
                     />
                   </div>
                 ))}
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label>Plan</Label>
+                    <Select
+                      value={subDraft.plan}
+                      onValueChange={(v) => setSubDraft({ ...subDraft, plan: v as SubscriptionPlan })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SUBSCRIPTION_PLANS.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Payment state</Label>
+                    <Select
+                      value={subDraft.paymentState}
+                      onValueChange={(v) =>
+                        setSubDraft({ ...subDraft, paymentState: v as PaymentState })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PAYMENT_STATES.map((p) => (
+                          <SelectItem key={p.value} value={p.value}>
+                            {p.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="sub-amount">Amount</Label>
+                    <Input
+                      id="sub-amount"
+                      inputMode="decimal"
+                      value={subDraft.amount}
+                      onChange={(e) => setSubDraft({ ...subDraft, amount: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Currency</Label>
+                    <Select
+                      value={subDraft.currency}
+                      onValueChange={(v) => setSubDraft({ ...subDraft, currency: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CURRENCIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <Label htmlFor="sub-renewal">Next renewal</Label>
+                    <Input
+                      id="sub-renewal"
+                      type="date"
+                      value={subDraft.nextRenewalAt}
+                      onChange={(e) => setSubDraft({ ...subDraft, nextRenewalAt: e.target.value })}
+                    />
+                  </div>
+                </div>
               </div>
+
               <DialogFooter>
                 <Button onClick={() => addSub.mutate()} disabled={!subDraft.email}>
                   Save subscriber
