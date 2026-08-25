@@ -270,6 +270,15 @@
   color: #d4661f;
 }
 
+/* "next gen" logo wordmark — cyan-to-blue metallic gradient (matches the gear). */
+@utility ng-word {
+  background: linear-gradient(100deg, #5ce8ff 0%, #1a8cff 50%, #0049b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Retro digital — glowing phosphor-green terminal text */
 @utility digital-green {
   font-family: var(--font-digital);
