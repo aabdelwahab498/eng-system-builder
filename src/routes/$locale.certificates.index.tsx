@@ -51,6 +51,29 @@ function CertificatesIndex() {
         title={locale === "ar" ? "الشهادات والاعتمادات" : "Certificates & credentials"}
         subtitle={t.ui.certificatesIntro}
       />
+      <Section bordered={false}>
+        <ImageCatalog
+          items={items}
+          rtl={isAr}
+          aspectClassName="aspect-[16/9] min-h-[60vh] lg:min-h-[72vh]"
+          labels={{
+            previous: isAr ? "السابق" : "Previous",
+            next: isAr ? "التالي" : "Next",
+            close: isAr ? "إغلاق" : "Close",
+            expand: isAr ? "تكبير" : "Expand",
+          }}
+          onIndexChange={setPage}
+        />
+        <div className="mt-5 flex items-center justify-center gap-4">
+          <span className="rounded-full border border-border bg-surface/60 px-5 py-2 font-mono text-sm tracking-[0.25em] text-foreground">
+            {String(page + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {isAr ? "صفحة من كتاب الشهادات" : "Page of the certificates book"}
+          </span>
+        </div>
+      </Section>
+
       <Section>
         <div className="grid gap-6 sm:grid-cols-2">
           {certificates.map((cert, index) => (
