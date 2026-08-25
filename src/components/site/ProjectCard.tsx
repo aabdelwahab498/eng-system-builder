@@ -57,7 +57,19 @@ export function ProjectCard({ project }: { project: Project }) {
       </ul>
 
       <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-5">
-        <span className="font-mono text-[11px] text-muted-foreground">{project.status}</span>
+        {liveUrl ? (
+          <a
+            href={liveUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline"
+          >
+            {project.status}
+            <ExternalLink className="size-3" />
+          </a>
+        ) : (
+          <span className="font-mono text-[11px] text-muted-foreground">{project.status}</span>
+        )}
         <Link
           to="/$locale/projects/$slug"
           params={{ locale, slug: project.slug }}
