@@ -10,7 +10,6 @@ import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { VideoCatalog } from "@/components/site/VideoCatalog";
 import { ProjectCatalog } from "@/components/site/ProjectCatalog";
 import { ContactCta } from "@/components/site/ContactCta";
-import { ProjectCard } from "@/components/site/ProjectCard";
 import { gallerySections, projectSectionSlugs } from "@/lib/gallery-sections";
 import { listPublicByKind } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
