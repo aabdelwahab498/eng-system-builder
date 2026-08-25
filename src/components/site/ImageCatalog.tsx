@@ -53,7 +53,7 @@ export function ImageCatalog({
         setFlip(null);
       }, 790);
     },
-    [count, index],
+    [count, index, onIndexChange],
   );
 
   const prev = useCallback(() => go(index - 1, -1), [go, index]);
