@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
+import { ImageCatalog } from "@/components/site/ImageCatalog";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
@@ -32,6 +34,16 @@ export const Route = createFileRoute("/$locale/certificates/")({
 
 function CertificatesIndex() {
   const { locale, t } = useLocale();
+  const [page, setPage] = useState(0);
+  const isAr = locale === "ar";
+
+  const items = certificates.map((cert) => ({
+    id: cert.id,
+    src: cert.image,
+    title: pick(cert.title, locale),
+    caption: [pick(cert.issuer, locale), pick(cert.date, locale)].filter(Boolean).join(" · "),
+    credit: cert.detail ? pick(cert.detail, locale) : undefined,
+  }));
 
   return (
     <>
@@ -41,6 +53,29 @@ function CertificatesIndex() {
         title={locale === "ar" ? "الشهادات والاعتمادات" : "Certificates & credentials"}
         subtitle={t.ui.certificatesIntro}
       />
+      <Section bordered={false}>
+        <ImageCatalog
+          items={items}
+          rtl={isAr}
+          aspectClassName="aspect-[16/9] min-h-[60vh] lg:min-h-[72vh]"
+          labels={{
+            previous: isAr ? "السابق" : "Previous",
+            next: isAr ? "التالي" : "Next",
+            close: isAr ? "إغلاق" : "Close",
+            expand: isAr ? "تكبير" : "Expand",
+          }}
+          onIndexChange={setPage}
+        />
+        <div className="mt-5 flex items-center justify-center gap-4">
+          <span className="rounded-full border border-border bg-surface/60 px-5 py-2 font-mono text-sm tracking-[0.25em] text-foreground">
+            {String(page + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {isAr ? "صفحة من كتاب الشهادات" : "Page of the certificates book"}
+          </span>
+        </div>
+      </Section>
+
       <Section>
         <div className="grid gap-6 sm:grid-cols-2">
           {certificates.map((cert, index) => (

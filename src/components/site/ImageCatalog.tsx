@@ -21,11 +21,15 @@ export function ImageCatalog({
   rtl = false,
   labels,
   className,
+  aspectClassName,
+  onIndexChange,
 }: {
   items: CatalogItem[];
   rtl?: boolean;
   labels: { previous: string; next: string; close: string; expand: string };
   className?: string;
+  aspectClassName?: string;
+  onIndexChange?: (index: number) => void;
 }) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
@@ -43,12 +47,13 @@ export function ImageCatalog({
       busy.current = true;
       setFlip({ dir, from: index });
       setIndex(nextIndex);
+      onIndexChange?.(nextIndex);
       window.setTimeout(() => {
         busy.current = false;
         setFlip(null);
       }, 790);
     },
-    [count, index],
+    [count, index, onIndexChange],
   );
 
   const prev = useCallback(() => go(index - 1, -1), [go, index]);
@@ -86,7 +91,7 @@ export function ImageCatalog({
     <div className={cn("select-none", className)}>
       <div className="book-scene">
         <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)]">
-          <div className="book-spread relative grid aspect-[16/10] w-full grid-cols-2">
+          <div className={cn("book-spread relative grid w-full grid-cols-2", aspectClassName ?? "aspect-[16/10]")}>
             <div className="book-page book-page-left">
               <ImagePage item={leftItem} />
             </div>
