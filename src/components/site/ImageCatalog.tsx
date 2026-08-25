@@ -11,6 +11,7 @@ export type CatalogItem = {
   meta?: { label: string; value: string }[] | undefined;
   linkUrl?: string | undefined;
   linkLabel?: string | undefined;
+  linkExternal?: boolean | undefined;
 };
 
 
@@ -261,8 +262,9 @@ function TextPage({
       {item.linkUrl && (
         <a
           href={item.linkUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          {...(item.linkExternal === false
+            ? {}
+            : { target: "_blank", rel: "noopener noreferrer" })}
           className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/40 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
         >
           {item.linkLabel ?? "Verify"}
