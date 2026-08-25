@@ -4,10 +4,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { adminOverview, adminSeedContent } from "@/lib/cms/admin.functions";
 import { buildSeedItems } from "@/lib/cms/seed";
-import { KIND_LABELS, CONTENT_KINDS, type ContentKind } from "@/lib/cms/types";
+import { KIND_LABELS, type ContentKind } from "@/lib/cms/types";
 import { Button } from "@/components/ui/button";
 import { activityLog, clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
+import { socialPosts } from "@/lib/social/store";
 
 
 export const Route = createFileRoute("/_authenticated/admin/")({
@@ -40,6 +41,7 @@ function AdminDashboard() {
         .length,
       clients: (await clients.list()).length,
       subscribers: (await subscribers.list()).length,
+      social: (await socialPosts.list()).length,
     }),
   });
 
@@ -106,7 +108,8 @@ function AdminDashboard() {
           { label: "Gallery items", value: byKind['gallery_item']?.total ?? 0 },
           { label: "Pending requests", value: business?.requests ?? 0 },
           { label: "Pending payments", value: business?.payments ?? 0 },
-          { label: "Clients / subscribers", value: `${business?.clients ?? 0} / ${business?.subscribers ?? 0}` },
+          { label: "Active clients", value: business?.clients ?? 0 },
+          { label: "Social posts", value: business?.social ?? 0 },
         ].map((stat) => (
           <div key={stat.label} className="rounded-lg border border-border bg-surface/50 p-4">
             <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
