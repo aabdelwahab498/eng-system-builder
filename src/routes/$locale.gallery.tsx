@@ -149,7 +149,10 @@ function GalleryPage() {
         <div className="mt-16 space-y-20">
           {(["web-apps", "websites", "mobile-apps"] as const).map((id) => {
             const section = gallerySections.find((s) => s.id === id)!;
-            const list = t.projects.filter((p) => projectSectionSlugs[id].includes(p.slug));
+            const order = projectSectionSlugs[id];
+            const list = order
+              .map((slug) => t.projects.find((p) => p.slug === slug))
+              .filter((p): p is NonNullable<typeof p> => Boolean(p));
             return (
               <div key={id} id={id} className="scroll-mt-28">
                 <h2 className="eyebrow mb-6">{section.label[locale]}</h2>
