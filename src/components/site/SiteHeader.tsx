@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { ChevronDown, Languages, Menu, ShieldCheck, X } from "lucide-react";
 import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
+import { NextGenMark } from "./NextGenMark";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { gallerySections } from "@/lib/gallery-sections";
 import { cn } from "@/lib/utils";
+
+const NAV_LINK =
+  "digital-green rounded-sm px-3 py-2 text-sm transition-all duration-200 hover:brightness-125 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none";
 
 export function SiteHeader() {
   const { locale, t } = useLocale();
@@ -43,10 +47,8 @@ export function SiteHeader() {
           className="flex items-center gap-3"
           aria-label={t.profile.displayName}
         >
-          <span className="grid size-8 place-items-center rounded-sm border border-border-strong font-mono text-xs text-primary">
-            A
-          </span>
-          <span className="font-display text-sm font-medium tracking-tight sm:text-base">
+          <NextGenMark />
+          <span className="digital-green text-sm tracking-tight sm:text-base">
             {t.profile.displayName}
           </span>
         </Link>
@@ -58,8 +60,8 @@ export function SiteHeader() {
                 <Link
                   to="/$locale/gallery"
                   params={{ locale }}
-                  className="flex items-center gap-1 rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                  activeProps={{ className: "text-foreground" }}
+                  className={cn(NAV_LINK, "flex items-center gap-1")}
+                  activeProps={{ className: "brightness-150" }}
                 >
                   {item.label}
                   <ChevronDown className="size-3.5" aria-hidden />
@@ -84,8 +86,8 @@ export function SiteHeader() {
                 key={item.path}
                 to={`/$locale${item.path}` as "/$locale/projects"}
                 params={{ locale }}
-                className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                activeProps={{ className: "text-foreground" }}
+                className={NAV_LINK}
+                activeProps={{ className: "brightness-150" }}
               >
                 {item.label}
               </Link>
@@ -136,8 +138,8 @@ export function SiteHeader() {
                 <Link
                   to={`/$locale${item.path}` as "/$locale/projects"}
                   params={{ locale }}
-                  className="block py-4 font-display text-lg text-muted-foreground transition-colors hover:text-foreground"
-                  activeProps={{ className: "text-foreground" }}
+                  className="digital-green block py-4 text-lg transition-all duration-200 hover:brightness-125"
+                  activeProps={{ className: "brightness-150" }}
                 >
                   {item.label}
                 </Link>
