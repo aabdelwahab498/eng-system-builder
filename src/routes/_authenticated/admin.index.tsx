@@ -4,10 +4,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { adminOverview, adminSeedContent } from "@/lib/cms/admin.functions";
 import { buildSeedItems } from "@/lib/cms/seed";
-import { KIND_LABELS, CONTENT_KINDS, type ContentKind } from "@/lib/cms/types";
+import { KIND_LABELS, type ContentKind } from "@/lib/cms/types";
 import { Button } from "@/components/ui/button";
 import { activityLog, clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
+import { socialPosts } from "@/lib/social/store";
 
 
 export const Route = createFileRoute("/_authenticated/admin/")({
@@ -40,6 +41,7 @@ function AdminDashboard() {
         .length,
       clients: (await clients.list()).length,
       subscribers: (await subscribers.list()).length,
+      social: (await socialPosts.list()).length,
     }),
   });
 
@@ -106,7 +108,8 @@ function AdminDashboard() {
           { label: "Gallery items", value: byKind['gallery_item']?.total ?? 0 },
           { label: "Pending requests", value: business?.requests ?? 0 },
           { label: "Pending payments", value: business?.payments ?? 0 },
-          { label: "Clients / subscribers", value: `${business?.clients ?? 0} / ${business?.subscribers ?? 0}` },
+          { label: "Active clients", value: business?.clients ?? 0 },
+          { label: "Social posts", value: business?.social ?? 0 },
         ].map((stat) => (
           <div key={stat.label} className="rounded-lg border border-border bg-surface/50 p-4">
             <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -155,27 +158,39 @@ function AdminDashboard() {
 
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Collections
+          Quick actions
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {CONTENT_KINDS.map((kind: ContentKind) => {
-            const stat = byKind[kind] ?? { total: 0, published: 0, draft: 0 };
-            return (
-              <Link
-                key={kind}
-                to="/admin/content/$kind"
-                params={{ kind }}
-                className="rounded-lg border border-border p-4 transition-colors hover:border-primary/60"
-              >
-                <p className="text-sm font-medium text-foreground">{KIND_LABELS[kind]}</p>
-                <p className="mt-1 font-mono text-[11px] text-muted-foreground">
-                  {stat.total} entries · {stat.published} live · {stat.draft} in progress
-                </p>
-              </Link>
-            );
-          })}
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "+ Add project", kind: "project" as ContentKind },
+            { label: "+ Write article", kind: "article" as ContentKind },
+            { label: "+ Add gallery item", kind: "gallery_item" as ContentKind },
+            { label: "+ Add service", kind: "service" as ContentKind },
+          ].map((action) => (
+            <Link
+              key={action.kind}
+              to="/admin/content/$kind/$id"
+              params={{ kind: action.kind, id: "new" }}
+              className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+            >
+              {action.label}
+            </Link>
+          ))}
+          <Link
+            to="/admin/social"
+            className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+          >
+            + New social post
+          </Link>
+          <Link
+            to="/admin/requests"
+            className="rounded-md border border-border px-3 py-2 text-xs text-foreground transition-colors hover:border-primary/60"
+          >
+            View requests
+          </Link>
         </div>
       </section>
+
 
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
