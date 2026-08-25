@@ -23,6 +23,8 @@ export const projectSectionSlugs: Record<"web-apps" | "websites" | "mobile-apps"
     "smart-shelf-builder",
     "scriptoria-ar",
   ],
-  websites: ["dalil-masry", "shifa-travel", "wameedh-hub", "indusb2b", "maison-parfum"],
+  // Strongest / most complete first: Wameedh Hub ships on its own production
+  // domain; the rest follow by platform breadth and deployment maturity.
+  websites: ["wameedh-hub", "indusb2b", "dalil-masry", "shifa-travel", "maison-parfum"],
   "mobile-apps": [],
 };
