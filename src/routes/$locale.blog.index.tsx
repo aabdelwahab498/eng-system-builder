@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { FilterBar } from "@/components/site/FilterBar";
+import { BlogChannels } from "@/components/site/BlogChannels";
 import { Input } from "@/components/ui/input";
 import { listPublicArticles } from "@/lib/cms/public.functions";
 import { useLocale } from "@/hooks/useLocale";
