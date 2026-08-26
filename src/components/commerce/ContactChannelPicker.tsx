@@ -43,10 +43,13 @@ export function ContactChannelPicker({
   message,
   locale,
   className,
+  onSend,
 }: {
   message: string;
   locale: Locale;
   className?: string;
+  /** Fired whenever the visitor actually dispatches the request through a channel. */
+  onSend?: (channel: string) => void;
 }) {
   const t = copy[locale] ?? copy.en;
   const [copied, setCopied] = useState<string | null>(null);
@@ -83,6 +86,7 @@ export function ContactChannelPicker({
           href={whatsappLink(message)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => onSend?.("whatsapp")}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
         >
           <SocialIcon platform="whatsapp" />
@@ -90,7 +94,7 @@ export function ContactChannelPicker({
         </a>
 
         {mailto && (
-          <a href={mailto} className={btn}>
+          <a href={mailto} className={btn} onClick={() => onSend?.("email")}>
             <Mail className="size-4" aria-hidden />
             {t.email}
           </a>
@@ -102,7 +106,10 @@ export function ContactChannelPicker({
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => void copyMessage(s.platform)}
+            onClick={() => {
+              onSend?.(s.platform);
+              void copyMessage(s.platform);
+            }}
             className={btn}
           >
             <SocialIcon platform={s.platform as SocialPlatform} />
@@ -111,7 +118,10 @@ export function ContactChannelPicker({
           </a>
         ))}
 
-        <button type="button" onClick={() => void copyMessage("clipboard")} className={btn}>
+        <button type="button" onClick={() => {
+            onSend?.("copy");
+            void copyMessage("clipboard");
+          }} className={btn}>
           {copied === "clipboard" ? <Check className="size-4 text-primary" aria-hidden /> : <Copy className="size-4" aria-hidden />}
           {copied === "clipboard" ? t.copied : t.copy}
         </button>
