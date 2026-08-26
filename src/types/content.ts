@@ -103,7 +103,11 @@ export type SkillCategoryId =
   | "ai"
   | "databases"
   | "devops"
-  | "architecture";
+  | "architecture"
+  | "languages"
+  | "tools"
+  | "business";
+
 
 export type SkillCategory = {
   id: SkillCategoryId;
