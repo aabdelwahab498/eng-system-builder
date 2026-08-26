@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ProofViewer } from "@/components/admin/ProofViewer";
 
 export const Route = createFileRoute("/_authenticated/admin/requests")({
   component: RequestsPage,
