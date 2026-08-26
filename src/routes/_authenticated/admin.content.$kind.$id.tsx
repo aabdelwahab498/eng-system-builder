@@ -17,6 +17,8 @@ import {
 import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { DistributePanel } from "@/components/admin/DistributePanel";
+import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
+
 
 import { Markdown } from "@/lib/cms/markdown";
 import { Button } from "@/components/ui/button";
