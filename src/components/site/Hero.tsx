@@ -40,7 +40,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative scroll-mt-32 overflow-hidden pt-[var(--space-hero-pt)] pb-0 sm:pt-[var(--space-hero-pt-lg)]"
+      className="relative scroll-mt-32 overflow-hidden pt-[var(--space-hero-pt)] pb-[var(--space-hero-pb)] sm:pt-[var(--space-hero-pt-lg)]"
     >
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
