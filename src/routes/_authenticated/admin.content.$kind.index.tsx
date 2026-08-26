@@ -13,7 +13,9 @@ import {
 } from "@/lib/cms/admin.functions";
 import { KIND_LABELS, WORKFLOW_STATES, type ContentKind } from "@/lib/cms/types";
 import { StateBadge } from "@/components/admin/fields";
+import { DistributePanel } from "@/components/admin/DistributePanel";
 import { Button } from "@/components/ui/button";
+
 import {
   AlertDialog,
   AlertDialogAction,
