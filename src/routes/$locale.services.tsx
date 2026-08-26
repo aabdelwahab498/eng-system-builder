@@ -21,9 +21,6 @@ import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$locale/services")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    service: typeof search.service === "string" ? search.service : undefined,
-  }),
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "services");
@@ -116,7 +113,7 @@ function ServicesPage() {
   const { locale, t: dict } = useLocale();
   const t = copy[locale] ?? copy.en;
   const offerings = getServiceOfferings();
-  const search = Route.useSearch();
+  const search = Route.useSearch() as { service?: string };
   const [selectedId, setSelectedId] = useState<string | null>(search.service ?? null);
 
   const core = offerings.filter((s) => s.tier === "core");
