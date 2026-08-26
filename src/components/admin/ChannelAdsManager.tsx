@@ -136,6 +136,13 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
       {AD_OWNERS.map((o) => {
         const list = ads.filter((a) => a.owner === o.value);
         const s = summarize(list);
+        // Stable client numbering: first appearance order of each client name.
+        const clientOrder: string[] = [];
+        list.forEach((a) => {
+          const key = a.clientName.trim().toLowerCase();
+          if (key && !clientOrder.includes(key)) clientOrder.push(key);
+        });
+        const unnamed = list.filter((a) => !a.clientName.trim()).length;
         return (
           <div key={o.value} className="space-y-3 rounded-lg border border-border p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -146,6 +153,12 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
                   {fmt(s.ctr, 2)}% ·{" "}
                   {s.avgScore ? `effectiveness ${s.avgScore}/100` : "no performance data"}
                 </p>
+                {o.value === "client" ? (
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {clientOrder.length} client{clientOrder.length === 1 ? "" : "s"}
+                    {unnamed ? ` · ${unnamed} unassigned` : ""}
+                  </p>
+                ) : null}
               </div>
               <Button size="sm" variant="outline" className="gap-1" onClick={() => add(o.value)}>
                 <Plus className="h-3.5 w-3.5" /> New ad
@@ -158,29 +171,38 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
               </p>
             ) : (
               <div className="space-y-2">
-                {list.map((ad) => (
-                  <AdRow
-                    key={ad.id}
-                    ad={ad}
-                    open={openId === ad.id}
-                    onToggle={() => setOpenId(openId === ad.id ? null : ad.id)}
-                    onPatch={(v) => patch(ad.id, v)}
-                    onSave={() => {
-                      const current = ads.find((a) => a.id === ad.id);
-                      if (current) persist.mutate(current, { onSuccess: () => toast.success("Ad saved") });
-                    }}
-                    onDelete={() => {
-                      setAds((l) => l.filter((a) => a.id !== ad.id));
-                      destroy.mutate(ad.id);
-                    }}
-                    onPublish={() => publish(ad)}
-                  />
-                ))}
+                {list.map((ad, i) => {
+                  const key = ad.clientName.trim().toLowerCase();
+                  const clientNo = key ? clientOrder.indexOf(key) + 1 : 0;
+                  return (
+                    <AdRow
+                      key={ad.id}
+                      ad={ad}
+                      index={i + 1}
+                      clientNo={o.value === "client" ? clientNo : 0}
+                      open={openId === ad.id}
+                      onToggle={() => setOpenId(openId === ad.id ? null : ad.id)}
+                      onPatch={(v) => patch(ad.id, v)}
+                      onSave={() => {
+                        const current = ads.find((a) => a.id === ad.id);
+                        if (current)
+                          persist.mutate(current, { onSuccess: () => toast.success("Ad saved") });
+                      }}
+                      onDelete={() => {
+                        if (!window.confirm(`Delete "${ad.name || "Untitled ad"}"?`)) return;
+                        setAds((l) => l.filter((a) => a.id !== ad.id));
+                        destroy.mutate(ad.id);
+                      }}
+                      onPublish={() => publish(ad)}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>
         );
       })}
+
 
       {ADS_MANAGER_URL[spec.id] ? (
         <p className="text-xs text-muted-foreground">
