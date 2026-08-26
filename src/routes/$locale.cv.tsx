@@ -193,7 +193,17 @@ function CvPage() {
 
           {education.length > 0 && (
             <section className={card}>
-              <h2 className="eyebrow">{t.ui.education}</h2>
+              <div className="flex items-start justify-between gap-6">
+                <h2 className="eyebrow">{t.ui.education}</h2>
+                {/* Scannable QR — links to the live site; visible on screen and in print/PDF.
+                    Placed inline (not a <footer>) so print CSS keeps it. */}
+                <div className="print:bg-white print:p-2 flex shrink-0 flex-col items-center">
+                  <SiteBarcode value="https://nextnext-gen.com" />
+                  <p className="mt-1 font-mono text-[10px] text-muted-foreground" dir="ltr">
+                    nextnext-gen.com
+                  </p>
+                </div>
+              </div>
               <ul className="mt-6 space-y-6">
                 {education.map((e) => (
                   <li key={e.id}>
@@ -223,14 +233,6 @@ function CvPage() {
             </section>
           )}
 
-          {/* Scannable QR — links to the live site; visible on screen and in print/PDF.
-              NOTE: a <section>, not <footer> — print CSS hides footer elements. */}
-          <section className={card + " text-center"}>
-            <SiteBarcode value="https://nextnext-gen.com" />
-            <p className="mt-3 font-mono text-xs text-muted-foreground" dir="ltr">
-              nextnext-gen.com
-            </p>
-          </section>
         </article>
       </Section>
     </>
