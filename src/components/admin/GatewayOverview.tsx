@@ -1,13 +1,25 @@
 import { useState } from "react";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronDown, ExternalLink, Pencil, Plus } from "lucide-react";
 
-import { paymentGateways, type GatewayInfo } from "@/lib/admin/gateways";
+import { paymentGateways, gatewayFromContent, type GatewayInfo } from "@/lib/admin/gateways";
+import { adminListContent } from "@/lib/cms/admin.functions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type GatewayStats = Record<string, { count: number; pending: number }>;
 
-function GatewayCard({ gateway, stats }: { gateway: GatewayInfo; stats?: { count: number; pending: number } }) {
+function GatewayCard({
+  gateway,
+  stats,
+  entryId,
+}: {
+  gateway: GatewayInfo;
+  stats?: { count: number; pending: number };
+  entryId?: string;
+}) {
   const [open, setOpen] = useState(false);
   const live = gateway.status === "live";
 
