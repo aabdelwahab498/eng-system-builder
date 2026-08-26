@@ -16,6 +16,7 @@ import {
 } from "@/lib/cms/types";
 import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
+import { VisibilityTargets } from "@/components/admin/VisibilityTargets";
 import { DistributePanel } from "@/components/admin/DistributePanel";
 import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
 import {
@@ -340,33 +341,19 @@ function ContentEditor() {
             />
           </Field>
 
-          <div className="space-y-2">
-            <ToggleRow
-              label="Public site"
-              checked={draft.visibility.public}
-              onChange={(value) => patch({ visibility: { ...draft.visibility, public: value } })}
-            />
-            <ToggleRow
-              label="Portfolio"
-              checked={draft.visibility.portfolio}
-              onChange={(value) => patch({ visibility: { ...draft.visibility, portfolio: value } })}
-            />
-            <ToggleRow
-              label="CV"
-              checked={draft.visibility.cv}
-              onChange={(value) => patch({ visibility: { ...draft.visibility, cv: value } })}
-            />
-            <ToggleRow
-              label="LinkedIn"
-              checked={draft.visibility.linkedin}
-              onChange={(value) => patch({ visibility: { ...draft.visibility, linkedin: value } })}
-            />
-            <ToggleRow
-              label="Featured"
-              checked={draft.featured}
-              onChange={(value) => patch({ featured: value })}
-            />
-          </div>
+          <VisibilityTargets
+            visibility={draft.visibility}
+            featured={draft.featured}
+            onVisibility={(visibility) => patch({ visibility })}
+            onFeatured={(featured) => patch({ featured })}
+            targets={
+              draft.data["targets"] && typeof draft.data["targets"] === "object" && !Array.isArray(draft.data["targets"])
+                ? (draft.data["targets"] as JsonObject)
+                : {}
+            }
+            onTargets={(targets) => patchData({ targets })}
+          />
+
 
           <ChannelPermissions
             entryId={id}
