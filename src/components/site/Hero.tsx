@@ -8,8 +8,10 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import { PowerShellPrompt } from "./PowerShellPrompt";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { ServiceQuickSearch } from "./ServiceQuickSearch";
+import { EmailContact } from "./EmailContact";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
+import { heroHref, heroLinks } from "@/lib/hero-links";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
 export function Hero() {
@@ -29,8 +31,15 @@ export function Hero() {
   ];
 
 
+  const labels: Record<string, string> = {
+    viewWork: t.ui.viewWork,
+    letsBuild: t.ui.letsBuild,
+    seeCertificates: t.ui.seeCertificates,
+    cv: t.ui.cv,
+  };
+
   return (
-    <section className="relative overflow-hidden pt-16 pb-6 sm:pt-24 sm:pb-8">
+    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-6 sm:pt-24 sm:pb-8">
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
@@ -65,30 +74,37 @@ export function Hero() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="digital-green">
-                <Link to="/$locale/gallery" params={{ locale }}>
-                  {t.ui.viewWork}
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="digital-green">
-                <Link to="/$locale/contact" params={{ locale }}>
-                  {t.ui.letsBuild}
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="ghost" className="digital-green">
-                <Link to="/$locale/certificates" params={{ locale }}>
-                  {t.ui.seeCertificates}
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="ghost" className="digital-green">
-                <Link to="/$locale/cv" params={{ locale }}>
-                  {t.ui.cv}
-                  <ArrowUpRight className="size-4" />
-                </Link>
-              </Button>
+              {heroLinks.map((link) => {
+                const href = heroHref(link, locale);
+                return (
+                  <Button
+                    key={link.id}
+                    asChild
+                    size="lg"
+                    variant={link.variant === "default" ? undefined : link.variant}
+                    className="digital-green"
+                  >
+                    {link.kind === "external" ? (
+                      <a href={href} target="_blank" rel="noreferrer noopener">
+                        {labels[link.id] ?? link.id}
+                        <ArrowUpRight className="size-4" />
+                      </a>
+                    ) : (
+                      <Link to={`/$locale${link.path}` as "/$locale/gallery"} params={{ locale }}>
+                        {labels[link.id] ?? link.id}
+                        {link.id === "cv" && <ArrowUpRight className="size-4" />}
+                      </Link>
+                    )}
+                  </Button>
+                );
+              })}
             </div>
 
             <ServiceQuickSearch className="mt-6" />
+
+            {email && <EmailContact email={email.value} className="mt-6" />}
+
+
 
 
             <ul className="mt-6 flex flex-wrap items-center gap-3">
