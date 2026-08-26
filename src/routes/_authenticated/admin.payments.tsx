@@ -12,6 +12,7 @@ import {
   adminUpdatePaymentSubmission,
 } from "@/lib/payments/payments.functions";
 import { ProofViewer } from "@/components/admin/ProofViewer";
+import { GatewayOverview, type GatewayStats } from "@/components/admin/GatewayOverview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
