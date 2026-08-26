@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ProofViewer } from "@/components/admin/ProofViewer";
 
 export const Route = createFileRoute("/_authenticated/admin/requests")({
   component: RequestsPage,
@@ -248,14 +249,12 @@ function RequestsPage() {
                       </p>
                     )}
                     {r.attachment_url && (
-                      <a
-                        href={r.attachment_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-2 inline-block text-xs text-primary underline underline-offset-4"
-                      >
-                        Attachment
-                      </a>
+                      <div className="mt-3">
+                        <ProofViewer
+                          path={r.attachment_url}
+                          label={r.source === "pay_page" ? "View payment proof" : "View attachment"}
+                        />
+                      </div>
                     )}
                   </div>
 

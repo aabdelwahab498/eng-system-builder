@@ -13,7 +13,8 @@ import { useLocale } from "@/hooks/useLocale";
 import { buildHead } from "@/lib/seo";
 import { getPaymentMethods, getServiceOffering, getServiceOfferings } from "@/content/api";
 import { pickOrEn } from "@/content/schema";
-import { paymentSubmissions } from "@/lib/payments/store";
+import { submitPaymentProof } from "@/lib/payments/payments.functions";
+import { supabase } from "@/integrations/supabase/client";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
 
@@ -58,6 +59,8 @@ const copy = {
     whatsapp: "Your WhatsApp",
     confirm: "I confirm the uploaded file shows my completed payment.",
     submit: "Submit Payment Proof",
+    sending: "Sending…",
+    failed: "Could not submit your payment proof. Please try again or contact us on WhatsApp.",
     submitted: "Payment proof submitted",
     pending: "Your payment is pending review.",
     next: "Once your payment is confirmed, our team will contact you regarding the next project step.",
@@ -87,6 +90,8 @@ const copy = {
     whatsapp: "رقم واتساب",
     confirm: "أؤكد أن الملف المرفوع يوضح إتمام عملية الدفع.",
     submit: "إرسال إثبات الدفع",
+    sending: "جارٍ الإرسال…",
+    failed: "تعذر إرسال إثبات الدفع. حاول مرة أخرى أو تواصل معنا على واتساب.",
     submitted: "تم إرسال إثبات الدفع",
     pending: "دفعتك قيد المراجعة.",
     next: "بعد تأكيد الدفع سيتواصل معك الفريق بخصوص الخطوة التالية في المشروع.",
@@ -113,6 +118,7 @@ function PayPage() {
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
     serviceId: search.service ?? offerings[0]?.id ?? "",
     projectName: "",
@@ -133,21 +139,40 @@ function PayPage() {
       return;
     }
     setError(null);
-    await paymentSubmissions.create({
-      clientName: form.clientName,
-      email: form.email,
-      whatsapp: form.whatsapp,
-      serviceId: form.serviceId,
-      projectName: form.projectName,
-      amount: form.amount,
-      currency: method.currency,
-      methodId: method.id,
-      proofFilename: proof.file.name,
-      proofType: proof.file.type,
-      proofSizeBytes: proof.file.size,
-    });
-    setDone(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setBusy(true);
+    try {
+      const ext = proof.file.name.split(".").pop()?.toLowerCase() || "png";
+      const path = `proofs/${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("payment-proofs")
+        .upload(path, proof.file, { contentType: proof.file.type });
+      if (uploadError) throw new Error(uploadError.message);
+
+      await submitPaymentProof({
+        data: {
+          clientName: form.clientName,
+          email: form.email,
+          whatsapp: form.whatsapp,
+          serviceId: form.serviceId,
+          serviceTitle: service ? pickOrEn(service.title, "en") : undefined,
+          projectName: form.projectName,
+          amount: form.amount,
+          currency: method.currency,
+          methodId: method.id,
+          proofPath: path,
+          proofFilename: proof.file.name,
+          proofType: proof.file.type,
+          proofSizeBytes: proof.file.size,
+          locale,
+        },
+      });
+      setDone(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      setError(t.failed);
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (done) {
@@ -276,12 +301,13 @@ function PayPage() {
             <button
               type="button"
               onClick={submit}
+              disabled={busy}
               className={cn(
                 "rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90",
-                (!method || !proof || !confirmed) && "opacity-60",
+                (!method || !proof || !confirmed || busy) && "opacity-60",
               )}
             >
-              {t.submit}
+              {busy ? t.sending : t.submit}
             </button>
             <WhatsAppCta label={t.contact} />
           </div>
