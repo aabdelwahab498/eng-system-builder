@@ -12,11 +12,13 @@ import { toast } from "sonner";
 import { Check, ExternalLink, RotateCcw, Send } from "lucide-react";
 import {
   POLICY_LABEL,
+  channelPermissions,
   channelsForSurface,
   distributionLog,
   surfaceFor,
   type ChannelRecord,
 } from "@/lib/distribution/channels";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
