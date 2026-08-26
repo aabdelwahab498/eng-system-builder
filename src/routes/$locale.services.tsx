@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as Icons from "lucide-react";
 import { ArrowRight } from "lucide-react";
 
@@ -10,6 +10,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PaymentTimeline } from "@/components/commerce/PaymentTimeline";
 import { WhatsAppCta } from "@/components/commerce/WhatsAppCta";
 import { ContactChannelPicker } from "@/components/commerce/ContactChannelPicker";
+import { submitServiceRequest } from "@/lib/crm/requests.functions";
 import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { getContent } from "@/content";
@@ -287,6 +288,32 @@ function ProjectRequestPanel({
   });
 
   const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const sentRef = useRef(false);
+
+  /** Land the enquiry in the admin inbox the moment the visitor dispatches it. */
+  const recordRequest = (channel: string) => {
+    if (sentRef.current) return;
+    sentRef.current = true;
+    void submitServiceRequest({
+      data: {
+        clientName: form.clientName,
+        email: form.email,
+        whatsapp: form.whatsapp,
+        serviceId: service.id,
+        serviceTitle: service.title.en,
+        projectName: form.projectName,
+        description: form.description,
+        platform: form.platform,
+        scope: form.scope,
+        preferredChannel: channel || form.comms,
+        attachmentUrl: form.attachment,
+        locale,
+        source: "services_page",
+      },
+    }).catch(() => {
+      sentRef.current = false;
+    });
+  };
 
   const message = [
     `Hello Ahmed, I am interested in your ${service.title.en} service.`,
@@ -364,10 +391,17 @@ function ProjectRequestPanel({
         </label>
       </div>
 
-      <ContactChannelPicker message={message} locale={locale} className="mt-6" />
+      <ContactChannelPicker
+        message={message}
+        locale={locale}
+        className="mt-6"
+        onSend={recordRequest}
+      />
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <WhatsAppCta label={t.send} message={message} showNumber={false} />
+        <span onClick={() => recordRequest("whatsapp")}>
+          <WhatsAppCta label={t.send} message={message} showNumber={false} />
+        </span>
         <Link
           to="/$locale/pay"
           params={{ locale }}

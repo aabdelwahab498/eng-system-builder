@@ -131,6 +131,75 @@ export type Database = {
         }
         Relationships: []
       }
+      service_requests: {
+        Row: {
+          admin_note: string
+          attachment_url: string | null
+          budget: string | null
+          client_name: string
+          created_at: string
+          description: string | null
+          email: string | null
+          id: string
+          locale: string
+          platform: string | null
+          preferred_channel: string | null
+          project_name: string | null
+          scope: string | null
+          service_id: string | null
+          service_title: string | null
+          source: string
+          status: string
+          timeline: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          admin_note?: string
+          attachment_url?: string | null
+          budget?: string | null
+          client_name: string
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          locale?: string
+          platform?: string | null
+          preferred_channel?: string | null
+          project_name?: string | null
+          scope?: string | null
+          service_id?: string | null
+          service_title?: string | null
+          source?: string
+          status?: string
+          timeline?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          admin_note?: string
+          attachment_url?: string | null
+          budget?: string | null
+          client_name?: string
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          locale?: string
+          platform?: string | null
+          preferred_channel?: string | null
+          project_name?: string | null
+          scope?: string | null
+          service_id?: string | null
+          service_title?: string | null
+          source?: string
+          status?: string
+          timeline?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
