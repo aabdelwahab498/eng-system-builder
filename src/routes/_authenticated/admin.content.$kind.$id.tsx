@@ -337,7 +337,22 @@ function ContentEditor() {
               onChange={(value) => patch({ featured: value })}
             />
           </div>
+
+          <DistributePanel
+            entryId={id}
+            kind={contentKind}
+            title={localized(draft.data["title"]).en || localized(draft.data["name"]).en || draft.slug}
+            summary={
+              localized(draft.data["excerpt"]).en ||
+              localized(draft.data["caption"]).en ||
+              localized(draft.data["summary"]).en
+            }
+            link={`https://nextnext-gen.com/en/${contentKind === "article" ? "blog" : contentKind === "project" ? "projects" : "gallery"}/${draft.slug}`}
+            mediaType={str(draft.data["mediaType"])}
+            mediaUrl={str(draft.data["mediaUrl"]) || str(draft.data["coverImageUrl"])}
+          />
         </aside>
+
       </div>
     </div>
   );
