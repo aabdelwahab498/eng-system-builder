@@ -192,17 +192,15 @@ function CvPage() {
           )}
 
           {education.length > 0 && (
-            <section className={card}>
-              <div className="flex items-start justify-between gap-6">
-                <h2 className="eyebrow">{t.ui.education}</h2>
-                {/* Scannable QR — links to the live site; visible on screen and in print/PDF.
-                    Placed inline (not a <footer>) so print CSS keeps it. */}
-                <div className="print:bg-white print:p-2 flex shrink-0 flex-col items-center">
-                  <SiteBarcode value="https://nextnext-gen.com" />
-                  <p className="mt-1 font-mono text-[10px] text-muted-foreground" dir="ltr">
-                    nextnext-gen.com
-                  </p>
-                </div>
+            <section className={card + " relative"}>
+              <h2 className="eyebrow">{t.ui.education}</h2>
+              {/* Scannable QR — links to the live site; visible on screen and in print/PDF.
+                  Absolutely placed so it never creates a flow gap; nudged left from the edge. */}
+              <div className="print:bg-white absolute end-6 top-6 flex flex-col items-center">
+                <SiteBarcode value="https://nextnext-gen.com" size={72} />
+                <p className="mt-1 font-mono text-[10px] text-muted-foreground" dir="ltr">
+                  nextnext-gen.com
+                </p>
               </div>
               <ul className="mt-6 space-y-6">
                 {education.map((e) => (
