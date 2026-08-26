@@ -258,6 +258,13 @@ export const distributionLog = {
     store[entryId] = (store[entryId] ?? []).filter((r) => r.channelId !== channelId);
     write(store);
   },
+  migrate(fromId: string, toId: string) {
+    const store = read();
+    if (!store[fromId] || fromId === toId) return;
+    store[toId] = store[fromId];
+    delete store[fromId];
+    write(store);
+  },
 };
 
 /* --------------------------------------------- per-entry channel permissions */
@@ -294,4 +301,18 @@ export const channelPermissions = {
     }
     return store[entryId];
   },
+  /** Move draft permissions onto the real entry id after the first save. */
+  migrate(fromId: string, toId: string) {
+    const store = readAllow();
+    if (!store[fromId] || fromId === toId) return;
+    store[toId] = store[fromId];
+    delete store[fromId];
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(ALLOW_KEY, JSON.stringify(store));
+    }
+  },
 };
+
+/** Stable key for an entry that has not been saved yet. */
+export const draftEntryKey = (kind: string, mediaType?: string) =>
+  `draft:${kind}:${mediaType ?? "default"}`;

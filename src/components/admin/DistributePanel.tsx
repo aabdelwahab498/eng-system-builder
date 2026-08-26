@@ -15,6 +15,7 @@ import {
   channelPermissions,
   channelsForSurface,
   distributionLog,
+  draftEntryKey,
   surfaceFor,
   type ChannelRecord,
 } from "@/lib/distribution/channels";
@@ -52,9 +53,10 @@ const SURFACE_LABEL: Record<string, string> = {
 
 export function DistributePanel({ entryId, kind, title, summary, link, mediaType, mediaUrl, compact }: Props) {
   const surface = surfaceFor(kind, mediaType);
+  const permissionId = entryId === "new" ? draftEntryKey(kind, mediaType) : entryId;
   const [open, setOpen] = useState(false);
   const [records, setRecords] = useState<ChannelRecord[]>(() =>
-    typeof window === "undefined" ? [] : distributionLog.get(entryId),
+    typeof window === "undefined" ? [] : distributionLog.get(permissionId),
   );
   const [caption, setCaption] = useState(
     [title, summary, link].filter(Boolean).join("\n\n"),
@@ -62,37 +64,25 @@ export function DistributePanel({ entryId, kind, title, summary, link, mediaType
 
   const channels = useMemo(() => {
     if (!surface) return [];
-    const allowed = typeof window === "undefined" ? null : channelPermissions.get(entryId);
+    const allowed = typeof window === "undefined" ? null : channelPermissions.get(permissionId);
     const all = channelsForSurface(surface);
     return allowed === null ? all : all.filter((c) => allowed.includes(c.id));
-  }, [surface, entryId, open]);
+  }, [surface, permissionId, open]);
   if (!surface) return null;
-
-
-  if (entryId === "new") {
-    return compact ? null : (
-      <Button variant="outline" className="w-full justify-between" disabled>
-        <span className="flex items-center gap-2">
-          <Send className="size-4" />
-          Publish to audience
-        </span>
-        <span className="font-mono text-[11px] text-muted-foreground">save first</span>
-      </Button>
-    );
-  }
+  if (entryId === "new" && compact) return null;
 
   const recordOf = (channelId: string) => records.find((r) => r.channelId === channelId);
 
   function mark(channelId: string, status: "published" | "queued", url: string) {
     const record: ChannelRecord = { channelId, status, url, at: new Date().toISOString() };
-    distributionLog.set(entryId, record);
-    setRecords(distributionLog.get(entryId));
+    distributionLog.set(permissionId, record);
+    setRecords(distributionLog.get(permissionId));
     toast.success(status === "published" ? "Marked as published" : "Queued for this channel");
   }
 
   function reset(channelId: string) {
-    distributionLog.clear(entryId, channelId);
-    setRecords(distributionLog.get(entryId));
+    distributionLog.clear(permissionId, channelId);
+    setRecords(distributionLog.get(permissionId));
   }
 
   const publishedCount = records.filter((r) => r.status === "published").length;

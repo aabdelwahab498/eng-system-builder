@@ -18,6 +18,11 @@ import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { DistributePanel } from "@/components/admin/DistributePanel";
 import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
+import {
+  channelPermissions,
+  distributionLog,
+  draftEntryKey,
+} from "@/lib/distribution/channels";
 
 
 import { Markdown } from "@/lib/cms/markdown";
@@ -212,6 +217,14 @@ function ContentEditor() {
       toast.success("Saved");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
       if (isNew) {
+        channelPermissions.migrate(
+          draftEntryKey(contentKind, str(draft.data["mediaType"]) || undefined),
+          item.id,
+        );
+        distributionLog.migrate(
+          draftEntryKey(contentKind, str(draft.data["mediaType"]) || undefined),
+          item.id,
+        );
         navigate({ to: "/admin/content/$kind/$id", params: { kind: contentKind, id: item.id } });
       }
     },
