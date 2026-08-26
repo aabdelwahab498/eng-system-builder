@@ -221,7 +221,7 @@ function ContentEditor() {
           draftEntryKey(contentKind, str(draft.data["mediaType"]) || undefined),
           item.id,
         );
-        distributionLog.migrate?.(
+        distributionLog.migrate(
           draftEntryKey(contentKind, str(draft.data["mediaType"]) || undefined),
           item.id,
         );

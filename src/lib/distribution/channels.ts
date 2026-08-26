@@ -258,6 +258,13 @@ export const distributionLog = {
     store[entryId] = (store[entryId] ?? []).filter((r) => r.channelId !== channelId);
     write(store);
   },
+  migrate(fromId: string, toId: string) {
+    const store = read();
+    if (!store[fromId] || fromId === toId) return;
+    store[toId] = store[fromId];
+    delete store[fromId];
+    write(store);
+  },
 };
 
 /* --------------------------------------------- per-entry channel permissions */
