@@ -220,8 +220,9 @@ function KindList() {
                 kind={contentKind}
                 title={titleOf(item.data, item.slug)}
                 link={`https://nextnext-gen.com/en/${contentKind === "article" ? "blog" : contentKind === "project" ? "projects" : "gallery"}/${item.slug}`}
-                mediaType={typeof item.data["mediaType"] === "string" ? (item.data["mediaType"] as string) : undefined}
-                mediaUrl={typeof item.data["mediaUrl"] === "string" ? (item.data["mediaUrl"] as string) : undefined}
+                {...(typeof item.data["mediaType"] === "string" ? { mediaType: item.data["mediaType"] } : {})}
+                {...(typeof item.data["mediaUrl"] === "string" ? { mediaUrl: item.data["mediaUrl"] } : {})}
+
               />
               <Button
                 variant="ghost"
