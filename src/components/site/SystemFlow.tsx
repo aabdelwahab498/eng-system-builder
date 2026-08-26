@@ -42,7 +42,6 @@ export function SystemFlow() {
           <p className="mt-2 text-xs text-muted-foreground">{t.ui.products}</p>
         </div>
       </div>
-      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{t.ui.ecosystemNote}</p>
     </div>
   );
 }
