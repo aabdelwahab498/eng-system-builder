@@ -340,7 +340,16 @@ function ContentEditor() {
             />
           </div>
 
+          <ChannelPermissions
+            entryId={id}
+            kind={contentKind}
+            {...(typeof draft.data["mediaType"] === "string"
+              ? { mediaType: draft.data["mediaType"] }
+              : {})}
+          />
+
           <DistributePanel
+
             entryId={id}
             kind={contentKind}
             title={localized(draft.data["title"]).en || localized(draft.data["name"]).en || draft.slug}
