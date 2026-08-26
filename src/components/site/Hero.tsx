@@ -30,7 +30,7 @@ export function Hero() {
 
 
   return (
-    <section className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
+    <section className="relative overflow-hidden pt-16 pb-6 sm:pt-24 sm:pb-8">
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
