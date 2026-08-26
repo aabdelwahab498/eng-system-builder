@@ -59,6 +59,8 @@ const copy = {
     whatsapp: "Your WhatsApp",
     confirm: "I confirm the uploaded file shows my completed payment.",
     submit: "Submit Payment Proof",
+    sending: "Sending…",
+    failed: "Could not submit your payment proof. Please try again or contact us on WhatsApp.",
     submitted: "Payment proof submitted",
     pending: "Your payment is pending review.",
     next: "Once your payment is confirmed, our team will contact you regarding the next project step.",
@@ -88,6 +90,8 @@ const copy = {
     whatsapp: "رقم واتساب",
     confirm: "أؤكد أن الملف المرفوع يوضح إتمام عملية الدفع.",
     submit: "إرسال إثبات الدفع",
+    sending: "جارٍ الإرسال…",
+    failed: "تعذر إرسال إثبات الدفع. حاول مرة أخرى أو تواصل معنا على واتساب.",
     submitted: "تم إرسال إثبات الدفع",
     pending: "دفعتك قيد المراجعة.",
     next: "بعد تأكيد الدفع سيتواصل معك الفريق بخصوص الخطوة التالية في المشروع.",
@@ -114,6 +118,7 @@ function PayPage() {
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
     serviceId: search.service ?? offerings[0]?.id ?? "",
     projectName: "",
