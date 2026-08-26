@@ -3,10 +3,12 @@ import { Container } from "./Section";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { TechMarquee } from "./TechMarquee";
 import { useLocale } from "@/hooks/useLocale";
+import { useHiddenAdmin } from "@/hooks/useHiddenAdmin";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 
 export function SiteFooter() {
   const { locale, t } = useLocale();
+  const adminVisible = useHiddenAdmin();
 
   const groups = [
     {
