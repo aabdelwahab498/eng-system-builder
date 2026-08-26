@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Printer } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
-import { SiteBarcode } from "@/components/site/SiteBarcode";
+import { SiteOriginBarcode } from "@/components/site/SiteOriginBarcode";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead, metaFor } from "@/lib/seo";
