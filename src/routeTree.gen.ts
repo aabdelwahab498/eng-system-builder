@@ -35,6 +35,7 @@ import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale.projec
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale.projects.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminActivityRouteImport } from './routes/_authenticated/admin.activity'
+import { Route as AuthenticatedAdminAdsPixelsRouteImport } from './routes/_authenticated/admin.ads-pixels'
 import { Route as AuthenticatedAdminAnnouncementsRouteImport } from './routes/_authenticated/admin.announcements'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authenticated/admin.campaigns'
@@ -187,6 +188,12 @@ const AuthenticatedAdminActivityRoute =
   AuthenticatedAdminActivityRouteImport.update({
     id: '/activity',
     path: '/activity',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdsPixelsRoute =
+  AuthenticatedAdminAdsPixelsRouteImport.update({
+    id: '/ads-pixels',
+    path: '/ads-pixels',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminAnnouncementsRoute =
@@ -344,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/activity': typeof AuthenticatedAdminActivityRoute
+  '/admin/ads-pixels': typeof AuthenticatedAdminAdsPixelsRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -388,6 +396,7 @@ export interface FileRoutesByTo {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/admin/activity': typeof AuthenticatedAdminActivityRoute
+  '/admin/ads-pixels': typeof AuthenticatedAdminAdsPixelsRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -439,6 +448,7 @@ export interface FileRoutesById {
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/_authenticated/admin/activity': typeof AuthenticatedAdminActivityRoute
+  '/_authenticated/admin/ads-pixels': typeof AuthenticatedAdminAdsPixelsRoute
   '/_authenticated/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -491,6 +501,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/admin/activity'
+    | '/admin/ads-pixels'
     | '/admin/announcements'
     | '/admin/blog'
     | '/admin/campaigns'
@@ -535,6 +546,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/admin/activity'
+    | '/admin/ads-pixels'
     | '/admin/announcements'
     | '/admin/blog'
     | '/admin/campaigns'
@@ -585,6 +597,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/_authenticated/admin/activity'
+    | '/_authenticated/admin/ads-pixels'
     | '/_authenticated/admin/announcements'
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/campaigns'
@@ -807,6 +820,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminActivityRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/ads-pixels': {
+      id: '/_authenticated/admin/ads-pixels'
+      path: '/ads-pixels'
+      fullPath: '/admin/ads-pixels'
+      preLoaderRoute: typeof AuthenticatedAdminAdsPixelsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/announcements': {
       id: '/_authenticated/admin/announcements'
       path: '/announcements'
@@ -990,6 +1010,7 @@ const AuthenticatedAdminContentKindRouteWithChildren =
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminActivityRoute: typeof AuthenticatedAdminActivityRoute
+  AuthenticatedAdminAdsPixelsRoute: typeof AuthenticatedAdminAdsPixelsRoute
   AuthenticatedAdminAnnouncementsRoute: typeof AuthenticatedAdminAnnouncementsRoute
   AuthenticatedAdminBlogRoute: typeof AuthenticatedAdminBlogRoute
   AuthenticatedAdminCampaignsRoute: typeof AuthenticatedAdminCampaignsRoute
@@ -1015,6 +1036,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminActivityRoute: AuthenticatedAdminActivityRoute,
+  AuthenticatedAdminAdsPixelsRoute: AuthenticatedAdminAdsPixelsRoute,
   AuthenticatedAdminAnnouncementsRoute: AuthenticatedAdminAnnouncementsRoute,
   AuthenticatedAdminBlogRoute: AuthenticatedAdminBlogRoute,
   AuthenticatedAdminCampaignsRoute: AuthenticatedAdminCampaignsRoute,
