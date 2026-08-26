@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
+import { HomeAnchorNav } from "@/components/site/HomeAnchorNav";
 import { Section } from "@/components/site/Section";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
-import { buildHead, metaFor } from "@/lib/seo";
+import { absoluteUrl, buildHead, metaFor } from "@/lib/seo";
 import { site } from "@/content";
+import profilePhoto from "@/assets/profile-ahmed.png.asset.json";
 import type { Locale } from "@/types/content";
 
 export const Route = createFileRoute("/$locale/")({
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/$locale/")({
       path: "",
       title: m.title,
       description: m.description,
+      image: absoluteUrl(profilePhoto.url),
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Person",
