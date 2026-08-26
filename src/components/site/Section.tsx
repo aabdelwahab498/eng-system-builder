@@ -25,7 +25,14 @@ export function Section({
   bordered?: boolean;
 }) {
   return (
-    <section id={id} className={cn("py-20 sm:py-28", bordered && "hairline", className)}>
+    <section
+      id={id}
+      className={cn(
+        "py-[var(--space-section-py)] sm:py-[var(--space-section-py-lg)]",
+        bordered && "hairline",
+        className,
+      )}
+    >
       <Container>
         {(eyebrow || title || subtitle) && (
           <Reveal className="max-w-3xl">
