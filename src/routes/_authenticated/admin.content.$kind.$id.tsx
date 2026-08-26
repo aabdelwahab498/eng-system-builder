@@ -17,6 +17,8 @@ import {
 import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { DistributePanel } from "@/components/admin/DistributePanel";
+import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
+
 
 import { Markdown } from "@/lib/cms/markdown";
 import { Button } from "@/components/ui/button";
@@ -340,7 +342,16 @@ function ContentEditor() {
             />
           </div>
 
+          <ChannelPermissions
+            entryId={id}
+            kind={contentKind}
+            {...(typeof draft.data["mediaType"] === "string"
+              ? { mediaType: draft.data["mediaType"] }
+              : {})}
+          />
+
           <DistributePanel
+
             entryId={id}
             kind={contentKind}
             title={localized(draft.data["title"]).en || localized(draft.data["name"]).en || draft.slug}

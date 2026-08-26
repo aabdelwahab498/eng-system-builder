@@ -12,11 +12,13 @@ import { toast } from "sonner";
 import { Check, ExternalLink, RotateCcw, Send } from "lucide-react";
 import {
   POLICY_LABEL,
+  channelPermissions,
   channelsForSurface,
   distributionLog,
   surfaceFor,
   type ChannelRecord,
 } from "@/lib/distribution/channels";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -58,8 +60,14 @@ export function DistributePanel({ entryId, kind, title, summary, link, mediaType
     [title, summary, link].filter(Boolean).join("\n\n"),
   );
 
-  const channels = useMemo(() => (surface ? channelsForSurface(surface) : []), [surface]);
+  const channels = useMemo(() => {
+    if (!surface) return [];
+    const allowed = typeof window === "undefined" ? null : channelPermissions.get(entryId);
+    const all = channelsForSurface(surface);
+    return allowed === null ? all : all.filter((c) => allowed.includes(c.id));
+  }, [surface, entryId, open]);
   if (!surface) return null;
+
 
   if (entryId === "new") {
     return compact ? null : (
