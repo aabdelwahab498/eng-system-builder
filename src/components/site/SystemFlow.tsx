@@ -1,4 +1,7 @@
 import { useLocale } from "@/hooks/useLocale";
+import { SiteBarcode } from "@/components/site/SiteBarcode";
+
+const SITE_URL = "https://nextnext-gen.com";
 
 export function SystemFlow() {
   const { t } = useLocale();
@@ -6,7 +9,6 @@ export function SystemFlow() {
   const nodes = [
     { label: "nextnext-gen.com", note: t.ui.home },
     { label: "projects", note: t.ui.featuredProjects },
-    { label: "product.subdomain", note: t.ui.products },
   ];
 
   return (
@@ -29,6 +31,16 @@ export function SystemFlow() {
             </div>
           </div>
         ))}
+
+        {/* Barcode node — encodes the live site URL */}
+        <div className="rounded-md border border-border bg-background/40 px-4 py-4">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="node-dot size-2 rounded-full bg-primary" aria-hidden />
+            <p className="font-mono text-sm text-primary">{SITE_URL}</p>
+          </div>
+          <SiteBarcode value={SITE_URL} />
+          <p className="mt-2 text-xs text-muted-foreground">{t.ui.products}</p>
+        </div>
       </div>
       <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{t.ui.ecosystemNote}</p>
     </div>
