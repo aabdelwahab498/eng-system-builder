@@ -259,3 +259,39 @@ export const distributionLog = {
     write(store);
   },
 };
+
+/* --------------------------------------------- per-entry channel permissions */
+
+const ALLOW_KEY = "nng.admin.distribution.allow.v1";
+
+type AllowStore = Record<string, string[]>;
+
+function readAllow(): AllowStore {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(window.localStorage.getItem(ALLOW_KEY) ?? "{}") as AllowStore;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Which channels this entry may be published to. `null` = not configured yet
+ * (the entry is allowed everywhere on its surface).
+ */
+export const channelPermissions = {
+  get(entryId: string): string[] | null {
+    return readAllow()[entryId] ?? null;
+  },
+  set(entryId: string, channelId: string, allowed: boolean, surface: DistributionSurface) {
+    const store = readAllow();
+    const current = store[entryId] ?? channelsForSurface(surface).map((c) => c.id);
+    store[entryId] = allowed
+      ? Array.from(new Set([...current, channelId]))
+      : current.filter((id) => id !== channelId);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(ALLOW_KEY, JSON.stringify(store));
+    }
+    return store[entryId];
+  },
+};
