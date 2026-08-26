@@ -43,10 +43,6 @@ export function SiteFooter() {
 
   return (
     <footer className="hairline py-14 sm:py-20">
-      <Container className="mb-14">
-        <TechMarquee label={t.ui.engineeringStack} />
-      </Container>
-
       <Container className="grid gap-12 lg:grid-cols-[1.6fr_1fr_1fr]">
         <div className="flex flex-col gap-6">
           <div>
