@@ -134,21 +134,40 @@ function PayPage() {
       return;
     }
     setError(null);
-    await paymentSubmissions.create({
-      clientName: form.clientName,
-      email: form.email,
-      whatsapp: form.whatsapp,
-      serviceId: form.serviceId,
-      projectName: form.projectName,
-      amount: form.amount,
-      currency: method.currency,
-      methodId: method.id,
-      proofFilename: proof.file.name,
-      proofType: proof.file.type,
-      proofSizeBytes: proof.file.size,
-    });
-    setDone(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setBusy(true);
+    try {
+      const ext = proof.file.name.split(".").pop()?.toLowerCase() || "png";
+      const path = `proofs/${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("payment-proofs")
+        .upload(path, proof.file, { contentType: proof.file.type });
+      if (uploadError) throw new Error(uploadError.message);
+
+      await submitPaymentProof({
+        data: {
+          clientName: form.clientName,
+          email: form.email,
+          whatsapp: form.whatsapp,
+          serviceId: form.serviceId,
+          serviceTitle: service ? pickOrEn(service.title, "en") : undefined,
+          projectName: form.projectName,
+          amount: form.amount,
+          currency: method.currency,
+          methodId: method.id,
+          proofPath: path,
+          proofFilename: proof.file.name,
+          proofType: proof.file.type,
+          proofSizeBytes: proof.file.size,
+          locale,
+        },
+      });
+      setDone(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      setError(t.failed);
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (done) {
