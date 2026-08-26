@@ -313,6 +313,11 @@ function AdsPixelsPage() {
                   no pixel
                 </span>
               )}
+              {adCounts.get(s.id) ? (
+                <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground">
+                  {adCounts.get(s.id)} ads
+                </span>
+              ) : null}
               <span className="ms-auto text-xs text-muted-foreground">
                 {c.enabled && configured
                   ? "Active"
