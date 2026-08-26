@@ -301,12 +301,13 @@ function PayPage() {
             <button
               type="button"
               onClick={submit}
+              disabled={busy}
               className={cn(
                 "rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90",
-                (!method || !proof || !confirmed) && "opacity-60",
+                (!method || !proof || !confirmed || busy) && "opacity-60",
               )}
             >
-              {t.submit}
+              {busy ? t.sending : t.submit}
             </button>
             <WhatsAppCta label={t.contact} />
           </div>
