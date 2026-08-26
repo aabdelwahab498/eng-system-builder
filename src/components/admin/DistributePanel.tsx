@@ -36,7 +36,10 @@ type Props = {
   link?: string;
   mediaType?: string;
   mediaUrl?: string;
+  /** Compact trigger for list rows. */
+  compact?: boolean;
 };
+
 
 const SURFACE_LABEL: Record<string, string> = {
   code: "Code hosting",
@@ -45,7 +48,7 @@ const SURFACE_LABEL: Record<string, string> = {
   video: "Video platforms",
 };
 
-export function DistributePanel({ entryId, kind, title, summary, link, mediaType, mediaUrl }: Props) {
+export function DistributePanel({ entryId, kind, title, summary, link, mediaType, mediaUrl, compact }: Props) {
   const surface = surfaceFor(kind, mediaType);
   const [open, setOpen] = useState(false);
   const [records, setRecords] = useState<ChannelRecord[]>(() =>
@@ -56,7 +59,19 @@ export function DistributePanel({ entryId, kind, title, summary, link, mediaType
   );
 
   const channels = useMemo(() => (surface ? channelsForSurface(surface) : []), [surface]);
-  if (!surface || entryId === "new") return null;
+  if (!surface) return null;
+
+  if (entryId === "new") {
+    return compact ? null : (
+      <Button variant="outline" className="w-full justify-between" disabled>
+        <span className="flex items-center gap-2">
+          <Send className="size-4" />
+          Publish to audience
+        </span>
+        <span className="font-mono text-[11px] text-muted-foreground">save first</span>
+      </Button>
+    );
+  }
 
   const recordOf = (channelId: string) => records.find((r) => r.channelId === channelId);
 
@@ -77,16 +92,27 @@ export function DistributePanel({ entryId, kind, title, summary, link, mediaType
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full justify-between">
-          <span className="flex items-center gap-2">
+        {compact ? (
+          <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
             <Send className="size-4" />
-            Publish to audience
-          </span>
-          <span className="font-mono text-[11px] text-muted-foreground">
-            {publishedCount}/{channels.length}
-          </span>
-        </Button>
+            Publish
+            <span className="font-mono text-[10px] text-muted-foreground">
+              {publishedCount}/{channels.length}
+            </span>
+          </Button>
+        ) : (
+          <Button variant="outline" className="w-full justify-between">
+            <span className="flex items-center gap-2">
+              <Send className="size-4" />
+              Publish to audience
+            </span>
+            <span className="font-mono text-[11px] text-muted-foreground">
+              {publishedCount}/{channels.length}
+            </span>
+          </Button>
+        )}
       </DialogTrigger>
+
       <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{SURFACE_LABEL[surface]}</DialogTitle>

@@ -13,7 +13,9 @@ import {
 } from "@/lib/cms/admin.functions";
 import { KIND_LABELS, WORKFLOW_STATES, type ContentKind } from "@/lib/cms/types";
 import { StateBadge } from "@/components/admin/fields";
+import { DistributePanel } from "@/components/admin/DistributePanel";
 import { Button } from "@/components/ui/button";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -212,6 +214,16 @@ function KindList() {
                   ))}
                 </SelectContent>
               </Select>
+              <DistributePanel
+                compact
+                entryId={item.id}
+                kind={contentKind}
+                title={titleOf(item.data, item.slug)}
+                link={`https://nextnext-gen.com/en/${contentKind === "article" ? "blog" : contentKind === "project" ? "projects" : "gallery"}/${item.slug}`}
+                {...(typeof item.data["mediaType"] === "string" ? { mediaType: item.data["mediaType"] } : {})}
+                {...(typeof item.data["mediaUrl"] === "string" ? { mediaUrl: item.data["mediaUrl"] } : {})}
+
+              />
               <Button
                 variant="ghost"
                 size="sm"
@@ -220,6 +232,7 @@ function KindList() {
               >
                 Delete
               </Button>
+
             </li>
           ))}
         </ul>
