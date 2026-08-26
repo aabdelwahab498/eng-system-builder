@@ -7,6 +7,7 @@ import { Typewriter } from "./Motion";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { PowerShellPrompt } from "./PowerShellPrompt";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
+import { ServiceQuickSearch } from "./ServiceQuickSearch";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
@@ -85,13 +86,9 @@ export function Hero() {
                   <ArrowUpRight className="size-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="digital-green">
-                <Link to="/$locale/services" params={{ locale }}>
-                  {t.ui.services}
-                  <ArrowUpRight className="size-4" />
-                </Link>
-              </Button>
             </div>
+
+            <ServiceQuickSearch className="mt-6" />
 
 
             <ul className="mt-8 flex flex-wrap items-center gap-3">

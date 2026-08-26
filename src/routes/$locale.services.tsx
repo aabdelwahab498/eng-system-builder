@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Icons from "lucide-react";
-import { ArrowRight, Search, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
@@ -113,23 +113,18 @@ function ServicesPage() {
   const { locale, t: dict } = useLocale();
   const t = copy[locale] ?? copy.en;
   const offerings = getServiceOfferings();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const search = Route.useSearch() as { service?: string };
+  const [selectedId, setSelectedId] = useState<string | null>(search.service ?? null);
 
-  const core = useMemo(() => offerings.filter((s) => s.tier === "core"), [offerings]);
-  const extended = useMemo(() => offerings.filter((s) => s.tier === "extended"), [offerings]);
+  const core = offerings.filter((s) => s.tier === "core");
+  const extended = offerings.filter((s) => s.tier === "extended");
   const selected = offerings.find((s) => s.id === selectedId) ?? null;
 
-  const q = query.trim().toLowerCase();
-  const matches = (s: ServiceOffering) =>
-    !q ||
-    pickOrEn(s.title, locale).toLowerCase().includes(q) ||
-    pickOrEn(s.description, locale).toLowerCase().includes(q) ||
-    pickOrEn(s.deliverables, locale).some((d) => d.toLowerCase().includes(q));
-
-  const coreView = core.filter(matches);
-  const extendedView = extended.filter(matches);
-  const hasResults = coreView.length + extendedView.length > 0;
+  useEffect(() => {
+    if (!search.service) return;
+    const node = document.getElementById("project-request");
+    if (node) node.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [search.service]);
 
   const selectService = (id: string) => {
     setSelectedId(id);
@@ -138,45 +133,13 @@ function ServicesPage() {
     }, 60);
   };
 
-  const searchCopy =
-    locale === "ar"
-      ? { label: "بحث سريع عن الخدمة", hint: "اكتب اسم الخدمة أو الكلمة المفتاحية…", none: "لا توجد نتائج مطابقة" }
-      : { label: "Quick service search", hint: "Type a service name or keyword…", none: "No matching services" };
-
   return (
     <>
       <Breadcrumbs trail={[{ name: dict.ui.home, path: "" }, { name: dict.ui.services, path: "/services" }]} />
       <PageHeader eyebrow={dict.ui.services} title={t.question} subtitle={t.coreIntro} />
 
       <Section>
-        <div className="mx-auto max-w-2xl">
-          <label className="block">
-            <span className="sr-only">{searchCopy.label}</span>
-            <div className="relative">
-              <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={searchCopy.hint}
-                aria-label={searchCopy.label}
-                className="w-full rounded-md border border-border bg-background ps-10 pe-10 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60 digital-green"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => setQuery("")}
-                  aria-label="Clear"
-                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <X className="size-4" aria-hidden />
-                </button>
-              )}
-            </div>
-          </label>
-        </div>
-
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3">
           <Link
             to="/$locale/pay"
             params={{ locale }}
@@ -191,47 +154,39 @@ function ServicesPage() {
         <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>
       </Section>
 
-      {hasResults ? (
-        <>
-          {coreView.length > 0 && (
-            <Section eyebrow={t.core} title={t.core} subtitle={t.coreIntro}>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {coreView.map((s, i) => (
-                  <ServiceCard
-                    key={s.id}
-                    service={s}
-                    index={i}
-                    locale={locale}
-                    deliverablesLabel={t.deliverables}
-                    selected={selectedId === s.id}
-                    onSelect={() => selectService(s.id)}
-                  />
-                ))}
-              </div>
-            </Section>
-          )}
+      {core.length > 0 && (
+        <Section eyebrow={t.core} title={t.core} subtitle={t.coreIntro}>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {core.map((s, i) => (
+              <ServiceCard
+                key={s.id}
+                service={s}
+                index={i}
+                locale={locale}
+                deliverablesLabel={t.deliverables}
+                selected={selectedId === s.id}
+                onSelect={() => selectService(s.id)}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
 
-          {extendedView.length > 0 && (
-            <Section eyebrow={t.extended} title={t.extended} subtitle={t.extendedIntro}>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {extendedView.map((s, i) => (
-                  <ServiceCard
-                    key={s.id}
-                    service={s}
-                    index={i}
-                    locale={locale}
-                    deliverablesLabel={t.deliverables}
-                    selected={selectedId === s.id}
-                    onSelect={() => selectService(s.id)}
-                  />
-                ))}
-              </div>
-            </Section>
-          )}
-        </>
-      ) : (
-        <Section>
-          <p className="py-12 text-center font-mono text-sm text-muted-foreground">{searchCopy.none}</p>
+      {extended.length > 0 && (
+        <Section eyebrow={t.extended} title={t.extended} subtitle={t.extendedIntro}>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {extended.map((s, i) => (
+              <ServiceCard
+                key={s.id}
+                service={s}
+                index={i}
+                locale={locale}
+                deliverablesLabel={t.deliverables}
+                selected={selectedId === s.id}
+                onSelect={() => selectService(s.id)}
+              />
+            ))}
+          </div>
         </Section>
       )}
 
