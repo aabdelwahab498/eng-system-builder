@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as Icons from "lucide-react";
 import { ArrowRight } from "lucide-react";
 
