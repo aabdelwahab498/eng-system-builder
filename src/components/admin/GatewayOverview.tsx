@@ -169,7 +169,12 @@ export function GatewayOverview({ stats }: { stats?: GatewayStats }) {
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {cards.map(({ gateway: g, entryId }) => (
-          <GatewayCard key={g.id} gateway={g} stats={stats?.[g.id] ?? { count: 0, pending: 0 }} />
+          <GatewayCard
+            key={entryId ?? g.id}
+            gateway={g}
+            stats={stats?.[g.id] ?? { count: 0, pending: 0 }}
+            {...(entryId ? { entryId } : {})}
+          />
         ))}
       </div>
     </section>
