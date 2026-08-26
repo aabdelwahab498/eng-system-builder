@@ -113,15 +113,19 @@ export function SiteFooter() {
       <Container className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <p>© {new Date().getFullYear()} {t.profile.displayName}</p>
-          <span aria-hidden className="opacity-30">·</span>
-          <Link
-            to="/admin"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 font-mono transition-colors hover:bg-accent hover:text-foreground"
-            aria-label="Admin Studio"
-          >
-            <span className="copper-icon">◆</span>
-            Admin Studio
-          </Link>
+          {adminVisible && (
+            <>
+              <span aria-hidden className="opacity-30">·</span>
+              <Link
+                to="/admin"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 font-mono transition-colors hover:bg-accent hover:text-foreground"
+                aria-label="Admin Studio"
+              >
+                <span className="copper-icon">◆</span>
+                Admin Studio
+              </Link>
+            </>
+          )}
         </div>
         <p className="font-mono">nextnext-gen.com</p>
       </Container>
