@@ -31,7 +31,6 @@ export function SiteFooter() {
     },
   ];
 
-
   const canonicalEmail = getCanonicalContact().find((c) => c.kind === "email")?.value;
   const channels = [
     { label: "Email", href: canonicalEmail ? `mailto:${canonicalEmail}` : "", platform: "other" as SocialPlatform },
@@ -48,13 +47,44 @@ export function SiteFooter() {
         <TechMarquee label={t.ui.engineeringStack} />
       </Container>
 
-      <Container className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-        <div>
-          <p className="font-display text-lg font-semibold">{t.profile.displayName}</p>
-          <p className="mt-2 text-sm text-muted-foreground">{t.profile.positioning}</p>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
+      <Container className="grid gap-12 lg:grid-cols-[1.6fr_1fr_1fr]">
+        <div className="flex flex-col gap-6">
+          <div>
+            <p className="font-display text-lg font-semibold">{t.profile.displayName}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{t.profile.positioning}</p>
+          </div>
+
+          <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
             {t.ui.ecosystemNote}
           </p>
+
+          {channels.length > 0 && (
+            <ul className="flex flex-wrap items-center gap-2.5">
+              {channels.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noreferrer noopener"
+                    onClick={(e) => {
+                      if (c.href.startsWith("mailto:")) return;
+                      e.preventDefault();
+                      window.open(c.href, "_blank", "noopener,noreferrer");
+                    }}
+                    aria-label={c.label}
+                    title={c.label}
+                    className="inline-flex size-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+                  >
+                    {c.platform === "other" ? (
+                      <span className="font-mono text-xs copper-icon">@</span>
+                    ) : (
+                      <SocialIcon platform={c.platform} className="size-4 copper-icon" />
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {groups.map((group) => (
@@ -72,44 +102,6 @@ export function SiteFooter() {
             ))}
           </nav>
         ))}
-
-        <div className="flex flex-col gap-3">
-          <p className="eyebrow">{t.ui.connect}</p>
-          {channels.length > 0 ? (
-            <ul className="flex flex-col gap-3">
-              {channels.map((c) => (
-                <li key={c.label}>
-                  <a
-                    href={c.href}
-                    target={c.href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel="noreferrer noopener"
-                    onClick={(e) => {
-                      if (c.href.startsWith("mailto:")) return;
-                      e.preventDefault();
-                      window.open(c.href, "_blank", "noopener,noreferrer");
-                    }}
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {c.platform === "other" ? (
-                      <span className="font-mono text-xs copper-icon">@</span>
-                    ) : (
-                      <SocialIcon platform={c.platform} className="size-4 copper-icon" />
-                    )}
-                    {c.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Link
-              to="/$locale/contact"
-              params={{ locale }}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t.ui.contact}
-            </Link>
-          )}
-        </div>
       </Container>
 
       <Container className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
