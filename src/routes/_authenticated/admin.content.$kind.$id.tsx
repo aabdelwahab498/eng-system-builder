@@ -16,6 +16,7 @@ import {
 } from "@/lib/cms/types";
 import { slugify, isValidSlug } from "@/lib/cms/slug";
 import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
+import { VisibilityTargets } from "@/components/admin/VisibilityTargets";
 import { DistributePanel } from "@/components/admin/DistributePanel";
 import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
 import {
