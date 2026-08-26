@@ -9,6 +9,7 @@
 import { useState } from "react";
 import {
   POLICY_LABEL,
+  draftEntryKey,
   channelPermissions,
   channelsForSurface,
   surfaceFor,
@@ -19,8 +20,9 @@ type Props = { entryId: string; kind: string; mediaType?: string };
 
 export function ChannelPermissions({ entryId, kind, mediaType }: Props) {
   const surface = surfaceFor(kind, mediaType);
+  const storageId = entryId === "new" ? draftEntryKey(kind, mediaType) : entryId;
   const [allowed, setAllowed] = useState<string[] | null>(() =>
-    typeof window === "undefined" ? null : channelPermissions.get(entryId),
+    typeof window === "undefined" ? null : channelPermissions.get(storageId),
   );
 
   if (!surface) return null;
@@ -43,16 +45,17 @@ export function ChannelPermissions({ entryId, kind, mediaType }: Props) {
             </div>
             <Switch
               checked={isOn(channel.id)}
-              disabled={entryId === "new"}
               onCheckedChange={(next) =>
-                setAllowed(channelPermissions.set(entryId, channel.id, next, surface))
+                setAllowed(channelPermissions.set(storageId, channel.id, next, surface))
               }
             />
           </div>
         ))}
       </div>
       {entryId === "new" ? (
-        <p className="font-mono text-[10px] text-muted-foreground">save the entry first</p>
+        <p className="font-mono text-[10px] text-muted-foreground">
+          kept for this draft and applied on save
+        </p>
       ) : null}
     </div>
   );
