@@ -61,6 +61,13 @@
 
 :root {
   --radius: 0.5rem;
+  /* Homepage section rhythm — unified so adjacent bands never gap.
+     Hero sits tight against the capability strip; content sections share one vertical beat. */
+  --space-hero-pt: 4rem;
+  --space-hero-pt-lg: 6rem;
+  --space-band-py: 1.5rem;
+  --space-section-py: 5rem;
+  --space-section-py-lg: 7rem;
   /* Light mode — Baby Blue */
   --background: oklch(0.92 0.045 250);
   --foreground: oklch(0.18 0.014 255);

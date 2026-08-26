@@ -38,7 +38,10 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-0 sm:pt-24">
+    <section
+      id="hero"
+      className="relative scroll-mt-32 overflow-hidden pt-[var(--space-hero-pt)] pb-0 sm:pt-[var(--space-hero-pt-lg)]"
+    >
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
@@ -148,7 +151,7 @@ export function Hero() {
 export function CapabilityStrip() {
   const { t } = useLocale();
   return (
-    <div id="skills" className="hairline scroll-mt-32 overflow-hidden py-6">
+    <div id="skills" className="hairline scroll-mt-32 overflow-hidden py-[var(--space-band-py)]">
       <Container>
         <ul className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {t.capabilityStrip.map((item) => (
