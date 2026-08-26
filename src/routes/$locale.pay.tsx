@@ -13,7 +13,8 @@ import { useLocale } from "@/hooks/useLocale";
 import { buildHead } from "@/lib/seo";
 import { getPaymentMethods, getServiceOffering, getServiceOfferings } from "@/content/api";
 import { pickOrEn } from "@/content/schema";
-import { paymentSubmissions } from "@/lib/payments/store";
+import { submitPaymentProof } from "@/lib/payments/payments.functions";
+import { supabase } from "@/integrations/supabase/client";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
 
