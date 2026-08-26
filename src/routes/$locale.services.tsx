@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
 import * as Icons from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
