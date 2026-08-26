@@ -13,7 +13,9 @@ import { toast } from "sonner";
 import {
   BarChart3,
   ExternalLink,
+  Pencil,
   Plus,
+
   Send,
   Trash2,
   TrendingDown,
@@ -136,6 +138,13 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
       {AD_OWNERS.map((o) => {
         const list = ads.filter((a) => a.owner === o.value);
         const s = summarize(list);
+        // Stable client numbering: first appearance order of each client name.
+        const clientOrder: string[] = [];
+        list.forEach((a) => {
+          const key = a.clientName.trim().toLowerCase();
+          if (key && !clientOrder.includes(key)) clientOrder.push(key);
+        });
+        const unnamed = list.filter((a) => !a.clientName.trim()).length;
         return (
           <div key={o.value} className="space-y-3 rounded-lg border border-border p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -146,6 +155,12 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
                   {fmt(s.ctr, 2)}% ·{" "}
                   {s.avgScore ? `effectiveness ${s.avgScore}/100` : "no performance data"}
                 </p>
+                {o.value === "client" ? (
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {clientOrder.length} client{clientOrder.length === 1 ? "" : "s"}
+                    {unnamed ? ` · ${unnamed} unassigned` : ""}
+                  </p>
+                ) : null}
               </div>
               <Button size="sm" variant="outline" className="gap-1" onClick={() => add(o.value)}>
                 <Plus className="h-3.5 w-3.5" /> New ad
@@ -158,29 +173,38 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
               </p>
             ) : (
               <div className="space-y-2">
-                {list.map((ad) => (
-                  <AdRow
-                    key={ad.id}
-                    ad={ad}
-                    open={openId === ad.id}
-                    onToggle={() => setOpenId(openId === ad.id ? null : ad.id)}
-                    onPatch={(v) => patch(ad.id, v)}
-                    onSave={() => {
-                      const current = ads.find((a) => a.id === ad.id);
-                      if (current) persist.mutate(current, { onSuccess: () => toast.success("Ad saved") });
-                    }}
-                    onDelete={() => {
-                      setAds((l) => l.filter((a) => a.id !== ad.id));
-                      destroy.mutate(ad.id);
-                    }}
-                    onPublish={() => publish(ad)}
-                  />
-                ))}
+                {list.map((ad, i) => {
+                  const key = ad.clientName.trim().toLowerCase();
+                  const clientNo = key ? clientOrder.indexOf(key) + 1 : 0;
+                  return (
+                    <AdRow
+                      key={ad.id}
+                      ad={ad}
+                      index={i + 1}
+                      clientNo={o.value === "client" ? clientNo : 0}
+                      open={openId === ad.id}
+                      onToggle={() => setOpenId(openId === ad.id ? null : ad.id)}
+                      onPatch={(v) => patch(ad.id, v)}
+                      onSave={() => {
+                        const current = ads.find((a) => a.id === ad.id);
+                        if (current)
+                          persist.mutate(current, { onSuccess: () => toast.success("Ad saved") });
+                      }}
+                      onDelete={() => {
+                        if (!window.confirm(`Delete "${ad.name || "Untitled ad"}"?`)) return;
+                        setAds((l) => l.filter((a) => a.id !== ad.id));
+                        destroy.mutate(ad.id);
+                      }}
+                      onPublish={() => publish(ad)}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>
         );
       })}
+
 
       {ADS_MANAGER_URL[spec.id] ? (
         <p className="text-xs text-muted-foreground">
@@ -207,6 +231,8 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 function AdRow({
   ad,
+  index,
+  clientNo,
   open,
   onToggle,
   onPatch,
@@ -215,6 +241,8 @@ function AdRow({
   onPublish,
 }: {
   ad: AdCampaign;
+  index: number;
+  clientNo: number;
   open: boolean;
   onToggle: () => void;
   onPatch: (v: Partial<AdCampaign>) => void;
@@ -235,29 +263,54 @@ function AdRow({
 
   return (
     <div className="rounded-lg border border-border">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex w-full flex-wrap items-center gap-3 p-3 text-start hover:bg-muted/30"
-      >
-        <span className="text-sm font-medium text-foreground">{ad.name || "Untitled ad"}</span>
-        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase text-muted-foreground">
-          {ad.status}
-        </span>
-        {ad.clientName ? (
-          <span className="text-xs text-muted-foreground">for {ad.clientName}</span>
-        ) : null}
-        <span className={cn("ms-auto flex items-center gap-1 text-xs", tone)}>
-          {insight.verdict === "no_data" ? (
-            <BarChart3 className="h-3.5 w-3.5" />
-          ) : insight.verdict === "weak" ? (
-            <TrendingDown className="h-3.5 w-3.5" />
-          ) : (
-            <TrendingUp className="h-3.5 w-3.5" />
-          )}
-          {insight.verdict === "no_data" ? "No data" : `${insight.score}/100`}
-        </span>
-      </button>
+      <div className="flex w-full flex-wrap items-center gap-3 p-3 hover:bg-muted/30">
+        <button
+          type="button"
+          onClick={onToggle}
+          className="flex flex-1 flex-wrap items-center gap-3 text-start"
+        >
+          <span className="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+            #{index}
+          </span>
+          <span className="text-sm font-medium text-foreground">{ad.name || "Untitled ad"}</span>
+          <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase text-muted-foreground">
+            {ad.status}
+          </span>
+          {clientNo ? (
+            <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground">
+              Client {clientNo}
+            </span>
+          ) : null}
+          {ad.clientName ? (
+            <span className="text-xs text-muted-foreground">for {ad.clientName}</span>
+          ) : null}
+          <span className={cn("flex items-center gap-1 text-xs", tone)}>
+            {insight.verdict === "no_data" ? (
+              <BarChart3 className="h-3.5 w-3.5" />
+            ) : insight.verdict === "weak" ? (
+              <TrendingDown className="h-3.5 w-3.5" />
+            ) : (
+              <TrendingUp className="h-3.5 w-3.5" />
+            )}
+            {insight.verdict === "no_data" ? "No data" : `${insight.score}/100`}
+          </span>
+        </button>
+        <div className="ms-auto flex items-center gap-1">
+          <Button size="sm" variant="ghost" className="gap-1" onClick={onToggle}>
+            <Pencil className="h-3.5 w-3.5" /> {open ? "Close" : "Edit"}
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="gap-1 text-destructive"
+            onClick={onDelete}
+            aria-label="Delete ad"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      </div>
+
 
       {open ? (
         <div className="space-y-4 border-t border-border p-4">
