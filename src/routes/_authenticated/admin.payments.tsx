@@ -96,6 +96,15 @@ function AdminPayments() {
 
   const pendingCount = data.filter((s) => s.status === "pending_review").length;
 
+  const gatewayStats: GatewayStats = {};
+  for (const s of data) {
+    const key = s.method_id ?? "unknown";
+    const entry = gatewayStats[key] ?? { count: 0, pending: 0 };
+    entry.count += 1;
+    if (s.status === "pending_review") entry.pending += 1;
+    gatewayStats[key] = entry;
+  }
+
   return (
     <div className="space-y-6">
       <header>
