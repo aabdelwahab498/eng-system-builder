@@ -90,49 +90,6 @@ function HomePage() {
       <Section eyebrow={t.ui.capabilities} title={t.ui.whatIBuild} subtitle={t.ui.whatIBuildIntro}>
         <FocusMarquee items={t.profile.focusAreas} />
       </Section>
-
-      {/* 3 — Services */}
-      <Section eyebrow={c.eyebrow} title={c.title} subtitle={c.intro}>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
-            <Reveal
-              key={s.id}
-              delay={i * 50}
-              className="flex h-full flex-col rounded-lg border border-border bg-surface/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
-            >
-              <h3 className="font-display text-lg font-medium text-foreground">{pickOrEn(s.title, locale)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {pickOrEn(s.description, locale)}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-        <div className="mt-8">
-          <Link
-            to="/$locale/services"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/10 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-primary/20"
-          >
-            {c.all}
-            <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
-          </Link>
-        </div>
-      </Section>
-
-      {/* 4 — Final CTA */}
-      <Section title={c.ctaTitle}>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to="/$locale/services"
-            params={{ locale }}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            {c.start}
-            <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
-          </Link>
-          <WhatsAppCta label={c.chat} />
-        </div>
-      </Section>
     </>
   );
 }
