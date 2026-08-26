@@ -131,6 +131,69 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_submissions: {
+        Row: {
+          amount: string | null
+          client_name: string
+          created_at: string
+          currency: string | null
+          email: string | null
+          id: string
+          method_id: string | null
+          note: string
+          project_name: string | null
+          proof_filename: string | null
+          proof_path: string | null
+          proof_size_bytes: number | null
+          proof_type: string | null
+          service_id: string | null
+          service_title: string | null
+          status: string
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          amount?: string | null
+          client_name?: string
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          id?: string
+          method_id?: string | null
+          note?: string
+          project_name?: string | null
+          proof_filename?: string | null
+          proof_path?: string | null
+          proof_size_bytes?: number | null
+          proof_type?: string | null
+          service_id?: string | null
+          service_title?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          amount?: string | null
+          client_name?: string
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          id?: string
+          method_id?: string | null
+          note?: string
+          project_name?: string | null
+          proof_filename?: string | null
+          proof_path?: string | null
+          proof_size_bytes?: number | null
+          proof_type?: string | null
+          service_id?: string | null
+          service_title?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       service_requests: {
         Row: {
           admin_note: string
