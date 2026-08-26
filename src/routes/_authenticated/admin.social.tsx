@@ -16,6 +16,7 @@ import {
 } from "@/lib/social/providers";
 import { socialAccounts, socialPosts } from "@/lib/social/store";
 import { activityLog } from "@/lib/admin/crm";
+import { AdsPixels } from "@/components/admin/AdsPixels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -217,6 +218,9 @@ function SocialHub() {
           ))}
         </div>
       </section>
+
+      {/* -------------------------------------------------- ads & pixels */}
+      <AdsPixels />
 
       {/* --------------------------------------------- content distribution */}
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
