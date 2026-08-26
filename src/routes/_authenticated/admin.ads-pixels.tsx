@@ -66,6 +66,16 @@ function AdsPixelsPage() {
 
   const byId = useMemo(() => new Map(rows.map((r) => [r.channelId, r])), [rows]);
 
+  const { data: allAds } = useQuery({
+    queryKey: ["admin", "ad-campaigns", "all"],
+    queryFn: () => adCampaigns.list(),
+  });
+  const adCounts = useMemo(() => {
+    const map = new Map<AdChannelId, number>();
+    (allAds ?? []).forEach((a) => map.set(a.channelId, (map.get(a.channelId) ?? 0) + 1));
+    return map;
+  }, [allAds]);
+
   const save = useMutation({
     mutationFn: async () => adChannels.save(rows),
     onSuccess: () => {
