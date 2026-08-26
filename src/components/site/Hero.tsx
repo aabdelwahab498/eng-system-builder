@@ -38,7 +38,7 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
+    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-0 sm:pt-24">
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
