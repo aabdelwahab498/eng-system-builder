@@ -247,6 +247,10 @@ function AdsPixelsPage() {
           </div>
         ) : null}
 
+        <div className="border-t border-border pt-6">
+          <ChannelAdsManager spec={spec} />
+        </div>
+
         {spec.docsUrl ? (
           <Button
             size="sm"
