@@ -114,10 +114,22 @@ function ServicesPage() {
   const t = copy[locale] ?? copy.en;
   const offerings = getServiceOfferings();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   const core = useMemo(() => offerings.filter((s) => s.tier === "core"), [offerings]);
   const extended = useMemo(() => offerings.filter((s) => s.tier === "extended"), [offerings]);
   const selected = offerings.find((s) => s.id === selectedId) ?? null;
+
+  const q = query.trim().toLowerCase();
+  const matches = (s: ServiceOffering) =>
+    !q ||
+    pickOrEn(s.title, locale).toLowerCase().includes(q) ||
+    pickOrEn(s.description, locale).toLowerCase().includes(q) ||
+    pickOrEn(s.deliverables, locale).some((d) => d.toLowerCase().includes(q));
+
+  const coreView = core.filter(matches);
+  const extendedView = extended.filter(matches);
+  const hasResults = coreView.length + extendedView.length > 0;
 
   const selectService = (id: string) => {
     setSelectedId(id);
@@ -126,13 +138,45 @@ function ServicesPage() {
     }, 60);
   };
 
+  const searchCopy =
+    locale === "ar"
+      ? { label: "بحث سريع عن الخدمة", hint: "اكتب اسم الخدمة أو الكلمة المفتاحية…", none: "لا توجد نتائج مطابقة" }
+      : { label: "Quick service search", hint: "Type a service name or keyword…", none: "No matching services" };
+
   return (
     <>
       <Breadcrumbs trail={[{ name: dict.ui.home, path: "" }, { name: dict.ui.services, path: "/services" }]} />
       <PageHeader eyebrow={dict.ui.services} title={t.question} subtitle={t.coreIntro} />
 
       <Section>
-        <div className="flex flex-wrap gap-3">
+        <div className="mx-auto max-w-2xl">
+          <label className="block">
+            <span className="sr-only">{searchCopy.label}</span>
+            <div className="relative">
+              <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={searchCopy.hint}
+                aria-label={searchCopy.label}
+                className="w-full rounded-md border border-border bg-background ps-10 pe-10 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60 digital-green"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <X className="size-4" aria-hidden />
+                </button>
+              )}
+            </div>
+          </label>
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/$locale/pay"
             params={{ locale }}
