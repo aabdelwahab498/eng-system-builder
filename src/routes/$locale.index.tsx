@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
-import { HomeAnchorNav } from "@/components/site/HomeAnchorNav";
 import { Section } from "@/components/site/Section";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
 import { useLocale } from "@/hooks/useLocale";
@@ -59,7 +58,6 @@ function HomePage() {
 
   return (
     <>
-      <HomeAnchorNav />
       <Hero />
       <CapabilityStrip />
 

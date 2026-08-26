@@ -8,7 +8,6 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import { PowerShellPrompt } from "./PowerShellPrompt";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "./SocialIcon";
 import { ServiceQuickSearch } from "./ServiceQuickSearch";
-import { EmailContact } from "./EmailContact";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { heroHref, heroLinks } from "@/lib/hero-links";
@@ -39,7 +38,7 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-6 sm:pt-24 sm:pb-8">
+    <section id="hero" className="relative scroll-mt-32 overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
@@ -102,12 +101,10 @@ export function Hero() {
 
             <ServiceQuickSearch className="mt-6" />
 
-            {email && <EmailContact email={email.value} className="mt-6" />}
 
 
 
-
-            <ul className="mt-6 flex flex-wrap items-center gap-3">
+            <ul className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
                 return (
                   <li key={s.href}>
