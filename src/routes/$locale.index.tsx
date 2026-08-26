@@ -1,15 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 
 import { CapabilityStrip, Hero } from "@/components/site/Hero";
 import { Section } from "@/components/site/Section";
-import { Reveal } from "@/components/site/Reveal";
 import { FocusMarquee } from "@/components/site/FocusMarquee";
-import { WhatsAppCta } from "@/components/commerce/WhatsAppCta";
 import { useLocale } from "@/hooks/useLocale";
 import { getContent } from "@/content";
-import { getServiceOfferings } from "@/content/api";
-import { pickOrEn } from "@/content/schema";
 import { buildHead, metaFor } from "@/lib/seo";
 import { site } from "@/content";
 import type { Locale } from "@/types/content";
@@ -57,29 +52,7 @@ export const Route = createFileRoute("/$locale/")({
 });
 
 function HomePage() {
-  const { locale, t } = useLocale();
-  const services = getServiceOfferings("core").slice(0, 6);
-
-  const c =
-    locale === "ar"
-      ? {
-          eyebrow: "الخدمات",
-          title: "ماذا تريد أن نبني لك؟",
-          intro: "برمجيات وأنظمة ذكاء اصطناعي وتطبيقات موبايل ومنتجات رقمية.",
-          all: "كل الخدمات وطريقة الدفع",
-          ctaTitle: "عندك مشروع في بالك؟",
-          start: "ابدأ مشروعًا",
-          chat: "تحدث مع أحمد على واتساب",
-        }
-      : {
-          eyebrow: "Services",
-          title: "What would you like us to build?",
-          intro: "Software, AI systems, mobile applications and digital products.",
-          all: "All services & payment structure",
-          ctaTitle: "Have a project in mind?",
-          start: "Start a Project",
-          chat: "Chat with Ahmed on WhatsApp",
-        };
+  const { t } = useLocale();
 
   return (
     <>
