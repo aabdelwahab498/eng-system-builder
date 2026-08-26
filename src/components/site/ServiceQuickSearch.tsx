@@ -53,7 +53,7 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
   const showList = focused && q.length > 0;
 
   return (
-    <div className={cn("relative mx-auto max-w-xl", className)}>
+    <div className={cn("relative max-w-xl", className)}>
       <label className="block">
         <span className="sr-only">{copy.label}</span>
         <div className="relative">
