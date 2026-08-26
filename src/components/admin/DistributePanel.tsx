@@ -36,7 +36,10 @@ type Props = {
   link?: string;
   mediaType?: string;
   mediaUrl?: string;
+  /** Compact trigger for list rows. */
+  compact?: boolean;
 };
+
 
 const SURFACE_LABEL: Record<string, string> = {
   code: "Code hosting",
