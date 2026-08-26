@@ -151,7 +151,7 @@ export function Hero() {
 export function CapabilityStrip() {
   const { t } = useLocale();
   return (
-    <div className="hairline overflow-hidden py-6">
+    <div id="skills" className="hairline scroll-mt-32 overflow-hidden py-6">
       <Container>
         <ul className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {t.capabilityStrip.map((item) => (

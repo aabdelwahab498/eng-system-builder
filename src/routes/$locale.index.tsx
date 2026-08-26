@@ -56,11 +56,18 @@ function HomePage() {
 
   return (
     <>
+      <HomeAnchorNav />
       <Hero />
       <CapabilityStrip />
 
       {/* 2 — What I build */}
-      <Section eyebrow={t.ui.capabilities} title={t.ui.whatIBuild} subtitle={t.ui.whatIBuildIntro}>
+      <Section
+        id="what-i-build"
+        className="scroll-mt-32"
+        eyebrow={t.ui.capabilities}
+        title={t.ui.whatIBuild}
+        subtitle={t.ui.whatIBuildIntro}
+      >
         <FocusMarquee items={t.profile.focusAreas} />
       </Section>
     </>
