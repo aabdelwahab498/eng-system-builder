@@ -65,6 +65,15 @@ const str = (value: unknown) => (typeof value === "string" ? value : "");
 
 function defaultData(kind: ContentKind): JsonObject {
   switch (kind) {
+    case "profile":
+      return {
+        displayName: emptyLocalized(),
+        positioning: emptyLocalized(),
+        statement: emptyLocalized(),
+        location: emptyLocalized(),
+        shortBio: emptyLocalized(),
+        longBio: emptyLocalized(),
+      };
     case "article":
       return {
         title: emptyLocalized(),
@@ -258,7 +267,11 @@ function ContentEditor() {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="space-y-6 rounded-lg border border-border p-5">
-          {contentKind === "article" ? (
+          {contentKind === "profile" ? (
+            <ProfileForm data={draft.data} patch={patchData} onName={(t) =>
+              setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
+            } />
+          ) : contentKind === "article" ? (
             <ArticleForm data={draft.data} patch={patchData} onTitle={(t) =>
               setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
             } />
@@ -439,6 +452,45 @@ function ArticleForm({
       </Field>
       <LocalizedField label="SEO title" value={localized(data["seoTitle"])} onChange={(v) => patch({ seoTitle: v })} />
       <LocalizedField label="SEO description" value={localized(data["seoDescription"])} onChange={(v) => patch({ seoDescription: v })} multiline rows={2} />
+    </div>
+  );
+}
+
+function ProfileForm({
+  data,
+  patch,
+  onName,
+}: {
+  data: JsonObject;
+  patch: (partial: JsonObject) => void;
+  onName: (value: string) => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <p className="rounded-lg border border-border bg-surface/40 px-4 py-3 text-xs text-muted-foreground">
+        Publish this entry (Workflow = published + Public site on) and these fields replace the
+        profile copy on the public About page. Leave a field empty to keep the built-in text.
+      </p>
+      <LocalizedField
+        label="Display name"
+        value={localized(data["displayName"])}
+        onChange={(v) => {
+          patch({ displayName: v });
+          onName(v.en);
+        }}
+      />
+      <LocalizedField label="Headline" value={localized(data["positioning"])} onChange={(v) => patch({ positioning: v })} />
+      <LocalizedField label="Overview title" value={localized(data["statement"])} onChange={(v) => patch({ statement: v })} />
+      <LocalizedField label="Location" value={localized(data["location"])} onChange={(v) => patch({ location: v })} />
+      <LocalizedField label="Short bio" value={localized(data["shortBio"])} onChange={(v) => patch({ shortBio: v })} multiline rows={3} />
+      <LocalizedField
+        label="Long bio"
+        hint="Blank line separates paragraphs."
+        value={localized(data["longBio"])}
+        onChange={(v) => patch({ longBio: v })}
+        multiline
+        rows={10}
+      />
     </div>
   );
 }
