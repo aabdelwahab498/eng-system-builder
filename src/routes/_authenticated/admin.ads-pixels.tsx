@@ -43,6 +43,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ChannelAdsManager } from "@/components/admin/ChannelAdsManager";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin/ads-pixels")({
