@@ -191,37 +191,49 @@ function ServicesPage() {
         <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>
       </Section>
 
-      <Section eyebrow={t.core} title={t.core} subtitle={t.coreIntro}>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {core.map((s, i) => (
-            <ServiceCard
-              key={s.id}
-              service={s}
-              index={i}
-              locale={locale}
-              deliverablesLabel={t.deliverables}
-              selected={selectedId === s.id}
-              onSelect={() => selectService(s.id)}
-            />
-          ))}
-        </div>
-      </Section>
+      {hasResults ? (
+        <>
+          {coreView.length > 0 && (
+            <Section eyebrow={t.core} title={t.core} subtitle={t.coreIntro}>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {coreView.map((s, i) => (
+                  <ServiceCard
+                    key={s.id}
+                    service={s}
+                    index={i}
+                    locale={locale}
+                    deliverablesLabel={t.deliverables}
+                    selected={selectedId === s.id}
+                    onSelect={() => selectService(s.id)}
+                  />
+                ))}
+              </div>
+            </Section>
+          )}
 
-      <Section eyebrow={t.extended} title={t.extended} subtitle={t.extendedIntro}>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {extended.map((s, i) => (
-            <ServiceCard
-              key={s.id}
-              service={s}
-              index={i}
-              locale={locale}
-              deliverablesLabel={t.deliverables}
-              selected={selectedId === s.id}
-              onSelect={() => selectService(s.id)}
-            />
-          ))}
-        </div>
-      </Section>
+          {extendedView.length > 0 && (
+            <Section eyebrow={t.extended} title={t.extended} subtitle={t.extendedIntro}>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {extendedView.map((s, i) => (
+                  <ServiceCard
+                    key={s.id}
+                    service={s}
+                    index={i}
+                    locale={locale}
+                    deliverablesLabel={t.deliverables}
+                    selected={selectedId === s.id}
+                    onSelect={() => selectService(s.id)}
+                  />
+                ))}
+              </div>
+            </Section>
+          )}
+        </>
+      ) : (
+        <Section>
+          <p className="py-12 text-center font-mono text-sm text-muted-foreground">{searchCopy.none}</p>
+        </Section>
+      )}
 
       {selected && (
         <Section eyebrow={t.request} title={t.request} subtitle={t.requestIntro}>
