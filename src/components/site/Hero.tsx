@@ -91,7 +91,7 @@ export function Hero() {
             <ServiceQuickSearch className="mt-6" />
 
 
-            <ul className="mt-8 flex flex-wrap items-center gap-3">
+            <ul className="mt-6 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
                 return (
                   <li key={s.href}>
