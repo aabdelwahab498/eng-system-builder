@@ -85,6 +85,12 @@ export function Hero() {
                   <ArrowUpRight className="size-4" />
                 </Link>
               </Button>
+              <Button asChild size="lg" variant="ghost" className="digital-green">
+                <Link to="/$locale/services" params={{ locale }}>
+                  {t.ui.services}
+                  <ArrowUpRight className="size-4" />
+                </Link>
+              </Button>
             </div>
 
 
