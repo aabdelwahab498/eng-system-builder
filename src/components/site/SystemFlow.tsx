@@ -6,10 +6,7 @@ const SITE_URL = "https://nextnext-gen.com";
 export function SystemFlow() {
   const { t } = useLocale();
 
-  const nodes = [
-    { label: "nextnext-gen.com", note: t.ui.home },
-    { label: "projects", note: t.ui.featuredProjects },
-  ];
+  const nodes = [{ label: "nextnext-gen.com", note: t.ui.home }];
 
   return (
     <div className="glow-ring rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
