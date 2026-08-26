@@ -74,6 +74,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
       "/admin/content/social_campaign",
       "/admin/campaigns",
       "/admin/linkedin",
+      "/admin/ads-pixels",
       "/admin/content/marketing_campaign",
     ],
   },
@@ -131,6 +132,7 @@ export const SECTION_TABS: { match: string[]; tabs: AdminTab[] }[] = [
       { label: "Profiles & posts", href: "/admin/social" },
       { label: "Post drafts", href: "/admin/content/social_draft" },
       { label: "Campaigns", href: "/admin/content/social_campaign" },
+      { label: "Ads & pixels", href: "/admin/ads-pixels" },
     ],
   },
   {
