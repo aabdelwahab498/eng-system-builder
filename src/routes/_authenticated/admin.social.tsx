@@ -218,6 +218,9 @@ function SocialHub() {
         </div>
       </section>
 
+      {/* -------------------------------------------------- ads & pixels */}
+      <AdsPixels />
+
       {/* --------------------------------------------- content distribution */}
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-4 rounded-lg border border-border p-4">
