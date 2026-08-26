@@ -50,14 +50,6 @@ export const DISTRIBUTION_CHANNELS: DistributionChannel[] = [
 
   /* --------------------------------------------------------- articles */
   {
-    id: "linkedin",
-    label: "LinkedIn",
-    surface: "article",
-    policy: "open",
-    submitUrl: "https://www.linkedin.com/post/new/",
-    note: "Full articles and posts with links are welcome.",
-  },
-  {
     id: "medium",
     label: "Medium",
     surface: "article",
