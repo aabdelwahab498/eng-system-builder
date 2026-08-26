@@ -212,6 +212,15 @@ function KindList() {
                   ))}
                 </SelectContent>
               </Select>
+              <DistributePanel
+                compact
+                entryId={item.id}
+                kind={contentKind}
+                title={titleOf(item.data, item.slug)}
+                link={`https://nextnext-gen.com/en/${contentKind === "article" ? "blog" : contentKind === "project" ? "projects" : "gallery"}/${item.slug}`}
+                mediaType={typeof item.data["mediaType"] === "string" ? (item.data["mediaType"] as string) : undefined}
+                mediaUrl={typeof item.data["mediaUrl"] === "string" ? (item.data["mediaUrl"] as string) : undefined}
+              />
               <Button
                 variant="ghost"
                 size="sm"
@@ -220,6 +229,7 @@ function KindList() {
               >
                 Delete
               </Button>
+
             </li>
           ))}
         </ul>
