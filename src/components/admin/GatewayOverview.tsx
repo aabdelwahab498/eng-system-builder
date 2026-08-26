@@ -2,14 +2,26 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ExternalLink, Pencil, Plus } from "lucide-react";
+import { Check, ChevronDown, Copy, ExternalLink, Pencil, Plus } from "lucide-react";
 
 import { paymentGateways, gatewayFromContent, type GatewayInfo } from "@/lib/admin/gateways";
 import { adminListContent } from "@/lib/cms/admin.functions";
+import { copyText } from "@/lib/clipboard";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type GatewayStats = Record<string, { count: number; pending: number }>;
+
+/** Builds a client-ready plain-text block with everything needed to pay. */
+function gatewayPaymentText(gateway: GatewayInfo): string {
+  const lines = [
+    `Payment method: ${gateway.name} (${gateway.currencies.join(", ") || "—"})`,
+    ...gateway.details.map((d) => `${d.label}: ${d.value}`),
+  ];
+  if (gateway.link) lines.push(`${gateway.link.label}: ${gateway.link.href}`);
+  if (gateway.note) lines.push(`Note: ${gateway.note}`);
+  return lines.join("\n");
+}
 
 function GatewayCard({
   gateway,
@@ -21,7 +33,21 @@ function GatewayCard({
   entryId?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [copiedAll, setCopiedAll] = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
   const live = gateway.status === "live";
+
+  async function copyAll() {
+    await copyText(gatewayPaymentText(gateway));
+    setCopiedAll(true);
+    window.setTimeout(() => setCopiedAll(false), 1800);
+  }
+
+  async function copyOne(idx: number, value: string) {
+    await copyText(value);
+    setCopiedIdx(idx);
+    window.setTimeout(() => setCopiedIdx((v) => (v === idx ? null : v)), 1800);
+  }
 
   return (
     <div
@@ -74,25 +100,89 @@ function GatewayCard({
           : "No submissions — awaiting connection"}
       </p>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="mt-3 inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
-      >
-        {open ? "Hide details" : "Account details"}
-        <ChevronDown className={cn("h-3 w-3 transition-transform", open && "rotate-180")} />
-      </button>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+        >
+          {open ? "Hide details" : "Account details"}
+          <ChevronDown className={cn("h-3 w-3 transition-transform", open && "rotate-180")} />
+        </button>
+        <button
+          type="button"
+          onClick={copyAll}
+          title="Copy the full payment info to send to a client"
+          className={cn(
+            "inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider transition",
+            copiedAll ? "text-emerald-500" : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {copiedAll ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+          {copiedAll ? "Copied" : "Copy payment info"}
+        </button>
+      </div>
 
       {open ? (
         <div className="mt-3 space-y-2 border-t border-border pt-3">
-          {gateway.details.map((d) => (
-            <div key={d.label} className="text-xs">
-              <p className="text-muted-foreground">{d.label}</p>
-              <p dir="ltr" className="break-all font-mono text-foreground">
-                {d.value}
-              </p>
+          {gateway.details.map((d, i) => (
+            <div key={d.label} className="flex items-start justify-between gap-2 text-xs">
+              <div className="min-w-0">
+                <p className="text-muted-foreground">{d.label}</p>
+                <p dir="ltr" className="break-all font-mono text-foreground">
+                  {d.value}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => copyOne(i, d.value)}
+                title={`Copy ${d.label}`}
+                className={cn(
+                  "mt-0.5 shrink-0 rounded-sm border p-1.5 transition-colors",
+                  copiedIdx === i
+                    ? "border-emerald-500/50 text-emerald-500"
+                    : "border-border text-muted-foreground hover:bg-secondary hover:text-foreground",
+                )}
+              >
+                {copiedIdx === i ? (
+                  <Check className="h-3 w-3" aria-hidden />
+                ) : (
+                  <Copy className="h-3 w-3" aria-hidden />
+                )}
+                <span className="sr-only">{copiedIdx === i ? "Copied" : `Copy ${d.label}`}</span>
+              </button>
             </div>
           ))}
+          {gateway.link ? (
+            <div className="flex items-start justify-between gap-2 text-xs">
+              <div className="min-w-0">
+                <p className="text-muted-foreground">{gateway.link.label}</p>
+                <p dir="ltr" className="break-all font-mono text-foreground">
+                  {gateway.link.href}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => copyOne(-1, gateway.link!.href)}
+                title={`Copy ${gateway.link.label}`}
+                className={cn(
+                  "mt-0.5 shrink-0 rounded-sm border p-1.5 transition-colors",
+                  copiedIdx === -1
+                    ? "border-emerald-500/50 text-emerald-500"
+                    : "border-border text-muted-foreground hover:bg-secondary hover:text-foreground",
+                )}
+              >
+                {copiedIdx === -1 ? (
+                  <Check className="h-3 w-3" aria-hidden />
+                ) : (
+                  <Copy className="h-3 w-3" aria-hidden />
+                )}
+                <span className="sr-only">
+                  {copiedIdx === -1 ? "Copied" : `Copy ${gateway.link.label}`}
+                </span>
+              </button>
+            </div>
+          ) : null}
           {gateway.note ? <p className="text-xs text-muted-foreground">{gateway.note}</p> : null}
           <div className="flex flex-wrap gap-2">
             {gateway.link ? (
