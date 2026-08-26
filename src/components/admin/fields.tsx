@@ -29,8 +29,10 @@ export function LocalizedField({
   onChange,
   multiline,
   rows = 4,
+  hint,
 }: {
   label: string;
+  hint?: string;
   value: LocalizedText;
   onChange: (next: LocalizedText) => void;
   multiline?: boolean;
@@ -64,6 +66,7 @@ export function LocalizedField({
           onChange({ ...value, ar: e.target.value.trim() === "" ? null : e.target.value })
         }
       />
+      {hint ? <p className="text-[11px] text-muted-foreground/80">{hint}</p> : null}
     </div>
   );
 }

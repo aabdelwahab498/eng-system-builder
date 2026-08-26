@@ -10,6 +10,10 @@ import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/types/content";
 import aboutHero from "@/assets/profile-about-hero.png.asset.json";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getPublicProfile } from "@/lib/cms/public.functions";
+import { resolveProfileOverride } from "@/lib/cms/profile-overrides";
 
 export const Route = createFileRoute("/$locale/about")({
   head: ({ params }) => {
@@ -48,39 +52,52 @@ export const Route = createFileRoute("/$locale/about")({
 
 function AboutPage() {
   const { locale, t } = useLocale();
+  const fetchProfile = useServerFn(getPublicProfile);
+  const { data: profileItem } = useQuery({
+    queryKey: ["public", "profile"],
+    queryFn: () => fetchProfile(),
+  });
+  // Admin-managed profile entry wins over the built-in canonical copy.
+  const override = resolveProfileOverride(profileItem, locale);
+  const displayName = override.displayName ?? t.profile.displayName;
+  const positioning = override.positioning ?? t.profile.positioning;
+  const statement = override.statement ?? t.profile.statement;
+  const profileLocation = override.location ?? t.profile.location;
+  const shortBio = override.shortBio ?? t.profile.shortBio;
+  const longBio = override.longBio ?? t.profile.longBio;
 
   return (
     <>
       <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.about, path: "/about" }]} />
       <PageHeader
         eyebrow={t.ui.about}
-        title={t.profile.displayName.replace(/^Eng\.\s*/, "")}
+        title={displayName.replace(/^Eng\.\s*/, "")}
         titleTypewriter
         titleClassName="metallic-copper"
-        subtitle={t.profile.positioning}
+        subtitle={positioning}
         media={
           <AboutAvatar
             src={aboutHero.url}
-            alt={`${t.profile.displayName} — ${t.profile.positioning}`}
-            fallbackInitials={t.profile.displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
+            alt={`${displayName} — ${positioning}`}
+            fallbackInitials={displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
             className="size-40 sm:size-52 lg:size-60"
           />
         }
       />
 
-      <Section eyebrow={t.ui.overview} title={t.profile.statement}>
-        {t.profile.location && (
+      <Section eyebrow={t.ui.overview} title={statement}>
+        {profileLocation && (
           <p className="mb-6 font-mono text-[11px] text-muted-foreground">
-            {t.profile.location}
+            {profileLocation}
           </p>
         )}
         <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
-          {t.profile.shortBio && <p>{t.profile.shortBio}</p>}
-          {t.profile.longBio &&
-            t.profile.longBio.split("\n\n").map((para, idx) => (
+          {shortBio && <p>{shortBio}</p>}
+          {longBio &&
+            longBio.split("\n\n").map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          {!t.profile.shortBio && !t.profile.longBio && (
+          {!shortBio && !longBio && (
             <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
               {t.ui.contentPending}
             </p>
