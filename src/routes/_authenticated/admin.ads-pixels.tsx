@@ -43,6 +43,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { adCampaigns } from "@/lib/social/ad-campaigns";
+import { ChannelAdsManager } from "@/components/admin/ChannelAdsManager";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin/ads-pixels")({
@@ -64,6 +66,16 @@ function AdsPixelsPage() {
   }, [data]);
 
   const byId = useMemo(() => new Map(rows.map((r) => [r.channelId, r])), [rows]);
+
+  const { data: allAds } = useQuery({
+    queryKey: ["admin", "ad-campaigns", "all"],
+    queryFn: () => adCampaigns.list(),
+  });
+  const adCounts = useMemo(() => {
+    const map = new Map<AdChannelId, number>();
+    (allAds ?? []).forEach((a) => map.set(a.channelId, (map.get(a.channelId) ?? 0) + 1));
+    return map;
+  }, [allAds]);
 
   const save = useMutation({
     mutationFn: async () => adChannels.save(rows),
@@ -247,6 +259,10 @@ function AdsPixelsPage() {
           </div>
         ) : null}
 
+        <div className="border-t border-border pt-6">
+          <ChannelAdsManager spec={spec} />
+        </div>
+
         {spec.docsUrl ? (
           <Button
             size="sm"
@@ -298,6 +314,11 @@ function AdsPixelsPage() {
                   no pixel
                 </span>
               )}
+              {adCounts.get(s.id) ? (
+                <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground">
+                  {adCounts.get(s.id)} ads
+                </span>
+              ) : null}
               <span className="ms-auto text-xs text-muted-foreground">
                 {c.enabled && configured
                   ? "Active"
