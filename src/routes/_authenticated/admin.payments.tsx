@@ -12,6 +12,7 @@ import {
   adminUpdatePaymentSubmission,
 } from "@/lib/payments/payments.functions";
 import { ProofViewer } from "@/components/admin/ProofViewer";
+import { GatewayOverview, type GatewayStats } from "@/components/admin/GatewayOverview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -96,6 +97,15 @@ function AdminPayments() {
 
   const pendingCount = data.filter((s) => s.status === "pending_review").length;
 
+  const gatewayStats: GatewayStats = {};
+  for (const s of data) {
+    const key = s.method_id ?? "unknown";
+    const entry = gatewayStats[key] ?? { count: 0, pending: 0 };
+    entry.count += 1;
+    if (s.status === "pending_review") entry.pending += 1;
+    gatewayStats[key] = entry;
+  }
+
   return (
     <div className="space-y-6">
       <header>
@@ -106,6 +116,8 @@ function AdminPayments() {
           Review the proof image, then approve or reject. {pendingCount} pending · {data.length} total.
         </p>
       </header>
+
+      <GatewayOverview stats={gatewayStats} />
 
       <div className="flex flex-wrap gap-2">
         <Input
