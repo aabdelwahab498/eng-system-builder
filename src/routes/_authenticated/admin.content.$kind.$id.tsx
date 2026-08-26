@@ -146,7 +146,18 @@ function defaultData(kind: ContentKind): JsonObject {
         provider: "",
         instructions: emptyLocalized(),
         accountReference: "",
+        accountHolder: "",
+        bankName: "",
+        routingNumber: "",
         currency: "USD",
+        status: "planned",
+        mode: "manual",
+        region: "",
+        rails: "",
+        settlement: "",
+        fees: "",
+        note: "",
+        link: "",
         showOnSite: false,
       };
     default:
