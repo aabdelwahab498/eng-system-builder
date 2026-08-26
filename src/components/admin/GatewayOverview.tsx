@@ -1,13 +1,25 @@
 import { useState } from "react";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronDown, ExternalLink, Pencil, Plus } from "lucide-react";
 
-import { paymentGateways, type GatewayInfo } from "@/lib/admin/gateways";
+import { paymentGateways, gatewayFromContent, type GatewayInfo } from "@/lib/admin/gateways";
+import { adminListContent } from "@/lib/cms/admin.functions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type GatewayStats = Record<string, { count: number; pending: number }>;
 
-function GatewayCard({ gateway, stats }: { gateway: GatewayInfo; stats?: { count: number; pending: number } }) {
+function GatewayCard({
+  gateway,
+  stats,
+  entryId,
+}: {
+  gateway: GatewayInfo;
+  stats?: { count: number; pending: number };
+  entryId?: string;
+}) {
   const [open, setOpen] = useState(false);
   const live = gateway.status === "live";
 
@@ -82,14 +94,27 @@ function GatewayCard({ gateway, stats }: { gateway: GatewayInfo; stats?: { count
             </div>
           ))}
           {gateway.note ? <p className="text-xs text-muted-foreground">{gateway.note}</p> : null}
-          {gateway.link ? (
-            <Button asChild variant="outline" size="sm">
-              <a href={gateway.link.href} target="_blank" rel="noreferrer noopener">
-                {gateway.link.label}
-                <ExternalLink className="ms-1 h-3 w-3" />
-              </a>
-            </Button>
-          ) : null}
+          <div className="flex flex-wrap gap-2">
+            {gateway.link ? (
+              <Button asChild variant="outline" size="sm">
+                <a href={gateway.link.href} target="_blank" rel="noreferrer noopener">
+                  {gateway.link.label}
+                  <ExternalLink className="ms-1 h-3 w-3" />
+                </a>
+              </Button>
+            ) : null}
+            {entryId ? (
+              <Button asChild variant="outline" size="sm">
+                <Link
+                  to="/admin/content/$kind/$id"
+                  params={{ kind: "payment_method", id: entryId }}
+                >
+                  <Pencil className="me-1 h-3 w-3" />
+                  Edit gateway
+                </Link>
+              </Button>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>
@@ -97,21 +122,59 @@ function GatewayCard({ gateway, stats }: { gateway: GatewayInfo; stats?: { count
 }
 
 export function GatewayOverview({ stats }: { stats?: GatewayStats }) {
-  const liveCount = paymentGateways.filter((g) => g.status === "live").length;
+  const listContent = useServerFn(adminListContent);
+  const { data: entries } = useQuery({
+    queryKey: ["admin", "content", "payment_method"],
+    queryFn: () => listContent({ data: { kind: "payment_method" } }),
+  });
+
+  const cards: { gateway: GatewayInfo; entryId?: string }[] =
+    entries && entries.length > 0
+      ? entries.map((item) => ({
+          gateway: gatewayFromContent({
+            id: item.id,
+            slug: item.slug,
+            data: item.data as Record<string, unknown>,
+          }),
+          entryId: item.id,
+        }))
+      : paymentGateways.map((gateway) => ({ gateway }));
+
+  const liveCount = cards.filter((c) => c.gateway.status === "live").length;
 
   return (
     <section className="space-y-3">
-      <div>
-        <p className="eyebrow">Gateways</p>
-        <h2 className="mt-1 font-display text-lg font-semibold text-foreground">Payment gateways</h2>
-        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-          Every rail clients can pay through — {liveCount} live manual rails plus reserved slots for
-          card gateways we can switch on later.
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="eyebrow">Gateways</p>
+          <h2 className="mt-1 font-display text-lg font-semibold text-foreground">Payment gateways</h2>
+          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            Every rail clients can pay through — {liveCount} live, the rest are reserved slots.
+            Add, edit or remove a gateway any time from Content → Payments.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button asChild variant="outline" size="sm">
+            <Link to="/admin/content/$kind" params={{ kind: "payment_method" }}>
+              Manage gateways
+            </Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link to="/admin/content/$kind/$id" params={{ kind: "payment_method", id: "new" }}>
+              <Plus className="me-1 h-3 w-3" />
+              Add gateway
+            </Link>
+          </Button>
+        </div>
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {paymentGateways.map((g) => (
-          <GatewayCard key={g.id} gateway={g} stats={stats?.[g.id] ?? { count: 0, pending: 0 }} />
+        {cards.map(({ gateway: g, entryId }) => (
+          <GatewayCard
+            key={entryId ?? g.id}
+            gateway={g}
+            stats={stats?.[g.id] ?? { count: 0, pending: 0 }}
+            {...(entryId ? { entryId } : {})}
+          />
         ))}
       </div>
     </section>

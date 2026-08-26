@@ -145,3 +145,70 @@ export const paymentGateways: GatewayInfo[] = [
     note: "Slot reserved for clients who prefer PayPal over wire.",
   },
 ];
+
+/* ---------------------------------------------------------------------------
+ * CMS projection
+ *
+ * Gateways are editable from Admin → Content → Payments (kind `payment_method`).
+ * Each entry's `data` payload maps onto GatewayInfo below, so gateways can be
+ * added, edited or removed without a code change. The list above is only the
+ * seed/fallback used when no entries exist yet.
+ * ------------------------------------------------------------------------ */
+
+type AnyRecord = Record<string, unknown>;
+
+const s = (value: unknown): string => (typeof value === "string" ? value.trim() : "");
+
+const localizedEn = (value: unknown): string => {
+  if (typeof value === "string") return value.trim();
+  if (value && typeof value === "object") {
+    const v = value as AnyRecord;
+    return s(v["en"]) || s(v["ar"]);
+  }
+  return "";
+};
+
+const listOf = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value.map((v) => s(v)).filter(Boolean);
+  return s(value)
+    .split(/[,،]/)
+    .map((v) => v.trim())
+    .filter(Boolean);
+};
+
+export type GatewayContentItem = {
+  id: string;
+  slug: string;
+  data: AnyRecord;
+};
+
+/** Maps a `payment_method` CMS entry onto the gateway card model. */
+export function gatewayFromContent(item: GatewayContentItem): GatewayInfo {
+  const d = item.data ?? {};
+  const details: { label: string; value: string }[] = [];
+  const push = (label: string, value: string) => {
+    if (value) details.push({ label, value });
+  };
+  push("Account reference", s(d["accountReference"]));
+  push("Account holder", s(d["accountHolder"]));
+  push("Bank", s(d["bankName"]));
+  push("Routing number", s(d["routingNumber"]));
+  push("Instructions", localizedEn(d["instructions"]));
+
+  const href = s(d["link"]);
+
+  return {
+    id: item.slug || item.id,
+    name: localizedEn(d["label"]) || s(d["provider"]) || item.slug,
+    status: s(d["status"]) === "live" ? "live" : "planned",
+    mode: s(d["mode"]) === "automatic" ? "automatic" : "manual",
+    currencies: listOf(d["currency"]),
+    rails: listOf(d["rails"]),
+    region: s(d["region"]) || "—",
+    settlement: s(d["settlement"]) || "—",
+    fees: s(d["fees"]) || "—",
+    details: details.length ? details : [{ label: "Details", value: "Not configured yet" }],
+    ...(s(d["note"]) ? { note: s(d["note"]) } : {}),
+    ...(href ? { link: { label: "Open link", href } } : {}),
+  };
+}

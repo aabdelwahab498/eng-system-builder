@@ -146,7 +146,18 @@ function defaultData(kind: ContentKind): JsonObject {
         provider: "",
         instructions: emptyLocalized(),
         accountReference: "",
+        accountHolder: "",
+        bankName: "",
+        routingNumber: "",
         currency: "USD",
+        status: "planned",
+        mode: "manual",
+        region: "",
+        rails: "",
+        settlement: "",
+        fees: "",
+        note: "",
+        link: "",
         showOnSite: false,
       };
     default:
@@ -803,7 +814,57 @@ function PaymentForm({ data, patch }: { data: JsonObject; patch: (partial: JsonO
           <Input value={str(data["currency"])} onChange={(e) => patch({ currency: e.target.value })} />
         </Field>
       </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Status" hint="live = accepting payments · planned = reserved slot.">
+          <Select value={str(data["status"]) || "planned"} onValueChange={(v) => patch({ status: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="live">Live</SelectItem>
+              <SelectItem value="planned">Reserved / planned</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Verification mode">
+          <Select value={str(data["mode"]) || "manual"} onValueChange={(v) => patch({ mode: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="manual">Manual proof upload</SelectItem>
+              <SelectItem value="automatic">Automatic (gateway)</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Region">
+          <Input value={str(data["region"])} onChange={(e) => patch({ region: e.target.value })} />
+        </Field>
+        <Field label="Rails" hint="Comma separated, e.g. Cards, Apple Pay.">
+          <Input value={str(data["rails"])} onChange={(e) => patch({ rails: e.target.value })} />
+        </Field>
+        <Field label="Settlement">
+          <Input value={str(data["settlement"])} onChange={(e) => patch({ settlement: e.target.value })} />
+        </Field>
+        <Field label="Fees">
+          <Input value={str(data["fees"])} onChange={(e) => patch({ fees: e.target.value })} />
+        </Field>
+      </div>
       <LocalizedField label="Instructions" value={localized(data["instructions"])} onChange={(v) => patch({ instructions: v })} multiline rows={4} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Account holder">
+          <Input value={str(data["accountHolder"])} onChange={(e) => patch({ accountHolder: e.target.value })} />
+        </Field>
+        <Field label="Bank / wallet name">
+          <Input value={str(data["bankName"])} onChange={(e) => patch({ bankName: e.target.value })} />
+        </Field>
+        <Field label="Routing number">
+          <Input value={str(data["routingNumber"])} onChange={(e) => patch({ routingNumber: e.target.value })} />
+        </Field>
+        <Field label="Payment link">
+          <Input value={str(data["link"])} onChange={(e) => patch({ link: e.target.value })} />
+        </Field>
+      </div>
       <Field label="Account reference" hint="Sensitive. Only shown publicly when the switch below is on.">
         <div className="flex gap-2">
           <Input
@@ -815,6 +876,9 @@ function PaymentForm({ data, patch }: { data: JsonObject; patch: (partial: JsonO
             {revealed ? "Hide" : "Reveal"}
           </Button>
         </div>
+      </Field>
+      <Field label="Internal note">
+        <Input value={str(data["note"])} onChange={(e) => patch({ note: e.target.value })} />
       </Field>
       <ToggleRow
         label="Show on public site"
