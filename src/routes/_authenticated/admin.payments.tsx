@@ -117,6 +117,8 @@ function AdminPayments() {
         </p>
       </header>
 
+      <GatewayOverview stats={gatewayStats} />
+
       <div className="flex flex-wrap gap-2">
         <Input
           placeholder="Search client, service, method…"
