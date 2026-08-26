@@ -6,7 +6,8 @@ import { adminOverview, adminSeedContent } from "@/lib/cms/admin.functions";
 import { buildSeedItems } from "@/lib/cms/seed";
 import { KIND_LABELS, type ContentKind } from "@/lib/cms/types";
 import { Button } from "@/components/ui/button";
-import { activityLog, clients, serviceRequests, subscribers } from "@/lib/admin/crm";
+import { activityLog, clients, subscribers } from "@/lib/admin/crm";
+import { adminListServiceRequests } from "@/lib/crm/requests.functions";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { socialPosts } from "@/lib/social/store";
 
@@ -19,6 +20,12 @@ function AdminDashboard() {
   const queryClient = useQueryClient();
   const overview = useServerFn(adminOverview);
   const seed = useServerFn(adminSeedContent);
+  const listRequests = useServerFn(adminListServiceRequests);
+
+  const { data: requests = [] } = useQuery({
+    queryKey: ["admin", "service-requests"],
+    queryFn: () => listRequests(),
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "overview"],
@@ -34,9 +41,9 @@ function AdminDashboard() {
     onError: (error) => toast.error(error instanceof Error ? error.message : "Import failed"),
   });
   const { data: business } = useQuery({
-    queryKey: ["admin", "local-counts"],
+    queryKey: ["admin", "local-counts", requests.length],
     queryFn: async () => ({
-      requests: (await serviceRequests.list()).filter((r) => r.status === "new").length,
+      requests: requests.filter((r) => r.status === "new").length,
       payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review")
         .length,
       clients: (await clients.list()).length,
@@ -46,11 +53,11 @@ function AdminDashboard() {
   });
 
   const { data: recent = { requests: [], payments: [], activity: [] } } = useQuery({
-    queryKey: ["admin", "recent-business"],
+    queryKey: ["admin", "recent-business", requests.length],
     queryFn: async () => ({
-      requests: (await serviceRequests.list()).slice(0, 5).map((r) => ({
+      requests: requests.slice(0, 5).map((r) => ({
         id: r.id,
-        label: `${r.name} — ${r.service || "Service"}`,
+        label: `${r.client_name} — ${r.service_title || "Service"}`,
         meta: r.status,
       })),
       payments: (await paymentSubmissions.list()).slice(0, 5).map((p) => ({
