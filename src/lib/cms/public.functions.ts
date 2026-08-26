@@ -95,3 +95,20 @@ export const listPublicByKind = createServerFn({ method: "GET" })
     if (error) return [];
     return (data as ContentRow[]).map(toContentItem);
   });
+
+/**
+ * Published profile entry, if any. RLS limits this to published + public rows,
+ * so an unpublished profile draft never leaks to the site.
+ */
+export const getPublicProfile = createServerFn({ method: "GET" }).handler(
+  async (): Promise<ContentItem | null> => {
+    const { data, error } = await publicClient()
+      .from("content_items")
+      .select(CONTENT_COLUMNS)
+      .eq("kind", "profile")
+      .order("sort_order", { ascending: true })
+      .limit(1);
+    if (error || !data || data.length === 0) return null;
+    return toContentItem(data[0] as ContentRow);
+  },
+);
