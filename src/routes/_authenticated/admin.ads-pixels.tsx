@@ -43,6 +43,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { adCampaigns } from "@/lib/social/ad-campaigns";
 import { ChannelAdsManager } from "@/components/admin/ChannelAdsManager";
 import { cn } from "@/lib/utils";
 
