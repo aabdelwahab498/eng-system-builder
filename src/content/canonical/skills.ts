@@ -98,6 +98,9 @@ export const skillGroups: SkillGroup[] = [
       skill("business", { name: "SEO", context: "Technical and content SEO for shipped web products.", emphasis: "primary", featured: true }),
       skill("business", { name: "Social Media Ads", context: "Planning and running paid campaigns on Meta, LinkedIn and TikTok.", emphasis: "primary" }),
       skill("business", { name: "Content Distribution", context: "Publishing work across code, article, image and video platforms." }),
+    ],
+  },
+
 
   {
     id: "databases",
