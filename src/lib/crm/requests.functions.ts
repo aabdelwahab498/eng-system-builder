@@ -70,21 +70,21 @@ const text = (value: unknown, max = 1000) =>
   typeof value === "string" ? value.trim().slice(0, max) : "";
 
 export type SubmitRequestInput = {
-  clientName: string;
-  email?: string;
-  whatsapp?: string;
-  serviceId?: string;
-  serviceTitle?: string;
-  projectName?: string;
-  description?: string;
-  platform?: string;
-  scope?: string;
-  budget?: string;
-  timeline?: string;
-  preferredChannel?: string;
-  attachmentUrl?: string;
-  locale?: string;
-  source?: string;
+  clientName?: string | undefined;
+  email?: string | undefined;
+  whatsapp?: string | undefined;
+  serviceId?: string | undefined;
+  serviceTitle?: string | undefined;
+  projectName?: string | undefined;
+  description?: string | undefined;
+  platform?: string | undefined;
+  scope?: string | undefined;
+  budget?: string | undefined;
+  timeline?: string | undefined;
+  preferredChannel?: string | undefined;
+  attachmentUrl?: string | undefined;
+  locale?: string | undefined;
+  source?: string | undefined;
 };
 
 /** Public: a visitor pressing "Start project" lands a lead in the admin inbox. */
