@@ -85,8 +85,20 @@ export const skillGroups: SkillGroup[] = [
       skill("ai", { name: "AI Agents", context: "Agent workflows used inside the Factory pipeline.", emphasis: "primary", source: "project-documentation" }),
       skill("ai", { name: "AI Automation", context: "Automating multi-step generation and validation work.", source: "project-documentation" }),
       skill("ai", { name: "AI Orchestration", context: "Coordinating multiple AI steps and services.", source: "project-documentation" }),
+      skill("ai", { name: "AI Video Production", context: "Producing cartoon episodes and product clips with generative video models.", emphasis: "primary", featured: true }),
+      skill("ai", { name: "Prompt Engineering", context: "Writing professional production prompts for text, image and video models.", emphasis: "primary", featured: true }),
     ],
   },
+  {
+    id: "business",
+    category: "business",
+    label: { en: "Growth & Marketing", ar: "النمو والتسويق" },
+    description: { en: "Getting the work in front of the right audience.", ar: null },
+    skills: [
+      skill("business", { name: "SEO", context: "Technical and content SEO for shipped web products.", emphasis: "primary", featured: true }),
+      skill("business", { name: "Social Media Ads", context: "Planning and running paid campaigns on Meta, LinkedIn and TikTok.", emphasis: "primary" }),
+      skill("business", { name: "Content Distribution", context: "Publishing work across code, article, image and video platforms." }),
+
   {
     id: "databases",
     category: "databases",
