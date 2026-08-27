@@ -19,6 +19,8 @@ import { pickOrEn } from "@/content/schema";
 import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 
 type ServicesSearch = { service?: string };
 
