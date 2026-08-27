@@ -139,20 +139,16 @@ export function ContactChannelPicker({
           </a>
         )}
 
-        {facebook && (
+        {messengerLink && (
           <a
-            href={facebook.url}
+            href={messengerLink}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => {
-              onSend?.("facebook");
-              void copyMessage("facebook");
-            }}
+            onClick={() => onSend?.("messenger")}
             className={btn}
           >
-            <SocialIcon platform="facebook" />
-            {t.facebook}
-            {copied === "facebook" && <Check className="size-3.5 text-primary" aria-hidden />}
+            <SocialIcon platform="messenger" />
+            {t.messenger}
           </a>
         )}
 
