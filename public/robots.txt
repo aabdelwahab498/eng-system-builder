@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nextnext-gen.com/sitemap.xml
+Sitemap: https://eng-system-builder.lovable.app/sitemap.xml
