@@ -40,6 +40,15 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
         datePublished: loaderData.article.publishedAt,
         dateModified: loaderData.article.updatedAt,
         author: { "@type": "Person", name: "Ahmed Abdelwahab" },
+        ...(data.coverImageUrl
+          ? {
+              image: [
+                data.coverImageUrl.startsWith("http")
+                  ? data.coverImageUrl
+                  : absoluteUrl(data.coverImageUrl),
+              ],
+            }
+          : {}),
       },
     });
   },
