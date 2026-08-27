@@ -1,13 +1,10 @@
 /**
- * Content access layer (Phase 3).
+ * Content access layer (Phase 3 & Phase 1 API Integration).
  *
- * The single boundary between UI and content. Components should read through
- * these getters instead of importing content files directly, so a later move to
- * an API, database or CMS only changes this module.
+ * The single boundary between UI and content. Components read through
+ * these getters instead of importing content files directly.
  *
- * V1 sources the current typed dictionaries; the canonical schema in
- * `./schema` describes the target shape these getters will return once the
- * content migration lands.
+ * Provides static canonical getters and HTTP API adapter hooks for the ASP.NET Core backend.
  */
 
 import type {
@@ -63,8 +60,7 @@ export const getSeo = (locale: Locale, key: MetaKey) => getContent(locale).meta[
 /* ------------------------------------------------------- canonical layer */
 /**
  * Phase 4 canonical getters. These read the canonical content model and apply
- * the publish filter (status + visibility). UI migration happens later; the
- * existing dictionary getters above are unchanged.
+ * the publish filter (status + visibility).
  */
 
 import {
@@ -92,7 +88,7 @@ import type {
 import type { Course } from "./canonical";
 import { isPublishable } from "./schema";
 
-export const getCanonicalProfile = () => canonicalProfile;
+export const getCanonicalProfile = (locale?: Locale) => canonicalProfile;
 
 export const getCanonicalExperience = (category?: ExperienceCategory) => {
   const items = experience.filter(isPublishable);
@@ -167,3 +163,19 @@ export const getPaymentMethods = (currency?: PaymentMethod["currency"]): Payment
 export const getPaymentSteps = () => commercePaymentSteps;
 
 export const getContactNumbers = () => CONTACT_NUMBERS;
+
+/* -------------------------------------------------------- API Adapter exports */
+export {
+  fetchCanonicalProjects,
+  fetchCanonicalProjectBySlug,
+  fetchCanonicalProfile,
+  fetchExperience,
+  fetchEducation,
+  fetchCertifications,
+  fetchSkillGroups,
+  fetchCanonicalServices,
+  fetchCanonicalProducts,
+  fetchCourses,
+  isBackendApiEnabled,
+  prewarmApiCache,
+} from "./api-adapter";

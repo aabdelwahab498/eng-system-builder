@@ -133,6 +133,42 @@ public class CertificationsController : ApiControllerBase
 }
 
 [Route("api/v1/[controller]")]
+public class SkillsController : ApiControllerBase
+{
+    private readonly PortfolioDbContext _db;
+
+    public SkillsController(PortfolioDbContext db)
+    {
+        _db = db;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetSkills()
+    {
+        var groups = await _db.SkillGroups.Include(g => g.Skills).Where(g => g.PublicVisible).ToListAsync();
+        var dtos = groups.Select(g => new SkillGroupDto
+        {
+            Id = g.Category.ToString().ToLowerInvariant(),
+            Category = g.Category.ToString().ToLowerInvariant(),
+            Label = Locale == "ar" && !string.IsNullOrEmpty(g.LabelAr) ? g.LabelAr : g.LabelEn,
+            Description = Locale == "ar" && !string.IsNullOrEmpty(g.DescriptionAr) ? g.DescriptionAr : g.DescriptionEn,
+            Skills = g.Skills.Where(s => s.PortfolioVisible).Select(s => new SkillDto
+            {
+                Name = s.Name,
+                Category = s.Category.ToString().ToLowerInvariant(),
+                Context = Locale == "ar" && !string.IsNullOrEmpty(s.ContextAr) ? s.ContextAr : s.ContextEn,
+                ProficiencyLabel = s.ProficiencyLabel?.ToString().ToLowerInvariant(),
+                Emphasis = s.Emphasis,
+                Featured = s.Featured,
+                PortfolioVisible = s.PortfolioVisible
+            }).ToList()
+        }).ToList();
+
+        return OkResponse(dtos);
+    }
+}
+
+[Route("api/v1/[controller]")]
 public class ProjectsController : ApiControllerBase
 {
     private readonly PortfolioDbContext _db;
@@ -196,6 +232,122 @@ public class ProjectsController : ApiControllerBase
         RepoUrl = p.RepoUrl,
         LiveUrl = p.LiveUrl,
         Featured = p.Featured
+    };
+}
+
+[Route("api/v1/[controller]")]
+public class ProductsController : ApiControllerBase
+{
+    private readonly PortfolioDbContext _db;
+
+    public ProductsController(PortfolioDbContext db)
+    {
+        _db = db;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        var items = await _db.Products.Where(p => p.PublicVisible).ToListAsync();
+        var dtos = items.Select(MapProduct).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("{slug}")]
+    public async Task<IActionResult> GetProductBySlug(string slug)
+    {
+        var item = await _db.Products.FirstOrDefaultAsync(p => p.Slug == slug && p.PublicVisible);
+        if (item == null)
+        {
+            return FailResponse("NOT_FOUND", $"Product with slug '{slug}' was not found.", statusCode: 404);
+        }
+
+        return OkResponse(MapProduct(item));
+    }
+
+    private ProductDto MapProduct(ProductEntity p) => new()
+    {
+        Id = p.Id,
+        Slug = p.Slug,
+        Name = Locale == "ar" && !string.IsNullOrEmpty(p.NameAr) ? p.NameAr : p.NameEn,
+        Category = p.Category.ToString().ToLowerInvariant(),
+        Lifecycle = p.Lifecycle.ToString().ToLowerInvariant(),
+        Tagline = Locale == "ar" && !string.IsNullOrEmpty(p.TaglineAr) ? p.TaglineAr : p.TaglineEn,
+        Summary = Locale == "ar" && !string.IsNullOrEmpty(p.SummaryAr) ? p.SummaryAr : p.SummaryEn,
+        Description = Locale == "ar" && !string.IsNullOrEmpty(p.DescriptionAr) ? p.DescriptionAr : p.DescriptionEn,
+        Features = Locale == "ar" && p.FeaturesAr.Count > 0 ? p.FeaturesAr : p.FeaturesEn,
+        Technologies = p.Technologies,
+        ExternalUrl = p.ExternalUrl,
+        DemoUrl = p.DemoUrl
+    };
+}
+
+[Route("api/v1/[controller]")]
+public class ServicesController : ApiControllerBase
+{
+    private readonly PortfolioDbContext _db;
+
+    public ServicesController(PortfolioDbContext db)
+    {
+        _db = db;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetServices()
+    {
+        var items = await _db.Services.Where(s => s.PublicVisible).ToListAsync();
+        var dtos = items.Select(s => new ServiceDto
+        {
+            Id = s.Id,
+            Title = Locale == "ar" && !string.IsNullOrEmpty(s.TitleAr) ? s.TitleAr : s.TitleEn,
+            Summary = Locale == "ar" && !string.IsNullOrEmpty(s.SummaryAr) ? s.SummaryAr : s.SummaryEn,
+            Description = Locale == "ar" && !string.IsNullOrEmpty(s.DescriptionAr) ? s.DescriptionAr : s.DescriptionEn,
+            Capabilities = Locale == "ar" && s.CapabilitiesAr.Count > 0 ? s.CapabilitiesAr : s.CapabilitiesEn,
+            Deliverables = Locale == "ar" && s.DeliverablesAr.Count > 0 ? s.DeliverablesAr : s.DeliverablesEn,
+            IdealFor = Locale == "ar" && s.IdealForAr.Count > 0 ? s.IdealForAr : s.IdealForEn
+        }).ToList();
+
+        return OkResponse(dtos);
+    }
+}
+
+[Route("api/v1/[controller]")]
+public class CoursesController : ApiControllerBase
+{
+    private readonly PortfolioDbContext _db;
+
+    public CoursesController(PortfolioDbContext db)
+    {
+        _db = db;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetCourses()
+    {
+        var items = await _db.Courses.Where(c => c.PublicVisible).OrderBy(c => c.Order).ToListAsync();
+        var dtos = items.Select(MapCourse).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("{slug}")]
+    public async Task<IActionResult> GetCourseBySlug(string slug)
+    {
+        var item = await _db.Courses.FirstOrDefaultAsync(c => c.Slug == slug && c.PublicVisible);
+        if (item == null)
+        {
+            return FailResponse("NOT_FOUND", $"Course with slug '{slug}' was not found.", statusCode: 404);
+        }
+
+        return OkResponse(MapCourse(item));
+    }
+
+    private CourseDto MapCourse(CourseEntity c) => new()
+    {
+        Id = c.Id,
+        Slug = c.Slug,
+        Title = Locale == "ar" && !string.IsNullOrEmpty(c.TitleAr) ? c.TitleAr : c.TitleEn,
+        Order = c.Order,
+        Url = c.Url
     };
 }
 
