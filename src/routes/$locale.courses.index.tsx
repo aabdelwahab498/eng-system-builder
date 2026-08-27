@@ -9,7 +9,11 @@ import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
 import type { Locale } from "@/types/content";
 
+type CoursesSearch = { course?: string };
+
 export const Route = createFileRoute("/$locale/courses/")({
+  validateSearch: (search: Record<string, unknown>): CoursesSearch =>
+    typeof search["course"] === "string" ? { course: search["course"] } : {},
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const isAr = locale === "ar";
