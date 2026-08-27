@@ -7,6 +7,8 @@ import {
   siSnapchat,
   siX,
   siYoutube,
+  siGmail,
+  siMicrosoftoutlook,
 } from "simple-icons";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +25,8 @@ const PATHS: Partial<Record<SocialPlatform, string>> = {
   snapchat: siSnapchat.path,
   x: siX.path,
   youtube: siYoutube.path,
+  gmail: siGmail.path,
+  outlook: siMicrosoftoutlook.path,
 };
 
 export type SocialPlatform =
