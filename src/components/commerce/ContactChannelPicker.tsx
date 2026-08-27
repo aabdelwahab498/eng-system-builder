@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Check, Copy, Mail } from "lucide-react";
+import { Check, Mail } from "lucide-react";
 
-import { SocialIcon, type SocialPlatform } from "@/components/site/SocialIcon";
+import { SocialIcon } from "@/components/site/SocialIcon";
 import { socialLinks, contact } from "@/content/canonical/profile";
 import { whatsappLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
