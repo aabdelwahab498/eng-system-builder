@@ -85,11 +85,11 @@ import type {
   CanonicalProduct,
   CanonicalProject,
   CanonicalService,
-  Course,
   CvVariant,
   ExperienceCategory,
   SkillGroup,
 } from "./schema";
+import type { Course } from "./canonical";
 import { isPublishable } from "./schema";
 
 export const getCanonicalProfile = () => canonicalProfile;
