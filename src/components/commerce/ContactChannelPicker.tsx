@@ -49,6 +49,8 @@ export function ContactChannelPicker({
 
   const email = contact.find((c) => c.kind === "email" && c.visibility.public)?.value;
   const facebook = socialLinks.find((s) => s.platform === "facebook" && s.visibility.public);
+  /** Extract the numeric Facebook page/user id to build an m.me Messenger deep link. */
+  const fbId = facebook?.url.match(/id=(\d+)/)?.[1] ?? facebook?.url.match(/facebook\.com\/([^/?#]+)/)?.[1];
 
   const copyMessage = async (key: string) => {
     try {
