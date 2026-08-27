@@ -131,6 +131,11 @@ export const getCanonicalProduct = (slug: string) =>
 export const getCanonicalServices = (): CanonicalService[] =>
   canonicalServices.filter(isPublishable);
 
+export const getCourses = (): Course[] =>
+  [...canonicalCourses].sort((a, b) => a.order - b.order);
+
+export const getCourse = (slug: string) => getCourses().find((c) => c.slug === slug);
+
 export const getCanonicalContact = () => canonicalProfile.contact.filter(isPublishable);
 export const getCanonicalSocialLinks = () => canonicalProfile.socialLinks.filter(isPublishable);
 
