@@ -1,7 +1,7 @@
 import { Mail } from "lucide-react";
 
 import { SocialIcon } from "@/components/site/SocialIcon";
-import { socialLinks, contact } from "@/content/canonical/profile";
+import { NEXTGEN_CONTACT, NEXTGEN_FACEBOOK_ID } from "@/content/canonical/channels";
 import { whatsappLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/content";
@@ -45,32 +45,23 @@ export function ContactChannelPicker({
 }) {
   const t = copy[locale] ?? copy.en;
 
-  const email = contact.find((c) => c.kind === "email" && c.visibility.public)?.value;
-  const facebook = socialLinks.find((s) => s.platform === "facebook" && s.visibility.public);
-  /** Extract the numeric Facebook page/user id to build an m.me Messenger deep link. */
-  const fbId = facebook?.url.match(/id=(\d+)/)?.[1] ?? facebook?.url.match(/facebook\.com\/([^/?#]+)/)?.[1];
+  // Canonical NextGen contact identity — single source of truth.
+  const email = NEXTGEN_CONTACT.gmail.value;
+  const fbId = NEXTGEN_FACEBOOK_ID;
 
   const subject = encodeURIComponent(t.subject);
   const body = encodeURIComponent(message);
 
-  const mailto = email
-    ? `mailto:${email}?subject=${subject}&body=${body}`
-    : null;
+  const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
 
   /** Gmail compose URL carrying the request automatically. */
-  const gmailLink = email
-    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${subject}&body=${body}`
-    : null;
+  const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${subject}&body=${body}`;
 
-  /** Outlook compose URL carrying the request automatically. */
-  const outlookLink = email
-    ? `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(email)}&subject=${subject}&body=${body}`
-    : null;
+  /** Outlook compose URL carrying the request automatically (same identity). */
+  const outlookLink = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(email)}&subject=${subject}&body=${body}`;
 
   /** Facebook Messenger deep link — opens a chat with the prefilled request. */
-  const messengerLink = fbId
-    ? `https://m.me/${fbId}?text=${body}`
-    : null;
+  const messengerLink = `https://m.me/${fbId}?text=${body}`;
 
   const primaryBtn =
     "inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90";
