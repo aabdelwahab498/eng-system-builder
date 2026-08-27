@@ -407,7 +407,7 @@ function ProjectRequestPanel({
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.platform}</span>
           <select className={field} value={form.platform} onChange={(e) => set("platform")(e.target.value)}>
-            {t.platformOptions.map((o) => (
+            {platformOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>
@@ -415,11 +415,31 @@ function ProjectRequestPanel({
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.scope}</span>
           <select className={field} value={form.scope} onChange={(e) => set("scope")(e.target.value)}>
-            {t.scopeOptions.map((o) => (
+            {scopeOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>
         </label>
+        {config.extraFields.map((f) => (
+          <label key={f.key} className={cn("space-y-1.5", f.kind === "text" && "md:col-span-2")}>
+            <span className="text-xs text-muted-foreground">{pickOrEn(f.label, locale)}</span>
+            {f.kind === "select" ? (
+              <select className={field} value={form[f.key]} onChange={(e) => set(f.key)(e.target.value)}>
+                {(f.options ? pickOrEn(f.options, locale) : []).map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                className={field}
+                maxLength={300}
+                placeholder={f.placeholder}
+                value={form[f.key]}
+                onChange={(e) => set(f.key)(e.target.value)}
+              />
+            )}
+          </label>
+        ))}
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.comms}</span>
           <select className={field} value={form.comms} onChange={(e) => set("comms")(e.target.value)}>
