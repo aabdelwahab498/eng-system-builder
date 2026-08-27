@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Clock, Headphones, Mail, Phone } from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
-import { ContactIntent } from "@/components/site/ContactIntent";
+import { ContactForm } from "@/components/site/ContactForm";
 import { SocialIcon, SOCIAL_LABEL, type SocialPlatform } from "@/components/site/SocialIcon";
+import { NEXTGEN_CONTACT } from "@/content/canonical/channels";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalContact, getCanonicalSocialLinks } from "@/content/api";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
