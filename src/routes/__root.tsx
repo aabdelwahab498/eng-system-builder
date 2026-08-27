@@ -129,7 +129,7 @@ function RootShell({ children }: { children: ReactNode }) {
   const t = getContent(locale);
 
   return (
-    <html lang={t.htmlLang} dir={t.dir} className="dark" suppressHydrationWarning>
+    <html lang={t.htmlLang || "en"} dir={t.dir} className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
