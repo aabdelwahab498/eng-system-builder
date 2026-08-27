@@ -118,6 +118,8 @@ function ServicesPage() {
   const t = copy[locale] ?? copy.en;
   const offerings = getServiceOfferings();
   const search = Route.useSearch() as { service?: string };
+  // eslint-disable-next-line no-console
+  console.log("[services] search=", JSON.stringify(search));
   const [selectedId, setSelectedId] = useState<string | null>(search.service ?? null);
 
   const core = offerings.filter((s) => s.tier === "core");
