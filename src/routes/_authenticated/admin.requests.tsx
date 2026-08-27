@@ -13,7 +13,7 @@ import {
   type ServiceRequestRow,
 } from "@/lib/crm/requests.functions";
 import { socialLinks, contact } from "@/content/canonical/profile";
-import { NEXTGEN_CHANNELS } from "@/content/canonical/commerce";
+import { NEXTGEN_CONTACT, NEXTGEN_CHANNELS } from "@/content/canonical/channels";
 import { SocialIcon, type SocialPlatform } from "@/components/site/SocialIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -186,6 +186,16 @@ function RequestsPage() {
           <Button asChild size="sm" variant="outline" className="gap-2">
             <a href={NEXTGEN_CHANNELS.facebook} target="_blank" rel="noreferrer">
               <SocialIcon platform="facebook" /> Facebook
+            </a>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="gap-2">
+            <a href={`mailto:${NEXTGEN_CONTACT.gmail.value}`} target="_blank" rel="noreferrer">
+              <Mail className="h-4 w-4" /> Gmail
+            </a>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="gap-2">
+            <a href={NEXTGEN_CHANNELS.outlook} target="_blank" rel="noreferrer">
+              <SocialIcon platform="outlook" /> Outlook
             </a>
           </Button>
         </div>
