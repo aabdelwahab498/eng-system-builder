@@ -194,13 +194,16 @@ function ServicesPage() {
         </Section>
       )}
 
-      {selected && (
-        <Section eyebrow={t.request} title={t.request} subtitle={t.requestIntro}>
-          <div id="project-request" className="scroll-mt-28">
-            <ProjectRequestPanel service={selected} t={t} locale={locale} />
-          </div>
-        </Section>
-      )}
+      <Dialog open={open && Boolean(selected)} onOpenChange={setOpen}>
+        <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t.request}</DialogTitle>
+            <DialogDescription>{t.requestIntro}</DialogDescription>
+          </DialogHeader>
+          {selected && <ProjectRequestPanel service={selected} t={t} locale={locale} />}
+        </DialogContent>
+      </Dialog>
+
 
       <Section eyebrow={t.structure} title={t.structure} subtitle={t.structureIntro}>
         <PaymentTimeline />
