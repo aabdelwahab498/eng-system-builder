@@ -381,6 +381,19 @@ function ProjectRequestPanel({
       <p className="mt-1 font-display text-xl font-medium text-foreground">
         {pickOrEn(service.title, locale)}
       </p>
+      <p className="mt-1 text-sm text-muted-foreground">{pickOrEn(service.description, locale)}</p>
+
+      <p className="eyebrow mt-4">{t.deliverables}</p>
+      <ul className="mt-1.5 flex flex-wrap gap-1.5">
+        {pickOrEn(service.deliverables, locale).map((d) => (
+          <li
+            key={d}
+            className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground"
+          >
+            {d}
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <label className="space-y-1.5 md:col-span-2">
