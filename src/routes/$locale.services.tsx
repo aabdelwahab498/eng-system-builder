@@ -364,7 +364,7 @@ function ProjectRequestPanel({
     `Platform: ${form.platform}`,
     `Scope: ${form.scope}`,
     ...config.extraFields
-      .map((f) => form[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${form[f.key]}`)
+      .map((f) => extras[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${extras[f.key]}`)
       .filter(Boolean),
     `Preferred contact: ${form.comms}`,
     form.clientName && `Name: ${form.clientName}`,
@@ -427,7 +427,7 @@ function ProjectRequestPanel({
           <label key={f.key} className={cn("space-y-1.5", f.kind === "text" && "md:col-span-2")}>
             <span className="text-xs text-muted-foreground">{pickOrEn(f.label, locale)}</span>
             {f.kind === "select" ? (
-              <select className={field} value={form[f.key]} onChange={(e) => set(f.key)(e.target.value)}>
+              <select className={field} value={extras[f.key] ?? ""} onChange={(e) => setExtra(f.key)(e.target.value)}>
                 {(f.options ? pickOrEn(f.options, locale) : []).map((o) => (
                   <option key={o}>{o}</option>
                 ))}
@@ -437,8 +437,8 @@ function ProjectRequestPanel({
                 className={field}
                 maxLength={300}
                 placeholder={f.placeholder}
-                value={form[f.key]}
-                onChange={(e) => set(f.key)(e.target.value)}
+                value={extras[f.key] ?? ""}
+                onChange={(e) => setExtra(f.key)(e.target.value)}
               />
             )}
           </label>
