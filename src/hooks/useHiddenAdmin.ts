@@ -32,7 +32,10 @@ export function useHiddenAdmin() {
     });
 
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
+      // e.code ("KeyA") is layout-independent, so the shortcut still fires
+      // when an Arabic keyboard layout is active (e.key would be "ش").
+      const isA = e.code === "KeyA" || e.key.toLowerCase() === "a";
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && isA) {
         e.preventDefault();
         const next = localStorage.getItem(STORAGE_KEY) === "1" ? null : "1";
         if (next) localStorage.setItem(STORAGE_KEY, next);
