@@ -15,6 +15,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { getContent } from "@/content";
 import { getServiceOfferings } from "@/content/api";
+import { defaultServiceRequestConfig, serviceRequestConfigs } from "@/content/canonical/service-requests";
 import { pickOrEn } from "@/content/schema";
 import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
@@ -198,11 +199,22 @@ function ServicesPage() {
 
       <Dialog open={open && Boolean(selected)} onOpenChange={setOpen}>
         <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{t.request}</DialogTitle>
-            <DialogDescription>{t.requestIntro}</DialogDescription>
-          </DialogHeader>
-          {selected && <ProjectRequestPanel service={selected} t={t} locale={locale} />}
+          {selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-md border border-border-strong text-primary">
+                    <ServiceIcon name={selected.icon} className="size-5" />
+                  </span>
+                  {pickOrEn(selected.title, locale)}
+                </DialogTitle>
+                <DialogDescription>
+                  {pickOrEn((serviceRequestConfigs[selected.id] ?? defaultServiceRequestConfig).brief, locale)}
+                </DialogDescription>
+              </DialogHeader>
+              <ProjectRequestPanel key={selected.id} service={selected} t={t} locale={locale} />
+            </>
+          )}
         </DialogContent>
       </Dialog>
 
@@ -295,19 +307,32 @@ function ProjectRequestPanel({
   t: Copy;
   locale: Locale;
 }) {
+  const config = serviceRequestConfigs[service.id] ?? defaultServiceRequestConfig;
+  const platformOptions = pickOrEn(config.platformOptions, locale);
+  const scopeOptions = pickOrEn(config.scopeOptions, locale);
+
   const [form, setForm] = useState({
     projectName: "",
     description: "",
-    platform: t.platformOptions[0],
-    scope: t.scopeOptions[0],
+    platform: platformOptions[0],
+    scope: scopeOptions[0],
     comms: t.commsOptions[0],
     clientName: "",
     email: "",
     whatsapp: "",
     attachment: "",
   });
+  const [extras, setExtras] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      config.extraFields.map((f): [string, string] => [
+        f.key,
+        (f.kind === "select" && f.options ? pickOrEn(f.options, locale)[0] : "") ?? "",
+      ]),
+    ),
+  );
 
   const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const setExtra = (key: string) => (value: string) => setExtras((f) => ({ ...f, [key]: value }));
   const sentRef = useRef(false);
 
   /** Land the enquiry in the admin inbox the moment the visitor dispatches it. */
@@ -341,6 +366,9 @@ function ProjectRequestPanel({
     form.description && `Description: ${form.description}`,
     `Platform: ${form.platform}`,
     `Scope: ${form.scope}`,
+    ...config.extraFields
+      .map((f) => extras[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${extras[f.key]}`)
+      .filter(Boolean),
     `Preferred contact: ${form.comms}`,
     form.clientName && `Name: ${form.clientName}`,
     form.email && `Email: ${form.email}`,
@@ -359,6 +387,19 @@ function ProjectRequestPanel({
       <p className="mt-1 font-display text-xl font-medium text-foreground">
         {pickOrEn(service.title, locale)}
       </p>
+      <p className="mt-1 text-sm text-muted-foreground">{pickOrEn(service.description, locale)}</p>
+
+      <p className="eyebrow mt-4">{t.deliverables}</p>
+      <ul className="mt-1.5 flex flex-wrap gap-1.5">
+        {pickOrEn(service.deliverables, locale).map((d) => (
+          <li
+            key={d}
+            className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground"
+          >
+            {d}
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <label className="space-y-1.5 md:col-span-2">
@@ -372,7 +413,7 @@ function ProjectRequestPanel({
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.platform}</span>
           <select className={field} value={form.platform} onChange={(e) => set("platform")(e.target.value)}>
-            {t.platformOptions.map((o) => (
+            {platformOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>
@@ -380,11 +421,31 @@ function ProjectRequestPanel({
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.scope}</span>
           <select className={field} value={form.scope} onChange={(e) => set("scope")(e.target.value)}>
-            {t.scopeOptions.map((o) => (
+            {scopeOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>
         </label>
+        {config.extraFields.map((f) => (
+          <label key={f.key} className={cn("space-y-1.5", f.kind === "text" && "md:col-span-2")}>
+            <span className="text-xs text-muted-foreground">{pickOrEn(f.label, locale)}</span>
+            {f.kind === "select" ? (
+              <select className={field} value={extras[f.key] ?? ""} onChange={(e) => setExtra(f.key)(e.target.value)}>
+                {(f.options ? pickOrEn(f.options, locale) : []).map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                className={field}
+                maxLength={300}
+                placeholder={f.placeholder}
+                value={extras[f.key] ?? ""}
+                onChange={(e) => setExtra(f.key)(e.target.value)}
+              />
+            )}
+          </label>
+        ))}
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.comms}</span>
           <select className={field} value={form.comms} onChange={(e) => set("comms")(e.target.value)}>
