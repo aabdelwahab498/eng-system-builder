@@ -42,12 +42,13 @@ function CvPage() {
 
   return (
     <>
-      <PageHeader
-        className="no-print"
-        eyebrow={t.ui.cv}
-        title={cv.profile.identity.professionalName}
-        subtitle={pickOrEn(cv.profile.positioning.shortHeadline, locale)}
-      />
+      <div className="no-print">
+        <PageHeader
+          eyebrow={t.ui.cv}
+          title={cv.profile.identity.professionalName}
+          subtitle={pickOrEn(cv.profile.positioning.shortHeadline, locale)}
+        />
+      </div>
 
       <Section>
         <div className="no-print mb-10 flex flex-wrap items-center gap-3">
