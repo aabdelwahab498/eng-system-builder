@@ -3,7 +3,7 @@ import { Send } from "lucide-react";
 
 import { ContactChannelPicker } from "@/components/commerce/ContactChannelPicker";
 import { getCanonicalServices } from "@/content/api";
-import { localize } from "@/content/schema";
+import { pickOrEn } from "@/content/schema";
 import type { Locale } from "@/types/content";
 
 const copy = {
@@ -46,7 +46,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
     () =>
       getCanonicalServices().map((s) => ({
         id: s.id,
-        title: localize(s.title, locale) ?? localize(s.title, "en") ?? s.id,
+        title: pickOrEn(s.title, locale),
       })),
     [locale],
   );
