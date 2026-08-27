@@ -48,7 +48,7 @@ public class ContractTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetProjectBySlug_ShouldReturn200ForValidSlug()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/api/v1/projects/eng-system-builder");
+        var response = await client.GetAsync("/api/v1/projects/nextnext-gen-hub");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
