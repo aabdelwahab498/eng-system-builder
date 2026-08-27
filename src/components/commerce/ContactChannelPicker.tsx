@@ -44,22 +44,11 @@ export function ContactChannelPicker({
   onSend?: (channel: string) => void;
 }) {
   const t = copy[locale] ?? copy.en;
-  const [copied, setCopied] = useState<string | null>(null);
 
   const email = contact.find((c) => c.kind === "email" && c.visibility.public)?.value;
   const facebook = socialLinks.find((s) => s.platform === "facebook" && s.visibility.public);
   /** Extract the numeric Facebook page/user id to build an m.me Messenger deep link. */
   const fbId = facebook?.url.match(/id=(\d+)/)?.[1] ?? facebook?.url.match(/facebook\.com\/([^/?#]+)/)?.[1];
-
-  const copyMessage = async (key: string) => {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopied(key);
-      setTimeout(() => setCopied((c) => (c === key ? null : c)), 2500);
-    } catch {
-      /* clipboard unavailable — the user can still type manually */
-    }
-  };
 
   const subject = encodeURIComponent(t.subject);
   const body = encodeURIComponent(message);
