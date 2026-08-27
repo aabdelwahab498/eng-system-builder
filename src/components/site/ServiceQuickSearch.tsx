@@ -1,53 +1,99 @@
 import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Search, X } from "lucide-react";
-import { getServiceOfferings } from "@/content/api";
+import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
+import { getCourses, getServiceOfferings } from "@/content/api";
 import { pickOrEn } from "@/content/schema";
 import { useLocale } from "@/hooks/useLocale";
 import { cn } from "@/lib/utils";
 
+type ResultKind = "service" | "course";
+
+type SearchResult = {
+  id: string;
+  kind: ResultKind;
+  title: string;
+  /** Localized strings used for matching. */
+  matchText: string;
+};
+
 /**
  * Compact live search that lets homepage visitors jump straight to a service
- * (and its request form) without browsing the services index first.
+ * (and its request form) or a course without browsing the indexes first.
  */
 export function ServiceQuickSearch({ className }: { className?: string }) {
   const { locale } = useLocale();
   const navigate = useNavigate();
   const offerings = useMemo(() => getServiceOfferings(), []);
+  const courseList = useMemo(() => getCourses(), []);
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const q = query.trim().toLowerCase();
-  const results = useMemo(() => {
+  const results = useMemo<SearchResult[]>(() => {
     if (!q) return [];
-    return offerings
+    const fromServices: SearchResult[] = offerings
       .filter(
         (s) =>
           pickOrEn(s.title, locale).toLowerCase().includes(q) ||
           pickOrEn(s.description, locale).toLowerCase().includes(q) ||
           pickOrEn(s.deliverables, locale).some((d) => d.toLowerCase().includes(q)),
       )
-      .slice(0, 6);
-  }, [q, offerings, locale]);
+      .map((s) => ({
+        id: s.id,
+        kind: "service" as const,
+        title: pickOrEn(s.title, locale),
+        matchText: [
+          pickOrEn(s.title, locale),
+          pickOrEn(s.description, locale),
+          ...pickOrEn(s.deliverables, locale),
+        ].join(" "),
+      }));
+
+    const fromCourses: SearchResult[] = courseList
+      .filter(
+        (c) =>
+          pickOrEn(c.title, locale).toLowerCase().includes(q) ||
+          pickOrEn(c.summary, locale).toLowerCase().includes(q) ||
+          pickOrEn(c.description, locale).toLowerCase().includes(q) ||
+          pickOrEn(c.keywords, locale).some((k) => k.toLowerCase().includes(q)),
+      )
+      .map((c) => ({
+        id: c.id,
+        kind: "course" as const,
+        title: pickOrEn(c.title, locale),
+        matchText: [
+          pickOrEn(c.title, locale),
+          pickOrEn(c.summary, locale),
+          pickOrEn(c.description, locale),
+          ...pickOrEn(c.keywords, locale),
+        ].join(" "),
+      }));
+
+    return [...fromServices, ...fromCourses].slice(0, 6);
+  }, [q, offerings, courseList, locale]);
 
   const copy =
     locale === "ar"
       ? {
-          label: "بحث سريع عن الخدمة",
-          hint: "اكتب اسم الخدمة أو الكلمة المفتاحية…",
+          label: "بحث سريع عن خدمة أو كورس",
+          hint: "اكتب اسم الخدمة أو الكورس أو الكلمة المفتاحية…",
           none: "لا توجد نتائج مطابقة",
         }
       : {
-          label: "Quick service search",
-          hint: "Type a service name or keyword…",
-          none: "No matching services",
+          label: "Quick service or course search",
+          hint: "Type a service or course name or keyword…",
+          none: "No matching services or courses",
         };
 
-  const pick = (id: string) => {
+  const pick = (result: SearchResult) => {
     setQuery("");
     setFocused(false);
-    void navigate({ to: "/$locale/services", params: { locale }, search: { service: id } });
+    if (result.kind === "service") {
+      void navigate({ to: "/$locale/services", params: { locale }, search: { service: result.id } });
+    } else {
+      void navigate({ to: "/$locale/courses", params: { locale }, search: { course: result.id } });
+    }
   };
 
   const showList = focused && q.length > 0;
@@ -94,17 +140,22 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
           {results.length === 0 ? (
             <li className="px-4 py-3 font-mono text-sm text-muted-foreground">{copy.none}</li>
           ) : (
-            results.map((s) => (
-              <li key={s.id}>
+            results.map((r) => (
+              <li key={`${r.kind}-${r.id}`}>
                 <button
                   type="button"
                   onMouseDown={(e) => {
                     e.preventDefault();
-                    pick(s.id);
+                    pick(r);
                   }}
                   className="flex w-full items-center justify-between gap-3 px-4 py-3 text-start text-sm transition-colors hover:bg-primary/10"
                 >
-                  <span className="text-foreground">{pickOrEn(s.title, locale)}</span>
+                  <span className="flex items-center gap-2 text-foreground">
+                    {r.kind === "course" && (
+                      <GraduationCap className="size-4 shrink-0 text-primary" aria-hidden />
+                    )}
+                    {r.title}
+                  </span>
                   <ArrowRight className="size-4 shrink-0 text-primary rtl:rotate-180" aria-hidden />
                 </button>
               </li>
