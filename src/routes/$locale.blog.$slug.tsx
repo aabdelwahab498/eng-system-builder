@@ -2,7 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Section } from "@/components/site/Section";
 import { Markdown } from "@/lib/cms/markdown";
 import { getPublicArticle } from "@/lib/cms/public.functions";
-import { buildHead } from "@/lib/seo";
+import { absoluteUrl, buildHead } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 import type { ArticleData } from "@/lib/cms/types";
 
