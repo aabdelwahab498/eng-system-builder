@@ -311,7 +311,7 @@ function ProjectRequestPanel({
   const platformOptions = pickOrEn(config.platformOptions, locale);
   const scopeOptions = pickOrEn(config.scopeOptions, locale);
 
-  const [form, setForm] = useState<Record<string, string>>({
+  const [form, setForm] = useState({
     projectName: "",
     description: "",
     platform: platformOptions[0],
@@ -321,12 +321,15 @@ function ProjectRequestPanel({
     email: "",
     whatsapp: "",
     attachment: "",
-    ...Object.fromEntries(
-      config.extraFields.map((f) => [f.key, f.kind === "select" ? (f.options ? pickOrEn(f.options, locale)[0] : "") : ""]),
-    ),
   });
+  const [extras, setExtras] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      config.extraFields.map((f) => [f.key, f.kind === "select" && f.options ? pickOrEn(f.options, locale)[0] : ""]),
+    ),
+  );
 
-  const set = (key: string) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const setExtra = (key: string) => (value: string) => setExtras((f) => ({ ...f, [key]: value }));
   const sentRef = useRef(false);
 
   /** Land the enquiry in the admin inbox the moment the visitor dispatches it. */
