@@ -80,6 +80,8 @@ export const SOCIAL_LABEL: Record<SocialPlatform, string> = {
   snapchat: "Snapchat",
   x: "X",
   youtube: "YouTube",
+  gmail: "Gmail",
+  outlook: "Outlook",
   medium: "Medium",
   other: "Link",
 };
