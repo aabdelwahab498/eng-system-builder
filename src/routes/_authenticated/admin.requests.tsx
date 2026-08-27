@@ -99,7 +99,11 @@ function RequestsPage() {
   const [pendingDelete, setPendingDelete] = useState<ServiceRequestRow | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
 
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["admin", "service-requests"],
     queryFn: () => list(),
   });
@@ -272,7 +276,13 @@ function RequestsPage() {
                       {r.project_name ? ` — ${r.project_name}` : ""}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {[r.platform, r.scope, r.budget, r.timeline, r.preferred_channel && `prefers ${r.preferred_channel}`]
+                      {[
+                        r.platform,
+                        r.scope,
+                        r.budget,
+                        r.timeline,
+                        r.preferred_channel && `prefers ${r.preferred_channel}`,
+                      ]
                         .filter(Boolean)
                         .join(" · ")}
                     </p>
@@ -352,7 +362,12 @@ function RequestsPage() {
                       </a>
                     </Button>
                   ))}
-                  <Button size="sm" variant="ghost" className="gap-2" onClick={() => void copyReply(r)}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="gap-2"
+                    onClick={() => void copyReply(r)}
+                  >
                     {copied === r.id ? (
                       <Check className="h-4 w-4 text-primary" />
                     ) : (

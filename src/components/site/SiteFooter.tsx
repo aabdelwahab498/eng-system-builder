@@ -16,10 +16,14 @@ export function SiteFooter() {
 
       <Container className="flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <p>© {new Date().getFullYear()} {t.profile.displayName}</p>
+          <p>
+            © {new Date().getFullYear()} {t.profile.displayName}
+          </p>
           {adminVisible && (
             <>
-              <span aria-hidden className="opacity-30">·</span>
+              <span aria-hidden className="opacity-30">
+                ·
+              </span>
               <Link
                 to="/admin"
                 className="inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 font-mono transition-colors hover:bg-accent hover:text-foreground"

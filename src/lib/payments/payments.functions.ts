@@ -33,7 +33,7 @@ export const PAYMENT_STATUS_OPTIONS = [
 const COLUMNS =
   "id, client_name, email, whatsapp, service_id, service_title, project_name, amount, currency, method_id, proof_path, proof_filename, proof_type, proof_size_bytes, status, note, created_at, updated_at";
 
-type Ctx = { supabase: any; userId: string };
+type Ctx = { supabase: unknown; userId: string };
 
 async function assertAdmin(context: Ctx) {
   const { data, error } = await context.supabase.rpc("has_role", {

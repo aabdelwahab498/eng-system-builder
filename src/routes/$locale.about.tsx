@@ -24,27 +24,38 @@ export const Route = createFileRoute("/$locale/about")({
       path: "/about",
       title: m.title,
       description: m.description,
-      jsonLd: [breadcrumbs(locale, [
-        { name: getContent(locale).profile.displayName, path: "" },
-        { name: getContent(locale).ui.about, path: "/about" },
-      ]), {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: getContent(locale).profile.displayName,
-        description: m.description,
-        alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
-        knowsAbout: [
-          "C#", ".NET", "ASP.NET Core", "TypeScript", "React",
-          "Python", "FastAPI", "Docker", "AI agents", "System design",
-        ],
-        hasCredential: {
-          "@type": "EducationalOccupationalCredential",
-          credentialCategory: "Bachelor of Engineering — Computer Science",
-          educationalLevel: "Bachelor",
-          recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
-          dateCreated: "2020",
+      jsonLd: [
+        breadcrumbs(locale, [
+          { name: getContent(locale).profile.displayName, path: "" },
+          { name: getContent(locale).ui.about, path: "/about" },
+        ]),
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: getContent(locale).profile.displayName,
+          description: m.description,
+          alumniOf: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+          knowsAbout: [
+            "C#",
+            ".NET",
+            "ASP.NET Core",
+            "TypeScript",
+            "React",
+            "Python",
+            "FastAPI",
+            "Docker",
+            "AI agents",
+            "System design",
+          ],
+          hasCredential: {
+            "@type": "EducationalOccupationalCredential",
+            credentialCategory: "Bachelor of Engineering — Computer Science",
+            educationalLevel: "Bachelor",
+            recognizedBy: { "@type": "CollegeOrUniversity", name: "Cairo University" },
+            dateCreated: "2020",
+          },
         },
-      }],
+      ],
     });
   },
   component: AboutPage,
@@ -68,7 +79,12 @@ function AboutPage() {
 
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.about, path: "/about" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.about, path: "/about" },
+        ]}
+      />
       <PageHeader
         eyebrow={t.ui.about}
         title={displayName.replace(/^Eng\.\s*/, "")}
@@ -79,7 +95,9 @@ function AboutPage() {
           <AboutAvatar
             src={aboutHero.url}
             alt={`${displayName} — ${positioning}`}
-            fallbackInitials={displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"}
+            fallbackInitials={
+              displayName.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2) || "AA"
+            }
             className="size-40 sm:size-52 lg:size-60"
           />
         }
@@ -87,16 +105,11 @@ function AboutPage() {
 
       <Section eyebrow={t.ui.overview} title={statement}>
         {profileLocation && (
-          <p className="mb-6 font-mono text-[11px] text-muted-foreground">
-            {profileLocation}
-          </p>
+          <p className="mb-6 font-mono text-[11px] text-muted-foreground">{profileLocation}</p>
         )}
         <div className="max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground">
           {shortBio && <p>{shortBio}</p>}
-          {longBio &&
-            longBio.split("\n\n").map((para, idx) => (
-              <p key={idx}>{para}</p>
-            ))}
+          {longBio && longBio.split("\n\n").map((para, idx) => <p key={idx}>{para}</p>)}
           {!shortBio && !longBio && (
             <p className="rounded-lg border border-dashed border-border-strong bg-surface/40 px-6 py-8 text-sm">
               {t.ui.contentPending}
@@ -165,7 +178,11 @@ function AboutPage() {
       <Section eyebrow="Philosophy" title={t.ui.about}>
         <div className="grid gap-6 sm:grid-cols-2">
           {t.profile.philosophy.map((p, i) => (
-            <Reveal key={p.title} delay={i * 60} className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+            <Reveal
+              key={p.title}
+              delay={i * 60}
+              className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8"
+            >
               <h3 className="font-display text-lg font-medium">{p.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
             </Reveal>
@@ -173,7 +190,9 @@ function AboutPage() {
         </div>
         <Reveal className="mt-10 rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
           <p className="eyebrow">{t.ui.cv}</p>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t.ui.cvIntro}</p>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {t.ui.cvIntro}
+          </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link
               to="/$locale/cv"
@@ -211,12 +230,27 @@ function AboutPage() {
                   {t.profile.experience
                     .filter((e) => e.kind === "engineering")
                     .map((e, i) => (
-                      <Reveal as="li" key={e.role} delay={i * 60} className="bg-surface/70 px-6 py-6">
+                      <Reveal
+                        as="li"
+                        key={e.role}
+                        delay={i * 60}
+                        className="bg-surface/70 px-6 py-6"
+                      >
                         <p className="font-display text-base font-medium">{e.role}</p>
-                        {e.org && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.org}</p>}
-                        {e.period && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{e.period}</p>}
+                        {e.org && (
+                          <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                            {e.org}
+                          </p>
+                        )}
+                        {e.period && (
+                          <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                            {e.period}
+                          </p>
+                        )}
                         {e.summary && (
-                          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.summary}</p>
+                          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                            {e.summary}
+                          </p>
                         )}
                       </Reveal>
                     ))}
@@ -247,14 +281,23 @@ function AboutPage() {
                 <p className="eyebrow">{t.ui.education}</p>
                 <ul className="mt-6 space-y-px overflow-hidden rounded-lg border border-border bg-border">
                   {t.profile.education.map((e, i) => (
-                    <Reveal as="li" key={e.credential} delay={i * 60} className="bg-surface/70 px-6 py-6">
+                    <Reveal
+                      as="li"
+                      key={e.credential}
+                      delay={i * 60}
+                      className="bg-surface/70 px-6 py-6"
+                    >
                       <p className="font-display text-base font-medium">{e.credential}</p>
                       {(e.institution || e.period) && (
                         <p className="mt-1 font-mono text-[11px] text-muted-foreground">
                           {[e.institution, e.period].filter(Boolean).join(" · ")}
                         </p>
                       )}
-                      {e.note && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.note}</p>}
+                      {e.note && (
+                        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                          {e.note}
+                        </p>
+                      )}
                     </Reveal>
                   ))}
                 </ul>

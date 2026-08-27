@@ -94,12 +94,10 @@ const EMPTY_SUB = {
   nextRenewalAt: "",
 };
 
-const planLabel = (v?: string) =>
-  SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
+const planLabel = (v?: string) => SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
 const paymentLabel = (v?: string) => PAYMENT_STATES.find((p) => p.value === v)?.label ?? "Unpaid";
 const money = (amount?: string, currency?: string) =>
   amount ? `${amount} ${currency ?? ""}`.trim() : "—";
-
 
 type SortKey = "recent" | "lastPayment" | "nextRenewal";
 
@@ -121,9 +119,11 @@ function ClientsPage() {
   const [filterPlan, setFilterPlan] = useState<string>("all");
   const [filterSub, setFilterSub] = useState<string>("all");
   const [sortKey, setSortKey] = useState<SortKey>("recent");
-  const [pendingDelete, setPendingDelete] = useState<
-    { kind: "client" | "subscriber"; id: string; label: string } | null
-  >(null);
+  const [pendingDelete, setPendingDelete] = useState<{
+    kind: "client" | "subscriber";
+    id: string;
+    label: string;
+  } | null>(null);
 
   const clientQuery = useQuery({ queryKey: ["admin", "clients"], queryFn: () => clients.list() });
   const subQuery = useQuery({
@@ -135,7 +135,10 @@ function ClientsPage() {
   const visibleClients = allClients
     .filter((c: Client) => {
       const q = search.trim().toLowerCase();
-      if (q && ![c.name, c.email, c.service, c.invoiceRef].some((f) => (f ?? "").toLowerCase().includes(q)))
+      if (
+        q &&
+        ![c.name, c.email, c.service, c.invoiceRef].some((f) => (f ?? "").toLowerCase().includes(q))
+      )
         return false;
       if (filterPayment !== "all" && (c.paymentState ?? "unpaid") !== filterPayment) return false;
       if (filterPlan !== "all" && (c.plan ?? "none") !== filterPlan) return false;
@@ -143,7 +146,8 @@ function ClientsPage() {
       return true;
     })
     .sort((a: Client, b: Client) => {
-      if (sortKey === "lastPayment") return (b.lastPaymentAt ?? "").localeCompare(a.lastPaymentAt ?? "");
+      if (sortKey === "lastPayment")
+        return (b.lastPaymentAt ?? "").localeCompare(a.lastPaymentAt ?? "");
       if (sortKey === "nextRenewal") {
         const av = a.nextRenewalAt || "9999-12-31";
         const bv = b.nextRenewalAt || "9999-12-31";
@@ -151,7 +155,6 @@ function ClientsPage() {
       }
       return b.createdAt.localeCompare(a.createdAt);
     });
-
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["admin", "clients"] });
@@ -231,15 +234,17 @@ function ClientsPage() {
                 <DialogTitle>New client</DialogTitle>
               </DialogHeader>
               <div className="space-y-3">
-                {([
-                  ["name", "Name"],
-                  ["email", "Email"],
-                  ["whatsapp", "WhatsApp"],
-                  ["country", "Country"],
-                  ["service", "Requested service"],
-                  ["projects", "Projects"],
-                  ["paymentStatus", "Payment note"],
-                ] as const).map(([key, label]) => (
+                {(
+                  [
+                    ["name", "Name"],
+                    ["email", "Email"],
+                    ["whatsapp", "WhatsApp"],
+                    ["country", "Country"],
+                    ["service", "Requested service"],
+                    ["projects", "Projects"],
+                    ["paymentStatus", "Payment note"],
+                  ] as const
+                ).map(([key, label]) => (
                   <div key={key} className="space-y-1.5">
                     <Label htmlFor={key}>{label}</Label>
                     <Input
@@ -456,7 +461,6 @@ function ClientsPage() {
               {allClients.length === 0 ? "No clients yet." : "No clients match these filters."}
             </div>
           ) : (
-
             <div className="overflow-x-auto rounded-lg border border-border">
               <Table>
                 <TableHeader>
@@ -573,7 +577,6 @@ function ClientsPage() {
                           </Button>
                         </div>
                       </TableCell>
-
                     </TableRow>
                   ))}
                 </TableBody>
@@ -594,11 +597,13 @@ function ClientsPage() {
                 <DialogTitle>New subscriber</DialogTitle>
               </DialogHeader>
               <div className="space-y-3">
-                {([
-                  ["email", "Email"],
-                  ["name", "Name"],
-                  ["source", "Source"],
-                ] as const).map(([key, label]) => (
+                {(
+                  [
+                    ["email", "Email"],
+                    ["name", "Name"],
+                    ["source", "Source"],
+                  ] as const
+                ).map(([key, label]) => (
                   <div key={key} className="space-y-1.5">
                     <Label htmlFor={`sub-${key}`}>{label}</Label>
                     <Input
@@ -614,7 +619,9 @@ function ClientsPage() {
                     <Label>Plan</Label>
                     <Select
                       value={subDraft.plan}
-                      onValueChange={(v) => setSubDraft({ ...subDraft, plan: v as SubscriptionPlan })}
+                      onValueChange={(v) =>
+                        setSubDraft({ ...subDraft, plan: v as SubscriptionPlan })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -800,7 +807,6 @@ function ClientsPage() {
       />
 
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(o) => !o && setPendingDelete(null)}>
-
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this record?</AlertDialogTitle>

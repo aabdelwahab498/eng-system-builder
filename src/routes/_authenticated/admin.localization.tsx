@@ -32,7 +32,7 @@ function countLocalized(value: unknown, acc = { total: 0, translated: 0 }) {
     const record = value as Record<string, unknown>;
     if ("en" in record && "ar" in record) {
       acc.total += 1;
-      if (typeof record['ar'] === "string" && record['ar'].trim()) acc.translated += 1;
+      if (typeof record["ar"] === "string" && record["ar"].trim()) acc.translated += 1;
       return acc;
     }
     for (const entry of Object.values(record)) countLocalized(entry, acc);

@@ -344,19 +344,19 @@ For example:
 
 Portfolio
 
-   ↓
+↓
 
 Products
 
-   ↓
+↓
 
 APIs
 
-   ↓
+↓
 
 AI Systems
 
-   ↓
+↓
 
 Production
 
@@ -952,19 +952,19 @@ Implement:
 
 /
 
- /about
+/about
 
- /projects
+/projects
 
- /projects/:slug
+/projects/:slug
 
- /products
+/products
 
- /products/:slug
+/products/:slug
 
- /engineering
+/engineering
 
- /contact
+/contact
 
 404 page:
 

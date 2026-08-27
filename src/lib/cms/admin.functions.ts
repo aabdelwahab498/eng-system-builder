@@ -19,7 +19,7 @@ import {
 } from "./types";
 import { isValidSlug } from "./slug";
 
-type Ctx = { supabase: any; userId: string };
+type Ctx = { supabase: unknown; userId: string };
 
 async function assertAdmin(context: Ctx) {
   const { data, error } = await context.supabase.rpc("has_role", {
@@ -86,8 +86,15 @@ export const adminOverview = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { data } = await ctx.supabase.from("content_items").select("kind, state, updated_at, slug");
-    const rows = (data ?? []) as { kind: ContentKind; state: WorkflowState; updated_at: string; slug: string }[];
+    const { data } = await ctx.supabase
+      .from("content_items")
+      .select("kind, state, updated_at, slug");
+    const rows = (data ?? []) as {
+      kind: ContentKind;
+      state: WorkflowState;
+      updated_at: string;
+      slug: string;
+    }[];
     const byKind: Record<string, { total: number; published: number; draft: number }> = {};
     for (const row of rows) {
       const bucket = (byKind[row.kind] ??= { total: 0, published: 0, draft: 0 });
@@ -95,9 +102,7 @@ export const adminOverview = createServerFn({ method: "GET" })
       if (row.state === "published") bucket.published += 1;
       if (row.state === "draft" || row.state === "review") bucket.draft += 1;
     }
-    const recent = [...rows]
-      .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
-      .slice(0, 8);
+    const recent = [...rows].sort((a, b) => b.updated_at.localeCompare(a.updated_at)).slice(0, 8);
     return { byKind, recent };
   });
 
@@ -169,9 +174,7 @@ export const adminSaveContent = createServerFn({ method: "POST" })
         row["previous_slugs"] = Array.from(new Set([...prev, existing.slug]));
       }
       row["published_at"] =
-        input.state === "published"
-          ? (existing?.published_at ?? new Date().toISOString())
-          : null;
+        input.state === "published" ? (existing?.published_at ?? new Date().toISOString()) : null;
       row["archived_at"] = input.state === "archived" ? new Date().toISOString() : null;
 
       const { data, error } = await ctx.supabase
@@ -288,21 +291,23 @@ export const adminListMedia = createServerFn({ method: "GET" })
 
 export const adminRegisterMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    filename: string;
-    storagePath: string;
-    mimeType?: string;
-    sizeBytes?: number;
-    altEn?: string;
-    altAr?: string;
-  }) => ({
-    filename: String(input.filename),
-    storagePath: String(input.storagePath),
-    mimeType: input.mimeType ? String(input.mimeType) : null,
-    sizeBytes: Number(input.sizeBytes ?? 0),
-    altEn: input.altEn ? String(input.altEn) : null,
-    altAr: input.altAr ? String(input.altAr) : null,
-  }))
+  .inputValidator(
+    (input: {
+      filename: string;
+      storagePath: string;
+      mimeType?: string;
+      sizeBytes?: number;
+      altEn?: string;
+      altAr?: string;
+    }) => ({
+      filename: String(input.filename),
+      storagePath: String(input.storagePath),
+      mimeType: input.mimeType ? String(input.mimeType) : null,
+      sizeBytes: Number(input.sizeBytes ?? 0),
+      altEn: input.altEn ? String(input.altEn) : null,
+      altAr: input.altAr ? String(input.altAr) : null,
+    }),
+  )
   .handler(async ({ data: input, context }): Promise<MediaAsset> => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
@@ -326,14 +331,16 @@ export const adminRegisterMedia = createServerFn({ method: "POST" })
 
 export const adminUpdateMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    id: string;
-    altEn?: string;
-    altAr?: string;
-    captionEn?: string;
-    captionAr?: string;
-    archived?: boolean;
-  }) => input)
+  .inputValidator(
+    (input: {
+      id: string;
+      altEn?: string;
+      altAr?: string;
+      captionEn?: string;
+      captionAr?: string;
+      archived?: boolean;
+    }) => input,
+  )
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);

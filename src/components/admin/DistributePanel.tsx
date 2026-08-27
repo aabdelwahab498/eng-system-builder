@@ -43,7 +43,6 @@ type Props = {
   compact?: boolean;
 };
 
-
 const SURFACE_LABEL: Record<string, string> = {
   code: "Code hosting",
   article: "Article & community platforms",
@@ -51,16 +50,23 @@ const SURFACE_LABEL: Record<string, string> = {
   video: "Video platforms",
 };
 
-export function DistributePanel({ entryId, kind, title, summary, link, mediaType, mediaUrl, compact }: Props) {
+export function DistributePanel({
+  entryId,
+  kind,
+  title,
+  summary,
+  link,
+  mediaType,
+  mediaUrl,
+  compact,
+}: Props) {
   const surface = surfaceFor(kind, mediaType);
   const permissionId = entryId === "new" ? draftEntryKey(kind, mediaType) : entryId;
   const [open, setOpen] = useState(false);
   const [records, setRecords] = useState<ChannelRecord[]>(() =>
     typeof window === "undefined" ? [] : distributionLog.get(permissionId),
   );
-  const [caption, setCaption] = useState(
-    [title, summary, link].filter(Boolean).join("\n\n"),
-  );
+  const [caption, setCaption] = useState([title, summary, link].filter(Boolean).join("\n\n"));
 
   const channels = useMemo(() => {
     if (!surface) return [];
@@ -194,7 +200,12 @@ export function DistributePanel({ entryId, kind, title, summary, link, mediaType
                     <ExternalLink className="size-4" />
                   </Button>
                   {record?.status === "published" ? (
-                    <Button type="button" size="sm" variant="ghost" onClick={() => reset(channel.id)}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => reset(channel.id)}
+                    >
                       <RotateCcw className="size-4" />
                     </Button>
                   ) : (

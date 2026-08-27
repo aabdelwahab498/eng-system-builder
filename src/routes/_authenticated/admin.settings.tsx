@@ -31,7 +31,10 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
 
 function SettingsPage() {
   const qc = useQueryClient();
-  const { data } = useQuery({ queryKey: ["admin", "site-settings"], queryFn: () => siteSettings.get() });
+  const { data } = useQuery({
+    queryKey: ["admin", "site-settings"],
+    queryFn: () => siteSettings.get(),
+  });
   const [form, setForm] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS);
 
   useEffect(() => {
@@ -212,9 +215,13 @@ function ContactChannelsCard() {
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-medium text-foreground">{label}</p>
                   {channel.status === "pending" ? (
-                    <Badge variant="outline" className="text-amber-500">PENDING</Badge>
+                    <Badge variant="outline" className="text-amber-500">
+                      PENDING
+                    </Badge>
                   ) : (
-                    <Badge variant="secondary" className="text-emerald-500">Active</Badge>
+                    <Badge variant="secondary" className="text-emerald-500">
+                      Active
+                    </Badge>
                   )}
                 </div>
                 <p className="truncate text-xs text-muted-foreground">{displayValue}</p>

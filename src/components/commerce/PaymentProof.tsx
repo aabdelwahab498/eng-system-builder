@@ -41,7 +41,9 @@ const copy = {
 };
 
 const formatSize = (bytes: number) =>
-  bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+  bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
+    : `${(bytes / 1024 / 1024).toFixed(2)} MB`;
 
 export function PaymentProof({
   value,
@@ -106,7 +108,9 @@ export function PaymentProof({
         >
           <UploadCloud className="size-7 text-primary" aria-hidden />
           <p className="text-sm text-muted-foreground">{t.hint}</p>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{t.or}</p>
+          <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+            {t.or}
+          </p>
           <button
             type="button"
             onClick={() => inputRef.current?.click()}

@@ -115,7 +115,10 @@ export function PowerShellPrompt({
         </span>
         <span className="ps-text font-semibold text-emerald-400">
           {visibleText}
-          <span aria-hidden className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")} />
+          <span
+            aria-hidden
+            className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")}
+          />
         </span>
       </div>
     </div>

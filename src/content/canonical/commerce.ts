@@ -48,10 +48,7 @@ export type PaymentMethod = {
 };
 
 export type PaymentSubmissionStatus =
-  | "pending_review"
-  | "approved"
-  | "rejected"
-  | "needs_more_information";
+  "pending_review" | "approved" | "rejected" | "needs_more_information";
 
 export type PaymentSubmission = {
   id: string;
@@ -103,7 +100,12 @@ export const services: ServiceOffering[] = [
       ar: "مواقع تعريفية وتجارية سريعة ومتجاوبة وجاهزة لمحركات البحث.",
     },
     deliverables: {
-      en: ["Responsive multi-page site", "SEO metadata & sitemap", "Content structure", "Deployment"],
+      en: [
+        "Responsive multi-page site",
+        "SEO metadata & sitemap",
+        "Content structure",
+        "Deployment",
+      ],
       ar: ["موقع متجاوب متعدد الصفحات", "بيانات SEO وخريطة الموقع", "هيكلة المحتوى", "النشر"],
     },
     cta: { en: "Start Project", ar: "ابدأ المشروع" },
@@ -189,7 +191,12 @@ export const services: ServiceOffering[] = [
     },
     deliverables: {
       en: ["AI-backed feature", "Prompt & output handling", "Agent workflow", "Evaluation notes"],
-      ar: ["ميزة مدعومة بالذكاء الاصطناعي", "إدارة المدخلات والمخرجات", "مسار عمل الوكيل", "ملاحظات التقييم"],
+      ar: [
+        "ميزة مدعومة بالذكاء الاصطناعي",
+        "إدارة المدخلات والمخرجات",
+        "مسار عمل الوكيل",
+        "ملاحظات التقييم",
+      ],
     },
     cta: { en: "Start Project", ar: "ابدأ المشروع" },
   },
@@ -250,7 +257,10 @@ export const services: ServiceOffering[] = [
     tier: "extended",
     enabled: true,
     order: 10,
-    title: { en: "AI Voice-over / Video Services", ar: "التعليق الصوتي والفيديو بالذكاء الاصطناعي" },
+    title: {
+      en: "AI Voice-over / Video Services",
+      ar: "التعليق الصوتي والفيديو بالذكاء الاصطناعي",
+    },
     description: {
       en: "AI voice-over and video editing produced with the extended team.",
       ar: "تعليق صوتي ومونتاج فيديو بالتعاون مع الفريق الموسّع.",
@@ -284,32 +294,50 @@ export const paymentSteps: { n: string; title: Localized<string>; body: Localize
   {
     n: "01",
     title: { en: "Project Agreement", ar: "الاتفاق على المشروع" },
-    body: { en: "Scope, timeline and deliverables are agreed in writing.", ar: "يتم الاتفاق كتابيًا على النطاق والجدول الزمني والمخرجات." },
+    body: {
+      en: "Scope, timeline and deliverables are agreed in writing.",
+      ar: "يتم الاتفاق كتابيًا على النطاق والجدول الزمني والمخرجات.",
+    },
   },
   {
     n: "02",
     title: { en: "Deposit Payment", ar: "دفع المقدم" },
-    body: { en: "The project begins after the agreed initial deposit is received.", ar: "يبدأ المشروع بعد استلام المقدم المتفق عليه." },
+    body: {
+      en: "The project begins after the agreed initial deposit is received.",
+      ar: "يبدأ المشروع بعد استلام المقدم المتفق عليه.",
+    },
   },
   {
     n: "03",
     title: { en: "Development", ar: "التنفيذ" },
-    body: { en: "The team develops the project according to the approved scope.", ar: "ينفذ الفريق المشروع وفق النطاق المعتمد." },
+    body: {
+      en: "The team develops the project according to the approved scope.",
+      ar: "ينفذ الفريق المشروع وفق النطاق المعتمد.",
+    },
   },
   {
     n: "04",
     title: { en: "Final Approval", ar: "الاعتماد النهائي" },
-    body: { en: "You review the delivery and confirm the final agreement.", ar: "تراجع التسليم وتؤكد الاعتماد النهائي." },
+    body: {
+      en: "You review the delivery and confirm the final agreement.",
+      ar: "تراجع التسليم وتؤكد الاعتماد النهائي.",
+    },
   },
   {
     n: "05",
     title: { en: "Final Payment", ar: "الدفعة النهائية" },
-    body: { en: "The remaining balance is paid after approval.", ar: "يتم سداد المبلغ المتبقي بعد الاعتماد." },
+    body: {
+      en: "The remaining balance is paid after approval.",
+      ar: "يتم سداد المبلغ المتبقي بعد الاعتماد.",
+    },
   },
   {
     n: "06",
     title: { en: "Project Delivery", ar: "تسليم المشروع" },
-    body: { en: "You receive the project in the agreed delivery format.", ar: "تستلم المشروع بالصيغة المتفق عليها." },
+    body: {
+      en: "You receive the project in the agreed delivery format.",
+      ar: "تستلم المشروع بالصيغة المتفق عليها.",
+    },
   },
 ];
 
@@ -322,7 +350,10 @@ export const paymentMethods: PaymentMethod[] = [
     enabled: true,
     order: 1,
     name: { en: "InstaPay", ar: "إنستا باي" },
-    description: { en: "Manual Bank / Wallet Transfer — Egyptian Pound.", ar: "تحويل بنكي/محفظة يدوي — بالجنيه المصري." },
+    description: {
+      en: "Manual Bank / Wallet Transfer — Egyptian Pound.",
+      ar: "تحويل بنكي/محفظة يدوي — بالجنيه المصري.",
+    },
     instructions: {
       en: "Open the InstaPay link, complete the transfer, then upload a screenshot showing the successful payment.",
       ar: "افتح رابط إنستا باي، أكمل التحويل، ثم ارفع صورة توضح نجاح الدفع.",
@@ -337,7 +368,10 @@ export const paymentMethods: PaymentMethod[] = [
     enabled: true,
     order: 2,
     name: { en: "Vodafone Cash", ar: "فودافون كاش" },
-    description: { en: "Manual Bank / Wallet Transfer — Egyptian Pound.", ar: "تحويل بنكي/محفظة يدوي — بالجنيه المصري." },
+    description: {
+      en: "Manual Bank / Wallet Transfer — Egyptian Pound.",
+      ar: "تحويل بنكي/محفظة يدوي — بالجنيه المصري.",
+    },
     instructions: {
       en: "Pay via Vodafone Cash to the number below and upload your payment screenshot.",
       ar: "ادفع عبر فودافون كاش على الرقم التالي وارفع صورة إثبات الدفع.",
@@ -352,7 +386,10 @@ export const paymentMethods: PaymentMethod[] = [
     enabled: true,
     order: 3,
     name: { en: "USD Wire Transfer", ar: "تحويل بنكي دولي (Wire)" },
-    description: { en: "Manual Bank Transfer — US Dollar.", ar: "تحويل بنكي يدوي — بالدولار الأمريكي." },
+    description: {
+      en: "Manual Bank Transfer — US Dollar.",
+      ar: "تحويل بنكي يدوي — بالدولار الأمريكي.",
+    },
     instructions: {
       en: "Send a wire transfer using the official details below, then upload your payment confirmation.",
       ar: "أرسل التحويل باستخدام البيانات الرسمية أدناه، ثم ارفع تأكيد الدفع.",
@@ -371,7 +408,10 @@ export const paymentMethods: PaymentMethod[] = [
     enabled: true,
     order: 4,
     name: { en: "USD ACH Bank Transfer", ar: "تحويل ACH بالدولار" },
-    description: { en: "Manual Bank Transfer — US Dollar.", ar: "تحويل بنكي يدوي — بالدولار الأمريكي." },
+    description: {
+      en: "Manual Bank Transfer — US Dollar.",
+      ar: "تحويل بنكي يدوي — بالدولار الأمريكي.",
+    },
     instructions: {
       en: "Send an ACH transfer using the official details below, then upload your payment confirmation.",
       ar: "أرسل تحويل ACH باستخدام البيانات الرسمية أدناه، ثم ارفع تأكيد الدفع.",

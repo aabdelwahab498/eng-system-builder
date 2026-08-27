@@ -77,7 +77,8 @@ export const paymentRecords = {
 
 /* ---------- helpers ---------- */
 
-export const planLabel = (v?: string) => SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
+export const planLabel = (v?: string) =>
+  SUBSCRIPTION_PLANS.find((p) => p.value === v)?.label ?? "—";
 export const paymentStateLabel = (v?: string) =>
   PAYMENT_STATES.find((p) => p.value === v)?.label ?? "Unpaid";
 export const money = (amount?: string, currency?: string) =>
@@ -196,7 +197,10 @@ export function openInvoicePdf(client: Client, rows: PaymentRecord[]) {
   if (!win) return;
   const paid = rows
     .filter((r) => r.status === "paid")
-    .map((r) => `<tr><td>${r.paidAt}</td><td>${r.amount} ${r.currency}</td><td>${r.method}</td><td>${r.invoiceRef}</td></tr>`)
+    .map(
+      (r) =>
+        `<tr><td>${r.paidAt}</td><td>${r.amount} ${r.currency}</td><td>${r.method}</td><td>${r.invoiceRef}</td></tr>`,
+    )
     .join("");
 
   win.document.write(`<!doctype html><html><head><meta charset="utf-8" />
@@ -223,7 +227,7 @@ export function openInvoicePdf(client: Client, rows: PaymentRecord[]) {
     <div class="row"><span>Next renewal</span><span>${client.nextRenewalAt || "—"}</span></div>
   </div>
   ${paid ? `<table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Invoice</th></tr></thead><tbody>${paid}</tbody></table>` : ""}
-  <script>window.onload = function(){ window.print(); };<\/script>
+  <script>window.onload = function(){ window.print(); };</script>
   </body></html>`);
   win.document.close();
 }

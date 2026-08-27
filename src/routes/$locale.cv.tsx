@@ -240,7 +240,6 @@ function CvPage() {
               </ul>
             </section>
           )}
-
         </article>
       </Section>
     </>

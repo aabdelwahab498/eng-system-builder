@@ -9,8 +9,10 @@ All user-facing text fields use `Localized<T> = { en: T; ar: T | null }`, where 
 Shared envelopes applied to every fact-bearing object:
 
 ```ts
-type ContentStatus = "verified" | "draft" | "needs-verification" | "placeholder" | "private" | "deprecated";
-type SourceType = "github" | "linkedin" | "cv" | "user-provided" | "project-documentation" | "portfolio" | "other";
+type ContentStatus =
+  "verified" | "draft" | "needs-verification" | "placeholder" | "private" | "deprecated";
+type SourceType =
+  "github" | "linkedin" | "cv" | "user-provided" | "project-documentation" | "portfolio" | "other";
 
 type Provenance = { source?: string; sourceType: SourceType; verifiedAt?: string };
 type Visibility = { public: boolean; portfolio: boolean; cv: boolean; linkedin: boolean };
@@ -76,7 +78,7 @@ Rules: components never import content files directly; every getter applies the 
 
 ## O. Current known facts (candidate baseline)
 
-Verified enough to publish once Ahmed confirms the title: name Ahmed Abdelwahab; GitHub `ahmedabdelwahab98` and its URL; LinkedIn `/in/ahmed-abdelwahab/`; root domain nextnext-gen.com; Factory API deployed at `factory-api.nextnext-gen.com` with a `/health` endpoint; technology areas listed in §12 as *worked-with* areas; Universal AI Software Factory and Najmah exist as his own work; Bachelor of Engineering, Computer Science, Cairo University (dates unconfirmed).
+Verified enough to publish once Ahmed confirms the title: name Ahmed Abdelwahab; GitHub `ahmedabdelwahab98` and its URL; LinkedIn `/in/ahmed-abdelwahab/`; root domain nextnext-gen.com; Factory API deployed at `factory-api.nextnext-gen.com` with a `/health` endpoint; technology areas listed in §12 as _worked-with_ areas; Universal AI Software Factory and Najmah exist as his own work; Bachelor of Engineering, Computer Science, Cairo University (dates unconfirmed).
 
 ## P. Facts requiring verification
 
@@ -84,7 +86,7 @@ Primary public email · phone/WhatsApp and whether either is public at all · ci
 
 ## Q. Outdated or unsafe current-CV information
 
-Do not carry over verbatim: old positioning and job titles; contact block (email, phone, address) — never auto-published; OCR/formatting artifacts and inconsistent terminology; percentage or star skill ratings; unsourced achievements and metrics; date ranges that conflict between sections; marketing-era phrasing that misrepresents the current engineering identity; any employer name that cannot be confirmed. Treat the CV as a *candidate source* with `sourceType: "cv"` and `status: "needs-verification"`.
+Do not carry over verbatim: old positioning and job titles; contact block (email, phone, address) — never auto-published; OCR/formatting artifacts and inconsistent terminology; percentage or star skill ratings; unsourced achievements and metrics; date ranges that conflict between sections; marketing-era phrasing that misrepresents the current engineering identity; any employer name that cannot be confirmed. Treat the CV as a _candidate source_ with `sourceType: "cv"` and `status: "needs-verification"`.
 
 ## R. Positioning options
 

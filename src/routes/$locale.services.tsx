@@ -15,13 +15,21 @@ import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { getContent } from "@/content";
 import { getServiceOfferings } from "@/content/api";
-import { defaultServiceRequestConfig, serviceRequestConfigs } from "@/content/canonical/service-requests";
+import {
+  defaultServiceRequestConfig,
+  serviceRequestConfigs,
+} from "@/content/canonical/service-requests";
 import { pickOrEn } from "@/content/schema";
 import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ServicesSearch = { service?: string };
 
@@ -49,9 +57,11 @@ const copy = {
   en: {
     question: "What would you like us to build?",
     core: "Core software engineering",
-    coreIntro: "Software, AI systems, mobile applications and digital products — engineered end to end.",
+    coreIntro:
+      "Software, AI systems, mobile applications and digital products — engineered end to end.",
     extended: "Additional services",
-    extendedIntro: "Delivered with the support of Ahmed's extended team, alongside the engineering work.",
+    extendedIntro:
+      "Delivered with the support of Ahmed's extended team, alongside the engineering work.",
     deliverables: "Typical deliverables",
     request: "Project request",
     requestIntro: "Tell us about the project. Nothing is charged at this step.",
@@ -75,13 +85,21 @@ const copy = {
     ctaTitle: "Have a project in mind?",
     chat: "Chat with Ahmed on WhatsApp",
     scopeOptions: ["Small", "Medium", "Large", "Not sure yet"],
-    platformOptions: ["Web", "Mobile", "Web + Mobile", "Backend / API", "AI system", "Not sure yet"],
+    platformOptions: [
+      "Web",
+      "Mobile",
+      "Web + Mobile",
+      "Backend / API",
+      "AI system",
+      "Not sure yet",
+    ],
     commsOptions: ["WhatsApp", "Email", "Call"],
   },
   ar: {
     question: "ما الذي تريد أن نبنيه لك؟",
     core: "هندسة البرمجيات الأساسية",
-    coreIntro: "برمجيات وأنظمة ذكاء اصطناعي وتطبيقات موبايل ومنتجات رقمية — تُبنى من البداية للنهاية.",
+    coreIntro:
+      "برمجيات وأنظمة ذكاء اصطناعي وتطبيقات موبايل ومنتجات رقمية — تُبنى من البداية للنهاية.",
     extended: "خدمات إضافية",
     extendedIntro: "تُنفَّذ بدعم من الفريق الموسّع بجانب العمل الهندسي.",
     deliverables: "المخرجات المعتادة",
@@ -102,11 +120,19 @@ const copy = {
     howToSubscribe: "كيف تشترك في خدماتنا",
     afterAgreement: "تُشارَك طرق الدفع بعد الاتفاق على نطاق مشروعك.",
     structure: "هيكل الدفع للمشروع",
-    structureIntro: "نموذج بسيط وواضح: يبدأ المشروع بعد المقدم، ويُسدَّد الباقي بعد الاعتماد النهائي.",
+    structureIntro:
+      "نموذج بسيط وواضح: يبدأ المشروع بعد المقدم، ويُسدَّد الباقي بعد الاعتماد النهائي.",
     ctaTitle: "عندك مشروع في بالك؟",
     chat: "تحدث مع أحمد على واتساب",
     scopeOptions: ["صغير", "متوسط", "كبير", "غير محدد بعد"],
-    platformOptions: ["ويب", "موبايل", "ويب + موبايل", "باك اند / API", "نظام ذكاء اصطناعي", "غير محدد بعد"],
+    platformOptions: [
+      "ويب",
+      "موبايل",
+      "ويب + موبايل",
+      "باك اند / API",
+      "نظام ذكاء اصطناعي",
+      "غير محدد بعد",
+    ],
     commsOptions: ["واتساب", "بريد إلكتروني", "مكالمة"],
   },
 };
@@ -139,10 +165,14 @@ function ServicesPage() {
     setOpen(true);
   };
 
-
   return (
     <>
-      <Breadcrumbs trail={[{ name: dict.ui.home, path: "" }, { name: dict.ui.services, path: "/services" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: dict.ui.home, path: "" },
+          { name: dict.ui.services, path: "/services" },
+        ]}
+      />
       <PageHeader eyebrow={dict.ui.services} title={t.question} subtitle={t.coreIntro} />
 
       <Section>
@@ -209,7 +239,10 @@ function ServicesPage() {
                   {pickOrEn(selected.title, locale)}
                 </DialogTitle>
                 <DialogDescription>
-                  {pickOrEn((serviceRequestConfigs[selected.id] ?? defaultServiceRequestConfig).brief, locale)}
+                  {pickOrEn(
+                    (serviceRequestConfigs[selected.id] ?? defaultServiceRequestConfig).brief,
+                    locale,
+                  )}
                 </DialogDescription>
               </DialogHeader>
               <ProjectRequestPanel key={selected.id} service={selected} t={t} locale={locale} />
@@ -217,7 +250,6 @@ function ServicesPage() {
           )}
         </DialogContent>
       </Dialog>
-
 
       <Section eyebrow={t.structure} title={t.structure} subtitle={t.structureIntro}>
         <PaymentTimeline />
@@ -231,9 +263,7 @@ function ServicesPage() {
             {t.howToSubscribe}
             <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
           </Link>
-          <WhatsAppCta
-            label={t.chat}
-          />
+          <WhatsAppCta label={t.chat} />
         </div>
         <p className="mt-4 text-xs text-muted-foreground">{t.afterAgreement}</p>
       </Section>
@@ -331,7 +361,8 @@ function ProjectRequestPanel({
     ),
   );
 
-  const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const set = (key: keyof typeof form) => (value: string) =>
+    setForm((f) => ({ ...f, [key]: value }));
   const setExtra = (key: string) => (value: string) => setExtras((f) => ({ ...f, [key]: value }));
   const sentRef = useRef(false);
 
@@ -367,7 +398,9 @@ function ProjectRequestPanel({
     `Platform: ${form.platform}`,
     `Scope: ${form.scope}`,
     ...config.extraFields
-      .map((f) => extras[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${extras[f.key]}`)
+      .map(
+        (f) => extras[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${extras[f.key]}`,
+      )
       .filter(Boolean),
     `Preferred contact: ${form.comms}`,
     form.clientName && `Name: ${form.clientName}`,
@@ -377,7 +410,8 @@ function ProjectRequestPanel({
     .filter(Boolean)
     .join("\n");
 
-  const field = "w-full rounded-md border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-primary/60";
+  const field =
+    "w-full rounded-md border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-primary/60";
 
   return (
     <div className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
@@ -404,15 +438,29 @@ function ProjectRequestPanel({
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <label className="space-y-1.5 md:col-span-2">
           <span className="text-xs text-muted-foreground">{t.projectName}</span>
-          <input className={field} maxLength={120} value={form.projectName} onChange={(e) => set("projectName")(e.target.value)} />
+          <input
+            className={field}
+            maxLength={120}
+            value={form.projectName}
+            onChange={(e) => set("projectName")(e.target.value)}
+          />
         </label>
         <label className="space-y-1.5 md:col-span-2">
           <span className="text-xs text-muted-foreground">{t.projectDescription}</span>
-          <textarea className={cn(field, "min-h-28")} maxLength={1000} value={form.description} onChange={(e) => set("description")(e.target.value)} />
+          <textarea
+            className={cn(field, "min-h-28")}
+            maxLength={1000}
+            value={form.description}
+            onChange={(e) => set("description")(e.target.value)}
+          />
         </label>
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.platform}</span>
-          <select className={field} value={form.platform} onChange={(e) => set("platform")(e.target.value)}>
+          <select
+            className={field}
+            value={form.platform}
+            onChange={(e) => set("platform")(e.target.value)}
+          >
             {platformOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
@@ -420,7 +468,11 @@ function ProjectRequestPanel({
         </label>
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.scope}</span>
-          <select className={field} value={form.scope} onChange={(e) => set("scope")(e.target.value)}>
+          <select
+            className={field}
+            value={form.scope}
+            onChange={(e) => set("scope")(e.target.value)}
+          >
             {scopeOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
@@ -430,7 +482,11 @@ function ProjectRequestPanel({
           <label key={f.key} className={cn("space-y-1.5", f.kind === "text" && "md:col-span-2")}>
             <span className="text-xs text-muted-foreground">{pickOrEn(f.label, locale)}</span>
             {f.kind === "select" ? (
-              <select className={field} value={extras[f.key] ?? ""} onChange={(e) => setExtra(f.key)(e.target.value)}>
+              <select
+                className={field}
+                value={extras[f.key] ?? ""}
+                onChange={(e) => setExtra(f.key)(e.target.value)}
+              >
                 {(f.options ? pickOrEn(f.options, locale) : []).map((o) => (
                   <option key={o}>{o}</option>
                 ))}
@@ -448,7 +504,11 @@ function ProjectRequestPanel({
         ))}
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.comms}</span>
-          <select className={field} value={form.comms} onChange={(e) => set("comms")(e.target.value)}>
+          <select
+            className={field}
+            value={form.comms}
+            onChange={(e) => set("comms")(e.target.value)}
+          >
             {t.commsOptions.map((o) => (
               <option key={o}>{o}</option>
             ))}
@@ -456,19 +516,43 @@ function ProjectRequestPanel({
         </label>
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.clientName}</span>
-          <input className={field} maxLength={100} value={form.clientName} onChange={(e) => set("clientName")(e.target.value)} />
+          <input
+            className={field}
+            maxLength={100}
+            value={form.clientName}
+            onChange={(e) => set("clientName")(e.target.value)}
+          />
         </label>
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.email}</span>
-          <input type="email" dir="ltr" className={field} maxLength={255} value={form.email} onChange={(e) => set("email")(e.target.value)} />
+          <input
+            type="email"
+            dir="ltr"
+            className={field}
+            maxLength={255}
+            value={form.email}
+            onChange={(e) => set("email")(e.target.value)}
+          />
         </label>
         <label className="space-y-1.5">
           <span className="text-xs text-muted-foreground">{t.whatsapp}</span>
-          <input dir="ltr" className={field} maxLength={30} value={form.whatsapp} onChange={(e) => set("whatsapp")(e.target.value)} />
+          <input
+            dir="ltr"
+            className={field}
+            maxLength={30}
+            value={form.whatsapp}
+            onChange={(e) => set("whatsapp")(e.target.value)}
+          />
         </label>
         <label className="space-y-1.5 md:col-span-2">
           <span className="text-xs text-muted-foreground">{t.attachment}</span>
-          <input className={field} maxLength={300} value={form.attachment} onChange={(e) => set("attachment")(e.target.value)} placeholder="https://…" />
+          <input
+            className={field}
+            maxLength={300}
+            value={form.attachment}
+            onChange={(e) => set("attachment")(e.target.value)}
+            placeholder="https://…"
+          />
         </label>
       </div>
 

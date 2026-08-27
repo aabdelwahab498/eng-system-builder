@@ -109,7 +109,8 @@ function KindList() {
   });
 
   const reorderMutation = useMutation({
-    mutationFn: (payload: { items: { id: string; sortOrder: number }[] }) => reorder({ data: payload }),
+    mutationFn: (payload: { items: { id: string; sortOrder: number }[] }) =>
+      reorder({ data: payload }),
     onSuccess: invalidate,
     onError: (error) => toast.error(error instanceof Error ? error.message : "Reorder failed"),
   });
@@ -220,9 +221,12 @@ function KindList() {
                 kind={contentKind}
                 title={titleOf(item.data, item.slug)}
                 link={`https://nextnext-gen.com/en/${contentKind === "article" ? "blog" : contentKind === "project" ? "projects" : "gallery"}/${item.slug}`}
-                {...(typeof item.data["mediaType"] === "string" ? { mediaType: item.data["mediaType"] } : {})}
-                {...(typeof item.data["mediaUrl"] === "string" ? { mediaUrl: item.data["mediaUrl"] } : {})}
-
+                {...(typeof item.data["mediaType"] === "string"
+                  ? { mediaType: item.data["mediaType"] }
+                  : {})}
+                {...(typeof item.data["mediaUrl"] === "string"
+                  ? { mediaUrl: item.data["mediaUrl"] }
+                  : {})}
               />
               <Button
                 variant="ghost"
@@ -232,13 +236,15 @@ function KindList() {
               >
                 Delete
               </Button>
-
             </li>
           ))}
         </ul>
       )}
 
-      <AlertDialog open={pendingDelete !== null} onOpenChange={(open) => !open && setPendingDelete(null)}>
+      <AlertDialog
+        open={pendingDelete !== null}
+        onOpenChange={(open) => !open && setPendingDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this entry?</AlertDialogTitle>

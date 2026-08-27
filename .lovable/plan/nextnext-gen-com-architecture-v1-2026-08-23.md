@@ -5,6 +5,7 @@ Bilingual (EN/AR) personal brand + product ecosystem root for Eng. Ahmed Abdelwa
 ## 1. Information Architecture
 
 Three layers:
+
 - **Identity** — who Ahmed is (Home, About, Skills, Services, Contact)
 - **Proof** — what he built (Projects, Factory, case studies)
 - **Distribution** — what people can get (Products, CV, contact channels)

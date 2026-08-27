@@ -14,7 +14,6 @@ export type CatalogItem = {
   linkExternal?: boolean | undefined;
 };
 
-
 type Flip = { dir: 1 | -1; from: number };
 
 /**
@@ -96,7 +95,12 @@ export function ImageCatalog({
     <div className={cn("select-none", className)}>
       <div className="book-scene">
         <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/70 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)]">
-          <div className={cn("book-spread relative grid w-full grid-cols-2", aspectClassName ?? "aspect-[16/10]")}>
+          <div
+            className={cn(
+              "book-spread relative grid w-full grid-cols-2",
+              aspectClassName ?? "aspect-[16/10]",
+            )}
+          >
             <div className="book-page book-page-left">
               <ImagePage item={leftItem} />
             </div>
@@ -107,7 +111,9 @@ export function ImageCatalog({
             <div className="book-spine" aria-hidden />
 
             {flip && old && (
-              <div className={cn("flip-page", flip.dir === 1 ? "flip-page-next" : "flip-page-prev")}>
+              <div
+                className={cn("flip-page", flip.dir === 1 ? "flip-page-next" : "flip-page-prev")}
+              >
                 <div className="flip-face book-page">
                   {flip.dir === 1 ? (
                     <TextPage item={old} index={flip.from} count={count} />
@@ -226,15 +232,7 @@ function ImagePage({ item }: { item: CatalogItem }) {
   );
 }
 
-function TextPage({
-  item,
-  index,
-  count,
-}: {
-  item: CatalogItem;
-  index: number;
-  count: number;
-}) {
+function TextPage({ item, index, count }: { item: CatalogItem; index: number; count: number }) {
   return (
     <div className="flex h-full flex-col justify-center gap-3 overflow-y-auto px-6 py-6 sm:px-10">
       <p className="font-mono text-[11px] tracking-[0.3em] text-muted-foreground">
@@ -257,14 +255,14 @@ function TextPage({
         </dl>
       )}
       {item.credit && (
-        <p className="font-mono text-[11px] leading-relaxed text-muted-foreground/80">{item.credit}</p>
+        <p className="font-mono text-[11px] leading-relaxed text-muted-foreground/80">
+          {item.credit}
+        </p>
       )}
       {item.linkUrl && (
         <a
           href={item.linkUrl}
-          {...(item.linkExternal === false
-            ? {}
-            : { target: "_blank", rel: "noopener noreferrer" })}
+          {...(item.linkExternal === false ? {} : { target: "_blank", rel: "noopener noreferrer" })}
           className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/40 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
         >
           {item.linkLabel ?? "Verify"}
@@ -273,7 +271,6 @@ function TextPage({
     </div>
   );
 }
-
 
 function NavButton({
   side,

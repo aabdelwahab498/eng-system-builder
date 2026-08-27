@@ -65,7 +65,9 @@ export function PaymentMethodCard({
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="font-display text-lg font-medium text-foreground">{pickOrEn(method.name, locale)}</p>
+          <p className="font-display text-lg font-medium text-foreground">
+            {pickOrEn(method.name, locale)}
+          </p>
           <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
             {method.currency} · {t.manual}
           </p>
@@ -113,7 +115,9 @@ export function PaymentMethodCard({
         {method.bankName && (
           <div className="space-y-2">
             <div className="rounded-md border border-border bg-surface/60 px-4 py-3">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{t.bank}</p>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                {t.bank}
+              </p>
               <p className="mt-1 text-sm text-foreground">{method.bankName}</p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 {t.bankAddress}
@@ -123,13 +127,28 @@ export function PaymentMethodCard({
               </p>
             </div>
             {method.accountHolder && (
-              <CopyField label={t.accountHolder} value={method.accountHolder} copyLabel={t.copy} copiedLabel={t.copied} />
+              <CopyField
+                label={t.accountHolder}
+                value={method.accountHolder}
+                copyLabel={t.copy}
+                copiedLabel={t.copied}
+              />
             )}
             {method.accountNumber && (
-              <CopyField label={t.accountNumber} value={method.accountNumber} copyLabel={t.copy} copiedLabel={t.copied} />
+              <CopyField
+                label={t.accountNumber}
+                value={method.accountNumber}
+                copyLabel={t.copy}
+                copiedLabel={t.copied}
+              />
             )}
             {method.routingNumber && (
-              <CopyField label={t.routingNumber} value={method.routingNumber} copyLabel={t.copy} copiedLabel={t.copied} />
+              <CopyField
+                label={t.routingNumber}
+                value={method.routingNumber}
+                copyLabel={t.copy}
+                copiedLabel={t.copied}
+              />
             )}
             <p className="flex items-start gap-2 rounded-md border border-border bg-background/60 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />

@@ -2,8 +2,7 @@ export type Locale = "en" | "ar";
 
 export const locales: Locale[] = ["en", "ar"];
 
-export const isLocale = (value: unknown): value is Locale =>
-  value === "en" || value === "ar";
+export const isLocale = (value: unknown): value is Locale => value === "en" || value === "ar";
 
 export type MediaSlot = {
   kind: "placeholder" | "image";
@@ -76,14 +75,7 @@ export type Product = {
   name: string;
   kind: string;
   status: "available" | "live" | "beta" | "coming-soon" | "in-development";
-  type?:
-    | "saas"
-    | "ai-tool"
-    | "dev-tool"
-    | "template"
-    | "download"
-    | "course"
-    | "other";
+  type?: "saas" | "ai-tool" | "dev-tool" | "template" | "download" | "course" | "other";
   relatedProjectSlug?: string;
   /** Commerce shell only — V1 renders nothing from this. */
   offers?: Offer[];
@@ -107,7 +99,6 @@ export type SkillCategoryId =
   | "languages"
   | "tools"
   | "business";
-
 
 export type SkillCategory = {
   id: SkillCategoryId;
@@ -278,7 +269,6 @@ export type UiStrings = {
   youtubeCtaTitle: string;
   youtubeCtaBody: string;
   youtubeCtaButton: string;
-
 };
 
 export type MetaKey =

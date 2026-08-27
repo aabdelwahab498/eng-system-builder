@@ -41,7 +41,6 @@ export function ProjectCard({ project }: { project: Project }) {
         </p>
       )}
 
-
       {project.media[0] && (
         <MediaSlot media={project.media[0]} note={t.ui.mediaPlaceholder} className="mt-6" />
       )}

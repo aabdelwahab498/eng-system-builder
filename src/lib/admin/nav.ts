@@ -6,14 +6,7 @@
  * content system is introduced.
  */
 
-import {
-  Briefcase,
-  LayoutDashboard,
-  Layers,
-  Settings,
-  Share2,
-  Users,
-} from "lucide-react";
+import { Briefcase, LayoutDashboard, Layers, Settings, Share2, Users } from "lucide-react";
 import type { ContentKind } from "@/lib/cms/types";
 
 export type AdminNavItem = {

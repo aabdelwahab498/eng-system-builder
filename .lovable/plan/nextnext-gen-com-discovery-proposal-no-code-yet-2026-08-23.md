@@ -34,6 +34,7 @@ Verdict: the foundation matches ~70% of this brief already. The gap is **narrati
 ## D. Information architecture
 
 Top-level nav (7): Work · Factory · Products · Skills · Services · About · Contact, plus language + theme + CTA.
+
 - "Work" = Projects index (`/{locale}/projects`), detail at `/projects/$slug`.
 - Factory stays top-level (flagship), also teased on home.
 - Products index + `/products/$slug`.

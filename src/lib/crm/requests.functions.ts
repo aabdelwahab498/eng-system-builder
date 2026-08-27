@@ -38,7 +38,7 @@ export const REQUEST_STATUS_OPTIONS = [
 const COLUMNS =
   "id, client_name, email, whatsapp, service_id, service_title, project_name, description, platform, scope, budget, timeline, preferred_channel, attachment_url, locale, source, status, admin_note, created_at, updated_at";
 
-type Ctx = { supabase: any; userId: string };
+type Ctx = { supabase: unknown; userId: string };
 
 async function assertAdmin(context: Ctx) {
   const { data, error } = await context.supabase.rpc("has_role", {
@@ -135,10 +135,7 @@ export const adminUpdateServiceRequest = createServerFn({ method: "POST" })
     const patch: Record<string, unknown> = {};
     if (data.status !== undefined) patch["status"] = text(data.status, 40);
     if (data.adminNote !== undefined) patch["admin_note"] = text(data.adminNote, 4000);
-    const { error } = await ctx.supabase
-      .from("service_requests")
-      .update(patch)
-      .eq("id", data.id);
+    const { error } = await ctx.supabase.from("service_requests").update(patch).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });

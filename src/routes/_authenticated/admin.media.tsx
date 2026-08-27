@@ -90,7 +90,9 @@ function MediaLibrary() {
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="eyebrow">Assets</p>
-          <h1 className="mt-2 font-display text-2xl font-semibold text-foreground">Media library</h1>
+          <h1 className="mt-2 font-display text-2xl font-semibold text-foreground">
+            Media library
+          </h1>
           <p className="mt-2 max-w-lg text-sm text-muted-foreground">
             Uploaded files are stored privately and served through a controlled public URL. Paste
             that URL into any content field.
@@ -127,7 +129,9 @@ function MediaLibrary() {
                 loading="lazy"
                 className="aspect-video w-full rounded-md border border-border object-cover"
               />
-              <p className="truncate font-mono text-[11px] text-muted-foreground">{asset.publicUrl}</p>
+              <p className="truncate font-mono text-[11px] text-muted-foreground">
+                {asset.publicUrl}
+              </p>
               <Field label="Alt text (EN)">
                 <Input
                   defaultValue={asset.altEn ?? ""}

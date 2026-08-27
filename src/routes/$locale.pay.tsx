@@ -46,7 +46,8 @@ const copy = {
       "A manual payment process: transfer using the official details below, upload your proof, and the team reviews it.",
     structure: "Project payment structure",
     methods: "Payment methods",
-    methodsIntro: "Choose the method that suits you. All methods are manual bank or wallet transfers.",
+    methodsIntro:
+      "Choose the method that suits you. All methods are manual bank or wallet transfers.",
     egp: "Egyptian Pound (EGP)",
     usd: "US Dollar (USD)",
     details: "Your details",
@@ -74,7 +75,8 @@ const copy = {
   ar: {
     eyebrow: "الدفع",
     title: "مقدم المشروع والدفع",
-    subtitle: "عملية دفع يدوية: حوّل باستخدام البيانات الرسمية أدناه، ارفع الإثبات، ثم يراجعه الفريق.",
+    subtitle:
+      "عملية دفع يدوية: حوّل باستخدام البيانات الرسمية أدناه، ارفع الإثبات، ثم يراجعه الفريق.",
     structure: "هيكل الدفع للمشروع",
     methods: "طرق الدفع",
     methodsIntro: "اختر الطريقة المناسبة لك. جميع الطرق تحويلات بنكية أو محفظة يدوية.",
@@ -227,14 +229,24 @@ function PayPage() {
         <p className="eyebrow mt-8">{t.egp}</p>
         <div className="mt-3 grid gap-5 md:grid-cols-2">
           {egp.map((m) => (
-            <PaymentMethodCard key={m.id} method={m} selected={methodId === m.id} onSelect={() => setMethodId(m.id)} />
+            <PaymentMethodCard
+              key={m.id}
+              method={m}
+              selected={methodId === m.id}
+              onSelect={() => setMethodId(m.id)}
+            />
           ))}
         </div>
 
         <p className="eyebrow mt-10">{t.usd}</p>
         <div className="mt-3 grid gap-5 md:grid-cols-2">
           {usd.map((m) => (
-            <PaymentMethodCard key={m.id} method={m} selected={methodId === m.id} onSelect={() => setMethodId(m.id)} />
+            <PaymentMethodCard
+              key={m.id}
+              method={m}
+              selected={methodId === m.id}
+              onSelect={() => setMethodId(m.id)}
+            />
           ))}
         </div>
       </Section>
@@ -259,25 +271,54 @@ function PayPage() {
             </label>
             <label className="space-y-1.5">
               <span className="text-xs text-muted-foreground">{t.projectName}</span>
-              <input className={field} maxLength={120} value={form.projectName} onChange={(e) => setForm((f) => ({ ...f, projectName: e.target.value }))} />
+              <input
+                className={field}
+                maxLength={120}
+                value={form.projectName}
+                onChange={(e) => setForm((f) => ({ ...f, projectName: e.target.value }))}
+              />
             </label>
             <label className="space-y-1.5">
               <span className="text-xs text-muted-foreground">
                 {t.amount} {method ? `(${method.currency})` : ""}
               </span>
-              <input dir="ltr" className={field} maxLength={20} value={form.amount} onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))} />
+              <input
+                dir="ltr"
+                className={field}
+                maxLength={20}
+                value={form.amount}
+                onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
+              />
             </label>
             <label className="space-y-1.5">
               <span className="text-xs text-muted-foreground">{t.clientName}</span>
-              <input className={field} maxLength={100} value={form.clientName} onChange={(e) => setForm((f) => ({ ...f, clientName: e.target.value }))} />
+              <input
+                className={field}
+                maxLength={100}
+                value={form.clientName}
+                onChange={(e) => setForm((f) => ({ ...f, clientName: e.target.value }))}
+              />
             </label>
             <label className="space-y-1.5">
               <span className="text-xs text-muted-foreground">{t.email}</span>
-              <input type="email" dir="ltr" className={field} maxLength={255} value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+              <input
+                type="email"
+                dir="ltr"
+                className={field}
+                maxLength={255}
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              />
             </label>
             <label className="space-y-1.5">
               <span className="text-xs text-muted-foreground">{t.whatsapp}</span>
-              <input dir="ltr" className={field} maxLength={30} value={form.whatsapp} onChange={(e) => setForm((f) => ({ ...f, whatsapp: e.target.value }))} />
+              <input
+                dir="ltr"
+                className={field}
+                maxLength={30}
+                value={form.whatsapp}
+                onChange={(e) => setForm((f) => ({ ...f, whatsapp: e.target.value }))}
+              />
             </label>
           </div>
 
@@ -315,7 +356,11 @@ function PayPage() {
           <p className="mt-4 text-xs text-muted-foreground">{t.noVerify}</p>
 
           <p className="mt-6 text-xs text-muted-foreground">
-            <Link to="/$locale/services" params={{ locale }} className="underline underline-offset-4">
+            <Link
+              to="/$locale/services"
+              params={{ locale }}
+              className="underline underline-offset-4"
+            >
               {dict.ui.services}
             </Link>
           </p>

@@ -20,9 +20,7 @@ export const Route = createFileRoute("/$locale/courses/")({
     return buildHead({
       locale,
       path: "/courses",
-      title: isAr
-        ? "الكورسات — أحمد عبد الوهاب"
-        : "Courses — Ahmed Abdelwahab",
+      title: isAr ? "الكورسات — أحمد عبد الوهاب" : "Courses — Ahmed Abdelwahab",
       description: isAr
         ? "كورسات ومسارات تعليمية عملية في هندسة الواجهة الخلفية والذكاء الاصطناعي وبناء المنتجات الرقمية."
         : "Practical engineering courses and learning tracks on backend, AI systems and building production digital products.",
@@ -40,7 +38,12 @@ function CoursesIndex() {
 
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.courses, path: "/courses" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.courses, path: "/courses" },
+        ]}
+      />
       <PageHeader
         eyebrow={t.ui.courses}
         title={locale === "ar" ? "كورسات ومسارات تعليمية" : "Courses & learning tracks"}
@@ -56,9 +59,7 @@ function CoursesIndex() {
               <p className="font-display text-lg font-semibold text-foreground">
                 {t.ui.comingSoon}
               </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {t.ui.noCourses}
-              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{t.ui.noCourses}</p>
             </div>
           </div>
         </Reveal>

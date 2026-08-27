@@ -10,7 +10,9 @@ import type { PaymentSubmission, PaymentSubmissionStatus } from "@/content/canon
 
 export interface PaymentSubmissionRepository {
   list(): Promise<PaymentSubmission[]>;
-  create(input: Omit<PaymentSubmission, "id" | "submittedAt" | "status">): Promise<PaymentSubmission>;
+  create(
+    input: Omit<PaymentSubmission, "id" | "submittedAt" | "status">,
+  ): Promise<PaymentSubmission>;
   setStatus(id: string, status: PaymentSubmissionStatus, note?: string): Promise<void>;
 }
 

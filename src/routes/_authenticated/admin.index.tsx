@@ -11,7 +11,6 @@ import { adminListServiceRequests } from "@/lib/crm/requests.functions";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { socialPosts } from "@/lib/social/store";
 
-
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
 });
@@ -73,7 +72,6 @@ function AdminDashboard() {
     }),
   });
 
-
   const byKind = data?.byKind ?? {};
   const totals = Object.values(byKind).reduce(
     (acc, item) => ({
@@ -108,11 +106,11 @@ function AdminDashboard() {
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Total projects", value: byKind['project']?.total ?? 0 },
-          { label: "Published projects", value: byKind['project']?.published ?? 0 },
-          { label: "Published articles", value: byKind['article']?.published ?? 0 },
-          { label: "Active services", value: byKind['service']?.published ?? 0 },
-          { label: "Gallery items", value: byKind['gallery_item']?.total ?? 0 },
+          { label: "Total projects", value: byKind["project"]?.total ?? 0 },
+          { label: "Published projects", value: byKind["project"]?.published ?? 0 },
+          { label: "Published articles", value: byKind["article"]?.published ?? 0 },
+          { label: "Active services", value: byKind["service"]?.published ?? 0 },
+          { label: "Gallery items", value: byKind["gallery_item"]?.total ?? 0 },
           { label: "Pending requests", value: business?.requests ?? 0 },
           { label: "Pending payments", value: business?.payments ?? 0 },
           { label: "Active clients", value: business?.clients ?? 0 },
@@ -162,7 +160,6 @@ function AdminDashboard() {
         ))}
       </section>
 
-
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Quick actions
@@ -198,7 +195,6 @@ function AdminDashboard() {
         </div>
       </section>
 
-
       <section className="space-y-3">
         <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Recently updated
@@ -212,7 +208,10 @@ function AdminDashboard() {
         ) : (
           <ul className="divide-y divide-border rounded-lg border border-border">
             {(data?.recent ?? []).map((row) => (
-              <li key={`${row.kind}-${row.slug}`} className="flex items-center justify-between px-4 py-2.5">
+              <li
+                key={`${row.kind}-${row.slug}`}
+                className="flex items-center justify-between px-4 py-2.5"
+              >
                 <span className="truncate text-sm text-foreground">{row.slug}</span>
                 <span className="font-mono text-[11px] text-muted-foreground">
                   {KIND_LABELS[row.kind]} · {row.state}

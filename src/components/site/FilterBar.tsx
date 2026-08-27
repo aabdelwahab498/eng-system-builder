@@ -20,7 +20,11 @@ export function FilterBar({
   className?: string;
 }) {
   return (
-    <div role="group" aria-label={label} className={cn("flex flex-wrap items-center gap-2", className)}>
+    <div
+      role="group"
+      aria-label={label}
+      className={cn("flex flex-wrap items-center gap-2", className)}
+    >
       {options.map((option) => (
         <button
           key={option.id}

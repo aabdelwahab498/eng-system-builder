@@ -117,8 +117,7 @@ export const getCanonicalProjects = (): CanonicalProject[] =>
 export const getCanonicalProject = (slug: string) =>
   getCanonicalProjects().find((p) => p.slug === slug);
 
-export const getCanonicalFeaturedProjects = () =>
-  getCanonicalProjects().filter((p) => p.featured);
+export const getCanonicalFeaturedProjects = () => getCanonicalProjects().filter((p) => p.featured);
 
 export const getFactoryMaturity = () => factoryMaturity;
 
@@ -131,8 +130,7 @@ export const getCanonicalProduct = (slug: string) =>
 export const getCanonicalServices = (): CanonicalService[] =>
   canonicalServices.filter(isPublishable);
 
-export const getCourses = (): Course[] =>
-  [...canonicalCourses].sort((a, b) => a.order - b.order);
+export const getCourses = (): Course[] => [...canonicalCourses].sort((a, b) => a.order - b.order);
 
 export const getCourse = (slug: string) => getCourses().find((c) => c.slug === slug);
 
@@ -157,9 +155,7 @@ import type { PaymentMethod, ServiceOffering } from "./canonical/commerce";
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
 
 export const getServiceOfferings = (tier?: ServiceOffering["tier"]): ServiceOffering[] =>
-  serviceOfferings
-    .filter((s) => s.enabled && (tier ? s.tier === tier : true))
-    .sort(byOrder);
+  serviceOfferings.filter((s) => s.enabled && (tier ? s.tier === tier : true)).sort(byOrder);
 
 export const getServiceOffering = (id: string) => serviceOfferings.find((s) => s.id === id);
 

@@ -1,10 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
-import {
-  CONTENT_COLUMNS,
-  toContentItem,
-  type ContentRow,
-} from "./mappers";
+import { CONTENT_COLUMNS, toContentItem, type ContentRow } from "./mappers";
 import type { ContentItem } from "./types";
 
 /**

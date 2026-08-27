@@ -106,7 +106,12 @@ function GalleryPage() {
 
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.gallery, path: "/gallery" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.gallery, path: "/gallery" },
+        ]}
+      />
 
       <Section>
         <Reveal>
@@ -270,7 +275,12 @@ function GalleryPage() {
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#ff0000] shadow-[0_0_24px_rgba(255,0,0,0.55)]"
                   aria-hidden
                 >
-                  <svg viewBox="0 0 24 24" className="h-7 w-7 text-white" fill="currentColor" aria-hidden>
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-7 w-7 text-white"
+                    fill="currentColor"
+                    aria-hidden
+                  >
                     <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z" />
                   </svg>
                 </span>

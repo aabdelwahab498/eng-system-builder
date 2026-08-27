@@ -90,7 +90,11 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
     setQuery("");
     setFocused(false);
     if (result.kind === "service") {
-      void navigate({ to: "/$locale/services", params: { locale }, search: { service: result.id } });
+      void navigate({
+        to: "/$locale/services",
+        params: { locale },
+        search: { service: result.id },
+      });
     } else {
       void navigate({ to: "/$locale/courses", params: { locale }, search: { course: result.id } });
     }

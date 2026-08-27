@@ -22,9 +22,7 @@ export const Route = createFileRoute("/$locale/blog/")({
     return buildHead({
       locale,
       path: "/blog",
-      title: isAr
-        ? "المدونة — أحمد عبد الوهاب"
-        : "Writing — Ahmed Abdelwahab",
+      title: isAr ? "المدونة — أحمد عبد الوهاب" : "Writing — Ahmed Abdelwahab",
       description: isAr
         ? "مقالات عن هندسة البرمجيات، أنظمة الذكاء الاصطناعي وبناء المنتجات الرقمية."
         : "Notes on software engineering, AI systems and building production digital products.",
@@ -73,11 +71,7 @@ function BlogIndex() {
       const data = article.data as unknown as ArticleData;
       if (category !== ALL && data.category !== category) return false;
       if (!needle) return true;
-      const haystack = [
-        pick(data.title, locale),
-        pick(data.excerpt, locale),
-        ...(data.tags ?? []),
-      ]
+      const haystack = [pick(data.title, locale), pick(data.excerpt, locale), ...(data.tags ?? [])]
         .join(" ")
         .toLowerCase();
       return haystack.includes(needle);
@@ -86,7 +80,12 @@ function BlogIndex() {
 
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.writing, path: "/blog" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.writing, path: "/blog" },
+        ]}
+      />
       <PageHeader
         eyebrow={t.ui.writing}
         title={locale === "ar" ? "مقالات وملاحظات" : "Articles & engineering notes"}

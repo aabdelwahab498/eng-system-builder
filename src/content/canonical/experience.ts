@@ -61,7 +61,10 @@ export const experience: Experience[] = [
     position: { en: "Faculty Member", ar: null },
     // Dates not provided; old CV states a duration of 3 years.
     current: false,
-    description: { en: "Academic work in the Logistics Department. Duration stated in the old CV as 3 years; exact dates not provided.", ar: null },
+    description: {
+      en: "Academic work in the Logistics Department. Duration stated in the old CV as 3 years; exact dates not provided.",
+      ar: null,
+    },
     responsibilities: { en: [], ar: null },
     achievements: { en: [], ar: null },
     technologies: [],
@@ -77,7 +80,10 @@ export const experience: Experience[] = [
     organizationType: "government",
     position: { en: "Chief of Logistics", ar: null },
     current: false,
-    description: { en: "Logistics role. Duration stated in the old CV as 2 years; exact dates not provided.", ar: null },
+    description: {
+      en: "Logistics role. Duration stated in the old CV as 2 years; exact dates not provided.",
+      ar: null,
+    },
     responsibilities: { en: [], ar: null },
     achievements: { en: [], ar: null },
     technologies: [],
@@ -93,7 +99,10 @@ export const experience: Experience[] = [
     organizationType: "company",
     position: { en: "Quality Control Specialist", ar: null },
     current: false,
-    description: { en: "Quality control role in the petroleum field. Duration stated in the old CV as 3 years; exact dates not provided.", ar: null },
+    description: {
+      en: "Quality control role in the petroleum field. Duration stated in the old CV as 3 years; exact dates not provided.",
+      ar: null,
+    },
     responsibilities: { en: [], ar: null },
     achievements: { en: [], ar: null },
     technologies: [],

@@ -64,7 +64,10 @@ export const products: CanonicalProduct[] = [
     relatedProjectId: "project-universal-ai-software-factory",
     offers: [],
     status: "draft",
-    provenance: { sourceType: "project-documentation", source: "factory-api.nextnext-gen.com/health" },
+    provenance: {
+      sourceType: "project-documentation",
+      source: "factory-api.nextnext-gen.com/health",
+    },
     visibility: { public: true, portfolio: true, cv: false, linkedin: false },
   },
 ];

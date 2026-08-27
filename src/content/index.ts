@@ -14,5 +14,4 @@ export const site = {
 } as const;
 
 /** Build a locale-prefixed path: localePath("en", "/projects") -> "/en/projects" */
-export const localePath = (locale: Locale, path = "") =>
-  `/${locale}${path === "/" ? "" : path}`;
+export const localePath = (locale: Locale, path = "") => `/${locale}${path === "/" ? "" : path}`;

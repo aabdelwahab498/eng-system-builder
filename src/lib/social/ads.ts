@@ -163,7 +163,8 @@ export const AD_CHANNELS: AdChannelSpec[] = [
     secondaryLabel: "Event ID",
     secondaryPlaceholder: "tw-o1abc-o1xyz",
     defaultPlacement: "head",
-    docsUrl: "https://business.x.com/en/help/campaign-measurement-and-analytics/conversion-tracking-for-websites",
+    docsUrl:
+      "https://business.x.com/en/help/campaign-measurement-and-analytics/conversion-tracking-for-websites",
     snippet: (id) =>
       `<script>\n  !function(e,t,n,s,u,a){/* X Pixel base code */}(window,document,'script');\n  twq('config','${id}');\n</script>`,
   },

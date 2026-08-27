@@ -52,7 +52,10 @@ export const certificates: Certificate[] = [
       en: "Risk Management (Specialization, 4 courses)",
       ar: "إدارة المخاطر (تخصص من ٤ دورات)",
     },
-    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    issuer: {
+      en: "New York Institute of Finance · Coursera",
+      ar: "معهد نيويورك للتمويل · كورسيرا",
+    },
     date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
     detail: {
       en: "Introduction to Risk Management · Credit Risk Management: Frameworks and Strategies · Market Risk Management: Frameworks & Strategies · Operational Risk Management: Frameworks & Strategies",
@@ -64,7 +67,10 @@ export const certificates: Certificate[] = [
   {
     id: "intro-risk-management",
     title: { en: "Introduction to Risk Management", ar: "مقدمة في إدارة المخاطر" },
-    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    issuer: {
+      en: "New York Institute of Finance · Coursera",
+      ar: "معهد نيويورك للتمويل · كورسيرا",
+    },
     date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/AHH2C8S5QYA1",
     image: introRisk.url,
@@ -75,7 +81,10 @@ export const certificates: Certificate[] = [
       en: "Market Risk Management: Frameworks & Strategies",
       ar: "إدارة مخاطر السوق: الأطر والاستراتيجيات",
     },
-    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    issuer: {
+      en: "New York Institute of Finance · Coursera",
+      ar: "معهد نيويورك للتمويل · كورسيرا",
+    },
     date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/XVYTKRIFTNLS",
     image: marketRisk.url,
@@ -86,7 +95,10 @@ export const certificates: Certificate[] = [
       en: "Operational Risk Management: Frameworks & Strategies",
       ar: "إدارة المخاطر التشغيلية: الأطر والاستراتيجيات",
     },
-    issuer: { en: "New York Institute of Finance · Coursera", ar: "معهد نيويورك للتمويل · كورسيرا" },
+    issuer: {
+      en: "New York Institute of Finance · Coursera",
+      ar: "معهد نيويورك للتمويل · كورسيرا",
+    },
     date: { en: "Oct 17, 2024", ar: "١٧ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/8SNP4ILBK8HS",
     image: operationalRisk.url,
@@ -202,7 +214,10 @@ export const certificates: Certificate[] = [
       en: "Artificial Intelligence (AI) — Certificate of Diploma",
       ar: "الذكاء الاصطناعي (AI) — دبلومة",
     },
-    issuer: { en: "American Board of Professional Studies", ar: "المجلس الأمريكي للدراسات المهنية" },
+    issuer: {
+      en: "American Board of Professional Studies",
+      ar: "المجلس الأمريكي للدراسات المهنية",
+    },
     date: { en: "Issued September 2025", ar: "صدرت في سبتمبر ٢٠٢٥" },
     detail: {
       en: "15 hours · Grade: Excellent · Serial No. 0035328",
@@ -236,7 +251,10 @@ export const certificates: Certificate[] = [
   },
   {
     id: "digital-forensics-essentials",
-    title: { en: "Digital Forensics Essentials (DFE)", ar: "أساسيات الأدلة الجنائية الرقمية (DFE)" },
+    title: {
+      en: "Digital Forensics Essentials (DFE)",
+      ar: "أساسيات الأدلة الجنائية الرقمية (DFE)",
+    },
     issuer: { en: "EC-Council · Coursera", ar: "EC-Council · كورسيرا" },
     date: { en: "Oct 3, 2024", ar: "٣ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/MUTXB6GCKDEZ",
@@ -248,7 +266,10 @@ export const certificates: Certificate[] = [
       en: "DevOps for Network Automation (NetDevOps)",
       ar: "DevOps لأتمتة الشبكات (NetDevOps)",
     },
-    issuer: { en: "Cisco Learning and Certifications · Coursera", ar: "Cisco Learning and Certifications · كورسيرا" },
+    issuer: {
+      en: "Cisco Learning and Certifications · Coursera",
+      ar: "Cisco Learning and Certifications · كورسيرا",
+    },
     date: { en: "Sep 28, 2024", ar: "٢٨ سبتمبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/8BNKUWJACI3B",
     image: netDevOps.url,
@@ -259,7 +280,10 @@ export const certificates: Certificate[] = [
       en: "Mini MBA (Mini Master of Business Administration) — Certificate of Diploma",
       ar: "ميني ماجستير إدارة الأعمال (Mini MBA) — دبلومة",
     },
-    issuer: { en: "American Board of Professional Studies", ar: "المجلس الأمريكي للدراسات المهنية" },
+    issuer: {
+      en: "American Board of Professional Studies",
+      ar: "المجلس الأمريكي للدراسات المهنية",
+    },
     date: { en: "Issued March 2026", ar: "صدرت في مارس ٢٠٢٦" },
     detail: {
       en: "60 hours · Grade: Excellent · Serial No. 0039955",
@@ -274,7 +298,10 @@ export const certificates: Certificate[] = [
       en: "International Training of Trainers Diploma (TOT)",
       ar: "دبلومة إعداد المدربين الدولية (TOT)",
     },
-    issuer: { en: "International Training College (I.T.C), UK", ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة" },
+    issuer: {
+      en: "International Training College (I.T.C), UK",
+      ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة",
+    },
     date: { en: "18-03-2026 to 18-06-2026", ar: "من ١٨-٠٣-٢٠٢٦ إلى ١٨-٠٦-٢٠٢٦" },
     detail: {
       en: "Field: International Training of Trainers Diploma · Grade: Excellent · Centre: BTC for Human Resources Development · Serial No. 1306260224",
@@ -289,7 +316,10 @@ export const certificates: Certificate[] = [
       en: "Certified Trainer — IT, Information Security, E-marketing & Logistics Science",
       ar: "مدرب معتمد — تكنولوجيا المعلومات وأمن المعلومات والتسويق الإلكتروني وعلوم اللوجستيات",
     },
-    issuer: { en: "International Training College (I.T.C), UK", ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة" },
+    issuer: {
+      en: "International Training College (I.T.C), UK",
+      ar: "الكلية الدولية للتدريب (I.T.C) — المملكة المتحدة",
+    },
     date: { en: "18-03-2026 to 18-06-2026", ar: "من ١٨-٠٣-٢٠٢٦ إلى ١٨-٠٦-٢٠٢٦" },
     detail: {
       en: "Certified Trainer in Information Technology, Information Security, E-marketing and Logistics Science · Grade: Excellent · Centre: BTC for Human Resources Development · Serial No. 1306260224",
@@ -319,7 +349,10 @@ export const certificates: Certificate[] = [
       en: "DM03: Online Advertising & Social Media",
       ar: "DM03: الإعلان عبر الإنترنت ووسائل التواصل الاجتماعي",
     },
-    issuer: { en: "USMx · University System of Maryland · edX", ar: "USMx · جامعة ولاية ماريلاند · edX" },
+    issuer: {
+      en: "USMx · University System of Maryland · edX",
+      ar: "USMx · جامعة ولاية ماريلاند · edX",
+    },
     date: { en: "Issued December 26, 2024", ar: "صدرت في ٢٦ ديسمبر ٢٠٢٤" },
     detail: {
       en: "Verified Certificate ID 41f86c2123a747b4810637f9eda355d3",
@@ -358,7 +391,10 @@ export const certificates: Certificate[] = [
       en: "Managerial Accounting: Cost Behaviors, Systems, and Analysis",
       ar: "المحاسبة الإدارية: سلوك التكاليف والأنظمة والتحليل",
     },
-    issuer: { en: "University of Illinois Urbana-Champaign · Coursera", ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا" },
+    issuer: {
+      en: "University of Illinois Urbana-Champaign · Coursera",
+      ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا",
+    },
     date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/9XR8IWHOM8AU",
     image: managerialAccounting.url,
@@ -369,14 +405,20 @@ export const certificates: Certificate[] = [
       en: "Operations Management: Quality and Supply Chain",
       ar: "إدارة العمليات: الجودة وسلسلة التوريد",
     },
-    issuer: { en: "University of Illinois Urbana-Champaign · Coursera", ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا" },
+    issuer: {
+      en: "University of Illinois Urbana-Champaign · Coursera",
+      ar: "جامعة إلينوي أوربانا-شامبين · كورسيرا",
+    },
     date: { en: "Oct 13, 2024", ar: "١٣ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/JMYV14SWP3JI",
     image: operationsManagement.url,
   },
   {
     id: "itil-4",
-    title: { en: "ITIL 4 Certification (Specialization, 4 courses)", ar: "شهادة ITIL 4 (تخصص من 4 دورات)" },
+    title: {
+      en: "ITIL 4 Certification (Specialization, 4 courses)",
+      ar: "شهادة ITIL 4 (تخصص من 4 دورات)",
+    },
     issuer: { en: "EDUCBA · Coursera", ar: "EDUCBA · كورسيرا" },
     date: { en: "Oct 10, 2024", ar: "١٠ أكتوبر ٢٠٢٤" },
     verifyUrl: "https://coursera.org/verify/specialization/ZPHD9USUJBM9",
@@ -399,7 +441,10 @@ export const certificates: Certificate[] = [
       en: "ENCE607.4x: Agile Leadership Principles and Practices",
       ar: "ENCE607.4x: مبادئ وممارسات القيادة الرشيقة",
     },
-    issuer: { en: "USMx · University System of Maryland · edX", ar: "USMx · جامعة ولاية ماريلاند · edX" },
+    issuer: {
+      en: "USMx · University System of Maryland · edX",
+      ar: "USMx · جامعة ولاية ماريلاند · edX",
+    },
     date: { en: "Issued December 12, 2024", ar: "صدرت في ١٢ ديسمبر ٢٠٢٤" },
     detail: {
       en: "Verified Certificate ID 25cf42c898ad4809afcf9481546fd750",
@@ -410,7 +455,10 @@ export const certificates: Certificate[] = [
   {
     id: "cyber-security",
     title: { en: "Cyber Security — Certificate of Diploma", ar: "الأمن السيبراني — دبلومة" },
-    issuer: { en: "American Board of Professional Studies", ar: "المجلس الأمريكي للدراسات المهنية" },
+    issuer: {
+      en: "American Board of Professional Studies",
+      ar: "المجلس الأمريكي للدراسات المهنية",
+    },
     date: { en: "Issued October 2025", ar: "صدرت في أكتوبر ٢٠٢٥" },
     detail: {
       en: "35 hours · Grade: Excellent · Serial No. 0036583",
@@ -421,7 +469,10 @@ export const certificates: Certificate[] = [
   },
   {
     id: "alx-professional-foundations",
-    title: { en: "Professional Foundations — Certificate of Completion", ar: "الأسس المهنية — شهادة إتمام" },
+    title: {
+      en: "Professional Foundations — Certificate of Completion",
+      ar: "الأسس المهنية — شهادة إتمام",
+    },
     issuer: { en: "ALX", ar: "ALX" },
     date: { en: "Issued 17 September 2024", ar: "صدرت في ١٧ سبتمبر ٢٠٢٤" },
     detail: {
@@ -486,4 +537,3 @@ const rank = (id: string) => {
 export const orderedCertificates: Certificate[] = [...certificates].sort(
   (a, b) => rank(a.id) - rank(b.id),
 );
-

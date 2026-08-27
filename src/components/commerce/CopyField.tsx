@@ -29,7 +29,9 @@ export function CopyField({ label, value, copyLabel, copiedLabel, className }: P
       )}
     >
       <div className="min-w-0">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
+        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
         <p dir="ltr" className="mt-1 truncate font-mono text-sm text-foreground">
           {value}
         </p>
@@ -39,7 +41,11 @@ export function CopyField({ label, value, copyLabel, copiedLabel, className }: P
         onClick={copy}
         className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
-        {copied ? <Check className="size-3.5 text-primary" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
+        {copied ? (
+          <Check className="size-3.5 text-primary" aria-hidden />
+        ) : (
+          <Copy className="size-3.5" aria-hidden />
+        )}
         {copied ? copiedLabel : copyLabel}
       </button>
     </div>

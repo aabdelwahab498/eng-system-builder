@@ -15,7 +15,6 @@ import {
   ExternalLink,
   Pencil,
   Plus,
-
   Send,
   Trash2,
   TrendingDown,
@@ -122,8 +121,8 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
             Ads on {spec.label}
           </h2>
           <p className="text-xs text-muted-foreground">
-            {totals.total} ads · {totals.own} mine · {totals.client} client ·{" "}
-            {totals.running} running
+            {totals.total} ads · {totals.own} mine · {totals.client} client · {totals.running}{" "}
+            running
           </p>
         </div>
       </header>
@@ -204,7 +203,6 @@ export function ChannelAdsManager({ spec }: { spec: AdChannelSpec }) {
           </div>
         );
       })}
-
 
       {ADS_MANAGER_URL[spec.id] ? (
         <p className="text-xs text-muted-foreground">
@@ -310,7 +308,6 @@ function AdRow({
           </Button>
         </div>
       </div>
-
 
       {open ? (
         <div className="space-y-4 border-t border-border p-4">

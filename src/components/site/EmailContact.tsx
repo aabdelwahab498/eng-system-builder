@@ -24,7 +24,12 @@ export function EmailContact({ email, className }: { email: string; className?: 
       : { mail: "Email me", copy: "Copy email address", copied: "Email copied" };
 
   return (
-    <div className={cn("inline-flex items-center gap-1 rounded-full border border-border/60 bg-card/40 p-1", className)}>
+    <div
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full border border-border/60 bg-card/40 p-1",
+        className,
+      )}
+    >
       <a
         href={`mailto:${email}`}
         aria-label={`${labels.mail}: ${email}`}
@@ -41,7 +46,11 @@ export function EmailContact({ email, className }: { email: string; className?: 
         title={labels.copy}
         className="inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
-        {copied ? <Check className="size-4 text-primary" aria-hidden /> : <Copy className="size-4" aria-hidden />}
+        {copied ? (
+          <Check className="size-4 text-primary" aria-hidden />
+        ) : (
+          <Copy className="size-4" aria-hidden />
+        )}
       </button>
       <span aria-live="polite" className="sr-only">
         {copied ? labels.copied : ""}

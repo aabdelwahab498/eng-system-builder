@@ -28,8 +28,7 @@ const EQUATIONS = [
   "log₂(n)",
 ];
 
-const MATH_GLYPHS =
-  "0123456789+=-*/<>[](){}|^$%#&∂∇Σ∫√π∞λΔΩ≠≈≤≥∀∃∈∪∩⊂⊃→←↦·²³";
+const MATH_GLYPHS = "0123456789+=-*/<>[](){}|^$%#&∂∇Σ∫√π∞λΔΩ≠≈≤≥∀∃∈∪∩⊂⊃→←↦·²³";
 
 export function MatrixHud({
   height = 180,
@@ -197,11 +196,7 @@ export function MatrixHud({
           const ny = (tokenPos[i]! + 1.5) * fontSize;
           ctx.fillStyle = colors[i]!;
           ctx.globalAlpha = 0.25;
-          ctx.fillText(
-            MATH_GLYPHS[Math.floor(Math.random() * MATH_GLYPHS.length)]!,
-            x,
-            ny,
-          );
+          ctx.fillText(MATH_GLYPHS[Math.floor(Math.random() * MATH_GLYPHS.length)]!, x, ny);
           ctx.globalAlpha = 1;
         }
         tokenPos[i] = tokenPos[i]! + tokenSpeed[i]!;

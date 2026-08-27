@@ -25,10 +25,16 @@ export function Hero() {
       isMail: false as const,
     })),
     ...(email
-      ? [{ href: `mailto:${email.value}`, label: t.ui.email, platform: "other" as SocialPlatform, isMail: true as const }]
+      ? [
+          {
+            href: `mailto:${email.value}`,
+            label: t.ui.email,
+            platform: "other" as SocialPlatform,
+            isMail: true as const,
+          },
+        ]
       : []),
   ];
-
 
   const labels: Record<string, string> = {
     viewWork: t.ui.viewWork,
@@ -104,9 +110,6 @@ export function Hero() {
 
             <ServiceQuickSearch className="mt-6" />
 
-
-
-
             <ul className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((s) => {
                 return (
@@ -127,10 +130,7 @@ export function Hero() {
                       {s.isMail ? (
                         <Mail className="size-5 copper-icon" aria-hidden />
                       ) : (
-                        <SocialIcon
-                          platform={s.platform}
-                          className="size-5 copper-icon"
-                        />
+                        <SocialIcon platform={s.platform} className="size-5 copper-icon" />
                       )}
                     </a>
                   </li>

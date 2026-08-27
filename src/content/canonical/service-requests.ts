@@ -46,7 +46,10 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
     extraFields: [
       {
         key: "domain",
-        label: { en: "Do you already have a domain and hosting?", ar: "هل لديك دومين واستضافة بالفعل؟" },
+        label: {
+          en: "Do you already have a domain and hosting?",
+          ar: "هل لديك دومين واستضافة بالفعل؟",
+        },
         kind: "select",
         options: enAr(
           ["Yes, both", "Domain only", "No, I need both", "Not sure"],
@@ -72,18 +75,32 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
       ["لوحة تحكم إدارية", "بوابة عملاء", "نظام عمليات داخلي", "منتج SaaS"],
     ),
     scopeOptions: enAr(
-      ["MVP (core flows only)", "Standard (auth + main modules)", "Full system (multiple roles & modules)"],
-      ["نسخة أولية (المسارات الأساسية)", "قياسي (مصادقة + الوحدات الرئيسية)", "نظام كامل (أدوار ووحدات متعددة)"],
+      [
+        "MVP (core flows only)",
+        "Standard (auth + main modules)",
+        "Full system (multiple roles & modules)",
+      ],
+      [
+        "نسخة أولية (المسارات الأساسية)",
+        "قياسي (مصادقة + الوحدات الرئيسية)",
+        "نظام كامل (أدوار ووحدات متعددة)",
+      ],
     ),
     extraFields: [
       {
         key: "users",
-        label: { en: "Who will use it? (roles, approx. number of users)", ar: "من سيستخدمه؟ (الأدوار، العدد التقريبي للمستخدمين)" },
+        label: {
+          en: "Who will use it? (roles, approx. number of users)",
+          ar: "من سيستخدمه؟ (الأدوار، العدد التقريبي للمستخدمين)",
+        },
         kind: "text",
       },
       {
         key: "integrations",
-        label: { en: "Systems it must connect to (optional)", ar: "أنظمة يجب أن يتكامل معها (اختياري)" },
+        label: {
+          en: "Systems it must connect to (optional)",
+          ar: "أنظمة يجب أن يتكامل معها (اختياري)",
+        },
         kind: "text",
       },
     ],
@@ -99,7 +116,11 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
       ["أندرويد فقط", "iOS فقط", "iOS + أندرويد", "تطبيق + لوحة تحكم ويب"],
     ),
     scopeOptions: enAr(
-      ["MVP (one core feature set)", "Standard app", "Full product (payments, notifications, admin)"],
+      [
+        "MVP (one core feature set)",
+        "Standard app",
+        "Full product (payments, notifications, admin)",
+      ],
       ["نسخة أولية (مجموعة مزايا أساسية)", "تطبيق قياسي", "منتج كامل (مدفوعات، إشعارات، إدارة)"],
     ),
     extraFields: [
@@ -145,7 +166,10 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
       },
       {
         key: "database",
-        label: { en: "Database (existing or preferred)", ar: "قاعدة البيانات (الحالية أو المفضلة)" },
+        label: {
+          en: "Database (existing or preferred)",
+          ar: "قاعدة البيانات (الحالية أو المفضلة)",
+        },
         kind: "text",
       },
     ],
@@ -170,7 +194,12 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
         label: { en: "Where are you now?", ar: "أين أنت الآن؟" },
         kind: "select",
         options: enAr(
-          ["Idea only", "Have designs / mockups", "Have a partial build", "Replacing an existing system"],
+          [
+            "Idea only",
+            "Have designs / mockups",
+            "Have a partial build",
+            "Replacing an existing system",
+          ],
           ["فكرة فقط", "لديّ تصاميم", "لديّ جزء مبني", "استبدال نظام قائم"],
         ),
       },
@@ -188,8 +217,18 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
       ar: "مزايا ذكاء اصطناعي ووكلاء مدمجة في مسارات منتج حقيقية — وليست عروضًا تجريبية.",
     },
     platformOptions: enAr(
-      ["Chat assistant for my product", "AI agent for a business workflow", "Document / data AI (RAG)", "AI content generation"],
-      ["مساعد محادثة لمنتجي", "وكيل ذكي لمسار عمل", "ذكاء للمستندات والبيانات (RAG)", "توليد محتوى بالذكاء الاصطناعي"],
+      [
+        "Chat assistant for my product",
+        "AI agent for a business workflow",
+        "Document / data AI (RAG)",
+        "AI content generation",
+      ],
+      [
+        "مساعد محادثة لمنتجي",
+        "وكيل ذكي لمسار عمل",
+        "ذكاء للمستندات والبيانات (RAG)",
+        "توليد محتوى بالذكاء الاصطناعي",
+      ],
     ),
     scopeOptions: enAr(
       ["One AI feature", "Full AI workflow", "AI across the product"],
@@ -205,7 +244,10 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
         key: "existingProduct",
         label: { en: "Is this for an existing product?", ar: "هل هذا لمنتج قائم؟" },
         kind: "select",
-        options: enAr(["Yes, integrate into it", "No, new product", "Not sure"], ["نعم، دمجه فيه", "لا، منتج جديد", "غير متأكد"]),
+        options: enAr(
+          ["Yes, integrate into it", "No, new product", "Not sure"],
+          ["نعم، دمجه فيه", "لا، منتج جديد", "غير متأكد"],
+        ),
       },
     ],
   },
@@ -216,8 +258,18 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
       ar: "أتمتة العمليات المتكررة متعددة الخطوات بين أنظمتك، مع مراقبة مدمجة.",
     },
     platformOptions: enAr(
-      ["Data sync between systems", "Scheduled reports / notifications", "File & document processing", "Custom workflow automation"],
-      ["مزامنة بيانات بين الأنظمة", "تقارير / إشعارات مجدولة", "معالجة ملفات ومستندات", "أتمتة مسار عمل مخصص"],
+      [
+        "Data sync between systems",
+        "Scheduled reports / notifications",
+        "File & document processing",
+        "Custom workflow automation",
+      ],
+      [
+        "مزامنة بيانات بين الأنظمة",
+        "تقارير / إشعارات مجدولة",
+        "معالجة ملفات ومستندات",
+        "أتمتة مسار عمل مخصص",
+      ],
     ),
     scopeOptions: enAr(
       ["One process", "A few connected processes", "Department-wide automation"],
@@ -226,14 +278,20 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
     extraFields: [
       {
         key: "process",
-        label: { en: "Describe the process you want to automate", ar: "صف العملية التي تريد أتمتتها" },
+        label: {
+          en: "Describe the process you want to automate",
+          ar: "صف العملية التي تريد أتمتتها",
+        },
         kind: "text",
       },
       {
         key: "frequency",
         label: { en: "How often does it run?", ar: "كم مرة تتم هذه العملية؟" },
         kind: "select",
-        options: enAr(["Hourly / daily", "Weekly", "Monthly", "On demand"], ["كل ساعة / يوميًا", "أسبوعيًا", "شهريًا", "عند الطلب"]),
+        options: enAr(
+          ["Hourly / daily", "Weekly", "Monthly", "On demand"],
+          ["كل ساعة / يوميًا", "أسبوعيًا", "شهريًا", "عند الطلب"],
+        ),
       },
     ],
   },
@@ -263,8 +321,18 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
         label: { en: "Main SEO goal", ar: "هدف الـ SEO الرئيسي" },
         kind: "select",
         options: enAr(
-          ["More organic traffic", "Better ranking for keywords", "Fix technical issues", "New site — start right"],
-          ["زيادة الزيارات العضوية", "ترتيب أفضل للكلمات المفتاحية", "إصلاح مشاكل تقنية", "موقع جديد — بداية صحيحة"],
+          [
+            "More organic traffic",
+            "Better ranking for keywords",
+            "Fix technical issues",
+            "New site — start right",
+          ],
+          [
+            "زيادة الزيارات العضوية",
+            "ترتيب أفضل للكلمات المفتاحية",
+            "إصلاح مشاكل تقنية",
+            "موقع جديد — بداية صحيحة",
+          ],
         ),
       },
     ],
@@ -286,7 +354,10 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
     extraFields: [
       {
         key: "business",
-        label: { en: "Your business / product and target audience", ar: "نشاطك / منتجك والجمهور المستهدف" },
+        label: {
+          en: "Your business / product and target audience",
+          ar: "نشاطك / منتجك والجمهور المستهدف",
+        },
         kind: "text",
       },
       {
@@ -324,7 +395,10 @@ export const serviceRequestConfigs: Record<string, ServiceRequestConfig> = {
         key: "script",
         label: { en: "Do you have a script ready?", ar: "هل لديك نص جاهز؟" },
         kind: "select",
-        options: enAr(["Yes", "No, write it for me", "Draft — needs polish"], ["نعم", "لا، اكتبه لي", "مسودة — تحتاج صقلًا"]),
+        options: enAr(
+          ["Yes", "No, write it for me", "Draft — needs polish"],
+          ["نعم", "لا، اكتبه لي", "مسودة — تحتاج صقلًا"],
+        ),
       },
     ],
   },
@@ -368,6 +442,9 @@ export const defaultServiceRequestConfig: ServiceRequestConfig = {
     ["Web", "Mobile", "Web + Mobile", "Backend / API", "AI system", "Not sure yet"],
     ["ويب", "موبايل", "ويب + موبايل", "باك اند / API", "نظام ذكاء اصطناعي", "غير محدد بعد"],
   ),
-  scopeOptions: enAr(["Small", "Medium", "Large", "Not sure yet"], ["صغير", "متوسط", "كبير", "غير محدد بعد"]),
+  scopeOptions: enAr(
+    ["Small", "Medium", "Large", "Not sure yet"],
+    ["صغير", "متوسط", "كبير", "غير محدد بعد"],
+  ),
   extraFields: [],
 };

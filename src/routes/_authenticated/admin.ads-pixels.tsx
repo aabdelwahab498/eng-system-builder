@@ -10,14 +10,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {
-  ArrowLeft,
-  Check,
-  ChevronRight,
-  Copy,
-  ExternalLink,
-  ShieldAlert,
-} from "lucide-react";
+import { ArrowLeft, Check, ChevronRight, Copy, ExternalLink, ShieldAlert } from "lucide-react";
 import {
   AD_CHANNELS,
   AD_PLACEMENTS,
@@ -114,9 +107,7 @@ function AdsPixelsPage() {
           </Button>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <h1 className="font-display text-2xl font-semibold text-foreground">
-                {spec.label}
-              </h1>
+              <h1 className="font-display text-2xl font-semibold text-foreground">{spec.label}</h1>
               {spec.hasPixel ? null : (
                 <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase text-muted-foreground">
                   no pixel
@@ -286,10 +277,10 @@ function AdsPixelsPage() {
           Ads &amp; tracking pixels
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Pick a channel to configure its pixel / tag ID, install placement and campaign
-          objective — one channel at a time. {activeCount} configured. Channels marked{" "}
-          <span className="font-mono uppercase">no pixel</span> have no first-party website tag
-          and are listed for transparency.
+          Pick a channel to configure its pixel / tag ID, install placement and campaign objective —
+          one channel at a time. {activeCount} configured. Channels marked{" "}
+          <span className="font-mono uppercase">no pixel</span> have no first-party website tag and
+          are listed for transparency.
         </p>
       </header>
 

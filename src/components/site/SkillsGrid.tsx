@@ -38,4 +38,3 @@ export function SkillsGrid({ categories }: { categories: SkillCategory[] }) {
     </div>
   );
 }
-

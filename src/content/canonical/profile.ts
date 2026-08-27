@@ -207,7 +207,11 @@ export const canonicalProfile: CanonicalProfile = {
     "exp-quality-control-petroleum",
   ],
   certificationIds: [],
-  projectIds: ["project-universal-ai-software-factory", "project-najmah", "project-nextnext-gen-hub"],
+  projectIds: [
+    "project-universal-ai-software-factory",
+    "project-najmah",
+    "project-nextnext-gen-hub",
+  ],
   productIds: ["product-najmah", "product-factory-api"],
   serviceIds: [
     "service-backend-engineering",

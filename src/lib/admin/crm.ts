@@ -37,16 +37,13 @@ export type ServiceRequest = {
 };
 
 export type ClientStatus =
-  | "lead"
-  | "client"
-  | "active_project"
-  | "completed"
-  | "returning"
-  | "archived";
+  "lead" | "client" | "active_project" | "completed" | "returning" | "archived";
 
-export type SubscriptionPlan = "none" | "one_time" | "monthly" | "quarterly" | "yearly" | "retainer";
+export type SubscriptionPlan =
+  "none" | "one_time" | "monthly" | "quarterly" | "yearly" | "retainer";
 
-export type PaymentState = "unpaid" | "deposit_paid" | "partially_paid" | "paid" | "overdue" | "refunded";
+export type PaymentState =
+  "unpaid" | "deposit_paid" | "partially_paid" | "paid" | "overdue" | "refunded";
 
 export type Client = {
   id: string;
@@ -86,7 +83,6 @@ export type Subscriber = {
   nextRenewalAt?: string;
   createdAt: string;
 };
-
 
 export type ActivityEntry = {
   id: string;
@@ -254,4 +250,3 @@ export const PAYMENT_STATES: { value: PaymentState; label: string }[] = [
 ];
 
 export const CURRENCIES = ["EGP", "USD", "EUR", "SAR", "AED"];
-

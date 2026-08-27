@@ -121,7 +121,11 @@ export function ClientBillingDialog({
       if (action === "pause") await pauseSubscription(client!);
       if (action === "resume") await resumeSubscription(client!);
       toast.success(
-        action === "renew" ? "Subscription renewed" : action === "pause" ? "Subscription paused" : "Subscription resumed",
+        action === "renew"
+          ? "Subscription renewed"
+          : action === "pause"
+            ? "Subscription paused"
+            : "Subscription resumed",
       );
       refresh();
     } finally {
@@ -175,20 +179,37 @@ export function ClientBillingDialog({
               variant="outline"
               className="gap-2"
               disabled={!invoiceAvailable(client)}
-              title={invoiceAvailable(client) ? undefined : "Add an invoice reference and amount first"}
+              title={
+                invoiceAvailable(client) ? undefined : "Add an invoice reference and amount first"
+              }
               onClick={() => openInvoicePdf(client, payments)}
             >
               <FileText className="h-4 w-4" /> Download invoice PDF
             </Button>
-            <Button variant="outline" className="gap-2" disabled={busy} onClick={() => setConfirm("renew")}>
+            <Button
+              variant="outline"
+              className="gap-2"
+              disabled={busy}
+              onClick={() => setConfirm("renew")}
+            >
               <RefreshCw className="h-4 w-4" /> Renew manually
             </Button>
             {subState === "paused" ? (
-              <Button variant="outline" className="gap-2" disabled={busy} onClick={() => setConfirm("resume")}>
+              <Button
+                variant="outline"
+                className="gap-2"
+                disabled={busy}
+                onClick={() => setConfirm("resume")}
+              >
                 <Play className="h-4 w-4" /> Resume
               </Button>
             ) : (
-              <Button variant="outline" className="gap-2" disabled={busy} onClick={() => setConfirm("pause")}>
+              <Button
+                variant="outline"
+                className="gap-2"
+                disabled={busy}
+                onClick={() => setConfirm("pause")}
+              >
                 <Pause className="h-4 w-4" /> Pause
               </Button>
             )}
@@ -223,7 +244,10 @@ export function ClientBillingDialog({
               </div>
               <div className="space-y-1.5">
                 <Label>Currency</Label>
-                <Select value={draft.currency} onValueChange={(v) => setDraft({ ...draft, currency: v })}>
+                <Select
+                  value={draft.currency}
+                  onValueChange={(v) => setDraft({ ...draft, currency: v })}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -310,7 +334,9 @@ export function ClientBillingDialog({
                       <TableCell className="font-medium text-foreground">
                         {money(p.amount, p.currency)}
                       </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">{p.method || "—"}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {p.method || "—"}
+                      </TableCell>
                       <TableCell className="font-mono text-[10px] uppercase text-muted-foreground">
                         {p.status}
                       </TableCell>
@@ -340,11 +366,15 @@ export function ClientBillingDialog({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{confirm ? ACTION_COPY[confirm].title : ""}</AlertDialogTitle>
-            <AlertDialogDescription>{confirm ? ACTION_COPY[confirm].body : ""}</AlertDialogDescription>
+            <AlertDialogDescription>
+              {confirm ? ACTION_COPY[confirm].body : ""}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => confirm && runAction(confirm)}>Confirm</AlertDialogAction>
+            <AlertDialogAction onClick={() => confirm && runAction(confirm)}>
+              Confirm
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

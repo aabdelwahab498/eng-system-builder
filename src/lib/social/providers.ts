@@ -152,14 +152,20 @@ const withLink = (text: string, post: SocialPost) => (post.link ? `${text}\n\n${
 
 /** Platform-specific transformations — one canonical post, many voices. */
 export const socialProviders: Record<SocialPlatform, SocialProvider> = {
-  linkedin: notConnected("linkedin", (p) =>
-    withLink(`${p.title}\n\n${p.content}`, p) + `\n\n${p.tags.map((t) => `#${t.replace(/[^A-Za-z]/g, "")}`).join(" ")}`,
+  linkedin: notConnected(
+    "linkedin",
+    (p) =>
+      withLink(`${p.title}\n\n${p.content}`, p) +
+      `\n\n${p.tags.map((t) => `#${t.replace(/[^A-Za-z]/g, "")}`).join(" ")}`,
   ),
   github: notConnected("github", (p) => `## ${p.title}\n\n${p.content}`),
   facebook: notConnected("facebook", (p) => withLink(short(p, 480), p)),
   reddit: notConnected("reddit", (p) => `**${p.title}**\n\n${p.content}\n\nDiscussion welcome.`),
   quora: notConnected("quora", (p) => `${p.content}\n\n— answered from practice.`),
-  stackexchange: notConnected("stackexchange", (p) => `${p.content}\n\nReferences: ${p.link || "n/a"}`),
+  stackexchange: notConnected(
+    "stackexchange",
+    (p) => `${p.content}\n\nReferences: ${p.link || "n/a"}`,
+  ),
   glassdoor: notConnected("glassdoor", (p) => short(p, 600)),
   youtube: notConnected("youtube", (p) => withLink(`${p.title}\n\n${p.content}`, p)),
   instagram: notConnected("instagram", (p) => short(p, 300)),

@@ -28,7 +28,8 @@ export const Route = createFileRoute("/api/public/media/$")({
 
         return new Response(await data.arrayBuffer(), {
           headers: {
-            "content-type": (asset as { mime_type: string | null }).mime_type ?? "application/octet-stream",
+            "content-type":
+              (asset as { mime_type: string | null }).mime_type ?? "application/octet-stream",
             "cache-control": "public, max-age=3600",
           },
         });

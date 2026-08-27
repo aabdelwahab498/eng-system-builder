@@ -12,21 +12,10 @@ export type Locale = "en" | "ar";
 export type Localized<T> = { en: T; ar: T | null };
 
 export type ContentStatus =
-  | "verified"
-  | "draft"
-  | "needs-verification"
-  | "placeholder"
-  | "private"
-  | "deprecated";
+  "verified" | "draft" | "needs-verification" | "placeholder" | "private" | "deprecated";
 
 export type SourceType =
-  | "github"
-  | "linkedin"
-  | "cv"
-  | "user-provided"
-  | "project-documentation"
-  | "portfolio"
-  | "other";
+  "github" | "linkedin" | "cv" | "user-provided" | "project-documentation" | "portfolio" | "other";
 
 export type Provenance = {
   source?: string;
@@ -51,7 +40,7 @@ export type Tracked<T> = T & {
 /** Only these states may ever reach production UI. */
 export const PUBLISHABLE_STATUSES: ContentStatus[] = ["verified", "draft"];
 
-export const isPublishable = <T,>(item: Tracked<T>): boolean =>
+export const isPublishable = <T>(item: Tracked<T>): boolean =>
   PUBLISHABLE_STATUSES.includes(item.status) && item.visibility.public;
 
 /* ---------------------------------------------------------------- profile */
@@ -139,20 +128,10 @@ export type CanonicalProfile = {
 /* ------------------------------------------------------------- experience */
 
 export type ExperienceCategory =
-  | "engineering"
-  | "product"
-  | "academic"
-  | "operations"
-  | "marketing"
-  | "other";
+  "engineering" | "product" | "academic" | "operations" | "marketing" | "other";
 
 export type OrganizationType =
-  | "company"
-  | "startup"
-  | "agency"
-  | "academic"
-  | "government"
-  | "self";
+  "company" | "startup" | "agency" | "academic" | "government" | "self";
 
 export type Experience = Tracked<{
   id: string;
@@ -225,7 +204,6 @@ export type Skill = {
   linkedinVisible: boolean;
 };
 
-
 export type SkillGroup = {
   id: SkillCategoryId;
   category: SkillCategoryId;
@@ -237,21 +215,9 @@ export type SkillGroup = {
 /* --------------------------------------------------------------- projects */
 
 export type ProjectCategory =
-  | "web"
-  | "backend"
-  | "frontend"
-  | "mobile"
-  | "ai"
-  | "saas"
-  | "infrastructure"
-  | "digital-product";
+  "web" | "backend" | "frontend" | "mobile" | "ai" | "saas" | "infrastructure" | "digital-product";
 
-export type ProjectStatus =
-  | "live"
-  | "beta"
-  | "in-development"
-  | "coming-soon"
-  | "archived";
+export type ProjectStatus = "live" | "beta" | "in-development" | "coming-soon" | "archived";
 
 export type MediaRef = {
   kind: "placeholder" | "image";
@@ -288,13 +254,7 @@ export type CanonicalProject = Tracked<{
 /* --------------------------------------------------------------- products */
 
 export type ProductCategory =
-  | "saas"
-  | "ai-tool"
-  | "developer-tool"
-  | "template"
-  | "digital-download"
-  | "course"
-  | "other";
+  "saas" | "ai-tool" | "developer-tool" | "template" | "digital-download" | "course" | "other";
 
 export type ProductStatus = "live" | "beta" | "in-development" | "coming-soon";
 
@@ -345,12 +305,7 @@ export type CanonicalService = Tracked<{
 
 /* --------------------------------------------------------------------- cv */
 
-export type CvVariant =
-  | "general"
-  | "backend-dotnet"
-  | "ai"
-  | "fullstack"
-  | "mobile-flutter";
+export type CvVariant = "general" | "backend-dotnet" | "ai" | "fullstack" | "mobile-flutter";
 
 export type CvDocument = {
   variant: CvVariant;
@@ -379,12 +334,12 @@ export type LinkedInContent = {
 /* ---------------------------------------------------------------- helpers */
 
 /** Resolve a localized value; returns null when the Arabic copy is missing. */
-export const pick = <T,>(value: Localized<T>, locale: Locale): T | null =>
+export const pick = <T>(value: Localized<T>, locale: Locale): T | null =>
   locale === "ar" ? value.ar : value.en;
 
 /** Resolve with English fallback — use only where a gap must not break the UI. */
-export const pickOrEn = <T,>(value: Localized<T>, locale: Locale): T =>
-  (locale === "ar" ? (value.ar ?? value.en) : value.en);
+export const pickOrEn = <T>(value: Localized<T>, locale: Locale): T =>
+  locale === "ar" ? (value.ar ?? value.en) : value.en;
 
 /* ------------------------------------------------- phase 4 additions */
 /**

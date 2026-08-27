@@ -5,13 +5,7 @@ import { QRCodeSVG } from "qrcode.react";
  * Dark modules on a light "paper" card for universal scanner reliability.
  * Deterministic SVG output — identical on server and client, no hydration mismatch.
  */
-export function SiteBarcode({
-  value,
-  size = 104,
-}: {
-  value: string;
-  size?: number;
-}) {
+export function SiteBarcode({ value, size = 104 }: { value: string; size?: number }) {
   return (
     <div className="flex justify-center">
       <div className="rounded-md border border-border bg-white p-2">

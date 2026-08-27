@@ -25,12 +25,16 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 function useBadgeCounts() {
   const overview = useServerFn(adminOverview);
-  const { data: content } = useQuery({ queryKey: ["admin", "overview"], queryFn: () => overview() });
+  const { data: content } = useQuery({
+    queryKey: ["admin", "overview"],
+    queryFn: () => overview(),
+  });
   const { data: local } = useQuery({
     queryKey: ["admin", "local-counts"],
     queryFn: async () => ({
       requests: (await serviceRequests.list()).filter((r) => r.status === "new").length,
-      payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review").length,
+      payments: (await paymentSubmissions.list()).filter((p) => p.status === "pending_review")
+        .length,
       clients: (await clients.list()).length,
       subscribers: (await subscribers.list()).length,
     }),
@@ -43,13 +47,7 @@ function useBadgeCounts() {
   };
 }
 
-function NavList({
-  collapsed,
-  onNavigate,
-}: {
-  collapsed?: boolean;
-  onNavigate?: () => void;
-}) {
+function NavList({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const badgeFor = useBadgeCounts();
 

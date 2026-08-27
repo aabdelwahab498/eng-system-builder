@@ -60,15 +60,14 @@ function GatewayCard({
         <div>
           <p className="font-display text-sm font-semibold text-foreground">{gateway.name}</p>
           <p className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {gateway.currencies.join(" · ")} · {gateway.mode === "manual" ? "Manual proof" : "Automatic"}
+            {gateway.currencies.join(" · ")} ·{" "}
+            {gateway.mode === "manual" ? "Manual proof" : "Automatic"}
           </p>
         </div>
         <span
           className={cn(
             "shrink-0 rounded-sm border px-2 py-1 font-mono text-[10px] uppercase",
-            live
-              ? "border-emerald-500/50 text-emerald-500"
-              : "border-amber-500/50 text-amber-500",
+            live ? "border-emerald-500/50 text-emerald-500" : "border-amber-500/50 text-amber-500",
           )}
         >
           {live ? "Live" : "Reserved"}
@@ -237,10 +236,12 @@ export function GatewayOverview({ stats }: { stats?: GatewayStats }) {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="eyebrow">Gateways</p>
-          <h2 className="mt-1 font-display text-lg font-semibold text-foreground">Payment gateways</h2>
+          <h2 className="mt-1 font-display text-lg font-semibold text-foreground">
+            Payment gateways
+          </h2>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Every rail clients can pay through — {liveCount} live, the rest are reserved slots.
-            Add, edit or remove a gateway any time from Content → Payments.
+            Every rail clients can pay through — {liveCount} live, the rest are reserved slots. Add,
+            edit or remove a gateway any time from Content → Payments.
           </p>
         </div>
         <div className="flex gap-2">

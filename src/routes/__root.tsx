@@ -21,8 +21,6 @@ import { getContent } from "@/content";
 import { localeFromPathname } from "@/hooks/useLocale";
 import { themeInitScript } from "@/components/site/ThemeToggle";
 
-
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center bg-background px-4">
@@ -44,7 +42,6 @@ function NotFoundComponent() {
     </div>
   );
 }
-
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
@@ -89,7 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder" },
+      {
+        title:
+          "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
+      },
       {
         name: "description",
         content:
@@ -179,5 +179,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
-

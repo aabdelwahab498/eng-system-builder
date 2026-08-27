@@ -120,7 +120,9 @@ function SocialHub() {
         });
       } else {
         toast.success("Publish attempted", {
-          description: results.map((r) => `${PLATFORM_LABELS[r.platform]}: ${r.outcome}`).join(" · "),
+          description: results
+            .map((r) => `${PLATFORM_LABELS[r.platform]}: ${r.outcome}`)
+            .join(" · "),
         });
       }
     },
@@ -404,7 +406,8 @@ function SocialHub() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this content item?</AlertDialogTitle>
             <AlertDialogDescription>
-              “{deleting?.title}” will be removed from the distribution board. This cannot be undone.
+              “{deleting?.title}” will be removed from the distribution board. This cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

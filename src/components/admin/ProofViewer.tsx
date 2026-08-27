@@ -70,7 +70,11 @@ export function ProofViewer({
           </DialogHeader>
           {url &&
             (isPdf ? (
-              <iframe src={url} title={label} className="h-[80vh] w-full rounded-md border border-border" />
+              <iframe
+                src={url}
+                title={label}
+                className="h-[80vh] w-full rounded-md border border-border"
+              />
             ) : (
               <img
                 src={url}

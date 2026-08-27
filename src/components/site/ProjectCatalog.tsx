@@ -118,7 +118,9 @@ export function ProjectCatalog({
             <div className="book-spine" aria-hidden />
 
             {flip && old && (
-              <div className={cn("flip-page", flip.dir === 1 ? "flip-page-next" : "flip-page-prev")}>
+              <div
+                className={cn("flip-page", flip.dir === 1 ? "flip-page-next" : "flip-page-prev")}
+              >
                 <div className="flip-face book-page">
                   {flip.dir === 1 ? (
                     <ProjectTextPage

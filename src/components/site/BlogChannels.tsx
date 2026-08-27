@@ -1,10 +1,4 @@
-import {
-  siQuora,
-  siReddit,
-  siStackexchange,
-  siFacebook,
-  siGlassdoor,
-} from "simple-icons";
+import { siQuora, siReddit, siStackexchange, siFacebook, siGlassdoor } from "simple-icons";
 import { useLocale } from "@/hooks/useLocale";
 import { getCanonicalSocialLinks } from "@/content/api";
 import { cn } from "@/lib/utils";

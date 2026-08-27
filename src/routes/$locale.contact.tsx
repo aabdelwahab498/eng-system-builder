@@ -64,7 +64,12 @@ function ContactPage() {
 
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.contact, path: "/contact" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.contact, path: "/contact" },
+        ]}
+      />
       <PageHeader eyebrow={t.ui.contact} title={t.ui.contact} subtitle={m.description} />
 
       <Section>
@@ -77,7 +82,9 @@ function ContactPage() {
             <Reveal delay={60} className="rounded-lg border border-border bg-surface/60 p-6">
               <div className="flex items-center gap-3">
                 <SocialIcon platform="whatsapp" className="size-5" />
-                <p className="font-display text-base font-medium text-foreground">{side.whatsappTitle}</p>
+                <p className="font-display text-base font-medium text-foreground">
+                  {side.whatsappTitle}
+                </p>
               </div>
               <p className="mt-2 font-mono text-sm text-muted-foreground" dir="ltr">
                 {whatsapp.display ?? whatsapp.value}
@@ -96,7 +103,9 @@ function ContactPage() {
             <Reveal delay={120} className="rounded-lg border border-border bg-surface/60 p-6">
               <div className="flex items-center gap-3">
                 <Mail className="size-5 text-primary" />
-                <p className="font-display text-base font-medium text-foreground">{side.emailTitle}</p>
+                <p className="font-display text-base font-medium text-foreground">
+                  {side.emailTitle}
+                </p>
               </div>
               {email ? (
                 <>
@@ -128,7 +137,10 @@ function ContactPage() {
                 {side.channels}
               </p>
               {phone && (
-                <p className="mt-3 flex items-center gap-3 font-mono text-sm text-muted-foreground" dir="ltr">
+                <p
+                  className="mt-3 flex items-center gap-3 font-mono text-sm text-muted-foreground"
+                  dir="ltr"
+                >
                   <Phone className="size-4 text-primary" />
                   {phone}
                 </p>
@@ -164,4 +176,3 @@ function ContactPage() {
     </>
   );
 }
-

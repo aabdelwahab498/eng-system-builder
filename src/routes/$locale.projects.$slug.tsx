@@ -147,7 +147,6 @@ function ProjectPage() {
         </div>
       </PageHeader>
 
-
       {project.media[0] && (
         <Section bordered={false} className="pt-0">
           <MediaSlot media={project.media[0]} note={t.ui.mediaPlaceholder} />
@@ -157,7 +156,11 @@ function ProjectPage() {
       <Section eyebrow={t.ui.overview} title={project.name}>
         <div className="grid gap-6 md:grid-cols-2">
           {blocks.map((b, i) => (
-            <Reveal key={b.label} delay={i * 50} className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
+            <Reveal
+              key={b.label}
+              delay={i * 50}
+              className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8"
+            >
               <p className="eyebrow">{b.label}</p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
             </Reveal>
@@ -213,7 +216,9 @@ function ProjectPage() {
                 className="h-full rounded-lg border border-border bg-surface/60 p-6"
               >
                 <h3 className="font-display text-lg font-medium">{service.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.outcome}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {service.outcome}
+                </p>
               </Reveal>
             ))}
           </div>

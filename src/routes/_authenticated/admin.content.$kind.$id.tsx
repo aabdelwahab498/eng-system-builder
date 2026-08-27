@@ -19,12 +19,7 @@ import { Field, LocalizedField, ToggleRow } from "@/components/admin/fields";
 import { VisibilityTargets } from "@/components/admin/VisibilityTargets";
 import { DistributePanel } from "@/components/admin/DistributePanel";
 import { ChannelPermissions } from "@/components/admin/ChannelPermissions";
-import {
-  channelPermissions,
-  distributionLog,
-  draftEntryKey,
-} from "@/lib/distribution/channels";
-
+import { channelPermissions, distributionLog, draftEntryKey } from "@/lib/distribution/channels";
 
 import { Markdown } from "@/lib/cms/markdown";
 import { Button } from "@/components/ui/button";
@@ -268,7 +263,10 @@ function ContentEditor() {
           </h1>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => navigate({ to: "/admin/content/$kind", params: { kind: contentKind } })}>
+          <Button
+            variant="outline"
+            onClick={() => navigate({ to: "/admin/content/$kind", params: { kind: contentKind } })}
+          >
             Back
           </Button>
           <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
@@ -280,13 +278,19 @@ function ContentEditor() {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="space-y-6 rounded-lg border border-border p-5">
           {contentKind === "profile" ? (
-            <ProfileForm data={draft.data} patch={patchData} onName={(t) =>
-              setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
-            } />
+            <ProfileForm
+              data={draft.data}
+              patch={patchData}
+              onName={(t) => setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))}
+            />
           ) : contentKind === "article" ? (
-            <ArticleForm data={draft.data} patch={patchData} onTitle={(t) =>
-              setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
-            } />
+            <ArticleForm
+              data={draft.data}
+              patch={patchData}
+              onTitle={(t) =>
+                setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
+              }
+            />
           ) : contentKind === "announcement" ? (
             <AnnouncementForm data={draft.data} patch={patchData} />
           ) : contentKind === "seo" ? (
@@ -294,9 +298,13 @@ function ContentEditor() {
           ) : contentKind === "social_draft" ? (
             <SocialForm data={draft.data} patch={patchData} />
           ) : contentKind === "gallery_item" ? (
-            <GalleryForm data={draft.data} patch={patchData} onTitle={(t) =>
-              setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
-            } />
+            <GalleryForm
+              data={draft.data}
+              patch={patchData}
+              onTitle={(t) =>
+                setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
+              }
+            />
           ) : contentKind === "social_campaign" ? (
             <SocialCampaignForm data={draft.data} patch={patchData} />
           ) : contentKind === "marketing_campaign" ? (
@@ -304,7 +312,11 @@ function ContentEditor() {
           ) : contentKind === "payment_method" ? (
             <PaymentForm data={draft.data} patch={patchData} />
           ) : (
-            <JsonForm value={jsonText} onChange={(next) => patch({ data: next })} kind={contentKind} />
+            <JsonForm
+              value={jsonText}
+              onChange={(next) => patch({ data: next })}
+              kind={contentKind}
+            />
           )}
         </div>
 
@@ -318,7 +330,10 @@ function ContentEditor() {
           </Field>
 
           <Field label="Workflow">
-            <Select value={draft.state} onValueChange={(value) => patch({ state: value as WorkflowState })}>
+            <Select
+              value={draft.state}
+              onValueChange={(value) => patch({ state: value as WorkflowState })}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -338,7 +353,9 @@ function ContentEditor() {
                 type="datetime-local"
                 value={draft.scheduledAt ? draft.scheduledAt.slice(0, 16) : ""}
                 onChange={(e) =>
-                  patch({ scheduledAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+                  patch({
+                    scheduledAt: e.target.value ? new Date(e.target.value).toISOString() : null,
+                  })
                 }
               />
             </Field>
@@ -358,13 +375,14 @@ function ContentEditor() {
             onVisibility={(visibility) => patch({ visibility })}
             onFeatured={(featured) => patch({ featured })}
             targets={
-              draft.data["targets"] && typeof draft.data["targets"] === "object" && !Array.isArray(draft.data["targets"])
+              draft.data["targets"] &&
+              typeof draft.data["targets"] === "object" &&
+              !Array.isArray(draft.data["targets"])
                 ? (draft.data["targets"] as JsonObject)
                 : {}
             }
             onTargets={(targets) => patchData({ targets })}
           />
-
 
           <ChannelPermissions
             entryId={id}
@@ -375,10 +393,11 @@ function ContentEditor() {
           />
 
           <DistributePanel
-
             entryId={id}
             kind={contentKind}
-            title={localized(draft.data["title"]).en || localized(draft.data["name"]).en || draft.slug}
+            title={
+              localized(draft.data["title"]).en || localized(draft.data["name"]).en || draft.slug
+            }
             summary={
               localized(draft.data["excerpt"]).en ||
               localized(draft.data["caption"]).en ||
@@ -389,7 +408,6 @@ function ContentEditor() {
             mediaUrl={str(draft.data["mediaUrl"]) || str(draft.data["coverImageUrl"])}
           />
         </aside>
-
       </div>
     </div>
   );
@@ -417,7 +435,13 @@ function ArticleForm({
           onTitle(value.en);
         }}
       />
-      <LocalizedField label="Excerpt" value={localized(data["excerpt"])} onChange={(v) => patch({ excerpt: v })} multiline rows={3} />
+      <LocalizedField
+        label="Excerpt"
+        value={localized(data["excerpt"])}
+        onChange={(v) => patch({ excerpt: v })}
+        multiline
+        rows={3}
+      />
 
       <Tabs defaultValue="write">
         <TabsList>
@@ -425,7 +449,13 @@ function ArticleForm({
           <TabsTrigger value="preview">Preview</TabsTrigger>
         </TabsList>
         <TabsContent value="write" className="pt-4">
-          <LocalizedField label="Body (Markdown)" value={body} onChange={(v) => patch({ body: v })} multiline rows={16} />
+          <LocalizedField
+            label="Body (Markdown)"
+            value={body}
+            onChange={(v) => patch({ body: v })}
+            multiline
+            rows={16}
+          />
         </TabsContent>
         <TabsContent value="preview" className="pt-4">
           <Markdown source={body.en} />
@@ -434,22 +464,43 @@ function ArticleForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Cover image URL">
-          <Input value={str(data["coverImageUrl"])} onChange={(e) => patch({ coverImageUrl: e.target.value })} />
+          <Input
+            value={str(data["coverImageUrl"])}
+            onChange={(e) => patch({ coverImageUrl: e.target.value })}
+          />
         </Field>
         <Field label="Category">
-          <Input value={str(data["category"])} onChange={(e) => patch({ category: e.target.value })} />
+          <Input
+            value={str(data["category"])}
+            onChange={(e) => patch({ category: e.target.value })}
+          />
         </Field>
       </div>
       <Field label="Tags" hint="Comma separated.">
         <Input
           value={Array.isArray(data["tags"]) ? (data["tags"] as string[]).join(", ") : ""}
           onChange={(e) =>
-            patch({ tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })
+            patch({
+              tags: e.target.value
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean),
+            })
           }
         />
       </Field>
-      <LocalizedField label="SEO title" value={localized(data["seoTitle"])} onChange={(v) => patch({ seoTitle: v })} />
-      <LocalizedField label="SEO description" value={localized(data["seoDescription"])} onChange={(v) => patch({ seoDescription: v })} multiline rows={2} />
+      <LocalizedField
+        label="SEO title"
+        value={localized(data["seoTitle"])}
+        onChange={(v) => patch({ seoTitle: v })}
+      />
+      <LocalizedField
+        label="SEO description"
+        value={localized(data["seoDescription"])}
+        onChange={(v) => patch({ seoDescription: v })}
+        multiline
+        rows={2}
+      />
     </div>
   );
 }
@@ -477,10 +528,28 @@ function ProfileForm({
           onName(v.en);
         }}
       />
-      <LocalizedField label="Headline" value={localized(data["positioning"])} onChange={(v) => patch({ positioning: v })} />
-      <LocalizedField label="Overview title" value={localized(data["statement"])} onChange={(v) => patch({ statement: v })} />
-      <LocalizedField label="Location" value={localized(data["location"])} onChange={(v) => patch({ location: v })} />
-      <LocalizedField label="Short bio" value={localized(data["shortBio"])} onChange={(v) => patch({ shortBio: v })} multiline rows={3} />
+      <LocalizedField
+        label="Headline"
+        value={localized(data["positioning"])}
+        onChange={(v) => patch({ positioning: v })}
+      />
+      <LocalizedField
+        label="Overview title"
+        value={localized(data["statement"])}
+        onChange={(v) => patch({ statement: v })}
+      />
+      <LocalizedField
+        label="Location"
+        value={localized(data["location"])}
+        onChange={(v) => patch({ location: v })}
+      />
+      <LocalizedField
+        label="Short bio"
+        value={localized(data["shortBio"])}
+        onChange={(v) => patch({ shortBio: v })}
+        multiline
+        rows={3}
+      />
       <LocalizedField
         label="Long bio"
         hint="Blank line separates paragraphs."
@@ -502,11 +571,24 @@ function AnnouncementForm({
 }) {
   return (
     <div className="space-y-5">
-      <LocalizedField label="Title" value={localized(data["title"])} onChange={(v) => patch({ title: v })} />
-      <LocalizedField label="Message" value={localized(data["message"])} onChange={(v) => patch({ message: v })} multiline rows={3} />
+      <LocalizedField
+        label="Title"
+        value={localized(data["title"])}
+        onChange={(v) => patch({ title: v })}
+      />
+      <LocalizedField
+        label="Message"
+        value={localized(data["message"])}
+        onChange={(v) => patch({ message: v })}
+        multiline
+        rows={3}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Placement">
-          <Select value={str(data["placement"]) || "banner"} onValueChange={(v) => patch({ placement: v })}>
+          <Select
+            value={str(data["placement"]) || "banner"}
+            onValueChange={(v) => patch({ placement: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -521,20 +603,28 @@ function AnnouncementForm({
           <Input value={str(data["ctaUrl"])} onChange={(e) => patch({ ctaUrl: e.target.value })} />
         </Field>
       </div>
-      <LocalizedField label="CTA label" value={localized(data["ctaLabel"])} onChange={(v) => patch({ ctaLabel: v })} />
+      <LocalizedField
+        label="CTA label"
+        value={localized(data["ctaLabel"])}
+        onChange={(v) => patch({ ctaLabel: v })}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Starts at">
           <Input
             type="datetime-local"
             value={str(data["startsAt"]).slice(0, 16)}
-            onChange={(e) => patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })}
+            onChange={(e) =>
+              patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
           />
         </Field>
         <Field label="Ends at">
           <Input
             type="datetime-local"
             value={str(data["endsAt"]).slice(0, 16)}
-            onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })}
+            onChange={(e) =>
+              patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
           />
         </Field>
       </div>
@@ -542,28 +632,48 @@ function AnnouncementForm({
   );
 }
 
-function SeoForm({
-  data,
-  patch,
-}: {
-  data: JsonObject;
-  patch: (partial: JsonObject) => void;
-}) {
+function SeoForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
   return (
     <div className="space-y-5">
       <Field label="Route path" hint="e.g. /projects — the page this override applies to.">
         <Input value={str(data["path"])} onChange={(e) => patch({ path: e.target.value })} />
       </Field>
-      <LocalizedField label="Meta title" value={localized(data["title"])} onChange={(v) => patch({ title: v })} />
-      <LocalizedField label="Meta description" value={localized(data["description"])} onChange={(v) => patch({ description: v })} multiline rows={2} />
-      <LocalizedField label="OG title" value={localized(data["ogTitle"])} onChange={(v) => patch({ ogTitle: v })} />
-      <LocalizedField label="OG description" value={localized(data["ogDescription"])} onChange={(v) => patch({ ogDescription: v })} multiline rows={2} />
+      <LocalizedField
+        label="Meta title"
+        value={localized(data["title"])}
+        onChange={(v) => patch({ title: v })}
+      />
+      <LocalizedField
+        label="Meta description"
+        value={localized(data["description"])}
+        onChange={(v) => patch({ description: v })}
+        multiline
+        rows={2}
+      />
+      <LocalizedField
+        label="OG title"
+        value={localized(data["ogTitle"])}
+        onChange={(v) => patch({ ogTitle: v })}
+      />
+      <LocalizedField
+        label="OG description"
+        value={localized(data["ogDescription"])}
+        onChange={(v) => patch({ ogDescription: v })}
+        multiline
+        rows={2}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="OG image URL">
-          <Input value={str(data["ogImageUrl"])} onChange={(e) => patch({ ogImageUrl: e.target.value })} />
+          <Input
+            value={str(data["ogImageUrl"])}
+            onChange={(e) => patch({ ogImageUrl: e.target.value })}
+          />
         </Field>
         <Field label="Robots">
-          <Select value={str(data["robots"]) || "index, follow"} onValueChange={(v) => patch({ robots: v })}>
+          <Select
+            value={str(data["robots"]) || "index, follow"}
+            onValueChange={(v) => patch({ robots: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -580,18 +690,15 @@ function SeoForm({
   );
 }
 
-function SocialForm({
-  data,
-  patch,
-}: {
-  data: JsonObject;
-  patch: (partial: JsonObject) => void;
-}) {
+function SocialForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
   const content = str(data["content"]);
   return (
     <div className="space-y-5">
       <Field label="Platform">
-        <Select value={str(data["platform"]) || "linkedin"} onValueChange={(v) => patch({ platform: v })}>
+        <Select
+          value={str(data["platform"]) || "linkedin"}
+          onValueChange={(v) => patch({ platform: v })}
+        >
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
@@ -681,13 +788,25 @@ function GalleryForm({
           onTitle(v.en);
         }}
       />
-      <LocalizedField label="Caption" value={localized(data["caption"])} onChange={(v) => patch({ caption: v })} multiline rows={3} />
+      <LocalizedField
+        label="Caption"
+        value={localized(data["caption"])}
+        onChange={(v) => patch({ caption: v })}
+        multiline
+        rows={3}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Media URL" hint="Upload in Media, then paste the URL here.">
-          <Input value={str(data["mediaUrl"])} onChange={(e) => patch({ mediaUrl: e.target.value })} />
+          <Input
+            value={str(data["mediaUrl"])}
+            onChange={(e) => patch({ mediaUrl: e.target.value })}
+          />
         </Field>
         <Field label="Media type">
-          <Select value={str(data["mediaType"]) || "image"} onValueChange={(v) => patch({ mediaType: v })}>
+          <Select
+            value={str(data["mediaType"]) || "image"}
+            onValueChange={(v) => patch({ mediaType: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -698,10 +817,16 @@ function GalleryForm({
           </Select>
         </Field>
         <Field label="Category">
-          <Input value={str(data["category"])} onChange={(e) => patch({ category: e.target.value })} />
+          <Input
+            value={str(data["category"])}
+            onChange={(e) => patch({ category: e.target.value })}
+          />
         </Field>
         <Field label="Link (optional)">
-          <Input value={str(data["linkUrl"])} onChange={(e) => patch({ linkUrl: e.target.value })} />
+          <Input
+            value={str(data["linkUrl"])}
+            onChange={(e) => patch({ linkUrl: e.target.value })}
+          />
         </Field>
       </div>
       <Field label="Credit (optional)">
@@ -718,83 +843,176 @@ function GalleryForm({
   );
 }
 
-function SocialCampaignForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+function SocialCampaignForm({
+  data,
+  patch,
+}: {
+  data: JsonObject;
+  patch: (partial: JsonObject) => void;
+}) {
   return (
     <div className="space-y-5">
-      <LocalizedField label="Campaign name" value={localized(data["name"])} onChange={(v) => patch({ name: v })} />
-      <LocalizedField label="Objective" value={localized(data["objective"])} onChange={(v) => patch({ objective: v })} multiline rows={3} />
+      <LocalizedField
+        label="Campaign name"
+        value={localized(data["name"])}
+        onChange={(v) => patch({ name: v })}
+      />
+      <LocalizedField
+        label="Objective"
+        value={localized(data["objective"])}
+        onChange={(v) => patch({ objective: v })}
+        multiline
+        rows={3}
+      />
       <Field label="Platforms" hint="Comma separated, e.g. linkedin, x, instagram.">
         <Input
           value={listField(data["platforms"])}
-          onChange={(e) => patch({ platforms: e.target.value.split(",").map((v) => v.trim()).filter(Boolean) })}
+          onChange={(e) =>
+            patch({
+              platforms: e.target.value
+                .split(",")
+                .map((v) => v.trim())
+                .filter(Boolean),
+            })
+          }
         />
       </Field>
       <div className="grid gap-4 sm:grid-cols-3">
         <Field label="Starts at">
-          <Input type="datetime-local" value={str(data["startsAt"]).slice(0, 16)} onChange={(e) => patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+          <Input
+            type="datetime-local"
+            value={str(data["startsAt"]).slice(0, 16)}
+            onChange={(e) =>
+              patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
+          />
         </Field>
         <Field label="Ends at">
-          <Input type="datetime-local" value={str(data["endsAt"]).slice(0, 16)} onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+          <Input
+            type="datetime-local"
+            value={str(data["endsAt"]).slice(0, 16)}
+            onChange={(e) =>
+              patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
+          />
         </Field>
         <Field label="Status" hint="Tracking label only — nothing is auto-posted.">
-          <Select value={str(data["outcome"]) || "draft"} onValueChange={(v) => patch({ outcome: v })}>
+          <Select
+            value={str(data["outcome"]) || "draft"}
+            onValueChange={(v) => patch({ outcome: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {["draft", "ready", "scheduled", "published"].map((v) => (
-                <SelectItem key={v} value={v}>{v}</SelectItem>
+                <SelectItem key={v} value={v}>
+                  {v}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </Field>
       </div>
-      <LocalizedField label="Notes" value={localized(data["notes"])} onChange={(v) => patch({ notes: v })} multiline rows={4} />
+      <LocalizedField
+        label="Notes"
+        value={localized(data["notes"])}
+        onChange={(v) => patch({ notes: v })}
+        multiline
+        rows={4}
+      />
     </div>
   );
 }
 
-function MarketingForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+function MarketingForm({
+  data,
+  patch,
+}: {
+  data: JsonObject;
+  patch: (partial: JsonObject) => void;
+}) {
   return (
     <div className="space-y-5">
-      <LocalizedField label="Campaign name" value={localized(data["name"])} onChange={(v) => patch({ name: v })} />
+      <LocalizedField
+        label="Campaign name"
+        value={localized(data["name"])}
+        onChange={(v) => patch({ name: v })}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Channel">
-          <Select value={str(data["channel"]) || "content"} onValueChange={(v) => patch({ channel: v })}>
+          <Select
+            value={str(data["channel"]) || "content"}
+            onValueChange={(v) => patch({ channel: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {["email", "search", "social", "content", "other"].map((v) => (
-                <SelectItem key={v} value={v}>{v}</SelectItem>
+                <SelectItem key={v} value={v}>
+                  {v}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </Field>
         <Field label="Status">
-          <Select value={str(data["outcome"]) || "planned"} onValueChange={(v) => patch({ outcome: v })}>
+          <Select
+            value={str(data["outcome"]) || "planned"}
+            onValueChange={(v) => patch({ outcome: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {["planned", "running", "paused", "completed"].map((v) => (
-                <SelectItem key={v} value={v}>{v}</SelectItem>
+                <SelectItem key={v} value={v}>
+                  {v}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </Field>
       </div>
-      <LocalizedField label="Audience" value={localized(data["audience"])} onChange={(v) => patch({ audience: v })} multiline rows={2} />
-      <LocalizedField label="Message" value={localized(data["message"])} onChange={(v) => patch({ message: v })} multiline rows={4} />
+      <LocalizedField
+        label="Audience"
+        value={localized(data["audience"])}
+        onChange={(v) => patch({ audience: v })}
+        multiline
+        rows={2}
+      />
+      <LocalizedField
+        label="Message"
+        value={localized(data["message"])}
+        onChange={(v) => patch({ message: v })}
+        multiline
+        rows={4}
+      />
       <div className="grid gap-4 sm:grid-cols-3">
         <Field label="Landing URL">
-          <Input value={str(data["landingUrl"])} onChange={(e) => patch({ landingUrl: e.target.value })} />
+          <Input
+            value={str(data["landingUrl"])}
+            onChange={(e) => patch({ landingUrl: e.target.value })}
+          />
         </Field>
         <Field label="Starts at">
-          <Input type="datetime-local" value={str(data["startsAt"]).slice(0, 16)} onChange={(e) => patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+          <Input
+            type="datetime-local"
+            value={str(data["startsAt"]).slice(0, 16)}
+            onChange={(e) =>
+              patch({ startsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
+          />
         </Field>
         <Field label="Ends at">
-          <Input type="datetime-local" value={str(data["endsAt"]).slice(0, 16)} onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+          <Input
+            type="datetime-local"
+            value={str(data["endsAt"]).slice(0, 16)}
+            onChange={(e) =>
+              patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+            }
+          />
         </Field>
       </div>
     </div>
@@ -805,18 +1023,31 @@ function PaymentForm({ data, patch }: { data: JsonObject; patch: (partial: JsonO
   const [revealed, setRevealed] = useState(false);
   return (
     <div className="space-y-5">
-      <LocalizedField label="Label" value={localized(data["label"])} onChange={(v) => patch({ label: v })} />
+      <LocalizedField
+        label="Label"
+        value={localized(data["label"])}
+        onChange={(v) => patch({ label: v })}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Provider" hint="Free text — no gateway is connected.">
-          <Input value={str(data["provider"])} onChange={(e) => patch({ provider: e.target.value })} />
+          <Input
+            value={str(data["provider"])}
+            onChange={(e) => patch({ provider: e.target.value })}
+          />
         </Field>
         <Field label="Currency">
-          <Input value={str(data["currency"])} onChange={(e) => patch({ currency: e.target.value })} />
+          <Input
+            value={str(data["currency"])}
+            onChange={(e) => patch({ currency: e.target.value })}
+          />
         </Field>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Status" hint="live = accepting payments · planned = reserved slot.">
-          <Select value={str(data["status"]) || "planned"} onValueChange={(v) => patch({ status: v })}>
+          <Select
+            value={str(data["status"]) || "planned"}
+            onValueChange={(v) => patch({ status: v })}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -844,28 +1075,49 @@ function PaymentForm({ data, patch }: { data: JsonObject; patch: (partial: JsonO
           <Input value={str(data["rails"])} onChange={(e) => patch({ rails: e.target.value })} />
         </Field>
         <Field label="Settlement">
-          <Input value={str(data["settlement"])} onChange={(e) => patch({ settlement: e.target.value })} />
+          <Input
+            value={str(data["settlement"])}
+            onChange={(e) => patch({ settlement: e.target.value })}
+          />
         </Field>
         <Field label="Fees">
           <Input value={str(data["fees"])} onChange={(e) => patch({ fees: e.target.value })} />
         </Field>
       </div>
-      <LocalizedField label="Instructions" value={localized(data["instructions"])} onChange={(v) => patch({ instructions: v })} multiline rows={4} />
+      <LocalizedField
+        label="Instructions"
+        value={localized(data["instructions"])}
+        onChange={(v) => patch({ instructions: v })}
+        multiline
+        rows={4}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Account holder">
-          <Input value={str(data["accountHolder"])} onChange={(e) => patch({ accountHolder: e.target.value })} />
+          <Input
+            value={str(data["accountHolder"])}
+            onChange={(e) => patch({ accountHolder: e.target.value })}
+          />
         </Field>
         <Field label="Bank / wallet name">
-          <Input value={str(data["bankName"])} onChange={(e) => patch({ bankName: e.target.value })} />
+          <Input
+            value={str(data["bankName"])}
+            onChange={(e) => patch({ bankName: e.target.value })}
+          />
         </Field>
         <Field label="Routing number">
-          <Input value={str(data["routingNumber"])} onChange={(e) => patch({ routingNumber: e.target.value })} />
+          <Input
+            value={str(data["routingNumber"])}
+            onChange={(e) => patch({ routingNumber: e.target.value })}
+          />
         </Field>
         <Field label="Payment link">
           <Input value={str(data["link"])} onChange={(e) => patch({ link: e.target.value })} />
         </Field>
       </div>
-      <Field label="Account reference" hint="Sensitive. Only shown publicly when the switch below is on.">
+      <Field
+        label="Account reference"
+        hint="Sensitive. Only shown publicly when the switch below is on."
+      >
         <div className="flex gap-2">
           <Input
             type={revealed ? "text" : "password"}

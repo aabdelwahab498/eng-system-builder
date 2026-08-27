@@ -28,13 +28,7 @@ export const CONTENT_KINDS = [
 
 export type ContentKind = (typeof CONTENT_KINDS)[number];
 
-export const WORKFLOW_STATES = [
-  "draft",
-  "review",
-  "scheduled",
-  "published",
-  "archived",
-] as const;
+export const WORKFLOW_STATES = ["draft", "review", "scheduled", "published", "archived"] as const;
 
 export type WorkflowState = (typeof WORKFLOW_STATES)[number];
 
@@ -45,7 +39,8 @@ export type ContentVisibility = {
   linkedin: boolean;
 };
 
-export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+export type JsonValue =
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 export type JsonObject = { [key: string]: JsonValue };
 
 export type ContentItem<TData = JsonObject> = {

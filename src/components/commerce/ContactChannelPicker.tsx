@@ -130,7 +130,6 @@ export function ContactChannelPicker({
             {t.messenger}
           </a>
         )}
-
       </div>
     </div>
   );

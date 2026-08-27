@@ -45,7 +45,8 @@ export function VisibilityTargets({
 }) {
   const [open, setOpen] = useState<TargetKey | null>(null);
 
-  const isOn = (key: TargetKey) => (key === "featured" ? featured : visibility[key as keyof ContentVisibility]);
+  const isOn = (key: TargetKey) =>
+    key === "featured" ? featured : visibility[key as keyof ContentVisibility];
   const setOn = (key: TargetKey, value: boolean) => {
     if (key === "featured") onFeatured(value);
     else onVisibility({ ...visibility, [key]: value });
@@ -65,11 +66,17 @@ export function VisibilityTargets({
                 className="flex flex-1 items-center gap-2 text-left text-sm font-medium"
               >
                 <ChevronDown
-                  className={cn("h-4 w-4 text-muted-foreground transition-transform", expanded && "rotate-180")}
+                  className={cn(
+                    "h-4 w-4 text-muted-foreground transition-transform",
+                    expanded && "rotate-180",
+                  )}
                 />
                 {target.label}
               </button>
-              <Switch checked={Boolean(isOn(target.key))} onCheckedChange={(v) => setOn(target.key, v)} />
+              <Switch
+                checked={Boolean(isOn(target.key))}
+                onCheckedChange={(v) => setOn(target.key, v)}
+              />
             </div>
 
             {expanded ? (
@@ -86,7 +93,9 @@ export function VisibilityTargets({
                   rows={4}
                   placeholder="Content / notes for this destination"
                   value={value.note}
-                  onChange={(e) => onTargets({ ...targets, [target.key]: { ...value, note: e.target.value } })}
+                  onChange={(e) =>
+                    onTargets({ ...targets, [target.key]: { ...value, note: e.target.value } })
+                  }
                 />
               </div>
             ) : null}

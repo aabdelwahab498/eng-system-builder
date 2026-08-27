@@ -24,7 +24,13 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
       const alt = token.slice(2, token.indexOf("]"));
       const src = token.slice(token.indexOf("(") + 1, -1);
       nodes.push(
-        <img key={key} src={src} alt={alt} loading="lazy" className="my-4 w-full rounded-md border border-border" />,
+        <img
+          key={key}
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className="my-4 w-full rounded-md border border-border"
+        />,
       );
     } else if (token.startsWith("[")) {
       const label = token.slice(1, token.indexOf("]"));
@@ -149,7 +155,11 @@ export function Markdown({ source }: { source: string }) {
     }
 
     const para: string[] = [];
-    while (i < lines.length && (lines[i] ?? "").trim() !== "" && !/^(#{1,4}\s|>|```|[-*]\s|\d+\.\s)/.test(lines[i] ?? "")) {
+    while (
+      i < lines.length &&
+      (lines[i] ?? "").trim() !== "" &&
+      !/^(#{1,4}\s|>|```|[-*]\s|\d+\.\s)/.test(lines[i] ?? "")
+    ) {
       para.push(lines[i] ?? "");
       i += 1;
     }

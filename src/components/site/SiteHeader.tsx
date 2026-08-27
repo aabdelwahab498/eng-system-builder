@@ -97,7 +97,6 @@ export function SiteHeader() {
           )}
         </nav>
 
-
         <div className="flex items-center gap-2">
           <a
             href={switchHref}
@@ -108,13 +107,13 @@ export function SiteHeader() {
           </a>
           <ThemeToggle label={t.ui.toggleTheme} />
           {adminVisible && (
-          <a
-            href="/admin"
-            className="hidden h-10 items-center gap-2 rounded-sm border border-[#C9974B]/50 px-3 font-mono text-xs uppercase tracking-wider text-[#C9974B] transition-colors hover:bg-[#C9974B]/10 sm:inline-flex"
-          >
-            <ShieldCheck className="size-4" aria-hidden />
-            Admin
-          </a>
+            <a
+              href="/admin"
+              className="hidden h-10 items-center gap-2 rounded-sm border border-[#C9974B]/50 px-3 font-mono text-xs uppercase tracking-wider text-[#C9974B] transition-colors hover:bg-[#C9974B]/10 sm:inline-flex"
+            >
+              <ShieldCheck className="size-4" aria-hidden />
+              Admin
+            </a>
           )}
           <Button asChild size="sm" className="hidden lg:inline-flex">
             <Link to="/$locale/contact" params={{ locale }}>
@@ -135,7 +134,10 @@ export function SiteHeader() {
       </Container>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-border bg-background/95 backdrop-blur-xl xl:hidden">
+        <div
+          id="mobile-menu"
+          className="border-t border-border bg-background/95 backdrop-blur-xl xl:hidden"
+        >
           <Container className="flex flex-col py-4">
             {t.nav.map((item) => (
               <div key={item.path} className="border-b border-border/60 last:border-0">
@@ -172,13 +174,13 @@ export function SiteHeader() {
               {t.ui.switchLanguage}
             </a>
             {adminVisible && (
-            <a
-              href="/admin"
-              className="flex items-center gap-2 border-t border-border/60 py-4 font-display text-lg text-[#C9974B]"
-            >
-              <ShieldCheck className="size-5" aria-hidden />
-              Admin Studio
-            </a>
+              <a
+                href="/admin"
+                className="flex items-center gap-2 border-t border-border/60 py-4 font-display text-lg text-[#C9974B]"
+              >
+                <ShieldCheck className="size-5" aria-hidden />
+                Admin Studio
+              </a>
             )}
             <Button asChild className="mt-5 w-full">
               <Link to="/$locale/contact" params={{ locale }}>

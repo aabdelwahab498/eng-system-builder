@@ -62,7 +62,11 @@ function AdminPayments() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["admin", "payment-submissions"],
     queryFn: () => list(),
   });
@@ -110,10 +114,13 @@ function AdminPayments() {
     <div className="space-y-6">
       <header>
         <p className="eyebrow">Payments</p>
-        <h1 className="mt-1 font-display text-2xl font-semibold text-foreground">Payment submissions</h1>
+        <h1 className="mt-1 font-display text-2xl font-semibold text-foreground">
+          Payment submissions
+        </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
           Manual payment proofs submitted by clients (InstaPay, Vodafone Cash, bank transfer).
-          Review the proof image, then approve or reject. {pendingCount} pending · {data.length} total.
+          Review the proof image, then approve or reject. {pendingCount} pending · {data.length}{" "}
+          total.
         </p>
       </header>
 
@@ -156,7 +163,16 @@ function AdminPayments() {
           <table className="w-full min-w-[960px] text-sm">
             <thead className="bg-surface/60 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
               <tr>
-                {["Client", "Service", "Amount", "Method", "Submitted", "Proof", "Status", "Actions"].map((h) => (
+                {[
+                  "Client",
+                  "Service",
+                  "Amount",
+                  "Method",
+                  "Submitted",
+                  "Proof",
+                  "Status",
+                  "Actions",
+                ].map((h) => (
                   <th key={h} className="px-3 py-2">
                     {h}
                   </th>
@@ -171,7 +187,9 @@ function AdminPayments() {
                     <td className="px-3 py-3">
                       <p className="text-foreground">{s.client_name || "—"}</p>
                       <p className="text-xs text-muted-foreground">{s.email}</p>
-                      <p dir="ltr" className="text-xs text-muted-foreground">{s.whatsapp}</p>
+                      <p dir="ltr" className="text-xs text-muted-foreground">
+                        {s.whatsapp}
+                      </p>
                     </td>
                     <td className="px-3 py-3">
                       <p className="text-foreground">{s.service_title ?? s.service_id ?? "—"}</p>
@@ -180,7 +198,9 @@ function AdminPayments() {
                     <td className="px-3 py-3 font-mono text-xs text-foreground">
                       {s.amount || "—"} {s.currency}
                     </td>
-                    <td className="px-3 py-3 text-muted-foreground">{method?.name.en ?? s.method_id ?? "—"}</td>
+                    <td className="px-3 py-3 text-muted-foreground">
+                      {method?.name.en ?? s.method_id ?? "—"}
+                    </td>
                     <td className="px-3 py-3 text-xs text-muted-foreground">
                       {new Date(s.created_at).toLocaleString()}
                     </td>
@@ -190,7 +210,9 @@ function AdminPayments() {
                           <ProofViewer path={s.proof_path} compact />
                           <p className="max-w-40 truncate text-xs text-muted-foreground">
                             {s.proof_filename}
-                            {s.proof_size_bytes ? ` · ${Math.round(s.proof_size_bytes / 1024)} KB` : ""}
+                            {s.proof_size_bytes
+                              ? ` · ${Math.round(s.proof_size_bytes / 1024)} KB`
+                              : ""}
                           </p>
                         </div>
                       ) : (
@@ -242,7 +264,10 @@ function AdminPayments() {
         </div>
       )}
 
-      <AlertDialog open={pendingDelete !== null} onOpenChange={(open) => !open && setPendingDelete(null)}>
+      <AlertDialog
+        open={pendingDelete !== null}
+        onOpenChange={(open) => !open && setPendingDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this payment submission?</AlertDialogTitle>

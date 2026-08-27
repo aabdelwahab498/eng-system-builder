@@ -15,15 +15,18 @@ Admin: no gallery, social profiles/campaigns, marketing, payments or settings se
 ## What I will build
 
 ### 1. Schema extensions (additive only, in the existing files)
+
 - `src/content/schema/index.ts`: add `GalleryItem`, `SocialCampaign`, `MarketingCampaign`, `PaymentMethod` / `PaymentAccount` types with the same `Tracked` + `Localized` conventions.
 - `src/lib/cms/types.ts`: add matching content kinds `gallery_item`, `social_campaign`, `marketing_campaign`, `payment_method` and their payload types.
 - One migration extends the existing `content_kind` enum — no new tables, no second content system.
 
 ### 2. Homepage redesign (`src/routes/$locale.index.tsx`)
+
 Sections in order: Hero (name, positioning, supporting line, View My Work / Let's Build Something / View CV) → capability strip → Featured work with category filter (Web, Backend, AI, Mobile, SaaS, Digital Product) → Services grid with deliverables + CTA → Technology capabilities by group → Digital products with Live/Beta/Coming Soon states → Blog (latest articles, View All) → Universal AI Software Factory credibility panel with domain grid and Explore CTA → Visual gallery → Final CTA ("Have a project in mind?").
 All copy comes from the locale dictionaries; no hardcoded strings in components.
 
 ### 3. Public pages
+
 - `/projects`: shared filter component with the homepage; detail pages gain related projects + related services blocks.
 - `/services`: full service pages with explanation, deliverables and transparent "delivered with my team" wording where applicable.
 - `/blog`: search, category and tag filters, featured vs latest split, related articles on detail.
@@ -31,12 +34,16 @@ All copy comes from the locale dictionaries; no hardcoded strings in components.
 - `/cv`: unchanged behaviour, kept generated from canonical data.
 
 ### 4. Admin control center
+
 Sidebar restructured to: Dashboard, Profile, Experience, Education, Skills, Projects, Products, Services, Blog, Gallery, CV, Social Media, Marketing, Payments, Settings.
+
 - New sections: `/admin/gallery`, `/admin/social` (profiles + campaigns with draft / ready / scheduled / published labels, no real publishing), `/admin/marketing` (campaign records), `/admin/payments` (methods and accounts with an explicit public-visibility switch, sensitive fields hidden by default, provider left configurable), `/admin/settings`.
 - Lists gain duplicate, reorder, publish/unpublish/archive and confirmation dialogs on every destructive action.
 
 ### 5. Quality bar
+
 Reduced-motion respected, keyboard/ARIA on filters and dialogs, RTL-safe logical spacing, per-route SEO metadata with hreflang and JSON-LD, responsive layouts tuned for mobile separately. No invented clients, metrics, testimonials or products — empty states say "Coming Soon" or "Add from Admin".
 
 ## Notes
+
 Payments, social publishing and ad APIs stay UI + data contracts only. Nothing in the Phase 3 canonical architecture is replaced.

@@ -35,7 +35,10 @@ export const courses: Course[] = [
     level: "intermediate",
     ready: false,
     order: 1,
-    title: { en: "Backend Engineering with ASP.NET Core", ar: "هندسة الواجهة الخلفية بـ ASP.NET Core" },
+    title: {
+      en: "Backend Engineering with ASP.NET Core",
+      ar: "هندسة الواجهة الخلفية بـ ASP.NET Core",
+    },
     summary: {
       en: "Build production backend services and REST APIs with ASP.NET Core and EF Core.",
       ar: "بناء خدمات الواجهة الخلفية وواجهات REST API بـ ASP.NET Core و EF Core.",

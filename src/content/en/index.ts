@@ -12,7 +12,6 @@ import scriptoriaArCover from "@/assets/projects/scriptoria-ar.png.asset.json";
 import devShieldNexusCover from "@/assets/projects/dev-shield-nexus.png.asset.json";
 import smartShelfBuilderCover from "@/assets/projects/smart-shelf-builder.png.asset.json";
 
-
 /**
  * English content source. Edit copy here — nothing is generated at runtime.
  * Empty strings are treated as "not provided" and are not rendered.
@@ -31,8 +30,6 @@ export const en: Dictionary = {
     { label: "Contact", path: "/contact" },
   ],
 
-
-
   ui: {
     home: "Home",
     letsBuild: "Let's Build",
@@ -50,8 +47,7 @@ export const en: Dictionary = {
     about: "About",
     comingSoon: "Coming Soon",
     available: "Available",
-    noProducts:
-      "No products are published yet. Product listings appear here once they are ready.",
+    noProducts: "No products are published yet. Product listings appear here once they are ready.",
     contentPending: "Copy for this section is being finalized.",
     mediaPlaceholder: "Media placeholder — not a product screenshot",
     technology: "Technology",
@@ -128,8 +124,7 @@ export const en: Dictionary = {
       "Practical engineering courses and learning tracks on backend, AI and product building.",
     noCourses: "No courses are published yet. Courses will appear here once they are ready.",
     certificates: "Certificates",
-    certificatesIntro:
-      "Professional certifications, credentials and verifiable qualifications.",
+    certificatesIntro: "Professional certifications, credentials and verifiable qualifications.",
     noCertificates:
       "No certificates are published yet. Certificates will appear here once they are verified.",
     seeCertificates: "See my certificates",
@@ -152,14 +147,15 @@ export const en: Dictionary = {
     videos: "Videos",
     images: "Stills",
     youtubeCtaTitle: "Watch all our cartoon episodes on YouTube",
-    youtubeCtaBody: "If you'd like to follow all our cartoon videos and episodes on YouTube, tap the link. We'd love your support — subscribe and hit the like button.",
+    youtubeCtaBody:
+      "If you'd like to follow all our cartoon videos and episodes on YouTube, tap the link. We'd love your support — subscribe and hit the like button.",
     youtubeCtaButton: "Subscribe on YouTube",
-
   },
 
   meta: {
     home: {
-      title: "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
+      title:
+        "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder",
       description:
         "Personal engineering hub of Ahmed Abdelwahab: full stack development, AI engineering, software architecture, mobile and web product development.",
     },
@@ -724,12 +720,7 @@ export const en: Dictionary = {
       status: "Live preview",
       role: "Architect and sole engineer",
       scope: "Product design, frontend, backend, AI orchestration and deployment",
-      disciplines: [
-        "AI Engineering",
-        "Full-Stack Engineering",
-        "Product Design",
-        "Arabic NLP",
-      ],
+      disciplines: ["AI Engineering", "Full-Stack Engineering", "Product Design", "Arabic NLP"],
       summary:
         "An Arabic-first AI studio that turns a short brief into a ready-to-publish video ad, social reel or YouTube script — handling the script, the Arabic dialect, the voice and the visuals end-to-end.",
       tech: ["React", "TypeScript", "Tailwind CSS", "AI", "Text-to-Speech", "Arabic NLP", "Vite"],
@@ -770,12 +761,7 @@ export const en: Dictionary = {
       status: "Live preview",
       role: "Architect and sole engineer",
       scope: "Product design, frontend, backend, AI orchestration and deployment",
-      disciplines: [
-        "AI Engineering",
-        "DevSecOps",
-        "Full-Stack Engineering",
-        "Product Design",
-      ],
+      disciplines: ["AI Engineering", "DevSecOps", "Full-Stack Engineering", "Product Design"],
       summary:
         "An AI-powered software assurance platform that analyzes websites, applications, APIs and source code in a single pass — covering AI testing, security analysis, SEO intelligence, performance optimization and automated remediation.",
       tech: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "DevSecOps", "GitHub", "Vite"],
@@ -816,12 +802,7 @@ export const en: Dictionary = {
       status: "Live preview",
       role: "Architect and sole engineer",
       scope: "Product design, frontend, backend, AI ingestion and publishing pipeline",
-      disciplines: [
-        "AI Engineering",
-        "E-commerce",
-        "Full-Stack Engineering",
-        "Product Design",
-      ],
+      disciplines: ["AI Engineering", "E-commerce", "Full-Stack Engineering", "Product Design"],
       summary:
         "An AI catalog intelligence platform that turns legacy PDFs, spreadsheets and folders of product photos into a living, branded digital catalog — the AI reads, structures, writes and translates the content, then publishes a shareable catalog automatically.",
       tech: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "OCR", "Computer Vision", "Vite"],
@@ -855,9 +836,6 @@ export const en: Dictionary = {
       },
     },
   ],
-
-
-
 
   products: [],
 
@@ -974,7 +952,12 @@ export const en: Dictionary = {
       id: "mobile",
       title: "Mobile Application Development",
       outcome: "Cross-platform mobile apps built with Flutter and Dart.",
-      deliverables: ["App architecture", "Feature implementation", "API integration", "Store delivery"],
+      deliverables: [
+        "App architecture",
+        "Feature implementation",
+        "API integration",
+        "Store delivery",
+      ],
     },
     {
       id: "ai",
@@ -986,13 +969,23 @@ export const en: Dictionary = {
       id: "integration",
       title: "API & System Integration",
       outcome: "Systems that talk to each other through explicit contracts.",
-      deliverables: ["API design", "Third-party integration", "Contract documentation", "Error handling"],
+      deliverables: [
+        "API design",
+        "Third-party integration",
+        "Contract documentation",
+        "Error handling",
+      ],
     },
     {
       id: "architecture",
       title: "Software Architecture",
       outcome: "Structure that survives product growth and team changes.",
-      deliverables: ["System design", "Contracts & boundaries", "Technical review", "Migration paths"],
+      deliverables: [
+        "System design",
+        "Contracts & boundaries",
+        "Technical review",
+        "Migration paths",
+      ],
     },
     {
       id: "product",
@@ -1005,8 +998,7 @@ export const en: Dictionary = {
   factory: {
     title: "Universal AI Software Factory",
     tagline: "From structured requirements to validated software systems.",
-    what:
-      "The Universal AI Software Factory is an AI software engineering platform. It takes a structured software requirement and drives it through specialized generation, validation and delivery workflows until it becomes a coherent system rather than a set of code fragments.",
+    what: "The Universal AI Software Factory is an AI software engineering platform. It takes a structured software requirement and drives it through specialized generation, validation and delivery workflows until it becomes a coherent system rather than a set of code fragments.",
     problem:
       "General-purpose AI code generation produces isolated snippets. What real products need is architecture, explicit contracts, consistent layers, validation and a delivery path. The Factory exists to make that end-to-end path repeatable.",
     architecture: [

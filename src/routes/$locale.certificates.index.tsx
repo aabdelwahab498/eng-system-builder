@@ -53,10 +53,14 @@ function CertificatesIndex() {
     linkLabel: isAr ? "تحقق من الشهادة" : "Verify certificate",
   }));
 
-
   return (
     <>
-      <Breadcrumbs trail={[{ name: t.ui.home, path: "" }, { name: t.ui.certificates, path: "/certificates" }]} />
+      <Breadcrumbs
+        trail={[
+          { name: t.ui.home, path: "" },
+          { name: t.ui.certificates, path: "/certificates" },
+        ]}
+      />
       <PageHeader
         eyebrow={t.ui.certificates}
         title={locale === "ar" ? "الشهادات والاعتمادات" : "Certificates & credentials"}

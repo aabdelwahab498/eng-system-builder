@@ -39,7 +39,12 @@ export const projects: CanonicalProject[] = [
       ar: null,
     },
     features: {
-      en: ["Bilingual EN/AR with RTL", "Dark and light themes", "Project and product detail pages", "Canonical content architecture"],
+      en: [
+        "Bilingual EN/AR with RTL",
+        "Dark and light themes",
+        "Project and product detail pages",
+        "Canonical content architecture",
+      ],
       ar: null,
     },
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "TanStack Router"],
@@ -55,7 +60,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-dalil-masry",
     slug: "dalil-masry",
-    title: { en: "Dalil Masry — Egyptian Services Directory", ar: "دليل مصري — دليل الخدمات المصري" },
+    title: {
+      en: "Dalil Masry — Egyptian Services Directory",
+      ar: "دليل مصري — دليل الخدمات المصري",
+    },
     tagline: { en: "Arabic-first services directory for Egypt.", ar: null },
     category: "web",
     platform: ["web"],
@@ -82,7 +90,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-shifa-travel",
     slug: "shifa-travel",
-    title: { en: "Shifa Travel — Medical Tourism Platform", ar: "شفاء ترافل — منصة السياحة العلاجية" },
+    title: {
+      en: "Shifa Travel — Medical Tourism Platform",
+      ar: "شفاء ترافل — منصة السياحة العلاجية",
+    },
     tagline: { en: "Bilingual medical-tourism journey platform.", ar: null },
     category: "web",
     platform: ["web"],
@@ -109,7 +120,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-wameedh-hub",
     slug: "wameedh-hub",
-    title: { en: "Wameedh Hub — Learning & Professional Growth Platform", ar: "وَمِيد هَب — منصّة التعلّم والتطوير المهني" },
+    title: {
+      en: "Wameedh Hub — Learning & Professional Growth Platform",
+      ar: "وَمِيد هَب — منصّة التعلّم والتطوير المهني",
+    },
     tagline: { en: "Courses, coaching and skill-building in one platform.", ar: null },
     category: "web",
     platform: ["web"],
@@ -163,7 +177,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-aurea-clinic-os",
     slug: "aurea-clinic-os",
-    title: { en: "Aurea Clinic OS — Aesthetic Clinic Management", ar: "Aurea Clinic OS — نظام إدارة عيادات التجميل" },
+    title: {
+      en: "Aurea Clinic OS — Aesthetic Clinic Management",
+      ar: "Aurea Clinic OS — نظام إدارة عيادات التجميل",
+    },
     tagline: { en: "Full operations workspace for aesthetic clinics.", ar: null },
     category: "web",
     platform: ["web"],
@@ -190,7 +207,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-maison-parfum",
     slug: "maison-parfum",
-    title: { en: "Maison Parfum — Luxury Fragrance E-Commerce", ar: "Maison Parfum — متجر عطور فاخرة" },
+    title: {
+      en: "Maison Parfum — Luxury Fragrance E-Commerce",
+      ar: "Maison Parfum — متجر عطور فاخرة",
+    },
     tagline: { en: "Bilingual luxury fragrance storefront.", ar: null },
     category: "web",
     platform: ["web"],
@@ -244,7 +264,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-wameed-os",
     slug: "wameed-os",
-    title: { en: "Wameed OS — CRM & HR Business Operating System", ar: "Wameed OS — نظام تشغيل أعمال CRM و HR" },
+    title: {
+      en: "Wameed OS — CRM & HR Business Operating System",
+      ar: "Wameed OS — نظام تشغيل أعمال CRM و HR",
+    },
     tagline: { en: "Unified CRM, HR and project operations dashboard.", ar: null },
     category: "web",
     platform: ["web"],
@@ -271,7 +294,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-digital-ops-console",
     slug: "digital-ops-console",
-    title: { en: "Digital Operations Console — Projects, Clients & AI Command Center", ar: "Digital Operations Console — مركز قيادة المشاريع والعملاء والذكاء الاصطناعي" },
+    title: {
+      en: "Digital Operations Console — Projects, Clients & AI Command Center",
+      ar: "Digital Operations Console — مركز قيادة المشاريع والعملاء والذكاء الاصطناعي",
+    },
     tagline: { en: "Multi-tenant operations command center.", ar: null },
     category: "web",
     platform: ["web"],
@@ -298,7 +324,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-scriptoria-ar",
     slug: "scriptoria-ar",
-    title: { en: "Scriptoria — Arabic AI Creator Studio", ar: "Scriptoria — استوديو صناعة المحتوى بالذكاء الاصطناعي" },
+    title: {
+      en: "Scriptoria — Arabic AI Creator Studio",
+      ar: "Scriptoria — استوديو صناعة المحتوى بالذكاء الاصطناعي",
+    },
     tagline: { en: "Arabic-first AI video and script generation studio.", ar: null },
     category: "web",
     platform: ["web"],
@@ -325,7 +354,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-dev-shield-nexus",
     slug: "dev-shield-nexus",
-    title: { en: "DevShield Nexus — AI Software Assurance & DevSecOps", ar: "DevShield Nexus — ضمان جودة وأمن البرمجيات بالذكاء الاصطناعي" },
+    title: {
+      en: "DevShield Nexus — AI Software Assurance & DevSecOps",
+      ar: "DevShield Nexus — ضمان جودة وأمن البرمجيات بالذكاء الاصطناعي",
+    },
     tagline: { en: "AI-powered software assurance pipeline.", ar: null },
     category: "web",
     platform: ["web"],
@@ -339,7 +371,16 @@ export const projects: CanonicalProject[] = [
     approach: { en: "", ar: null },
     architecture: { en: [], ar: null },
     features: { en: [], ar: null },
-    technologies: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "DevSecOps", "GitHub", "Vite"],
+    technologies: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "AI",
+      "LLM",
+      "DevSecOps",
+      "GitHub",
+      "Vite",
+    ],
     outcomes: { en: [], ar: null },
     screenshots: [],
     links: { live: "https://dev-shield-nexus.lovable.app/" },
@@ -352,7 +393,10 @@ export const projects: CanonicalProject[] = [
   {
     id: "project-smart-shelf-builder",
     slug: "smart-shelf-builder",
-    title: { en: "Smart Shelf Builder — AI Catalog Intelligence", ar: "Smart Shelf Builder — ذكاء الكتالوج بالذكاء الاصطناعي" },
+    title: {
+      en: "Smart Shelf Builder — AI Catalog Intelligence",
+      ar: "Smart Shelf Builder — ذكاء الكتالوج بالذكاء الاصطناعي",
+    },
     tagline: { en: "AI catalog intelligence from legacy files.", ar: null },
     category: "web",
     platform: ["web"],
@@ -366,7 +410,16 @@ export const projects: CanonicalProject[] = [
     approach: { en: "", ar: null },
     architecture: { en: [], ar: null },
     features: { en: [], ar: null },
-    technologies: ["React", "TypeScript", "Tailwind CSS", "AI", "LLM", "OCR", "Computer Vision", "Vite"],
+    technologies: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "AI",
+      "LLM",
+      "OCR",
+      "Computer Vision",
+      "Vite",
+    ],
     outcomes: { en: [], ar: null },
     screenshots: [],
     links: { live: "https://smart-shelf-builder.lovable.app/" },
@@ -389,7 +442,10 @@ export const factoryMaturity = {
   healthEndpoint: "https://factory-api.nextnext-gen.com/health",
   claims: [
     { area: "Public control-plane health endpoint", state: "PROVEN" },
-    { area: "Factory tracks (backend, frontend, API contract, database, mobile, AI, QA, security, DevOps)", state: "IMPLEMENTED_NOT_PROVEN" },
+    {
+      area: "Factory tracks (backend, frontend, API contract, database, mobile, AI, QA, security, DevOps)",
+      state: "IMPLEMENTED_NOT_PROVEN",
+    },
     { area: "Level 4 infrastructure", state: "NOT_COMPLETE" },
     { area: "Level 5", state: "NOT_COMPLETE" },
     { area: "Production AWS trust boundary", state: "NOT_COMPLETE" },

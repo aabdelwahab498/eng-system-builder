@@ -54,7 +54,9 @@ export function PageHeader({
               </h1>
             )}
             {subtitle && (
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{subtitle}</p>
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                {subtitle}
+              </p>
             )}
             {children}
           </Reveal>

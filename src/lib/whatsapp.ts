@@ -1,7 +1,4 @@
-import {
-  NEXTGEN_CONTACT,
-  NEXTGEN_WHATSAPP_DIGITS,
-} from "@/content/canonical/channels";
+import { NEXTGEN_CONTACT, NEXTGEN_WHATSAPP_DIGITS } from "@/content/canonical/channels";
 
 /** Chat number only — never the Vodafone Cash wallet number. */
 export const WHATSAPP_NUMBER = NEXTGEN_CONTACT.whatsapp.value;

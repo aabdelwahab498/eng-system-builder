@@ -27,9 +27,7 @@ export function QuickWhatsApp() {
       className={cn(
         "fixed bottom-5 end-5 z-40 flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/15 p-3 text-emerald-300 shadow-lg shadow-emerald-500/20 backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-emerald-500/25 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none",
         "md:bottom-6 md:end-6 md:p-3.5",
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-4 opacity-0",
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
       )}
     >
       <span className="relative flex">
