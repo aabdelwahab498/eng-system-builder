@@ -68,7 +68,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task CanonicalDataImporter_ShouldHaveDataParityWithCanonicalSource()
+    public async Task CanonicalDataImporter_ShouldHaveTrueDataParityWithCanonicalSource()
     {
         var options = new DbContextOptionsBuilder<PortfolioDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -77,12 +77,15 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         using var db = new PortfolioDbContext(options);
         await CanonicalDataImporter.ImportCanonicalDataAsync(db);
 
+        // Verify exact database counts match canonical source
         Assert.Equal(13, await db.Projects.CountAsync());
         Assert.Equal(4, await db.Experiences.CountAsync());
         Assert.Equal(4, await db.Educations.CountAsync());
-        Assert.True(await db.SkillGroups.CountAsync() >= 2);
+        Assert.Equal(0, await db.Certifications.CountAsync());
+        Assert.Equal(8, await db.SkillGroups.CountAsync());
+        Assert.Equal(41, await db.Skills.CountAsync());
         Assert.Equal(2, await db.Products.CountAsync());
-        Assert.True(await db.Services.CountAsync() >= 2);
+        Assert.Equal(7, await db.Services.CountAsync());
         Assert.Equal(5, await db.Courses.CountAsync());
     }
 }
