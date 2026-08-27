@@ -149,21 +149,6 @@ export function ContactChannelPicker({
           </a>
         )}
 
-        <button
-          type="button"
-          onClick={() => {
-            onSend?.("copy");
-            void copyMessage("clipboard");
-          }}
-          className={btn}
-        >
-          {copied === "clipboard" ? (
-            <Check className="size-4 text-primary" aria-hidden />
-          ) : (
-            <Copy className="size-4" aria-hidden />
-          )}
-          {copied === "clipboard" ? t.copied : t.copy}
-        </button>
       </div>
     </div>
   );
