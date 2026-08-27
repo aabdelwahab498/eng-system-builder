@@ -148,9 +148,111 @@ function SettingsPage() {
         </label>
       </div>
 
+      <ContactChannelsCard />
+
       <Button onClick={() => save.mutate()} disabled={save.isPending}>
         {save.isPending ? "Saving…" : "Save settings"}
       </Button>
     </div>
+  );
+}
+
+const CHANNEL_ROWS: Array<{
+  key: keyof typeof NEXTGEN_CONTACT;
+  label: string;
+  platform?: "facebook" | "messenger" | "whatsapp" | "gmail" | "outlook";
+}> = [
+  { key: "facebook", label: "Facebook", platform: "facebook" },
+  { key: "messenger", label: "Messenger", platform: "messenger" },
+  { key: "whatsapp", label: "WhatsApp", platform: "whatsapp" },
+  { key: "gmail", label: "Gmail", platform: "gmail" },
+  { key: "outlook", label: "Outlook", platform: "outlook" },
+  { key: "businessEmail", label: "Business email", platform: undefined },
+];
+
+function ContactChannelsCard() {
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copy = async (key: string, value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(key);
+      toast.success("Copied");
+      setTimeout(() => setCopied(null), 1500);
+    } catch {
+      toast.error("Copy failed");
+    }
+  };
+
+  return (
+    <section className="space-y-3 rounded-lg border border-border bg-surface/50 p-4">
+      <div>
+        <h2 className="font-display text-base font-semibold text-foreground">
+          Contact channels (NextGen)
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Canonical outreach links — single source of truth used across the site and the admin.
+        </p>
+      </div>
+
+      <ul className="divide-y divide-border">
+        {CHANNEL_ROWS.map(({ key, label, platform }) => {
+          const channel = NEXTGEN_CONTACT[key];
+          const displayValue = channel.display ?? channel.value;
+          return (
+            <li key={key} className="flex flex-wrap items-center gap-3 py-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-foreground">
+                {platform ? (
+                  <SocialIcon platform={platform} className="h-4 w-4" />
+                ) : (
+                  <Globe className="h-4 w-4 text-muted-foreground" />
+                )}
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium text-foreground">{label}</p>
+                  {channel.status === "pending" ? (
+                    <Badge variant="outline" className="text-amber-500">PENDING</Badge>
+                  ) : (
+                    <Badge variant="secondary" className="text-emerald-500">Active</Badge>
+                  )}
+                </div>
+                <p className="truncate text-xs text-muted-foreground">{displayValue}</p>
+              </div>
+              {channel.status === "active" && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => copy(key, channel.url || channel.value)}
+                    aria-label={`Copy ${label} link`}
+                  >
+                    {copied === key ? (
+                      <Check className="h-4 w-4 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                  </Button>
+                  <Button variant="outline" size="sm" asChild className="h-8">
+                    <a href={channel.url} target="_blank" rel="noreferrer">
+                      <ExternalLink className="me-1.5 h-3.5 w-3.5" />
+                      Open
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
+      {!BUSINESS_EMAIL_READY && (
+        <p className="text-xs text-muted-foreground">
+          Business email is <span className="font-semibold text-amber-500">PENDING</span> — it will
+          appear here and on the public site only after the official NextGen mailbox is created.
+        </p>
+      )}
+    </section>
   );
 }
