@@ -228,7 +228,7 @@ function RequestsPage() {
           {rows.map((r) => {
             const waNumber = digits(r.whatsapp);
             const wa = waNumber
-              ? `https://api.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(replyText(r))}`
+              ? `https://wa.me/${waNumber}?text=${encodeURIComponent(replyText(r))}`
               : null;
             const mailto = r.email
               ? `mailto:${r.email}?subject=${encodeURIComponent(
