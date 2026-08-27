@@ -43,6 +43,7 @@ function CvPage() {
   return (
     <>
       <PageHeader
+        className="no-print"
         eyebrow={t.ui.cv}
         title={cv.profile.identity.professionalName}
         subtitle={pickOrEn(cv.profile.positioning.shortHeadline, locale)}

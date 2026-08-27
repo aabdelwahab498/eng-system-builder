@@ -415,6 +415,7 @@
 
   .cv-document section,
   .cv-document header {
+    display: block !important;
     border: 0;
     background: transparent;
     padding: 0;
