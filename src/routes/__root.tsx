@@ -91,6 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Ahmed Abdelwahab" },
       { name: "robots", content: "index, follow" },
+      { name: "google-site-verification", content: "OE38O996dZ7nmm4tEhUn5aGGqWftQkVZwpBk4ziK6Fs" },
       { property: "og:site_name", content: "Ahmed Abdelwahab" },
       { name: "theme-color", content: "#0b0e12" },
     ],
