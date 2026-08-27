@@ -19,6 +19,8 @@ import { pickOrEn } from "@/content/schema";
 import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 
 type ServicesSearch = { service?: string };
 
@@ -119,6 +121,7 @@ function ServicesPage() {
   const offerings = getServiceOfferings();
   const search = Route.useSearch() as { service?: string };
   const [selectedId, setSelectedId] = useState<string | null>(search.service ?? null);
+  const [open, setOpen] = useState<boolean>(Boolean(search.service));
 
   const core = offerings.filter((s) => s.tier === "core");
   const extended = offerings.filter((s) => s.tier === "extended");
@@ -126,16 +129,15 @@ function ServicesPage() {
 
   useEffect(() => {
     if (!search.service) return;
-    const node = document.getElementById("project-request");
-    if (node) node.scrollIntoView({ behavior: "smooth", block: "start" });
+    setSelectedId(search.service);
+    setOpen(true);
   }, [search.service]);
 
   const selectService = (id: string) => {
     setSelectedId(id);
-    window.setTimeout(() => {
-      document.getElementById("project-request")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 60);
+    setOpen(true);
   };
+
 
   return (
     <>
@@ -194,13 +196,16 @@ function ServicesPage() {
         </Section>
       )}
 
-      {selected && (
-        <Section eyebrow={t.request} title={t.request} subtitle={t.requestIntro}>
-          <div id="project-request" className="scroll-mt-28">
-            <ProjectRequestPanel service={selected} t={t} locale={locale} />
-          </div>
-        </Section>
-      )}
+      <Dialog open={open && Boolean(selected)} onOpenChange={setOpen}>
+        <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t.request}</DialogTitle>
+            <DialogDescription>{t.requestIntro}</DialogDescription>
+          </DialogHeader>
+          {selected && <ProjectRequestPanel service={selected} t={t} locale={locale} />}
+        </DialogContent>
+      </Dialog>
+
 
       <Section eyebrow={t.structure} title={t.structure} subtitle={t.structureIntro}>
         <PaymentTimeline />
