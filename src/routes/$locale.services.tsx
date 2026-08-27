@@ -307,19 +307,26 @@ function ProjectRequestPanel({
   t: Copy;
   locale: Locale;
 }) {
-  const [form, setForm] = useState({
+  const config = serviceRequestConfigs[service.id] ?? defaultServiceRequestConfig;
+  const platformOptions = pickOrEn(config.platformOptions, locale);
+  const scopeOptions = pickOrEn(config.scopeOptions, locale);
+
+  const [form, setForm] = useState<Record<string, string>>({
     projectName: "",
     description: "",
-    platform: t.platformOptions[0],
-    scope: t.scopeOptions[0],
+    platform: platformOptions[0],
+    scope: scopeOptions[0],
     comms: t.commsOptions[0],
     clientName: "",
     email: "",
     whatsapp: "",
     attachment: "",
+    ...Object.fromEntries(
+      config.extraFields.map((f) => [f.key, f.kind === "select" ? (f.options ? pickOrEn(f.options, locale)[0] : "") : ""]),
+    ),
   });
 
-  const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const set = (key: string) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
   const sentRef = useRef(false);
 
   /** Land the enquiry in the admin inbox the moment the visitor dispatches it. */
@@ -353,6 +360,9 @@ function ProjectRequestPanel({
     form.description && `Description: ${form.description}`,
     `Platform: ${form.platform}`,
     `Scope: ${form.scope}`,
+    ...config.extraFields
+      .map((f) => form[f.key] && `${pickOrEn(f.label, "en").replace(/\?$/, "")}: ${form[f.key]}`)
+      .filter(Boolean),
     `Preferred contact: ${form.comms}`,
     form.clientName && `Name: ${form.clientName}`,
     form.email && `Email: ${form.email}`,
