@@ -174,15 +174,15 @@ export const socialLinks: SocialLink[] = [
   },
 ];
 
-/** No approved CV file exists yet — the slot stays non-public. */
+/** Canonical CV is the unified /cv web view, exported as /cv-ahmed-abdelwahab.pdf. */
 export const documents: DocumentRef[] = [
   {
     kind: "cv",
-    url: "",
+    url: "/cv-ahmed-abdelwahab.pdf",
     label: { en: "Download CV", ar: "تحميل السيرة الذاتية" },
-    status: "placeholder",
-    provenance: { sourceType: "user-provided" },
-    visibility: { public: false, portfolio: false, cv: false, linkedin: false },
+    status: "verified",
+    provenance: { sourceType: "user-provided", source: "Phase 6 CV unification" },
+    visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   },
 ];
 

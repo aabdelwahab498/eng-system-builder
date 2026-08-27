@@ -25,7 +25,8 @@ export const education: Education[] = [
     verified: false,
     status: "needs-verification",
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing (issuer missing)" },
-    visibility: { public: false, portfolio: false, cv: true, linkedin: false },
+    // Not part of the unified CV — kept for admin history only.
+    visibility: { public: false, portfolio: false, cv: false, linkedin: false },
   },
   {
     id: "edu-diploma-modern-education",
@@ -36,7 +37,7 @@ export const education: Education[] = [
     verified: false,
     status: "needs-verification",
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing (issuer missing)" },
-    visibility: { public: false, portfolio: false, cv: true, linkedin: false },
+    visibility: { public: false, portfolio: false, cv: false, linkedin: false },
   },
   {
     id: "edu-diploma-digital-marketing",
@@ -47,7 +48,7 @@ export const education: Education[] = [
     verified: false,
     status: "needs-verification",
     provenance: { sourceType: "user-provided", source: "Phase 4 briefing (issuer missing)" },
-    visibility: { public: false, portfolio: false, cv: true, linkedin: false },
+    visibility: { public: false, portfolio: false, cv: false, linkedin: false },
   },
 ];
 
