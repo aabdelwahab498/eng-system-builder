@@ -88,6 +88,7 @@ export const SOCIAL_LABEL: Record<SocialPlatform, string> = {
   youtube: "YouTube",
   gmail: "Gmail",
   outlook: "Outlook",
+  messenger: "Messenger",
   medium: "Medium",
   other: "Link",
 };
@@ -105,6 +106,7 @@ export const SOCIAL_BRAND_COLOR: Record<SocialPlatform, string> = {
   youtube: "#FF0000",
   gmail: "#EA4335",
   outlook: "#0078D4",
+  messenger: "#00B2FF",
   medium: "#ffffff",
   other: "currentColor",
 };
