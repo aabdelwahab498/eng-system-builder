@@ -127,9 +127,11 @@ function RootShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const locale = localeFromPathname(pathname);
   const t = getContent(locale);
+  const lang = t.htmlLang || "en";
 
   return (
-    <html lang={t.htmlLang || "en"} dir={t.dir} className="dark" suppressHydrationWarning>
+    // Static literal lang keeps crawlers/linters happy; effect below syncs AR.
+    <html lang="en" dir={t.dir} className="dark" suppressHydrationWarning data-lang={lang}>
       <head>
         <HeadContent />
       </head>
@@ -146,6 +148,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isStudio = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+  const locale = localeFromPathname(pathname);
+  const lang = getContent(locale).htmlLang || "en";
+
+  // Keep <html lang> accurate for the active locale after hydration.
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <QueryClientProvider client={queryClient}>
