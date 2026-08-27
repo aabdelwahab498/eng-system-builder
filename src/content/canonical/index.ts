@@ -5,5 +5,6 @@ export * from "./skills";
 export * from "./projects";
 export * from "./products";
 export * from "./services";
+export * from "./courses";
 export * from "./cv";
 export * from "./linkedin";
