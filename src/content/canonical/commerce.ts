@@ -76,11 +76,18 @@ export const CONTACT_NUMBERS = {
   /** Chat / support only. */
   whatsapp: "+201105725029",
   whatsappDisplay: "+20 11 0572 5029",
-  /** Canonical WhatsApp link used for all generic contact CTAs. */
-  whatsappShortLink: "https://api.whatsapp.com/send?phone=201105725029",
+  /** Canonical WhatsApp short link used for all generic contact CTAs (wa.me format). */
+  whatsappShortLink: "https://wa.me/201105725029",
   /** Vodafone Cash wallet — payments only, NOT WhatsApp. */
   vodafoneCash: "+201050064380",
   vodafoneCashDisplay: "+20 10 5006 4380",
+} as const;
+
+/** NextGen-owned contact channels — surfaced in the Admin inbox for client outreach. */
+export const NEXTGEN_CHANNELS = {
+  facebook: "https://www.facebook.com/profile.php?id=61582424456394",
+  messenger: "https://m.me/61582424456394",
+  whatsapp: "https://wa.me/201105725029",
 } as const;
 
 export const services: ServiceOffering[] = [
