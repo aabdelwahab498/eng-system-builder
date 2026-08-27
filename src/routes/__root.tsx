@@ -148,6 +148,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isStudio = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+  const locale = localeFromPathname(pathname);
+  const lang = getContent(locale).htmlLang || "en";
+
+  // Keep <html lang> accurate for the active locale after hydration.
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <QueryClientProvider client={queryClient}>
