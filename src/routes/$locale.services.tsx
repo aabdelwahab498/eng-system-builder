@@ -119,6 +119,7 @@ function ServicesPage() {
   const offerings = getServiceOfferings();
   const search = Route.useSearch() as { service?: string };
   const [selectedId, setSelectedId] = useState<string | null>(search.service ?? null);
+  const [open, setOpen] = useState<boolean>(Boolean(search.service));
 
   const core = offerings.filter((s) => s.tier === "core");
   const extended = offerings.filter((s) => s.tier === "extended");
@@ -126,16 +127,15 @@ function ServicesPage() {
 
   useEffect(() => {
     if (!search.service) return;
-    const node = document.getElementById("project-request");
-    if (node) node.scrollIntoView({ behavior: "smooth", block: "start" });
+    setSelectedId(search.service);
+    setOpen(true);
   }, [search.service]);
 
   const selectService = (id: string) => {
     setSelectedId(id);
-    window.setTimeout(() => {
-      document.getElementById("project-request")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 60);
+    setOpen(true);
   };
+
 
   return (
     <>
