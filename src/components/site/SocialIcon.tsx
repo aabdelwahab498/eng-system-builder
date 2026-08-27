@@ -8,6 +8,7 @@ import {
   siX,
   siYoutube,
   siGmail,
+  siMessenger,
 } from "simple-icons";
 import { cn } from "@/lib/utils";
 
