@@ -199,11 +199,22 @@ function ServicesPage() {
 
       <Dialog open={open && Boolean(selected)} onOpenChange={setOpen}>
         <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{t.request}</DialogTitle>
-            <DialogDescription>{t.requestIntro}</DialogDescription>
-          </DialogHeader>
-          {selected && <ProjectRequestPanel service={selected} t={t} locale={locale} />}
+          {selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-md border border-border-strong text-primary">
+                    <ServiceIcon name={selected.icon} className="size-5" />
+                  </span>
+                  {pickOrEn(selected.title, locale)}
+                </DialogTitle>
+                <DialogDescription>
+                  {pickOrEn((serviceRequestConfigs[selected.id] ?? defaultServiceRequestConfig).brief, locale)}
+                </DialogDescription>
+              </DialogHeader>
+              <ProjectRequestPanel key={selected.id} service={selected} t={t} locale={locale} />
+            </>
+          )}
         </DialogContent>
       </Dialog>
 
