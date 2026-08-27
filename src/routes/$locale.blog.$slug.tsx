@@ -2,7 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Section } from "@/components/site/Section";
 import { Markdown } from "@/lib/cms/markdown";
 import { getPublicArticle } from "@/lib/cms/public.functions";
-import { buildHead } from "@/lib/seo";
+import { absoluteUrl, buildHead } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 import type { ArticleData } from "@/lib/cms/types";
 
@@ -40,6 +40,15 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
         datePublished: loaderData.article.publishedAt,
         dateModified: loaderData.article.updatedAt,
         author: { "@type": "Person", name: "Ahmed Abdelwahab" },
+        ...(data.coverImageUrl
+          ? {
+              image: [
+                data.coverImageUrl.startsWith("http")
+                  ? data.coverImageUrl
+                  : absoluteUrl(data.coverImageUrl),
+              ],
+            }
+          : {}),
       },
     });
   },
