@@ -15,6 +15,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead, metaFor } from "@/lib/seo";
 import { getContent } from "@/content";
 import { getServiceOfferings } from "@/content/api";
+import { defaultServiceRequestConfig, serviceRequestConfigs } from "@/content/canonical/service-requests";
 import { pickOrEn } from "@/content/schema";
 import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
