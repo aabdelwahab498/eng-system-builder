@@ -182,5 +182,10 @@ public class AuditLogEntity : BaseEntity
     public required string Action { get; set; }
     public required string EntityName { get; set; }
     public string? EntityId { get; set; }
+    public string? CorrelationId { get; set; }
+    public string? IpAddress { get; set; }
+    public string? UserAgent { get; set; }
+    public bool Success { get; set; } = true;
+    public string? MetadataJson { get; set; }
     public string? ChangesJson { get; set; }
 }

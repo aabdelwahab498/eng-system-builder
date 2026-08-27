@@ -1,10 +1,14 @@
-using System.IO;
+using System;
+using System.Text;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Portfolio.Api.Middleware;
 using Portfolio.Application.Validators;
 using Portfolio.Infrastructure.Persistence;
@@ -22,13 +26,40 @@ builder.Host.UseSerilog();
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Swagger OpenAPI with Bearer JWT documentation
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Portfolio Backend API",
         Version = "v1",
         Description = "Production-grade Backend API foundation for Portfolio Architecture"
+    });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
 });
 
@@ -48,6 +79,41 @@ else
 // FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<ContactMessageValidator>();
 
+// JWT Authentication Configuration
+var jwtSecretKey = builder.Configuration["Jwt:SecretKey"] ?? "PORTFOLIO_DEV_JWT_SECRET_KEY_MIN_32_BYTES_LONG_123456789";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "PortfolioApi";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "PortfolioClients";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey)),
+        ValidateIssuer = true,
+        ValidIssuer = jwtIssuer,
+        ValidateAudience = true,
+        ValidAudience = jwtAudience,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+// Policy-Based Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy("Administrator", policy => 
+        policy.RequireAuthenticatedUser().RequireRole("admin", "Administrator"));
+});
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -64,6 +130,7 @@ var app = builder.Build();
 
 // Middleware Pipeline
 app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -73,6 +140,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowFrontend");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
