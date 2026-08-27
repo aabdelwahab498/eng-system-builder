@@ -38,6 +38,8 @@ export type SocialPlatform =
   | "snapchat"
   | "x"
   | "youtube"
+  | "gmail"
+  | "outlook"
   | "medium"
   | "other";
 
