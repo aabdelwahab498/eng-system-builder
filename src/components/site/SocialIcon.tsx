@@ -31,6 +31,7 @@ const PATHS: Partial<Record<SocialPlatform, string>> = {
   youtube: siYoutube.path,
   gmail: siGmail.path,
   outlook: OUTLOOK_PATH,
+  messenger: siMessenger.path,
 };
 
 export type SocialPlatform =
@@ -44,6 +45,7 @@ export type SocialPlatform =
   | "youtube"
   | "gmail"
   | "outlook"
+  | "messenger"
   | "medium"
   | "other";
 
