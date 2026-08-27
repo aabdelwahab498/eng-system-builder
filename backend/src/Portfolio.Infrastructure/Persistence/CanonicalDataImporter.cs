@@ -657,9 +657,99 @@ public static class CanonicalDataImporter
             PublicVisible = true,
             Skills = [
                 new SkillEntity { Name = "TypeScript", Category = SkillCategoryId.Frontend, ContextEn = "Default language for web application code.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "JavaScript", Category = SkillCategoryId.Frontend, ContextEn = "Used where TypeScript is not in place.", Emphasis = "supporting", PortfolioVisible = true },
                 new SkillEntity { Name = "React", Category = SkillCategoryId.Frontend, ContextEn = "Component model used across web projects.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
-                new SkillEntity { Name = "Vite", Category = SkillCategoryId.Frontend, ContextEn = "Build tool and dev server.", Emphasis = "supporting", PortfolioVisible = true },
-                new SkillEntity { Name = "Tailwind CSS", Category = SkillCategoryId.Frontend, ContextEn = "Utility-first CSS framework for web UIs.", Emphasis = "supporting", PortfolioVisible = true }
+                new SkillEntity { Name = "Vite", Category = SkillCategoryId.Frontend, ContextEn = "Build tooling for web applications.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "HTML", Category = SkillCategoryId.Frontend, ContextEn = "Semantic markup for web interfaces.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "CSS", Category = SkillCategoryId.Frontend, ContextEn = "Layout and styling fundamentals.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "Tailwind CSS", Category = SkillCategoryId.Frontend, ContextEn = "Utility-first styling in current web projects.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "Bootstrap", Category = SkillCategoryId.Frontend, ContextEn = "Used in earlier web work.", Emphasis = "supporting", PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.Mobile,
+            LabelEn = "Mobile",
+            LabelAr = "تطبيقات الموبايل",
+            DescriptionEn = "Cross-platform mobile applications.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "Flutter", Category = SkillCategoryId.Mobile, ContextEn = "Cross-platform mobile application development.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "Dart", Category = SkillCategoryId.Mobile, ContextEn = "Language used with Flutter.", Emphasis = "primary", PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.Ai,
+            LabelEn = "AI Engineering",
+            LabelAr = "هندسة الذكاء الاصطناعي",
+            DescriptionEn = "LLM integration, agents and automation inside real products.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "Python", Category = SkillCategoryId.Ai, ContextEn = "Used for AI services and tooling.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "FastAPI", Category = SkillCategoryId.Ai, ContextEn = "HTTP layer for Python AI services.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "LLM integrations", Category = SkillCategoryId.Ai, ContextEn = "Language models integrated into product flows.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "AI Agents", Category = SkillCategoryId.Ai, ContextEn = "Agent workflows used inside the Factory pipeline.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "AI Automation", Category = SkillCategoryId.Ai, ContextEn = "Automating multi-step generation and validation work.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "AI Orchestration", Category = SkillCategoryId.Ai, ContextEn = "Coordinating multiple AI steps and services.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "AI Video Production", Category = SkillCategoryId.Ai, ContextEn = "Producing cartoon episodes and product clips with generative video models.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "Prompt Engineering", Category = SkillCategoryId.Ai, ContextEn = "Writing professional production prompts for text, image and video models.", Emphasis = "primary", Featured = true, PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.Business,
+            LabelEn = "Growth & Marketing",
+            LabelAr = "النمو والتسويق",
+            DescriptionEn = "Getting the work in front of the right audience.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "SEO", Category = SkillCategoryId.Business, ContextEn = "Technical and content SEO for shipped web products.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "Social Media Ads", Category = SkillCategoryId.Business, ContextEn = "Planning and running paid campaigns on Meta, LinkedIn and TikTok.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "Content Distribution", Category = SkillCategoryId.Business, ContextEn = "Publishing work across code, article, image and video platforms.", Emphasis = "supporting", PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.Databases,
+            LabelEn = "Databases",
+            LabelAr = "قواعد البيانات",
+            DescriptionEn = "Relational data modelling and caching.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "SQL Server", Category = SkillCategoryId.Databases, ContextEn = "Relational database used with .NET services.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "PostgreSQL", Category = SkillCategoryId.Databases, ContextEn = "Relational database used in current projects.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "Entity Framework Core", Category = SkillCategoryId.Databases, ContextEn = "ORM and migrations layer.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "Redis", Category = SkillCategoryId.Databases, ContextEn = "Caching and ephemeral state.", Emphasis = "supporting", PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.DevOps,
+            LabelEn = "DevOps & Infrastructure",
+            LabelAr = "البنية التحتية والتشغيل",
+            DescriptionEn = "Containerized deployment and operation on Linux.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "Docker", Category = SkillCategoryId.DevOps, ContextEn = "Containerizing services for deployment.", Emphasis = "primary", Featured = true, PortfolioVisible = true },
+                new SkillEntity { Name = "Linux", Category = SkillCategoryId.DevOps, ContextEn = "Host environment for deployed services.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "NGINX", Category = SkillCategoryId.DevOps, ContextEn = "Reverse proxy and TLS termination.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "Git", Category = SkillCategoryId.DevOps, ContextEn = "Version control for all work.", Emphasis = "primary", PortfolioVisible = true },
+                new SkillEntity { Name = "GitHub", Category = SkillCategoryId.DevOps, ContextEn = "Repository hosting and collaboration.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "HTTPS / SSL", Category = SkillCategoryId.DevOps, ContextEn = "Certificates and secure transport for public endpoints.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "Reverse Proxy", Category = SkillCategoryId.DevOps, ContextEn = "Routing public traffic to internal services.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "Deployment", Category = SkillCategoryId.DevOps, ContextEn = "Releasing and operating services in production.", Emphasis = "supporting", PortfolioVisible = true }
+            ]
+        },
+        new SkillGroupEntity
+        {
+            Category = SkillCategoryId.Languages,
+            LabelEn = "Other Languages & Tools",
+            DescriptionEn = "Additional languages and environments used outside the core stack.",
+            PublicVisible = true,
+            Skills = [
+                new SkillEntity { Name = "C++", Category = SkillCategoryId.Languages, ContextEn = "Used in earlier programming work.", Emphasis = "supporting", PortfolioVisible = true },
+                new SkillEntity { Name = "Godot", Category = SkillCategoryId.Languages, ContextEn = "Used for game/interactive experiments.", Emphasis = "supporting", PortfolioVisible = true }
             ]
         }
     ];
@@ -718,6 +808,61 @@ public static class CanonicalDataImporter
             CapabilitiesEn = ["React + TypeScript front ends", "Backend integration", "Responsive UIs"],
             DeliverablesEn = ["Working web application", "Source code", "Deployment setup"],
             IdealForEn = ["New products", "Rebuilds of existing web apps"],
+            Status = ContentStatus.Draft,
+            PublicVisible = true
+        },
+        new ServiceEntity
+        {
+            TitleEn = "AI Integration",
+            SummaryEn = "LLM features integrated into real product flows, not demos.",
+            DescriptionEn = "Integration of language models into existing products: prompt and response handling, structured outputs, and service boundaries around the model.",
+            CapabilitiesEn = ["LLM integration", "Structured output handling", "AI service boundaries"],
+            DeliverablesEn = ["AI-backed feature", "Service integration"],
+            IdealForEn = ["Products adding their first AI feature"],
+            Status = ContentStatus.Draft,
+            PublicVisible = true
+        },
+        new ServiceEntity
+        {
+            TitleEn = "AI Automation & Agents",
+            SummaryEn = "Agent and automation workflows around existing systems.",
+            DescriptionEn = "Design and implementation of agent workflows and automation pipelines that orchestrate steps across services.",
+            CapabilitiesEn = ["Agent workflows", "Task orchestration", "Automation pipelines"],
+            DeliverablesEn = ["Automation workflow", "Orchestration service"],
+            IdealForEn = ["Repetitive multi-step processes"],
+            Status = ContentStatus.Draft,
+            PublicVisible = true
+        },
+        new ServiceEntity
+        {
+            TitleEn = "API Development",
+            SummaryEn = "Versioned, documented APIs with explicit contracts.",
+            DescriptionEn = "API design and implementation: resource modelling, contracts, versioning and documentation.",
+            CapabilitiesEn = ["REST API design", "API contracts", "Documentation"],
+            DeliverablesEn = ["API implementation", "Contract and docs"],
+            IdealForEn = ["Products exposing data to clients or partners"],
+            Status = ContentStatus.Draft,
+            PublicVisible = true
+        },
+        new ServiceEntity
+        {
+            TitleEn = "Software Architecture",
+            SummaryEn = "System design that stays understandable as the product grows.",
+            DescriptionEn = "Architecture work: system decomposition, service boundaries, data flow and deployment topology.",
+            CapabilitiesEn = ["System decomposition", "Service boundaries", "Deployment topology"],
+            DeliverablesEn = ["Architecture documentation", "Implementation plan"],
+            IdealForEn = ["Systems outgrowing their original design"],
+            Status = ContentStatus.Draft,
+            PublicVisible = true
+        },
+        new ServiceEntity
+        {
+            TitleEn = "Digital Product Development",
+            SummaryEn = "From problem framing to a shipped digital product.",
+            DescriptionEn = "Taking a product idea through scoping, architecture, implementation and deployment as a working digital product.",
+            CapabilitiesEn = ["Product scoping", "Implementation", "Deployment and iteration"],
+            DeliverablesEn = ["Shipped product", "Source code", "Deployment setup"],
+            IdealForEn = ["Founders building a first version"],
             Status = ContentStatus.Draft,
             PublicVisible = true
         }
