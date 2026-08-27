@@ -20,7 +20,11 @@ import type { ServiceOffering } from "@/content/canonical/commerce";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
 
+type ServicesSearch = { service?: string };
+
 export const Route = createFileRoute("/$locale/services")({
+  validateSearch: (search: Record<string, unknown>): ServicesSearch =>
+    typeof search["service"] === "string" ? { service: search["service"] } : {},
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const m = metaFor(locale, "services");
