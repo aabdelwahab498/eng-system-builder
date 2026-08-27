@@ -89,6 +89,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "Ahmed Abdelwahab — Software Engineer, Senior Full Stack Developer & AI, Product Builder" },
+      {
+        name: "description",
+        content:
+          "Personal engineering hub of Ahmed Abdelwahab: full stack development, AI engineering, software architecture, mobile and web product development.",
+      },
       { name: "author", content: "Ahmed Abdelwahab" },
       { name: "robots", content: "index, follow" },
       { name: "google-site-verification", content: "OE38O996dZ7nmm4tEhUn5aGGqWftQkVZwpBk4ziK6Fs" },
