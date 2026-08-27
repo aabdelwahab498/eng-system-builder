@@ -167,7 +167,7 @@ const CHANNEL_ROWS: Array<{
   { key: "whatsapp", label: "WhatsApp", platform: "whatsapp" },
   { key: "gmail", label: "Gmail", platform: "gmail" },
   { key: "outlook", label: "Outlook", platform: "outlook" },
-  { key: "businessEmail", label: "Business email", platform: undefined },
+  { key: "businessEmail", label: "Business email" },
 ];
 
 function ContactChannelsCard() {
