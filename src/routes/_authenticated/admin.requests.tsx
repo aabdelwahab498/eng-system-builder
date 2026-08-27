@@ -167,6 +167,28 @@ function RequestsPage() {
           Every "Start project" submission from the site lands here — what the client asked for, and
           one-click ways to reply on any channel. {newCount} new · {data.length} total.
         </p>
+
+        {/* NextGen-owned contact channels — for initiating outreach to a client */}
+        <div className="mt-4 flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface/40 p-3">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            NextGen channels
+          </span>
+          <Button asChild size="sm" className="gap-2">
+            <a href={NEXTGEN_CHANNELS.whatsapp} target="_blank" rel="noreferrer">
+              <MessageCircle className="h-4 w-4" /> WhatsApp
+            </a>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="gap-2">
+            <a href={NEXTGEN_CHANNELS.messenger} target="_blank" rel="noreferrer">
+              <SocialIcon platform="messenger" /> Messenger
+            </a>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="gap-2">
+            <a href={NEXTGEN_CHANNELS.facebook} target="_blank" rel="noreferrer">
+              <SocialIcon platform="facebook" /> Facebook
+            </a>
+          </Button>
+        </div>
       </header>
 
       <div className="flex flex-wrap gap-2">
