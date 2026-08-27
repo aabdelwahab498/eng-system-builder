@@ -324,7 +324,10 @@ function ProjectRequestPanel({
   });
   const [extras, setExtras] = useState<Record<string, string>>(() =>
     Object.fromEntries(
-      config.extraFields.map((f) => [f.key, f.kind === "select" && f.options ? pickOrEn(f.options, locale)[0] : ""]),
+      config.extraFields.map((f): [string, string] => [
+        f.key,
+        (f.kind === "select" && f.options ? pickOrEn(f.options, locale)[0] : "") ?? "",
+      ]),
     ),
   );
 
