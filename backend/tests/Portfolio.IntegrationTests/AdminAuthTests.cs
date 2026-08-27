@@ -25,10 +25,10 @@ public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
         _factory = factory;
     }
 
-    private string GenerateJwtToken(string userId, string role, TimeSpan expiresIn)
+    private string GenerateJwtToken(string userId, string role, TimeSpan expiresIn, string customIssuer = Issuer, string customAudience = Audience, string customKey = SecretKey)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(SecretKey);
+        var key = Encoding.UTF8.GetBytes(customKey);
         var now = DateTime.UtcNow;
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -40,8 +40,8 @@ public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
             }),
             NotBefore = expiresIn < TimeSpan.Zero ? now.Add(expiresIn).AddMinutes(-5) : now,
             Expires = now.Add(expiresIn),
-            Issuer = Issuer,
-            Audience = Audience,
+            Issuer = customIssuer,
+            Audience = customAudience,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
@@ -129,7 +129,43 @@ public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task AdminEndpoint_PostProject_ShouldLogAuditEntry()
+    public async Task AdminEndpoint_WrongIssuer_ShouldReturn401Unauthorized()
+    {
+        var client = _factory.CreateClient();
+        var wrongIssuerToken = GenerateJwtToken("admin-999", "admin", TimeSpan.FromHours(1), customIssuer: "UntrustedIssuer");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", wrongIssuerToken);
+
+        var response = await client.GetAsync("/api/v1/admin/audit-logs");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task AdminEndpoint_WrongAudience_ShouldReturn401Unauthorized()
+    {
+        var client = _factory.CreateClient();
+        var wrongAudienceToken = GenerateJwtToken("admin-999", "admin", TimeSpan.FromHours(1), customAudience: "UntrustedAudience");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", wrongAudienceToken);
+
+        var response = await client.GetAsync("/api/v1/admin/audit-logs");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task AdminEndpoint_InvalidSignature_ShouldReturn401Unauthorized()
+    {
+        var client = _factory.CreateClient();
+        var invalidKeyToken = GenerateJwtToken("admin-999", "admin", TimeSpan.FromHours(1), customKey: "UNTRUSTED_SECRET_KEY_1234567890123456789");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", invalidKeyToken);
+
+        var response = await client.GetAsync("/api/v1/admin/audit-logs");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task AdminEndpoint_PostProject_ShouldLogAuditEntryWithoutLeakingSecrets()
     {
         var client = _factory.CreateClient();
         var adminToken = GenerateJwtToken("admin-777", "admin", TimeSpan.FromHours(1));
@@ -148,5 +184,10 @@ public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
         // Verify audit logs endpoint returns the newly created audit entry
         var auditLogsResponse = await client.GetAsync("/api/v1/admin/audit-logs");
         Assert.Equal(HttpStatusCode.OK, auditLogsResponse.StatusCode);
+
+        var json = await auditLogsResponse.Content.ReadAsStringAsync();
+        Assert.DoesNotContain("Authorization", json);
+        Assert.DoesNotContain(adminToken, json);
+        Assert.DoesNotContain("password", json);
     }
 }
