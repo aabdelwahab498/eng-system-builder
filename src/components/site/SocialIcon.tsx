@@ -97,6 +97,8 @@ export const SOCIAL_BRAND_COLOR: Record<SocialPlatform, string> = {
   snapchat: "#FFFC00",
   x: "#ffffff",
   youtube: "#FF0000",
+  gmail: "#EA4335",
+  outlook: "#0078D4",
   medium: "#ffffff",
   other: "currentColor",
 };
