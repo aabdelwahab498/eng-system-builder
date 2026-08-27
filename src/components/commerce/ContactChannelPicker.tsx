@@ -79,6 +79,11 @@ export function ContactChannelPicker({
     ? `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(email)}&subject=${subject}&body=${body}`
     : null;
 
+  /** Facebook Messenger deep link — opens a chat with the prefilled request. */
+  const messengerLink = fbId
+    ? `https://m.me/${fbId}?text=${body}`
+    : null;
+
   const primaryBtn =
     "inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90";
   const btn =
