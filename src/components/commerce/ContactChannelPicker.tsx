@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Check, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { SocialIcon } from "@/components/site/SocialIcon";
 import { socialLinks, contact } from "@/content/canonical/profile";
