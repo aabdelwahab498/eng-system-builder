@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.IdentityModel.Tokens;
+using Portfolio.Application.DTOs;
 using Xunit;
 
 namespace Portfolio.IntegrationTests;
@@ -171,15 +172,19 @@ public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
         var adminToken = GenerateJwtToken("admin-777", "admin", TimeSpan.FromHours(1));
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
 
-        var requestBody = new
+        var requestBody = new AdminProjectRequest
         {
             Slug = "admin-test-project-" + Guid.NewGuid().ToString("N")[..8],
             TitleEn = "Admin Test Project",
-            SummaryEn = "Project created by authorized admin"
+            TaglineEn = "Test Tagline",
+            RoleEn = "Admin Role",
+            SummaryEn = "Project created by authorized admin",
+            ProblemEn = "Test Problem",
+            ApproachEn = "Test Approach"
         };
 
         var response = await client.PostAsJsonAsync("/api/v1/admin/projects", requestBody);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.True(response.IsSuccessStatusCode);
 
         // Verify audit logs endpoint returns the newly created audit entry
         var auditLogsResponse = await client.GetAsync("/api/v1/admin/audit-logs");
