@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Check, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { SocialIcon } from "@/components/site/SocialIcon";
 import { socialLinks, contact } from "@/content/canonical/profile";
@@ -10,23 +9,23 @@ import type { Locale } from "@/types/content";
 const copy = {
   en: {
     title: "Send your request through",
-    hint: "Pick a channel. WhatsApp, email, Gmail and Outlook carry your request automatically; for Facebook we copy the message so you can paste it in chat.",
+    hint: "Pick a channel. WhatsApp, email, Gmail, Outlook and Messenger carry your request automatically.",
     whatsapp: "WhatsApp",
     email: "Email",
-    facebook: "Facebook",
     gmail: "Gmail",
     outlook: "Outlook",
+    messenger: "Messenger",
     copied: "Message copied",
     subject: "Project request",
   },
   ar: {
     title: "أرسل طلبك عبر",
-    hint: "اختر وسيلة التواصل. واتساب والبريد وGmail وOutlook يحملون طلبك تلقائيًا، ومع Facebook ننسخ الرسالة لك لتلصقها في المحادثة.",
+    hint: "اختر وسيلة التواصل. واتساب والبريد وGmail وOutlook والماسنجر يحملون طلبك تلقائيًا.",
     whatsapp: "واتساب",
     email: "البريد الإلكتروني",
-    facebook: "فيسبوك",
     gmail: "Gmail",
     outlook: "Outlook",
+    messenger: "ماسنجر",
     copied: "تم نسخ الرسالة",
     subject: "طلب مشروع",
   },
@@ -45,20 +44,11 @@ export function ContactChannelPicker({
   onSend?: (channel: string) => void;
 }) {
   const t = copy[locale] ?? copy.en;
-  const [copied, setCopied] = useState<string | null>(null);
 
   const email = contact.find((c) => c.kind === "email" && c.visibility.public)?.value;
   const facebook = socialLinks.find((s) => s.platform === "facebook" && s.visibility.public);
-
-  const copyMessage = async (key: string) => {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopied(key);
-      setTimeout(() => setCopied((c) => (c === key ? null : c)), 2500);
-    } catch {
-      /* clipboard unavailable — the user can still type manually */
-    }
-  };
+  /** Extract the numeric Facebook page/user id to build an m.me Messenger deep link. */
+  const fbId = facebook?.url.match(/id=(\d+)/)?.[1] ?? facebook?.url.match(/facebook\.com\/([^/?#]+)/)?.[1];
 
   const subject = encodeURIComponent(t.subject);
   const body = encodeURIComponent(message);
@@ -75,6 +65,11 @@ export function ContactChannelPicker({
   /** Outlook compose URL carrying the request automatically. */
   const outlookLink = email
     ? `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(email)}&subject=${subject}&body=${body}`
+    : null;
+
+  /** Facebook Messenger deep link — opens a chat with the prefilled request. */
+  const messengerLink = fbId
+    ? `https://m.me/${fbId}?text=${body}`
     : null;
 
   const primaryBtn =
@@ -132,20 +127,16 @@ export function ContactChannelPicker({
           </a>
         )}
 
-        {facebook && (
+        {messengerLink && (
           <a
-            href={facebook.url}
+            href={messengerLink}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => {
-              onSend?.("facebook");
-              void copyMessage("facebook");
-            }}
+            onClick={() => onSend?.("messenger")}
             className={btn}
           >
-            <SocialIcon platform="facebook" />
-            {t.facebook}
-            {copied === "facebook" && <Check className="size-3.5 text-primary" aria-hidden />}
+            <SocialIcon platform="messenger" />
+            {t.messenger}
           </a>
         )}
 

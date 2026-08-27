@@ -8,6 +8,7 @@ import {
   siX,
   siYoutube,
   siGmail,
+  siMessenger,
 } from "simple-icons";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ const PATHS: Partial<Record<SocialPlatform, string>> = {
   youtube: siYoutube.path,
   gmail: siGmail.path,
   outlook: OUTLOOK_PATH,
+  messenger: siMessenger.path,
 };
 
 export type SocialPlatform =
@@ -43,6 +45,7 @@ export type SocialPlatform =
   | "youtube"
   | "gmail"
   | "outlook"
+  | "messenger"
   | "medium"
   | "other";
 
@@ -85,6 +88,7 @@ export const SOCIAL_LABEL: Record<SocialPlatform, string> = {
   youtube: "YouTube",
   gmail: "Gmail",
   outlook: "Outlook",
+  messenger: "Messenger",
   medium: "Medium",
   other: "Link",
 };
@@ -102,6 +106,7 @@ export const SOCIAL_BRAND_COLOR: Record<SocialPlatform, string> = {
   youtube: "#FF0000",
   gmail: "#EA4335",
   outlook: "#0078D4",
+  messenger: "#00B2FF",
   medium: "#ffffff",
   other: "currentColor",
 };
