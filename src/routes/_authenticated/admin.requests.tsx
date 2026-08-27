@@ -13,6 +13,7 @@ import {
   type ServiceRequestRow,
 } from "@/lib/crm/requests.functions";
 import { socialLinks, contact } from "@/content/canonical/profile";
+import { NEXTGEN_CHANNELS } from "@/content/canonical/commerce";
 import { SocialIcon, type SocialPlatform } from "@/components/site/SocialIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
