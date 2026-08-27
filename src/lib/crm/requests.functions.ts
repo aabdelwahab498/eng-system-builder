@@ -38,7 +38,8 @@ export const REQUEST_STATUS_OPTIONS = [
 const COLUMNS =
   "id, client_name, email, whatsapp, service_id, service_title, project_name, description, platform, scope, budget, timeline, preferred_channel, attachment_url, locale, source, status, admin_note, created_at, updated_at";
 
-type Ctx = { supabase: unknown; userId: string };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Ctx = { supabase: any; userId: string };
 
 async function assertAdmin(context: Ctx) {
   const { data, error } = await context.supabase.rpc("has_role", {

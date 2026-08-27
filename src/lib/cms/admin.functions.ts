@@ -19,7 +19,8 @@ import {
 } from "./types";
 import { isValidSlug } from "./slug";
 
-type Ctx = { supabase: unknown; userId: string };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Ctx = { supabase: any; userId: string };
 
 async function assertAdmin(context: Ctx) {
   const { data, error } = await context.supabase.rpc("has_role", {
