@@ -178,6 +178,17 @@ function CvPage() {
                   <li key={p.id}>
                     <h3 className="font-display text-lg font-medium">
                       {pickOrEn(p.title, locale)}
+                      {p.links.live && (
+                        <a
+                          className="ms-3 font-mono text-[11px] font-normal text-primary hover:underline"
+                          href={p.links.live}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          dir="ltr"
+                        >
+                          {p.links.live.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+                        </a>
+                      )}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {pickOrEn(p.summary, locale)}
