@@ -157,7 +157,8 @@ public class ContactMessageEntity : BaseEntity
     public required string Subject { get; set; }
     public required string Message { get; set; }
     public string? IpAddress { get; set; }
-    public string StatusState { get; set; } = "Received";
+    public string StatusState { get; set; } = "new";
+    public string? AdminNote { get; set; }
 }
 
 public class AnalyticsEventEntity : BaseEntity

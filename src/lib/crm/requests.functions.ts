@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -35,9 +36,6 @@ export const REQUEST_STATUS_OPTIONS = [
   { value: "cancelled", label: "Cancelled" },
 ] as const;
 
-const COLUMNS =
-  "id, client_name, email, whatsapp, service_id, service_title, project_name, description, platform, scope, budget, timeline, preferred_channel, attachment_url, locale, source, status, admin_note, created_at, updated_at";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Ctx = { supabase: any; userId: string };
 
@@ -47,6 +45,30 @@ async function assertAdmin(context: Ctx) {
     _role: "admin",
   });
   if (error || !data) throw new Error("Forbidden");
+}
+
+function getBackendUrl(): string | null {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"];
+  if (url && url.trim()) {
+    return url.trim().replace(/\/+$/, "");
+  }
+  return null;
+}
+
+function getAuthHeader(ctx: Ctx): Record<string, string> {
+  try {
+    const req = getRequest();
+    const authHeader = req?.headers?.get("authorization");
+    if (authHeader) {
+      return { Authorization: authHeader };
+    }
+  } catch {
+    // getRequest might not be available in all execution contexts
+  }
+  if (ctx?.supabase?.auth?.token) {
+    return { Authorization: `Bearer ${ctx.supabase.auth.token}` };
+  }
+  return {};
 }
 
 /** Anon client used for the public submission endpoint (INSERT-only by RLS). */
@@ -119,12 +141,52 @@ export const adminListServiceRequests = createServerFn({ method: "GET" })
   .handler(async ({ context }): Promise<ServiceRequestRow[]> => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { data, error } = await ctx.supabase
-      .from("service_requests")
-      .select(COLUMNS)
-      .order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
-    return (data ?? []) as ServiceRequestRow[];
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 5 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin CRM operations)",
+      );
+    }
+
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/requests`, {
+      headers: {
+        Accept: "application/json",
+        ...getAuthHeader(ctx),
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to list service requests from backend API: HTTP ${res.status}`);
+    }
+
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) {
+      throw new Error(json.error?.message || "Invalid response envelope from backend API");
+    }
+
+    return json.data.map((item: Record<string, unknown>) => ({
+      id: String(item["id"] ?? ""),
+      client_name: String(item["name"] || "Website visitor"),
+      email: item["email"] ? String(item["email"]) : null,
+      whatsapp: null,
+      service_id: null,
+      service_title: item["subject"] ? String(item["subject"]) : null,
+      project_name: null,
+      description: item["message"] ? String(item["message"]) : null,
+      platform: null,
+      scope: null,
+      budget: null,
+      timeline: null,
+      preferred_channel: null,
+      attachment_url: null,
+      locale: "en",
+      source: "contact_form",
+      status: String(item["statusState"] || "new"),
+      admin_note: String(item["adminNote"] || ""),
+      created_at: String(item["createdAt"] || new Date().toISOString()),
+      updated_at: String(item["updatedAt"] || new Date().toISOString()),
+    }));
   });
 
 export const adminUpdateServiceRequest = createServerFn({ method: "POST" })
@@ -133,11 +195,42 @@ export const adminUpdateServiceRequest = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const patch: Record<string, unknown> = {};
-    if (data.status !== undefined) patch["status"] = text(data.status, 40);
-    if (data.adminNote !== undefined) patch["admin_note"] = text(data.adminNote, 4000);
-    const { error } = await ctx.supabase.from("service_requests").update(patch).eq("id", data.id);
-    if (error) throw new Error(error.message);
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 5 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin CRM operations)",
+      );
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...getAuthHeader(ctx),
+    };
+
+    if (data.status !== undefined) {
+      const res = await fetch(`${apiBaseUrl}/api/v1/admin/requests/${data.id}/status`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ statusState: data.status }),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to update service request status: HTTP ${res.status}`);
+      }
+    }
+
+    if (data.adminNote !== undefined) {
+      const res = await fetch(`${apiBaseUrl}/api/v1/admin/requests/${data.id}/notes`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ adminNote: data.adminNote }),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to update service request note: HTTP ${res.status}`);
+      }
+    }
+
     return { ok: true };
   });
 
@@ -147,7 +240,25 @@ export const adminDeleteServiceRequest = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { error } = await ctx.supabase.from("service_requests").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 5 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin CRM operations)",
+      );
+    }
+
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/requests/${data.id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        ...getAuthHeader(ctx),
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to delete service request: HTTP ${res.status}`);
+    }
+
     return { ok: true };
   });

@@ -787,4 +787,128 @@ public class AdminController : ApiControllerBase
         return StatusCode(204);
     }
     #endregion
+
+    #region Client Requests CRM
+    [HttpGet("requests")]
+    public async Task<IActionResult> GetRequests([FromQuery] string? status, [FromQuery] string? search)
+    {
+        var query = _db.ContactMessages.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(status) && status.ToLower() != "all")
+        {
+            var targetStatus = status.ToLower();
+            query = query.Where(r => r.StatusState.ToLower() == targetStatus);
+        }
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.ToLower();
+            query = query.Where(r => r.Name.ToLower().Contains(term) ||
+                                     r.Email.ToLower().Contains(term) ||
+                                     r.Subject.ToLower().Contains(term) ||
+                                     r.Message.ToLower().Contains(term));
+        }
+
+        var items = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+
+        var dtos = items.Select(MapContactMessageDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("requests/{id:guid}")]
+    public async Task<IActionResult> GetRequestById(Guid id)
+    {
+        var item = await _db.ContactMessages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("REQUEST_NOT_FOUND", $"Contact request with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapContactMessageDto(item));
+    }
+
+    [HttpPatch("requests/{id:guid}/status")]
+    public async Task<IActionResult> UpdateRequestStatus(Guid id, [FromBody] UpdateContactRequestStatusRequest request)
+    {
+        var item = await _db.ContactMessages.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateContactRequestStatus", nameof(ContactMessageEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("REQUEST_NOT_FOUND", $"Contact request with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.UpdateContactRequestStatusValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateContactRequestStatus", nameof(ContactMessageEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid status update payload.", errors, statusCode: 400);
+        }
+
+        var oldStatus = item.StatusState;
+        item.StatusState = request.StatusState.ToLowerInvariant();
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateContactRequestStatus", "ContactMessage", item.Id.ToString(), true, $"{{\"oldStatus\":\"{oldStatus}\",\"newStatus\":\"{item.StatusState}\"}}");
+
+        return OkResponse(MapContactMessageDto(item));
+    }
+
+    [HttpPost("requests/{id:guid}/notes")]
+    public async Task<IActionResult> UpdateRequestNote(Guid id, [FromBody] UpdateContactRequestNoteRequest request)
+    {
+        var item = await _db.ContactMessages.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateContactRequestNote", nameof(ContactMessageEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("REQUEST_NOT_FOUND", $"Contact request with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.UpdateContactRequestNoteValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateContactRequestNote", nameof(ContactMessageEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid note payload.", errors, statusCode: 400);
+        }
+
+        item.AdminNote = request.AdminNote;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateContactRequestNote", "ContactMessage", item.Id.ToString(), true, $"{{\"noteLength\":{request.AdminNote?.Length ?? 0}}}");
+
+        return OkResponse(MapContactMessageDto(item));
+    }
+
+    [HttpDelete("requests/{id:guid}")]
+    public async Task<IActionResult> DeleteRequest(Guid id)
+    {
+        var item = await _db.ContactMessages.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteContactRequest", nameof(ContactMessageEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("REQUEST_NOT_FOUND", $"Contact request with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.ContactMessages.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteContactRequest", "ContactMessage", id.ToString(), true, null);
+        return StatusCode(204);
+    }
+
+    private static AdminContactMessageDto MapContactMessageDto(ContactMessageEntity item) => new()
+    {
+        Id = item.Id,
+        Name = item.Name,
+        Email = item.Email,
+        Subject = item.Subject,
+        Message = item.Message,
+        IpAddress = item.IpAddress,
+        StatusState = item.StatusState,
+        AdminNote = item.AdminNote,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
 }

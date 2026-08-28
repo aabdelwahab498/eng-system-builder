@@ -95,3 +95,35 @@ public class AdminCourseValidator : AbstractValidator<AdminCourseRequest>
         RuleFor(x => x.TitleEn).NotEmpty().MaximumLength(200);
     }
 }
+
+public class UpdateContactRequestStatusValidator : AbstractValidator<UpdateContactRequestStatusRequest>
+{
+    private static readonly string[] AllowedStatuses =
+    [
+        "new",
+        "contacted",
+        "proposal_sent",
+        "deposit_pending",
+        "in_progress",
+        "completed",
+        "cancelled"
+    ];
+
+    public UpdateContactRequestStatusValidator()
+    {
+        RuleFor(x => x.StatusState)
+            .NotEmpty()
+            .Must(s => Array.Exists(AllowedStatuses, st => string.Equals(st, s, StringComparison.OrdinalIgnoreCase)))
+            .WithMessage("StatusState must be one of: new, contacted, proposal_sent, deposit_pending, in_progress, completed, cancelled.");
+    }
+}
+
+public class UpdateContactRequestNoteValidator : AbstractValidator<UpdateContactRequestNoteRequest>
+{
+    public UpdateContactRequestNoteValidator()
+    {
+        RuleFor(x => x.AdminNote)
+            .NotNull()
+            .MaximumLength(4000);
+    }
+}

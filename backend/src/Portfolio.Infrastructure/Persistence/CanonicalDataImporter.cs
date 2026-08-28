@@ -21,19 +21,30 @@ public static class CanonicalDataImporter
         await ImportProductsAsync(db, result);
         await ImportServicesAsync(db, result);
         await ImportCoursesAsync(db, result);
+        await BackfillContactMessagesAsync(db);
 
         await db.SaveChangesAsync();
         return result;
     }
 
+    private static async Task BackfillContactMessagesAsync(PortfolioDbContext db)
+    {
+        var receivedMessages = await db.ContactMessages.Where(c => c.StatusState == "Received").ToListAsync();
+        foreach (var msg in receivedMessages)
+        {
+            msg.StatusState = "new";
+        }
+    }
+
     private static async Task ImportProjectsAsync(PortfolioDbContext db, ImportResult result)
     {
         var canonicalProjects = GetCanonicalProjects();
-        var existing = await db.Projects.ToDictionaryAsync(p => p.Slug, p => p);
+        var existingList = await db.Projects.ToListAsync();
+        var existing = existingList.GroupBy(p => p.Slug.ToLower()).ToDictionary(g => g.Key, g => g.First());
 
         foreach (var p in canonicalProjects)
         {
-            if (existing.TryGetValue(p.Slug, out var entity))
+            if (existing.TryGetValue(p.Slug.ToLower(), out var entity))
             {
                 entity.TitleEn = p.TitleEn;
                 entity.TitleAr = p.TitleAr;
@@ -137,7 +148,8 @@ public static class CanonicalDataImporter
     private static async Task ImportSkillGroupsAsync(PortfolioDbContext db, ImportResult result)
     {
         var canonicalGroups = GetCanonicalSkillGroups();
-        var existing = await db.SkillGroups.Include(g => g.Skills).ToDictionaryAsync(g => g.Category, g => g);
+        var existingGroups = await db.SkillGroups.Include(g => g.Skills).ToListAsync();
+        var existing = existingGroups.GroupBy(g => g.Category).ToDictionary(g => g.Key, g => g.First());
 
         foreach (var group in canonicalGroups)
         {
@@ -178,11 +190,12 @@ public static class CanonicalDataImporter
     private static async Task ImportProductsAsync(PortfolioDbContext db, ImportResult result)
     {
         var canonicalProducts = GetCanonicalProducts();
-        var existing = await db.Products.ToDictionaryAsync(p => p.Slug, p => p);
+        var existingList = await db.Products.ToListAsync();
+        var existing = existingList.GroupBy(p => p.Slug.ToLower()).ToDictionary(g => g.Key, g => g.First());
 
         foreach (var prod in canonicalProducts)
         {
-            if (existing.TryGetValue(prod.Slug, out var entity))
+            if (existing.TryGetValue(prod.Slug.ToLower(), out var entity))
             {
                 entity.NameEn = prod.NameEn;
                 entity.NameAr = prod.NameAr;
@@ -239,11 +252,12 @@ public static class CanonicalDataImporter
     private static async Task ImportCoursesAsync(PortfolioDbContext db, ImportResult result)
     {
         var canonicalCourses = GetCanonicalCourses();
-        var existing = await db.Courses.ToDictionaryAsync(c => c.Slug, c => c);
+        var existingList = await db.Courses.ToListAsync();
+        var existing = existingList.GroupBy(c => c.Slug.ToLower()).ToDictionary(g => g.Key, g => g.First());
 
         foreach (var crs in canonicalCourses)
         {
-            if (existing.TryGetValue(crs.Slug, out var entity))
+            if (existing.TryGetValue(crs.Slug.ToLower(), out var entity))
             {
                 entity.TitleEn = crs.TitleEn;
                 entity.TitleAr = crs.TitleAr;

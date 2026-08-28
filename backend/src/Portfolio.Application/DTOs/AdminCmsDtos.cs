@@ -147,3 +147,27 @@ public class AdminCourseRequest
     public string? Url { get; set; }
     public bool PublicVisible { get; set; } = true;
 }
+
+public class AdminContactMessageDto
+{
+    public Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string Email { get; set; }
+    public required string Subject { get; set; }
+    public required string Message { get; set; }
+    public string? IpAddress { get; set; }
+    public required string StatusState { get; set; }
+    public string? AdminNote { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class UpdateContactRequestStatusRequest
+{
+    public required string StatusState { get; set; }
+}
+
+public class UpdateContactRequestNoteRequest
+{
+    public required string AdminNote { get; set; }
+}
