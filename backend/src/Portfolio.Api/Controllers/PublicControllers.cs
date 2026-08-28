@@ -460,3 +460,68 @@ public class ConsentController : ApiControllerBase
         return OkResponse(new { saved = true, visitorId = entity.VisitorId });
     }
 }
+
+[Route("api/v1/[controller]")]
+public class PaymentsController : ApiControllerBase
+{
+    private readonly PortfolioDbContext _db;
+
+    public PaymentsController(PortfolioDbContext db)
+    {
+        _db = db;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SubmitPaymentProof([FromBody] SubmitPaymentProofRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.SubmitPaymentProofValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            return FailResponse("VALIDATION_ERROR", "Payment submission payload is invalid.", errors);
+        }
+
+        var clientName = string.IsNullOrWhiteSpace(request.ClientName) ? "Website visitor" : request.ClientName.Trim();
+        var email = request.Email?.Trim();
+
+        var payment = new PaymentSubmissionEntity
+        {
+            ClientName = clientName,
+            Email = email,
+            Whatsapp = request.Whatsapp?.Trim(),
+            ServiceId = request.ServiceId?.Trim(),
+            ServiceTitle = request.ServiceTitle?.Trim(),
+            ProjectName = request.ProjectName?.Trim(),
+            Amount = request.Amount?.Trim(),
+            Currency = request.Currency?.Trim(),
+            MethodId = request.MethodId?.Trim(),
+            ProofPath = request.ProofPath?.Trim(),
+            ProofFilename = request.ProofFilename?.Trim(),
+            ProofType = request.ProofType?.Trim(),
+            ProofSizeBytes = request.ProofSizeBytes,
+            StatusState = "pending_review"
+        };
+
+        var amountText = !string.IsNullOrWhiteSpace(request.Amount) ? request.Amount.Trim() : null;
+        var currencyText = !string.IsNullOrWhiteSpace(request.Currency) ? request.Currency.Trim() : null;
+        var methodText = !string.IsNullOrWhiteSpace(request.MethodId) ? request.MethodId.Trim() : null;
+        var description = $"Payment proof submitted{(amountText != null ? $" — {amountText} {currencyText ?? ""}" : "")}{(methodText != null ? $" via {methodText}" : "")}.";
+
+        var contactMessage = new ContactMessageEntity
+        {
+            Name = clientName,
+            Email = email ?? "",
+            Subject = request.ServiceTitle?.Trim() ?? "Payment proof submitted",
+            Message = description,
+            StatusState = "deposit_pending",
+            IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+        };
+
+        _db.PaymentSubmissions.Add(payment);
+        _db.ContactMessages.Add(contactMessage);
+        await _db.SaveChangesAsync();
+
+        return OkResponse(new { ok = true, paymentId = payment.Id, requestId = contactMessage.Id });
+    }
+}

@@ -911,4 +911,118 @@ public class AdminController : ApiControllerBase
         UpdatedAt = item.UpdatedAt
     };
     #endregion
+
+    #region Payment Submissions Admin
+    [HttpGet("payments")]
+    public async Task<IActionResult> GetPaymentSubmissions()
+    {
+        var items = await _db.PaymentSubmissions.AsNoTracking().OrderByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapPaymentSubmissionDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("payments/{id:guid}")]
+    public async Task<IActionResult> GetPaymentSubmissionById(Guid id)
+    {
+        var item = await _db.PaymentSubmissions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapPaymentSubmissionDto(item));
+    }
+
+    [HttpPatch("payments/{id:guid}/status")]
+    public async Task<IActionResult> UpdatePaymentSubmissionStatus(Guid id, [FromBody] UpdatePaymentSubmissionStatusRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.UpdatePaymentSubmissionStatusValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdatePaymentSubmissionStatus", nameof(PaymentSubmissionEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid status payload.", errors, statusCode: 400);
+        }
+
+        var item = await _db.PaymentSubmissions.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdatePaymentSubmissionStatus", nameof(PaymentSubmissionEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var oldStatus = item.StatusState;
+        item.StatusState = request.StatusState;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdatePaymentSubmissionStatus", nameof(PaymentSubmissionEntity), item.Id.ToString(), true, $"{{\"oldStatus\":\"{oldStatus}\",\"newStatus\":\"{item.StatusState}\"}}");
+
+        return OkResponse(MapPaymentSubmissionDto(item));
+    }
+
+    [HttpPost("payments/{id:guid}/notes")]
+    public async Task<IActionResult> UpdatePaymentSubmissionNote(Guid id, [FromBody] UpdatePaymentSubmissionNoteRequest request)
+    {
+        var item = await _db.PaymentSubmissions.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdatePaymentSubmissionNote", nameof(PaymentSubmissionEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.UpdatePaymentSubmissionNoteValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdatePaymentSubmissionNote", nameof(PaymentSubmissionEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid note payload.", errors, statusCode: 400);
+        }
+
+        item.AdminNote = request.AdminNote;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdatePaymentSubmissionNote", nameof(PaymentSubmissionEntity), item.Id.ToString(), true, $"{{\"noteLength\":{request.AdminNote?.Length ?? 0}}}");
+
+        return OkResponse(MapPaymentSubmissionDto(item));
+    }
+
+    [HttpDelete("payments/{id:guid}")]
+    public async Task<IActionResult> DeletePaymentSubmission(Guid id)
+    {
+        var item = await _db.PaymentSubmissions.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeletePaymentSubmission", nameof(PaymentSubmissionEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.PaymentSubmissions.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeletePaymentSubmission", nameof(PaymentSubmissionEntity), id.ToString(), true, $"{{\"proofPath\":\"{item.ProofPath}\"}}");
+        return StatusCode(204);
+    }
+
+    private static AdminPaymentSubmissionDto MapPaymentSubmissionDto(PaymentSubmissionEntity item) => new()
+    {
+        Id = item.Id,
+        ClientName = item.ClientName,
+        Email = item.Email,
+        Whatsapp = item.Whatsapp,
+        ServiceId = item.ServiceId,
+        ServiceTitle = item.ServiceTitle,
+        ProjectName = item.ProjectName,
+        Amount = item.Amount,
+        Currency = item.Currency,
+        MethodId = item.MethodId,
+        ProofPath = item.ProofPath,
+        ProofFilename = item.ProofFilename,
+        ProofType = item.ProofType,
+        ProofSizeBytes = item.ProofSizeBytes,
+        StatusState = item.StatusState,
+        AdminNote = item.AdminNote,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
 }

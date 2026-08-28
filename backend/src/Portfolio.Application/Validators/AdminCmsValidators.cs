@@ -127,3 +127,55 @@ public class UpdateContactRequestNoteValidator : AbstractValidator<UpdateContact
             .MaximumLength(4000);
     }
 }
+
+public class UpdatePaymentSubmissionStatusValidator : AbstractValidator<UpdatePaymentSubmissionStatusRequest>
+{
+    private static readonly string[] AllowedStatuses =
+    [
+        "pending_review",
+        "approved",
+        "rejected",
+        "needs_more_information"
+    ];
+
+    public UpdatePaymentSubmissionStatusValidator()
+    {
+        RuleFor(x => x.StatusState)
+            .NotEmpty()
+            .Must(s => Array.Exists(AllowedStatuses, st => string.Equals(st, s, StringComparison.OrdinalIgnoreCase)))
+            .WithMessage("StatusState must be one of: pending_review, approved, rejected, needs_more_information.");
+    }
+}
+
+public class UpdatePaymentSubmissionNoteValidator : AbstractValidator<UpdatePaymentSubmissionNoteRequest>
+{
+    public UpdatePaymentSubmissionNoteValidator()
+    {
+        RuleFor(x => x.AdminNote)
+            .NotNull()
+            .MaximumLength(4000);
+    }
+}
+
+public class SubmitPaymentProofValidator : AbstractValidator<SubmitPaymentProofRequest>
+{
+    public SubmitPaymentProofValidator()
+    {
+        RuleFor(x => x.ClientName).MaximumLength(120);
+        RuleFor(x => x.Email).MaximumLength(255);
+        RuleFor(x => x.Whatsapp).MaximumLength(40);
+        RuleFor(x => x.ServiceId).MaximumLength(80);
+        RuleFor(x => x.ServiceTitle).MaximumLength(160);
+        RuleFor(x => x.ProjectName).MaximumLength(160);
+        RuleFor(x => x.Amount).MaximumLength(40);
+        RuleFor(x => x.Currency).MaximumLength(8);
+        RuleFor(x => x.MethodId).MaximumLength(80);
+        RuleFor(x => x.ProofPath)
+            .MaximumLength(500)
+            .Must(path => string.IsNullOrEmpty(path) || (!path.Contains("..") && path.StartsWith("proofs/")))
+            .WithMessage("Invalid proof path.");
+        RuleFor(x => x.ProofFilename).MaximumLength(255);
+        RuleFor(x => x.ProofType).MaximumLength(80);
+        RuleFor(x => x.Locale).MaximumLength(5);
+    }
+}

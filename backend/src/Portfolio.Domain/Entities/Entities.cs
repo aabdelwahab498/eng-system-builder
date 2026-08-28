@@ -161,6 +161,26 @@ public class ContactMessageEntity : BaseEntity
     public string? AdminNote { get; set; }
 }
 
+public class PaymentSubmissionEntity : BaseEntity
+{
+    public required string ClientName { get; set; }
+    public string? Email { get; set; }
+    public string? Whatsapp { get; set; }
+    public string? ServiceId { get; set; }
+    public string? ServiceTitle { get; set; }
+    public string? ProjectName { get; set; }
+    public string? Amount { get; set; }
+    public string? Currency { get; set; }
+    public string? MethodId { get; set; }
+    public string? ProofPath { get; set; }
+    public string? ProofFilename { get; set; }
+    public string? ProofType { get; set; }
+    public long? ProofSizeBytes { get; set; }
+    public string StatusState { get; set; } = "pending_review";
+    public string? AdminNote { get; set; }
+}
+
+
 public class AnalyticsEventEntity : BaseEntity
 {
     public required string EventName { get; set; }

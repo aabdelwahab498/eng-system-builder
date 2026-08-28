@@ -171,3 +171,58 @@ public class UpdateContactRequestNoteRequest
 {
     public required string AdminNote { get; set; }
 }
+
+public class AdminPaymentSubmissionDto
+{
+    public Guid Id { get; set; }
+    public required string ClientName { get; set; }
+    public string? Email { get; set; }
+    public string? Whatsapp { get; set; }
+    public string? ServiceId { get; set; }
+    public string? ServiceTitle { get; set; }
+    public string? ProjectName { get; set; }
+    public string? Amount { get; set; }
+    public string? Currency { get; set; }
+    public string? MethodId { get; set; }
+    public string? ProofPath { get; set; }
+    public string? ProofFilename { get; set; }
+    public string? ProofType { get; set; }
+    public long? ProofSizeBytes { get; set; }
+    public required string StatusState { get; set; }
+    public string? AdminNote { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class UpdatePaymentSubmissionStatusRequest
+{
+    public required string StatusState { get; set; }
+}
+
+public class UpdatePaymentSubmissionNoteRequest
+{
+    public required string AdminNote { get; set; }
+}
+
+public class SubmitPaymentProofRequest
+{
+    public string? ClientName { get; set; }
+    public string? Email { get; set; }
+    public string? Whatsapp { get; set; }
+    public string? ServiceId { get; set; }
+    public string? ServiceTitle { get; set; }
+    public string? ProjectName { get; set; }
+    public string? Amount { get; set; }
+    public string? Currency { get; set; }
+    public string? MethodId { get; set; }
+    public string? ProofPath { get; set; }
+    public string? ProofFilename { get; set; }
+    public string? ProofType { get; set; }
+    public long? ProofSizeBytes { get; set; }
+    public string? Locale { get; set; }
+}
+
+public class PaymentProofSignedUrlDto
+{
+    public required string Url { get; set; }
+}
