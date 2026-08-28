@@ -54,7 +54,12 @@ export const ADMIN_NAV: AdminNavItem[] = [
     label: "Services & Requests",
     href: "/admin/content/service",
     icon: Briefcase,
-    match: ["/admin/content/service", "/admin/requests", "/admin/services"],
+    match: [
+      "/admin/content/service",
+      "/admin/content/course",
+      "/admin/requests",
+      "/admin/services",
+    ],
     counter: "requests",
   },
   {
