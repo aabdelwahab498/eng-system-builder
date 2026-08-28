@@ -1,0 +1,1 @@
+ALTER TYPE public.content_kind ADD VALUE IF NOT EXISTS 'course';
