@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import * as Icons from "lucide-react";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -10,6 +12,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
 import { getCourses } from "@/content/api";
+import { listPublicByKind } from "@/lib/cms/public.functions";
 import { pickOrEn } from "@/content/schema";
 import {
   Dialog,
@@ -57,10 +60,62 @@ function CourseIcon({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} aria-hidden />;
 }
 
+type UiCourse = {
+  id: string;
+  icon: string;
+  level: string;
+  ready: boolean;
+  title: { en: string; ar?: string | null };
+  summary: { en: string; ar?: string | null };
+  description: { en: string; ar?: string | null };
+  keywords: { en: string[]; ar?: string[] | null };
+  priceEgp?: string;
+  priceUsd?: string;
+  duration?: { en: string; ar?: string | null };
+};
+
+const staticCourses = (): UiCourse[] =>
+  getCourses().map((c) => ({
+    id: c.id,
+    icon: c.icon,
+    level: c.level,
+    ready: c.ready,
+    title: c.title,
+    summary: c.summary,
+    description: c.description,
+    keywords: c.keywords,
+  }));
+
+/** CMS-managed courses replace the built-in catalogue as soon as one is published. */
+function fromCms(items: { slug: string; data: Record<string, unknown> }[]): UiCourse[] {
+  const loc = (v: unknown) =>
+    v && typeof v === "object" ? (v as { en?: string; ar?: string | null }) : { en: "", ar: null };
+  const text = (v: unknown) => (typeof v === "string" ? v : "");
+  return items.map((item) => ({
+    id: `cms:${item.slug}`,
+    icon: text(item.data["icon"]) || "GraduationCap",
+    level: text(item.data["level"]) || "intermediate",
+    ready: item.data["enrollmentOpen"] !== false,
+    title: loc(item.data["title"]),
+    summary: loc(item.data["summary"]),
+    description: loc(item.data["description"]),
+    keywords: { en: [], ar: [] },
+    priceEgp: text(item.data["priceEgp"]),
+    priceUsd: text(item.data["priceUsd"]),
+    duration: loc(item.data["duration"]),
+  }));
+}
+
 function CoursesIndex() {
   const { locale, t } = useLocale();
   const isAr = locale === "ar";
-  const courses = getCourses();
+  const listByKind = useServerFn(listPublicByKind);
+  const { data: cmsItems } = useQuery({
+    queryKey: ["public", "courses"],
+    queryFn: () => listByKind({ data: { kind: "course" } }),
+  });
+  const cms = cmsItems && cmsItems.length > 0 ? fromCms(cmsItems as never) : [];
+  const courses: UiCourse[] = cms.length > 0 ? cms : staticCourses();
   const search = Route.useSearch() as CoursesSearch;
   const [selectedId, setSelectedId] = useState<string | null>(search.course ?? null);
   const [open, setOpen] = useState<boolean>(Boolean(search.course));
@@ -135,7 +190,7 @@ function CoursesIndex() {
                 {pickOrEn(selected.description, locale)}
               </p>
               <div className="flex flex-wrap gap-2">
-                {pickOrEn(selected.keywords, locale).map((k) => (
+                {pickOrEn(selected.keywords as never, locale).map((k: string) => (
                   <span key={k} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
                     {k}
                   </span>
@@ -147,6 +202,26 @@ function CoursesIndex() {
                     ? "هذا الكورس قيد التجهيز — تواصل معي للانضمام لقائمة الانتظار."
                     : "This course is in preparation — message me to join the waiting list."}
                 </p>
+              )}
+              {(selected.priceEgp || selected.priceUsd) && (
+                <p className="text-sm text-foreground">
+                  {isAr ? "التكلفة:" : "Fee:"}{" "}
+                  <span className="text-primary">
+                    {[selected.priceEgp ? `${selected.priceEgp} EGP` : null, selected.priceUsd ? `${selected.priceUsd} USD` : null]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
+                </p>
+              )}
+              {selected.ready && (
+                <Link
+                  to="/$locale/pay"
+                  params={{ locale }}
+                  search={{ course: selected.id, amount: selected.priceEgp || selected.priceUsd || undefined }}
+                  className="inline-flex w-fit items-center rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                >
+                  {isAr ? "سجل وادفع رسوم الكورس" : "Enroll & pay course fee"}
+                </Link>
               )}
               <WhatsAppCta
                 label={isAr ? "تواصل عبر واتساب" : "Ask about this course"}
