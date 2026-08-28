@@ -13,7 +13,7 @@ import { breadcrumbs, buildHead } from "@/lib/seo";
 import { getContent } from "@/content";
 import { getCourses } from "@/content/api";
 import { listPublicByKind } from "@/lib/cms/public.functions";
-import { pickOrEn } from "@/content/schema";
+import { pickOrEn, type Localized } from "@/content/schema";
 import {
   Dialog,
   DialogContent,
@@ -65,13 +65,13 @@ type UiCourse = {
   icon: string;
   level: string;
   ready: boolean;
-  title: { en: string; ar?: string | null };
-  summary: { en: string; ar?: string | null };
-  description: { en: string; ar?: string | null };
-  keywords: { en: string[]; ar?: string[] | null };
+  title: Localized<string>;
+  summary: Localized<string>;
+  description: Localized<string>;
+  keywords: Localized<string[]>;
   priceEgp?: string;
   priceUsd?: string;
-  duration?: { en: string; ar?: string | null };
+  duration?: Localized<string>;
 };
 
 const staticCourses = (): UiCourse[] =>
@@ -88,8 +88,13 @@ const staticCourses = (): UiCourse[] =>
 
 /** CMS-managed courses replace the built-in catalogue as soon as one is published. */
 function fromCms(items: { slug: string; data: Record<string, unknown> }[]): UiCourse[] {
-  const loc = (v: unknown) =>
-    v && typeof v === "object" ? (v as { en?: string; ar?: string | null }) : { en: "", ar: null };
+  const loc = (v: unknown): Localized<string> => {
+    const o = (v && typeof v === "object" ? v : {}) as { en?: unknown; ar?: unknown };
+    return {
+      en: typeof o.en === "string" ? o.en : "",
+      ar: typeof o.ar === "string" ? o.ar : null,
+    };
+  };
   const text = (v: unknown) => (typeof v === "string" ? v : "");
   return items.map((item) => ({
     id: `cms:${item.slug}`,
@@ -99,7 +104,7 @@ function fromCms(items: { slug: string; data: Record<string, unknown> }[]): UiCo
     title: loc(item.data["title"]),
     summary: loc(item.data["summary"]),
     description: loc(item.data["description"]),
-    keywords: { en: [], ar: [] },
+    keywords: { en: [], ar: null },
     priceEgp: text(item.data["priceEgp"]),
     priceUsd: text(item.data["priceUsd"]),
     duration: loc(item.data["duration"]),
@@ -190,7 +195,7 @@ function CoursesIndex() {
                 {pickOrEn(selected.description, locale)}
               </p>
               <div className="flex flex-wrap gap-2">
-                {pickOrEn(selected.keywords as never, locale).map((k: string) => (
+                {pickOrEn(selected.keywords, locale).map((k) => (
                   <span key={k} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
                     {k}
                   </span>
