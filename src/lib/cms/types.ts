@@ -24,6 +24,7 @@ export const CONTENT_KINDS = [
   "social_campaign",
   "marketing_campaign",
   "payment_method",
+  "course",
 ] as const;
 
 export type ContentKind = (typeof CONTENT_KINDS)[number];
@@ -201,4 +202,18 @@ export const KIND_LABELS: Record<ContentKind, string> = {
   marketing_campaign: "Marketing",
   payment_method: "Payments",
   social_draft: "Social",
+  course: "Courses",
+};
+
+/** Course payload — managed from Admin > Courses. */
+export type CourseData = {
+  title: LocalizedText;
+  summary: LocalizedText;
+  description: LocalizedText;
+  level: "foundations" | "intermediate" | "advanced";
+  icon: string;
+  priceEgp: string;
+  priceUsd: string;
+  duration: LocalizedText;
+  enrollmentOpen: boolean;
 };
