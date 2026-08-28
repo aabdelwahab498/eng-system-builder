@@ -1025,4 +1025,135 @@ public class AdminController : ApiControllerBase
         UpdatedAt = item.UpdatedAt
     };
     #endregion
+
+    #region Media Assets Admin
+    [HttpGet("media")]
+    public async Task<IActionResult> GetMediaAssets([FromQuery] string? search)
+    {
+        var query = _db.MediaAssets.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim().ToLower();
+            query = query.Where(m => m.Filename.ToLower().Contains(term) ||
+                                     (m.AltEn != null && m.AltEn.ToLower().Contains(term)) ||
+                                     (m.AltAr != null && m.AltAr.ToLower().Contains(term)));
+        }
+
+        var items = await query.OrderByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapMediaAssetDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("media/{id:guid}")]
+    public async Task<IActionResult> GetMediaAssetById(Guid id)
+    {
+        var item = await _db.MediaAssets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("MEDIA_NOT_FOUND", $"Media asset with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapMediaAssetDto(item));
+    }
+
+    [HttpPost("media")]
+    public async Task<IActionResult> RegisterMediaAsset([FromBody] RegisterMediaAssetRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.RegisterMediaAssetValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("RegisterMediaAsset", nameof(MediaAssetEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid media payload.", errors, statusCode: 400);
+        }
+
+        var publicUrl = !string.IsNullOrWhiteSpace(request.PublicUrl)
+            ? request.PublicUrl.Trim()
+            : $"/api/public/media/{request.StoragePath.Trim()}";
+
+        var item = new MediaAssetEntity
+        {
+            Filename = request.Filename.Trim(),
+            StoragePath = request.StoragePath.Trim(),
+            PublicUrl = publicUrl,
+            MimeType = request.MimeType?.Trim(),
+            SizeBytes = request.SizeBytes,
+            AltEn = request.AltEn?.Trim(),
+            AltAr = request.AltAr?.Trim(),
+            CaptionEn = request.CaptionEn?.Trim(),
+            CaptionAr = request.CaptionAr?.Trim(),
+            CreatedBy = GetActorId()
+        };
+
+        _db.MediaAssets.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("RegisterMediaAsset", nameof(MediaAssetEntity), item.Id.ToString(), true, $"{{\"filename\":\"{item.Filename}\",\"storagePath\":\"{item.StoragePath}\"}}");
+        return StatusCode(201, ApiResponse<AdminMediaAssetDto>.Ok(MapMediaAssetDto(item)));
+    }
+
+    [HttpPut("media/{id:guid}")]
+    public async Task<IActionResult> UpdateMediaAsset(Guid id, [FromBody] UpdateMediaAssetRequest request)
+    {
+        var item = await _db.MediaAssets.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateMediaAsset", nameof(MediaAssetEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("MEDIA_NOT_FOUND", $"Media asset with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.UpdateMediaAssetValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateMediaAsset", nameof(MediaAssetEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid media update payload.", errors, statusCode: 400);
+        }
+
+        item.AltEn = request.AltEn?.Trim();
+        item.AltAr = request.AltAr?.Trim();
+        item.CaptionEn = request.CaptionEn?.Trim();
+        item.CaptionAr = request.CaptionAr?.Trim();
+        item.Archived = request.Archived;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateMediaAsset", nameof(MediaAssetEntity), item.Id.ToString(), true, $"{{\"filename\":\"{item.Filename}\"}}");
+
+        return OkResponse(MapMediaAssetDto(item));
+    }
+
+    [HttpDelete("media/{id:guid}")]
+    public async Task<IActionResult> DeleteMediaAsset(Guid id)
+    {
+        var item = await _db.MediaAssets.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteMediaAsset", nameof(MediaAssetEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("MEDIA_NOT_FOUND", $"Media asset with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.MediaAssets.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteMediaAsset", nameof(MediaAssetEntity), id.ToString(), true, $"{{\"storagePath\":\"{item.StoragePath}\"}}");
+        return StatusCode(204);
+    }
+
+    private static AdminMediaAssetDto MapMediaAssetDto(MediaAssetEntity item) => new()
+    {
+        Id = item.Id,
+        Filename = item.Filename,
+        StoragePath = item.StoragePath,
+        PublicUrl = item.PublicUrl,
+        MimeType = item.MimeType,
+        SizeBytes = item.SizeBytes,
+        AltEn = item.AltEn,
+        AltAr = item.AltAr,
+        CaptionEn = item.CaptionEn,
+        CaptionAr = item.CaptionAr,
+        Archived = item.Archived,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
 }

@@ -179,3 +179,28 @@ public class SubmitPaymentProofValidator : AbstractValidator<SubmitPaymentProofR
         RuleFor(x => x.Locale).MaximumLength(5);
     }
 }
+
+public class RegisterMediaAssetValidator : AbstractValidator<RegisterMediaAssetRequest>
+{
+    public RegisterMediaAssetValidator()
+    {
+        RuleFor(x => x.Filename).NotEmpty().MaximumLength(255);
+        RuleFor(x => x.StoragePath).NotEmpty().MaximumLength(500);
+        RuleFor(x => x.MimeType).MaximumLength(100);
+        RuleFor(x => x.AltEn).MaximumLength(1000);
+        RuleFor(x => x.AltAr).MaximumLength(1000);
+        RuleFor(x => x.CaptionEn).MaximumLength(2000);
+        RuleFor(x => x.CaptionAr).MaximumLength(2000);
+    }
+}
+
+public class UpdateMediaAssetValidator : AbstractValidator<UpdateMediaAssetRequest>
+{
+    public UpdateMediaAssetValidator()
+    {
+        RuleFor(x => x.AltEn).MaximumLength(1000);
+        RuleFor(x => x.AltAr).MaximumLength(1000);
+        RuleFor(x => x.CaptionEn).MaximumLength(2000);
+        RuleFor(x => x.CaptionAr).MaximumLength(2000);
+    }
+}

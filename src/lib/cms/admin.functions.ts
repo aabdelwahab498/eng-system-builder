@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   CONTENT_COLUMNS,
@@ -28,6 +29,30 @@ async function assertAdmin(context: Ctx) {
     _role: "admin",
   });
   if (error || !data) throw new Error("Forbidden");
+}
+
+function getBackendUrl(): string | null {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"];
+  if (url && url.trim()) {
+    return url.trim().replace(/\/+$/, "");
+  }
+  return null;
+}
+
+function getAuthHeader(ctx: Ctx): Record<string, string> {
+  try {
+    const req = getRequest();
+    const authHeader = req?.headers?.get("authorization");
+    if (authHeader) {
+      return { Authorization: authHeader };
+    }
+  } catch {
+    // getRequest might not be available in all execution contexts
+  }
+  if (ctx?.supabase?.auth?.token) {
+    return { Authorization: `Bearer ${ctx.supabase.auth.token}` };
+  }
+  return {};
 }
 
 const asKind = (value: unknown): ContentKind => {
@@ -277,17 +302,57 @@ export const adminSeedContent = createServerFn({ method: "POST" })
 
 /* --------------------------------------------------------------- media */
 
+function mapMediaDtoToAsset(item: Record<string, unknown>): MediaAsset {
+  return {
+    id: String(item["id"] ?? ""),
+    filename: String(item["filename"] ?? ""),
+    storagePath: String(item["storagePath"] ?? ""),
+    publicUrl: String(item["publicUrl"] ?? `/api/public/media/${item["storagePath"]}`),
+    mimeType: item["mimeType"] ? String(item["mimeType"]) : null,
+    sizeBytes: typeof item["sizeBytes"] === "number" ? item["sizeBytes"] : null,
+    altEn: item["altEn"] ? String(item["altEn"]) : null,
+    altAr: item["altAr"] ? String(item["altAr"]) : null,
+    captionEn: item["captionEn"] ? String(item["captionEn"]) : null,
+    captionAr: item["captionAr"] ? String(item["captionAr"]) : null,
+    archived: Boolean(item["archived"]),
+    createdAt: String(item["createdAt"] ?? new Date().toISOString()),
+  };
+}
+
 export const adminListMedia = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<MediaAsset[]> => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { data, error } = await ctx.supabase
-      .from("media_assets")
-      .select(MEDIA_COLUMNS)
-      .order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
-    return (data as MediaRow[]).map(toMediaAsset);
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 7 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin media operations)",
+      );
+    }
+
+    const authHeaders = getAuthHeader(ctx);
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/media`, {
+      headers: {
+        Accept: "application/json",
+        ...authHeaders,
+      },
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error(
+        `Failed to list media assets from backend API: HTTP ${res.status} ${errText}`,
+      );
+    }
+
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) {
+      throw new Error("Invalid response envelope from backend API for media assets");
+    }
+
+    return json.data.map(mapMediaDtoToAsset);
   });
 
 export const adminRegisterMedia = createServerFn({ method: "POST" })
@@ -312,22 +377,46 @@ export const adminRegisterMedia = createServerFn({ method: "POST" })
   .handler(async ({ data: input, context }): Promise<MediaAsset> => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { data, error } = await ctx.supabase
-      .from("media_assets")
-      .insert({
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 7 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin media operations)",
+      );
+    }
+
+    const authHeaders = getAuthHeader(ctx);
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/media`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...authHeaders,
+      },
+      body: JSON.stringify({
         filename: input.filename,
-        storage_path: input.storagePath,
-        public_url: `/api/public/media/${input.storagePath}`,
-        mime_type: input.mimeType,
-        size_bytes: input.sizeBytes,
-        alt_en: input.altEn,
-        alt_ar: input.altAr,
-        created_by: ctx.userId,
-      })
-      .select(MEDIA_COLUMNS)
-      .single();
-    if (error) throw new Error(error.message);
-    return toMediaAsset(data as MediaRow);
+        storagePath: input.storagePath,
+        publicUrl: `/api/public/media/${input.storagePath}`,
+        mimeType: input.mimeType || undefined,
+        sizeBytes: input.sizeBytes || undefined,
+        altEn: input.altEn || undefined,
+        altAr: input.altAr || undefined,
+      }),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error(
+        `Failed to register media asset via backend API: HTTP ${res.status} ${errText}`,
+      );
+    }
+
+    const json = await res.json();
+    if (!json.success || !json.data) {
+      throw new Error("Invalid response envelope from backend API when registering media asset");
+    }
+
+    return mapMediaDtoToAsset(json.data);
   });
 
 export const adminUpdateMedia = createServerFn({ method: "POST" })
@@ -345,17 +434,38 @@ export const adminUpdateMedia = createServerFn({ method: "POST" })
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    const { error } = await ctx.supabase
-      .from("media_assets")
-      .update({
-        alt_en: input.altEn ?? null,
-        alt_ar: input.altAr ?? null,
-        caption_en: input.captionEn ?? null,
-        caption_ar: input.captionAr ?? null,
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 7 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin media operations)",
+      );
+    }
+
+    const authHeaders = getAuthHeader(ctx);
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/media/${input.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...authHeaders,
+      },
+      body: JSON.stringify({
+        altEn: input.altEn,
+        altAr: input.altAr,
+        captionEn: input.captionEn,
+        captionAr: input.captionAr,
         archived: Boolean(input.archived),
-      })
-      .eq("id", String(input.id));
-    if (error) throw new Error(error.message);
+      }),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error(
+        `Failed to update media asset via backend API: HTTP ${res.status} ${errText}`,
+      );
+    }
+
     return { ok: true };
   });
 
@@ -368,8 +478,35 @@ export const adminDeleteMedia = createServerFn({ method: "POST" })
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
-    await ctx.supabase.storage.from("media").remove([input.storagePath]);
-    const { error } = await ctx.supabase.from("media_assets").delete().eq("id", input.id);
-    if (error) throw new Error(error.message);
+
+    const apiBaseUrl = getBackendUrl();
+    if (!apiBaseUrl) {
+      throw new Error(
+        "Phase 7 Backend API URL is not configured (VITE_PORTFOLIO_API_URL or PORTFOLIO_API_URL required for admin media operations)",
+      );
+    }
+
+    // Storage object removal from private Supabase Storage media bucket
+    await ctx.supabase.storage
+      .from("media")
+      .remove([input.storagePath])
+      .catch(() => null);
+
+    const authHeaders = getAuthHeader(ctx);
+    const res = await fetch(`${apiBaseUrl}/api/v1/admin/media/${input.id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        ...authHeaders,
+      },
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error(
+        `Failed to delete media asset via backend API: HTTP ${res.status} ${errText}`,
+      );
+    }
+
     return { ok: true };
   });

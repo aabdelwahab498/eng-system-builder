@@ -18,6 +18,7 @@ public class PortfolioDbContext : DbContext
     public DbSet<CourseEntity> Courses => Set<CourseEntity>();
     public DbSet<ContactMessageEntity> ContactMessages => Set<ContactMessageEntity>();
     public DbSet<PaymentSubmissionEntity> PaymentSubmissions => Set<PaymentSubmissionEntity>();
+    public DbSet<MediaAssetEntity> MediaAssets => Set<MediaAssetEntity>();
     public DbSet<AnalyticsEventEntity> AnalyticsEvents => Set<AnalyticsEventEntity>();
     public DbSet<ConsentRecordEntity> ConsentRecords => Set<ConsentRecordEntity>();
     public DbSet<AuditLogEntity> AuditLogs => Set<AuditLogEntity>();
@@ -37,6 +38,7 @@ public class PortfolioDbContext : DbContext
         modelBuilder.Entity<CourseEntity>().ToTable("courses");
         modelBuilder.Entity<ContactMessageEntity>().ToTable("contact_messages");
         modelBuilder.Entity<PaymentSubmissionEntity>().ToTable("payment_submissions");
+        modelBuilder.Entity<MediaAssetEntity>().ToTable("media_assets");
         modelBuilder.Entity<AnalyticsEventEntity>().ToTable("analytics_events");
         modelBuilder.Entity<ConsentRecordEntity>().ToTable("consent_records");
         modelBuilder.Entity<AuditLogEntity>().ToTable("audit_logs");

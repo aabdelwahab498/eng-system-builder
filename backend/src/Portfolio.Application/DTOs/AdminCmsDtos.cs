@@ -226,3 +226,42 @@ public class PaymentProofSignedUrlDto
 {
     public required string Url { get; set; }
 }
+
+public class AdminMediaAssetDto
+{
+    public Guid Id { get; set; }
+    public required string Filename { get; set; }
+    public required string StoragePath { get; set; }
+    public required string PublicUrl { get; set; }
+    public string? MimeType { get; set; }
+    public long? SizeBytes { get; set; }
+    public string? AltEn { get; set; }
+    public string? AltAr { get; set; }
+    public string? CaptionEn { get; set; }
+    public string? CaptionAr { get; set; }
+    public bool Archived { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class RegisterMediaAssetRequest
+{
+    public required string Filename { get; set; }
+    public required string StoragePath { get; set; }
+    public string? PublicUrl { get; set; }
+    public string? MimeType { get; set; }
+    public long? SizeBytes { get; set; }
+    public string? AltEn { get; set; }
+    public string? AltAr { get; set; }
+    public string? CaptionEn { get; set; }
+    public string? CaptionAr { get; set; }
+}
+
+public class UpdateMediaAssetRequest
+{
+    public string? AltEn { get; set; }
+    public string? AltAr { get; set; }
+    public string? CaptionEn { get; set; }
+    public string? CaptionAr { get; set; }
+    public bool Archived { get; set; }
+}

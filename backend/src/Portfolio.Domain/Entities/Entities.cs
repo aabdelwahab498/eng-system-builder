@@ -180,6 +180,22 @@ public class PaymentSubmissionEntity : BaseEntity
     public string? AdminNote { get; set; }
 }
 
+public class MediaAssetEntity : BaseEntity
+{
+    public required string Filename { get; set; }
+    public required string StoragePath { get; set; }
+    public required string PublicUrl { get; set; }
+    public string? MimeType { get; set; }
+    public long? SizeBytes { get; set; }
+    public string? AltEn { get; set; }
+    public string? AltAr { get; set; }
+    public string? CaptionEn { get; set; }
+    public string? CaptionAr { get; set; }
+    public bool Archived { get; set; }
+    public string? CreatedBy { get; set; }
+}
+
+
 
 public class AnalyticsEventEntity : BaseEntity
 {
