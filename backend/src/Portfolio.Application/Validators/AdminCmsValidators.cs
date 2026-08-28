@@ -204,3 +204,78 @@ public class UpdateMediaAssetValidator : AbstractValidator<UpdateMediaAssetReque
         RuleFor(x => x.CaptionAr).MaximumLength(2000);
     }
 }
+
+public class CreateClientValidator : AbstractValidator<CreateClientRequest>
+{
+    private static readonly string[] ValidStatuses = new[] { "lead", "client", "active_project", "completed", "returning", "archived" };
+
+    public CreateClientValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(120);
+        RuleFor(x => x.Email).MaximumLength(255);
+        RuleFor(x => x.Whatsapp).MaximumLength(40);
+        RuleFor(x => x.Country).MaximumLength(80);
+        RuleFor(x => x.Service).MaximumLength(160);
+        RuleFor(x => x.Projects).MaximumLength(500);
+        RuleFor(x => x.Status)
+            .Must(status => string.IsNullOrEmpty(status) || ValidStatuses.Contains(status.ToLower()))
+            .WithMessage($"Status must be one of: {string.Join(", ", ValidStatuses)}.");
+    }
+}
+
+public class UpdateClientValidator : AbstractValidator<UpdateClientRequest>
+{
+    private static readonly string[] ValidStatuses = new[] { "lead", "client", "active_project", "completed", "returning", "archived" };
+
+    public UpdateClientValidator()
+    {
+        RuleFor(x => x.Name).MaximumLength(120);
+        RuleFor(x => x.Email).MaximumLength(255);
+        RuleFor(x => x.Whatsapp).MaximumLength(40);
+        RuleFor(x => x.Country).MaximumLength(80);
+        RuleFor(x => x.Service).MaximumLength(160);
+        RuleFor(x => x.Status)
+            .Must(status => string.IsNullOrEmpty(status) || ValidStatuses.Contains(status.ToLower()))
+            .WithMessage($"Status must be one of: {string.Join(", ", ValidStatuses)}.");
+    }
+}
+
+public class CreateInvoiceValidator : AbstractValidator<CreateInvoiceRequest>
+{
+    private static readonly string[] ValidStatuses = new[] { "paid", "pending", "failed", "refunded" };
+
+    public CreateInvoiceValidator()
+    {
+        RuleFor(x => x.ClientId).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.Amount).NotEmpty().MaximumLength(40);
+        RuleFor(x => x.Currency).NotEmpty().MaximumLength(8);
+        RuleFor(x => x.Method).NotEmpty().MaximumLength(80);
+        RuleFor(x => x.InvoiceRef).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.Status)
+            .Must(status => string.IsNullOrEmpty(status) || ValidStatuses.Contains(status.ToLower()))
+            .WithMessage($"Invoice status must be one of: {string.Join(", ", ValidStatuses)}.");
+    }
+}
+
+public class UpdateInvoiceStatusValidator : AbstractValidator<UpdateInvoiceStatusRequest>
+{
+    private static readonly string[] ValidStatuses = new[] { "paid", "pending", "failed", "refunded" };
+
+    public UpdateInvoiceStatusValidator()
+    {
+        RuleFor(x => x.Status)
+            .NotEmpty()
+            .Must(status => ValidStatuses.Contains(status.ToLower()))
+            .WithMessage($"Invoice status must be one of: {string.Join(", ", ValidStatuses)}.");
+    }
+}
+
+public class UpdateDistributionConfigValidator : AbstractValidator<UpdateDistributionConfigRequest>
+{
+    public UpdateDistributionConfigValidator()
+    {
+        RuleFor(x => x.DistributionJson).MaximumLength(500000);
+        RuleFor(x => x.PixelConfigsJson).MaximumLength(500000);
+        RuleFor(x => x.AdCampaignsJson).MaximumLength(500000);
+    }
+}

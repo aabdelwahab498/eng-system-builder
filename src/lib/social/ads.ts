@@ -284,27 +284,57 @@ export const defaultAdConfig = (spec: AdChannelSpec): AdChannelConfig => ({
   notes: "",
 });
 
-const ADS_KEY = "nng.admin.social.ads.v1";
-
-function read<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined") return fallback;
-  try {
-    const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
+function getBackendUrl(): string {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"] || "";
+  return url.trim().replace(/\/+$/, "");
 }
 
 export const adChannels = {
   async list(): Promise<AdChannelConfig[]> {
-    const stored = read<AdChannelConfig[]>(ADS_KEY, []);
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/distribution`;
+    let stored: AdChannelConfig[] = [];
+    try {
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data?.pixelConfigsJson) {
+          stored = JSON.parse(json.data.pixelConfigsJson);
+        }
+      }
+    } catch {
+      // fallback
+    }
+
+    // One-time legacy localStorage backfill
+    if (typeof window !== "undefined") {
+      const legacyRaw = window.localStorage.getItem("nng.admin.social.ads.v1");
+      if (legacyRaw) {
+        try {
+          const legacyItems = JSON.parse(legacyRaw) as AdChannelConfig[];
+          if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+            stored = legacyItems;
+            await adChannels.save(stored);
+          }
+        } catch {
+          // ignore
+        }
+        window.localStorage.removeItem("nng.admin.social.ads.v1");
+      }
+    }
+
     const map = new Map(stored.map((c) => [c.channelId, c]));
     return AD_CHANNELS.map((spec) => ({ ...defaultAdConfig(spec), ...(map.get(spec.id) ?? {}) }));
   },
   async save(configs: AdChannelConfig[]) {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(ADS_KEY, JSON.stringify(configs));
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/distribution`;
+    const payload = JSON.stringify(configs);
+    await fetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ pixelConfigsJson: payload }),
+    }).catch(() => null);
   },
 };
 

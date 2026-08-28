@@ -171,7 +171,86 @@ function localCollection<T extends { id: string; createdAt: string }>(
 }
 
 export const serviceRequests = localCollection<ServiceRequest>("nng.admin.requests.v1", "req");
-export const clients = localCollection<Client>("nng.admin.clients.v1", "cli");
+
+function getBackendUrl(): string {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"] || "";
+  return url.trim().replace(/\/+$/, "");
+}
+
+export const clients: CollectionRepository<Client> = {
+  async list(): Promise<Client[]> {
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/clients`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!res.ok) {
+      throw new Error(`Failed to list clients from backend API: HTTP ${res.status}`);
+    }
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) return [];
+
+    // One-time legacy localStorage backfill
+    if (typeof window !== "undefined") {
+      const legacyRaw = window.localStorage.getItem("nng.admin.clients.v1");
+      if (legacyRaw) {
+        try {
+          const legacyItems = JSON.parse(legacyRaw) as Client[];
+          if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+            for (const item of legacyItems) {
+              await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(item),
+              }).catch(() => null);
+            }
+          }
+        } catch {
+          // ignore parsing error
+        }
+        window.localStorage.removeItem("nng.admin.clients.v1");
+        const refreshed = await fetch(url, { headers: { Accept: "application/json" } });
+        const refJson = await refreshed.json();
+        if (refJson.success && Array.isArray(refJson.data)) return refJson.data;
+      }
+    }
+
+    return json.data as Client[];
+  },
+  async create(input): Promise<Client> {
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/clients`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to create client via backend API: HTTP ${res.status}`);
+    }
+    const json = await res.json();
+    return json.data as Client;
+  },
+  async update(itemId, patch): Promise<void> {
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/clients/${itemId}`;
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(patch),
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to update client via backend API: HTTP ${res.status}`);
+    }
+  },
+  async remove(itemId): Promise<void> {
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/clients/${itemId}`;
+    const res = await fetch(url, { method: "DELETE" });
+    if (!res.ok) {
+      throw new Error(`Failed to delete client via backend API: HTTP ${res.status}`);
+    }
+  },
+};
+
 export const subscribers = localCollection<Subscriber>("nng.admin.subscribers.v1", "sub");
 
 const ACTIVITY_KEY = "nng.admin.activity.v1";

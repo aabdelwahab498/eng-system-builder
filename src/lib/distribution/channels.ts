@@ -217,91 +217,122 @@ export type ChannelRecord = {
   at: string;
 };
 
-const KEY = "nng.admin.distribution.v1";
-
-type Store = Record<string, ChannelRecord[]>;
-
-function read(): Store {
-  if (typeof window === "undefined") return {};
-  try {
-    return JSON.parse(window.localStorage.getItem(KEY) ?? "{}") as Store;
-  } catch {
-    return {};
-  }
+function getBackendUrl(): string {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"] || "";
+  return url.trim().replace(/\/+$/, "");
 }
 
-function write(store: Store) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(store));
+type Store = Record<string, ChannelRecord[]>;
+type AllowStore = Record<string, string[]>;
+
+let memoryStore: Store = {};
+let memoryAllowStore: AllowStore = {};
+let isLoaded = false;
+
+async function syncFromBackend() {
+  if (isLoaded) return;
+  const apiBase = getBackendUrl();
+  const url = `${apiBase}/api/v1/admin/distribution`;
+  try {
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.data?.distributionJson) {
+        const parsed = JSON.parse(json.data.distributionJson);
+        memoryStore = parsed.log ?? {};
+        memoryAllowStore = parsed.allow ?? {};
+      }
+    }
+  } catch {
+    // fallback
+  }
+
+  // One-time legacy localStorage backfill
+  if (typeof window !== "undefined") {
+    const legacyLog = window.localStorage.getItem("nng.admin.distribution.v1");
+    const legacyAllow = window.localStorage.getItem("nng.admin.distribution.allow.v1");
+    if (legacyLog || legacyAllow) {
+      if (legacyLog) {
+        try {
+          memoryStore = { ...memoryStore, ...JSON.parse(legacyLog) };
+        } catch {
+          // Ignore invalid JSON in legacy localStorage
+        }
+        window.localStorage.removeItem("nng.admin.distribution.v1");
+      }
+      if (legacyAllow) {
+        try {
+          memoryAllowStore = { ...memoryAllowStore, ...JSON.parse(legacyAllow) };
+        } catch {
+          // Ignore invalid JSON in legacy localStorage
+        }
+        window.localStorage.removeItem("nng.admin.distribution.allow.v1");
+      }
+      await saveToBackend();
+    }
+  }
+
+  isLoaded = true;
+}
+
+async function saveToBackend() {
+  const apiBase = getBackendUrl();
+  const url = `${apiBase}/api/v1/admin/distribution`;
+  const payload = JSON.stringify({ log: memoryStore, allow: memoryAllowStore });
+  await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ distributionJson: payload }),
+  }).catch(() => null);
 }
 
 export const distributionLog = {
   get(entryId: string): ChannelRecord[] {
-    return read()[entryId] ?? [];
+    if (!isLoaded) syncFromBackend();
+    return memoryStore[entryId] ?? [];
   },
   set(entryId: string, record: ChannelRecord) {
-    const store = read();
-    const existing = (store[entryId] ?? []).filter((r) => r.channelId !== record.channelId);
-    store[entryId] = [...existing, record];
-    write(store);
+    if (!isLoaded) syncFromBackend();
+    const existing = (memoryStore[entryId] ?? []).filter((r) => r.channelId !== record.channelId);
+    memoryStore[entryId] = [...existing, record];
+    saveToBackend();
   },
   clear(entryId: string, channelId: string) {
-    const store = read();
-    store[entryId] = (store[entryId] ?? []).filter((r) => r.channelId !== channelId);
-    write(store);
+    if (!isLoaded) syncFromBackend();
+    memoryStore[entryId] = (memoryStore[entryId] ?? []).filter((r) => r.channelId !== channelId);
+    saveToBackend();
   },
   migrate(fromId: string, toId: string) {
-    const store = read();
-    if (!store[fromId] || fromId === toId) return;
-    store[toId] = store[fromId];
-    delete store[fromId];
-    write(store);
+    if (!isLoaded) syncFromBackend();
+    if (!memoryStore[fromId] || fromId === toId) return;
+    memoryStore[toId] = memoryStore[fromId];
+    delete memoryStore[fromId];
+    saveToBackend();
   },
 };
 
 /* --------------------------------------------- per-entry channel permissions */
 
-const ALLOW_KEY = "nng.admin.distribution.allow.v1";
-
-type AllowStore = Record<string, string[]>;
-
-function readAllow(): AllowStore {
-  if (typeof window === "undefined") return {};
-  try {
-    return JSON.parse(window.localStorage.getItem(ALLOW_KEY) ?? "{}") as AllowStore;
-  } catch {
-    return {};
-  }
-}
-
-/**
- * Which channels this entry may be published to. `null` = not configured yet
- * (the entry is allowed everywhere on its surface).
- */
 export const channelPermissions = {
   get(entryId: string): string[] | null {
-    return readAllow()[entryId] ?? null;
+    if (!isLoaded) syncFromBackend();
+    return memoryAllowStore[entryId] ?? null;
   },
   set(entryId: string, channelId: string, allowed: boolean, surface: DistributionSurface) {
-    const store = readAllow();
-    const current = store[entryId] ?? channelsForSurface(surface).map((c) => c.id);
-    store[entryId] = allowed
+    if (!isLoaded) syncFromBackend();
+    const current = memoryAllowStore[entryId] ?? channelsForSurface(surface).map((c) => c.id);
+    memoryAllowStore[entryId] = allowed
       ? Array.from(new Set([...current, channelId]))
       : current.filter((id) => id !== channelId);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(ALLOW_KEY, JSON.stringify(store));
-    }
-    return store[entryId];
+    saveToBackend();
+    return memoryAllowStore[entryId];
   },
-  /** Move draft permissions onto the real entry id after the first save. */
   migrate(fromId: string, toId: string) {
-    const store = readAllow();
-    if (!store[fromId] || fromId === toId) return;
-    store[toId] = store[fromId];
-    delete store[fromId];
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(ALLOW_KEY, JSON.stringify(store));
-    }
+    if (!isLoaded) syncFromBackend();
+    if (!memoryAllowStore[fromId] || fromId === toId) return;
+    memoryAllowStore[toId] = memoryAllowStore[fromId];
+    delete memoryAllowStore[fromId];
+    saveToBackend();
   },
 };
 

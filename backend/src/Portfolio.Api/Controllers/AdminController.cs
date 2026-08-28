@@ -1156,4 +1156,322 @@ public class AdminController : ApiControllerBase
         UpdatedAt = item.UpdatedAt
     };
     #endregion
+
+    #region Clients Admin
+    [HttpGet("clients")]
+    public async Task<IActionResult> GetClients()
+    {
+        var items = await _db.Clients.AsNoTracking().OrderByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapClientDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("clients/{id:guid}")]
+    public async Task<IActionResult> GetClientById(Guid id)
+    {
+        var item = await _db.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("CLIENT_NOT_FOUND", $"Client with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapClientDto(item));
+    }
+
+    [HttpPost("clients")]
+    public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.CreateClientValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("CreateClient", nameof(ClientProfileEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid client payload.", errors, statusCode: 400);
+        }
+
+        var item = new ClientProfileEntity
+        {
+            Name = request.Name.Trim(),
+            Email = request.Email?.Trim(),
+            Whatsapp = request.Whatsapp?.Trim(),
+            Country = request.Country?.Trim(),
+            Service = request.Service?.Trim(),
+            Projects = request.Projects?.Trim(),
+            PaymentStatus = request.PaymentStatus?.Trim(),
+            Status = string.IsNullOrWhiteSpace(request.Status) ? "client" : request.Status.Trim(),
+            Plan = request.Plan?.Trim(),
+            SubscriptionState = request.SubscriptionState?.Trim(),
+            PaymentState = request.PaymentState?.Trim(),
+            PaymentMethod = request.PaymentMethod?.Trim(),
+            Amount = request.Amount?.Trim(),
+            Currency = request.Currency?.Trim(),
+            PaidAmount = request.PaidAmount?.Trim(),
+            LastPaymentAt = request.LastPaymentAt?.Trim(),
+            NextRenewalAt = request.NextRenewalAt?.Trim(),
+            InvoiceRef = request.InvoiceRef?.Trim()
+        };
+
+        _db.Clients.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("CreateClient", nameof(ClientProfileEntity), item.Id.ToString(), true, $"{{\"name\":\"{item.Name}\"}}");
+        return StatusCode(201, ApiResponse<AdminClientDto>.Ok(MapClientDto(item)));
+    }
+
+    [HttpPut("clients/{id:guid}")]
+    public async Task<IActionResult> UpdateClient(Guid id, [FromBody] UpdateClientRequest request)
+    {
+        var item = await _db.Clients.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateClient", nameof(ClientProfileEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("CLIENT_NOT_FOUND", $"Client with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.UpdateClientValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateClient", nameof(ClientProfileEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid client update payload.", errors, statusCode: 400);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Name)) item.Name = request.Name.Trim();
+        if (request.Email != null) item.Email = request.Email.Trim();
+        if (request.Whatsapp != null) item.Whatsapp = request.Whatsapp.Trim();
+        if (request.Country != null) item.Country = request.Country.Trim();
+        if (request.Service != null) item.Service = request.Service.Trim();
+        if (request.Projects != null) item.Projects = request.Projects.Trim();
+        if (request.PaymentStatus != null) item.PaymentStatus = request.PaymentStatus.Trim();
+        if (!string.IsNullOrWhiteSpace(request.Status)) item.Status = request.Status.Trim();
+        if (request.Plan != null) item.Plan = request.Plan.Trim();
+        if (request.SubscriptionState != null) item.SubscriptionState = request.SubscriptionState.Trim();
+        if (request.PaymentState != null) item.PaymentState = request.PaymentState.Trim();
+        if (request.PaymentMethod != null) item.PaymentMethod = request.PaymentMethod.Trim();
+        if (request.Amount != null) item.Amount = request.Amount.Trim();
+        if (request.Currency != null) item.Currency = request.Currency.Trim();
+        if (request.PaidAmount != null) item.PaidAmount = request.PaidAmount.Trim();
+        if (request.LastPaymentAt != null) item.LastPaymentAt = request.LastPaymentAt.Trim();
+        if (request.NextRenewalAt != null) item.NextRenewalAt = request.NextRenewalAt.Trim();
+        if (request.InvoiceRef != null) item.InvoiceRef = request.InvoiceRef.Trim();
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateClient", nameof(ClientProfileEntity), item.Id.ToString(), true, $"{{\"name\":\"{item.Name}\"}}");
+
+        return OkResponse(MapClientDto(item));
+    }
+
+    [HttpDelete("clients/{id:guid}")]
+    public async Task<IActionResult> DeleteClient(Guid id)
+    {
+        var item = await _db.Clients.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteClient", nameof(ClientProfileEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("CLIENT_NOT_FOUND", $"Client with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.Clients.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteClient", nameof(ClientProfileEntity), id.ToString(), true, null);
+        return StatusCode(204);
+    }
+
+    private static AdminClientDto MapClientDto(ClientProfileEntity item) => new()
+    {
+        Id = item.Id,
+        Name = item.Name,
+        Email = item.Email,
+        Whatsapp = item.Whatsapp,
+        Country = item.Country,
+        Service = item.Service,
+        Projects = item.Projects,
+        PaymentStatus = item.PaymentStatus,
+        Status = item.Status,
+        Plan = item.Plan,
+        SubscriptionState = item.SubscriptionState,
+        PaymentState = item.PaymentState,
+        PaymentMethod = item.PaymentMethod,
+        Amount = item.Amount,
+        Currency = item.Currency,
+        PaidAmount = item.PaidAmount,
+        LastPaymentAt = item.LastPaymentAt,
+        NextRenewalAt = item.NextRenewalAt,
+        InvoiceRef = item.InvoiceRef,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
+
+    #region Invoices Admin
+    [HttpGet("invoices")]
+    public async Task<IActionResult> GetInvoices()
+    {
+        var items = await _db.Invoices.AsNoTracking().OrderByDescending(x => x.PaidAt).ThenByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapInvoiceDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("invoices/{id:guid}")]
+    public async Task<IActionResult> GetInvoiceById(Guid id)
+    {
+        var item = await _db.Invoices.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("INVOICE_NOT_FOUND", $"Invoice with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapInvoiceDto(item));
+    }
+
+    [HttpPost("invoices")]
+    public async Task<IActionResult> CreateInvoice([FromBody] CreateInvoiceRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.CreateInvoiceValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("CreateInvoice", nameof(InvoiceEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid invoice payload.", errors, statusCode: 400);
+        }
+
+        var paidAt = string.IsNullOrWhiteSpace(request.PaidAt)
+            ? DateTime.UtcNow.ToString("yyyy-MM-dd")
+            : request.PaidAt.Trim();
+
+        var item = new InvoiceEntity
+        {
+            ClientId = request.ClientId.Trim(),
+            Amount = request.Amount.Trim(),
+            Currency = request.Currency.Trim(),
+            Method = request.Method.Trim(),
+            Status = string.IsNullOrWhiteSpace(request.Status) ? "paid" : request.Status.Trim(),
+            InvoiceRef = request.InvoiceRef.Trim(),
+            Note = request.Note?.Trim(),
+            PaidAt = paidAt
+        };
+
+        _db.Invoices.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("CreateInvoice", nameof(InvoiceEntity), item.Id.ToString(), true, $"{{\"invoiceRef\":\"{item.InvoiceRef}\",\"amount\":\"{item.Amount}\"}}");
+        return StatusCode(201, ApiResponse<AdminInvoiceDto>.Ok(MapInvoiceDto(item)));
+    }
+
+    [HttpPatch("invoices/{id:guid}/status")]
+    public async Task<IActionResult> UpdateInvoiceStatus(Guid id, [FromBody] UpdateInvoiceStatusRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.UpdateInvoiceStatusValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateInvoiceStatus", nameof(InvoiceEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid invoice status payload.", errors, statusCode: 400);
+        }
+
+        var item = await _db.Invoices.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateInvoiceStatus", nameof(InvoiceEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("INVOICE_NOT_FOUND", $"Invoice with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        item.Status = request.Status.Trim();
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateInvoiceStatus", nameof(InvoiceEntity), item.Id.ToString(), true, $"{{\"status\":\"{item.Status}\"}}");
+
+        return OkResponse(MapInvoiceDto(item));
+    }
+
+    [HttpDelete("invoices/{id:guid}")]
+    public async Task<IActionResult> DeleteInvoice(Guid id)
+    {
+        var item = await _db.Invoices.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteInvoice", nameof(InvoiceEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("INVOICE_NOT_FOUND", $"Invoice with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.Invoices.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteInvoice", nameof(InvoiceEntity), id.ToString(), true, null);
+        return StatusCode(204);
+    }
+
+    private static AdminInvoiceDto MapInvoiceDto(InvoiceEntity item) => new()
+    {
+        Id = item.Id,
+        ClientId = item.ClientId,
+        Amount = item.Amount,
+        Currency = item.Currency,
+        Method = item.Method,
+        Status = item.Status,
+        InvoiceRef = item.InvoiceRef,
+        Note = item.Note,
+        PaidAt = item.PaidAt,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
+
+    #region Distribution Config Admin
+    [HttpGet("distribution")]
+    public async Task<IActionResult> GetDistributionConfig()
+    {
+        var item = await _db.DistributionConfigs.AsNoTracking().FirstOrDefaultAsync();
+        if (item == null)
+        {
+            item = new DistributionConfigEntity
+            {
+                DistributionJson = "{}",
+                PixelConfigsJson = "[]",
+                AdCampaignsJson = "[]"
+            };
+            _db.DistributionConfigs.Add(item);
+            await _db.SaveChangesAsync();
+        }
+
+        return OkResponse(MapDistributionConfigDto(item));
+    }
+
+    [HttpPut("distribution")]
+    public async Task<IActionResult> UpdateDistributionConfig([FromBody] UpdateDistributionConfigRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.UpdateDistributionConfigValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateDistributionConfig", nameof(DistributionConfigEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid distribution payload.", errors, statusCode: 400);
+        }
+
+        var item = await _db.DistributionConfigs.FirstOrDefaultAsync();
+        if (item == null)
+        {
+            item = new DistributionConfigEntity();
+            _db.DistributionConfigs.Add(item);
+        }
+
+        if (request.DistributionJson != null) item.DistributionJson = request.DistributionJson;
+        if (request.PixelConfigsJson != null) item.PixelConfigsJson = request.PixelConfigsJson;
+        if (request.AdCampaignsJson != null) item.AdCampaignsJson = request.AdCampaignsJson;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateDistributionConfig", nameof(DistributionConfigEntity), item.Id.ToString(), true, null);
+
+        return OkResponse(MapDistributionConfigDto(item));
+    }
+
+    private static AdminDistributionConfigDto MapDistributionConfigDto(DistributionConfigEntity item) => new()
+    {
+        DistributionJson = item.DistributionJson,
+        PixelConfigsJson = item.PixelConfigsJson,
+        AdCampaignsJson = item.AdCampaignsJson,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
 }

@@ -39,39 +39,74 @@ export const SUBSCRIPTION_STATES: { value: SubscriptionState; label: string }[] 
   { value: "cancelled", label: "Cancelled" },
 ];
 
-const KEY = "nng.admin.payments.v1";
-
-const uid = () => `pay_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
-
-function read(): PaymentRecord[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as PaymentRecord[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function write(items: PaymentRecord[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(items));
+function getBackendUrl(): string {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"] || "";
+  return url.trim().replace(/\/+$/, "");
 }
 
 export const paymentRecords = {
   async list(): Promise<PaymentRecord[]> {
-    return read().sort((a, b) => b.paidAt.localeCompare(a.paidAt));
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/invoices`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!res.ok) {
+      throw new Error(`Failed to list invoices from backend API: HTTP ${res.status}`);
+    }
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) return [];
+
+    // One-time legacy localStorage backfill
+    if (typeof window !== "undefined") {
+      const legacyRaw = window.localStorage.getItem("nng.admin.payments.v1");
+      if (legacyRaw) {
+        try {
+          const legacyItems = JSON.parse(legacyRaw) as PaymentRecord[];
+          if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+            for (const item of legacyItems) {
+              await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(item),
+              }).catch(() => null);
+            }
+          }
+        } catch {
+          // ignore
+        }
+        window.localStorage.removeItem("nng.admin.payments.v1");
+        const refreshed = await fetch(url, { headers: { Accept: "application/json" } });
+        const refJson = await refreshed.json();
+        if (refJson.success && Array.isArray(refJson.data)) return refJson.data;
+      }
+    }
+
+    return json.data as PaymentRecord[];
   },
   async listByClient(clientId: string): Promise<PaymentRecord[]> {
-    return (await paymentRecords.list()).filter((p) => p.clientId === clientId);
+    const all = await paymentRecords.list();
+    return all.filter((p) => p.clientId === clientId);
   },
   async create(input: Omit<PaymentRecord, "id" | "createdAt">): Promise<PaymentRecord> {
-    const record: PaymentRecord = { ...input, id: uid(), createdAt: new Date().toISOString() };
-    write([record, ...read()]);
-    return record;
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/invoices`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to create invoice via backend API: HTTP ${res.status}`);
+    }
+    const json = await res.json();
+    return json.data as PaymentRecord;
   },
-  async remove(id: string) {
-    write(read().filter((p) => p.id !== id));
+  async remove(id: string): Promise<void> {
+    const apiBase = getBackendUrl();
+    const url = `${apiBase}/api/v1/admin/invoices/${id}`;
+    const res = await fetch(url, { method: "DELETE" });
+    if (!res.ok) {
+      throw new Error(`Failed to delete invoice via backend API: HTTP ${res.status}`);
+    }
   },
 };
 

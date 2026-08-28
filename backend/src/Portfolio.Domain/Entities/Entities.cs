@@ -226,3 +226,44 @@ public class AuditLogEntity : BaseEntity
     public string? MetadataJson { get; set; }
     public string? ChangesJson { get; set; }
 }
+
+public class ClientProfileEntity : BaseEntity
+{
+    public required string Name { get; set; }
+    public string? Email { get; set; }
+    public string? Whatsapp { get; set; }
+    public string? Country { get; set; }
+    public string? Service { get; set; }
+    public string? Projects { get; set; }
+    public string? PaymentStatus { get; set; }
+    public new string Status { get; set; } = "client";
+    public string? Plan { get; set; }
+    public string? SubscriptionState { get; set; }
+    public string? PaymentState { get; set; }
+    public string? PaymentMethod { get; set; }
+    public string? Amount { get; set; }
+    public string? Currency { get; set; }
+    public string? PaidAmount { get; set; }
+    public string? LastPaymentAt { get; set; }
+    public string? NextRenewalAt { get; set; }
+    public string? InvoiceRef { get; set; }
+}
+
+public class InvoiceEntity : BaseEntity
+{
+    public required string ClientId { get; set; }
+    public required string Amount { get; set; }
+    public required string Currency { get; set; }
+    public required string Method { get; set; }
+    public new string Status { get; set; } = "paid";
+    public required string InvoiceRef { get; set; }
+    public string? Note { get; set; }
+    public required string PaidAt { get; set; }
+}
+
+public class DistributionConfigEntity : BaseEntity
+{
+    public string? DistributionJson { get; set; }
+    public string? PixelConfigsJson { get; set; }
+    public string? AdCampaignsJson { get; set; }
+}

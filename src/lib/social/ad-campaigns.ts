@@ -217,37 +217,73 @@ export const buildCreativePayload = (ad: AdCampaign) =>
 
 // --------------------------------------------------------------------- store
 
-const KEY = "nng.admin.social.adcampaigns.v1";
-
-function readAll(): AdCampaign[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as AdCampaign[]) : [];
-  } catch {
-    return [];
-  }
+function getBackendUrl(): string {
+  const url = process.env["VITE_PORTFOLIO_API_URL"] || process.env["PORTFOLIO_API_URL"] || "";
+  return url.trim().replace(/\/+$/, "");
 }
 
-function writeAll(list: AdCampaign[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(list));
+async function readAllBackend(): Promise<AdCampaign[]> {
+  const apiBase = getBackendUrl();
+  const url = `${apiBase}/api/v1/admin/distribution`;
+  let stored: AdCampaign[] = [];
+  try {
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.data?.adCampaignsJson) {
+        stored = JSON.parse(json.data.adCampaignsJson);
+      }
+    }
+  } catch {
+    // fallback
+  }
+
+  // One-time legacy localStorage backfill
+  if (typeof window !== "undefined") {
+    const legacyRaw = window.localStorage.getItem("nng.admin.social.adcampaigns.v1");
+    if (legacyRaw) {
+      try {
+        const legacyItems = JSON.parse(legacyRaw) as AdCampaign[];
+        if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+          stored = legacyItems;
+          await writeAllBackend(stored);
+        }
+      } catch {
+        // ignore
+      }
+      window.localStorage.removeItem("nng.admin.social.adcampaigns.v1");
+    }
+  }
+
+  return stored;
+}
+
+async function writeAllBackend(list: AdCampaign[]): Promise<void> {
+  const apiBase = getBackendUrl();
+  const url = `${apiBase}/api/v1/admin/distribution`;
+  const payload = JSON.stringify(list);
+  await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ adCampaignsJson: payload }),
+  }).catch(() => null);
 }
 
 export const adCampaigns = {
   async list(channelId?: AdChannelId): Promise<AdCampaign[]> {
-    const all = readAll();
+    const all = await readAllBackend();
     return channelId ? all.filter((a) => a.channelId === channelId) : all;
   },
   async save(ad: AdCampaign) {
-    const all = readAll();
+    const all = await readAllBackend();
     const idx = all.findIndex((a) => a.id === ad.id);
     if (idx >= 0) all[idx] = ad;
     else all.push(ad);
-    writeAll(all);
+    await writeAllBackend(all);
     return ad;
   },
   async remove(id: string) {
-    writeAll(readAll().filter((a) => a.id !== id));
+    const all = await readAllBackend();
+    await writeAllBackend(all.filter((a) => a.id !== id));
   },
 };

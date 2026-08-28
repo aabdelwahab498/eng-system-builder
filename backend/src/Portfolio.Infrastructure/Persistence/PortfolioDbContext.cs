@@ -19,6 +19,9 @@ public class PortfolioDbContext : DbContext
     public DbSet<ContactMessageEntity> ContactMessages => Set<ContactMessageEntity>();
     public DbSet<PaymentSubmissionEntity> PaymentSubmissions => Set<PaymentSubmissionEntity>();
     public DbSet<MediaAssetEntity> MediaAssets => Set<MediaAssetEntity>();
+    public DbSet<ClientProfileEntity> Clients => Set<ClientProfileEntity>();
+    public DbSet<InvoiceEntity> Invoices => Set<InvoiceEntity>();
+    public DbSet<DistributionConfigEntity> DistributionConfigs => Set<DistributionConfigEntity>();
     public DbSet<AnalyticsEventEntity> AnalyticsEvents => Set<AnalyticsEventEntity>();
     public DbSet<ConsentRecordEntity> ConsentRecords => Set<ConsentRecordEntity>();
     public DbSet<AuditLogEntity> AuditLogs => Set<AuditLogEntity>();
@@ -39,6 +42,9 @@ public class PortfolioDbContext : DbContext
         modelBuilder.Entity<ContactMessageEntity>().ToTable("contact_messages");
         modelBuilder.Entity<PaymentSubmissionEntity>().ToTable("payment_submissions");
         modelBuilder.Entity<MediaAssetEntity>().ToTable("media_assets");
+        modelBuilder.Entity<ClientProfileEntity>().ToTable("clients");
+        modelBuilder.Entity<InvoiceEntity>().ToTable("invoices");
+        modelBuilder.Entity<DistributionConfigEntity>().ToTable("distribution_configs");
         modelBuilder.Entity<AnalyticsEventEntity>().ToTable("analytics_events");
         modelBuilder.Entity<ConsentRecordEntity>().ToTable("consent_records");
         modelBuilder.Entity<AuditLogEntity>().ToTable("audit_logs");
