@@ -149,6 +149,7 @@ function CoursesIndex() {
                 </p>
               )}
               <WhatsAppCta
+                label={isAr ? "تواصل عبر واتساب" : "Ask about this course"}
                 message={`Hello Ahmed, I am interested in the "${selected.title.en}" course.`}
               />
             </>
