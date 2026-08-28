@@ -317,6 +317,7 @@ export type Database = {
         | "social_campaign"
         | "marketing_campaign"
         | "payment_method"
+        | "course"
       workflow_state:
         | "draft"
         | "review"
@@ -468,6 +469,7 @@ export const Constants = {
         "social_campaign",
         "marketing_campaign",
         "payment_method",
+        "course",
       ],
       workflow_state: ["draft", "review", "scheduled", "published", "archived"],
     },

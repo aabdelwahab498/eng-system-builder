@@ -140,6 +140,18 @@ function defaultData(kind: ContentKind): JsonObject {
         endsAt: null,
         outcome: "planned",
       };
+    case "course":
+      return {
+        title: emptyLocalized(),
+        summary: emptyLocalized(),
+        description: emptyLocalized(),
+        level: "intermediate",
+        icon: "GraduationCap",
+        priceEgp: "",
+        priceUsd: "",
+        duration: emptyLocalized(),
+        enrollmentOpen: true,
+      };
     case "payment_method":
       return {
         label: emptyLocalized(),
@@ -303,6 +315,8 @@ function ContentEditor() {
             <MarketingForm data={draft.data} patch={patchData} />
           ) : contentKind === "payment_method" ? (
             <PaymentForm data={draft.data} patch={patchData} />
+          ) : contentKind === "course" ? (
+            <CourseForm data={draft.data} patch={patchData} />
           ) : (
             <JsonForm value={jsonText} onChange={(next) => patch({ data: next })} kind={contentKind} />
           )}
@@ -797,6 +811,58 @@ function MarketingForm({ data, patch }: { data: JsonObject; patch: (partial: Jso
           <Input type="datetime-local" value={str(data["endsAt"]).slice(0, 16)} onChange={(e) => patch({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })} />
         </Field>
       </div>
+    </div>
+  );
+}
+
+function CourseForm({ data, patch }: { data: JsonObject; patch: (partial: JsonObject) => void }) {
+  return (
+    <div className="space-y-5">
+      <LocalizedField label="Course title" value={localized(data["title"])} onChange={(v) => patch({ title: v })} />
+      <LocalizedField
+        label="Summary"
+        value={localized(data["summary"])}
+        onChange={(v) => patch({ summary: v })}
+        multiline
+        rows={3}
+      />
+      <LocalizedField
+        label="Description"
+        value={localized(data["description"])}
+        onChange={(v) => patch({ description: v })}
+        multiline
+        rows={6}
+      />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Level">
+          <Select value={str(data["level"]) || "intermediate"} onValueChange={(v) => patch({ level: v })}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="foundations">Foundations</SelectItem>
+              <SelectItem value="intermediate">Intermediate</SelectItem>
+              <SelectItem value="advanced">Advanced</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Icon" hint="lucide-react icon name, e.g. Server, Layers.">
+          <Input value={str(data["icon"])} onChange={(e) => patch({ icon: e.target.value })} />
+        </Field>
+        <Field label="Price (EGP)" hint="Shown to students and prefilled in the payment portal.">
+          <Input value={str(data["priceEgp"])} onChange={(e) => patch({ priceEgp: e.target.value })} />
+        </Field>
+        <Field label="Price (USD)">
+          <Input value={str(data["priceUsd"])} onChange={(e) => patch({ priceUsd: e.target.value })} />
+        </Field>
+      </div>
+      <LocalizedField label="Duration" value={localized(data["duration"])} onChange={(v) => patch({ duration: v })} />
+      <ToggleRow
+        label="Enrollment open"
+        description="When off the course is shown as coming soon and students cannot pay yet."
+        checked={data["enrollmentOpen"] !== false}
+        onChange={(next) => patch({ enrollmentOpen: next })}
+      />
     </div>
   );
 }
