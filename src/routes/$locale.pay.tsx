@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, ShieldAlert } from "lucide-react";
 
 import { PageHeader } from "@/components/site/PageHeader";
@@ -11,18 +13,24 @@ import { PaymentProof, type ProofFile } from "@/components/commerce/PaymentProof
 import { WhatsAppCta } from "@/components/commerce/WhatsAppCta";
 import { useLocale } from "@/hooks/useLocale";
 import { buildHead } from "@/lib/seo";
-import { getPaymentMethods, getServiceOffering, getServiceOfferings } from "@/content/api";
+import { getCourses, getPaymentMethods, getServiceOffering, getServiceOfferings } from "@/content/api";
+import { listPublicByKind } from "@/lib/cms/public.functions";
 import { pickOrEn } from "@/content/schema";
 import { submitPaymentProof } from "@/lib/payments/payments.functions";
 import { supabase } from "@/integrations/supabase/client";
 import type { Locale } from "@/types/content";
 import { cn } from "@/lib/utils";
 
-type PaySearch = { service?: string };
+type PaySearch = { service?: string; course?: string; amount?: string };
 
 export const Route = createFileRoute("/$locale/pay")({
-  validateSearch: (search: Record<string, unknown>): PaySearch =>
-    typeof search["service"] === "string" ? { service: search["service"] } : {},
+  validateSearch: (search: Record<string, unknown>): PaySearch => {
+    const out: PaySearch = {};
+    if (typeof search["service"] === "string") out.service = search["service"];
+    if (typeof search["course"] === "string") out.course = search["course"];
+    if (typeof search["amount"] === "string") out.amount = search["amount"];
+    return out;
+  },
   head: ({ params }) => {
     const locale = params.locale as Locale;
     const title =
@@ -110,6 +118,23 @@ function PayPage() {
   const search = Route.useSearch();
 
   const offerings = getServiceOfferings();
+  const courses = getCourses();
+  const listByKind = useServerFn(listPublicByKind);
+  const { data: cmsCourses } = useQuery({
+    queryKey: ["public", "courses"],
+    queryFn: () => listByKind({ data: { kind: "course" } }),
+  });
+  /** Course options: CMS-managed courses win, otherwise the built-in catalogue. */
+  const courseOptions: { id: string; label: string }[] =
+    cmsCourses && cmsCourses.length > 0
+      ? cmsCourses.map((item) => {
+          const title = item.data["title"] as { en?: string; ar?: string | null } | undefined;
+          return {
+            id: `cms:${item.slug}`,
+            label: (locale === "ar" ? title?.ar : title?.en) || title?.en || item.slug,
+          };
+        })
+      : courses.map((c) => ({ id: c.id, label: pickOrEn(c.title, locale) }));
   const egp = getPaymentMethods("EGP");
   const usd = getPaymentMethods("USD");
 
@@ -120,9 +145,9 @@ function PayPage() {
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
-    serviceId: search.service ?? offerings[0]?.id ?? "",
+    serviceId: search.course ?? search.service ?? offerings[0]?.id ?? "",
     projectName: "",
-    amount: "",
+    amount: search.amount ?? "",
     clientName: "",
     email: "",
     whatsapp: "",
@@ -130,6 +155,7 @@ function PayPage() {
 
   const method = [...egp, ...usd].find((m) => m.id === methodId) ?? null;
   const service = getServiceOffering(form.serviceId);
+  const selectedCourse = courseOptions.find((c) => c.id === form.serviceId) ?? null;
   const field =
     "w-full rounded-md border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-primary/60";
 
@@ -154,7 +180,7 @@ function PayPage() {
           email: form.email,
           whatsapp: form.whatsapp,
           serviceId: form.serviceId,
-          serviceTitle: service ? pickOrEn(service.title, "en") : undefined,
+          serviceTitle: service ? pickOrEn(service.title, "en") : (selectedCourse?.label ?? undefined),
           projectName: form.projectName,
           amount: form.amount,
           currency: method.currency,
@@ -255,6 +281,15 @@ function PayPage() {
                     {pickOrEn(s.title, locale)}
                   </option>
                 ))}
+                {courseOptions.length > 0 && (
+                  <optgroup label={dict.ui.courses}>
+                    {courseOptions.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
             </label>
             <label className="space-y-1.5">
