@@ -121,7 +121,9 @@ export const SECTION_TABS: { match: string[]; tabs: AdminTab[] }[] = [
     match: ADMIN_NAV[2]!.match,
     tabs: [
       { label: "Services", href: "/admin/content/service" },
+      { label: "Courses", href: "/admin/content/course" },
       { label: "Requests", href: "/admin/requests" },
+      { label: "Course payments", href: "/admin/payments" },
     ],
   },
   {
