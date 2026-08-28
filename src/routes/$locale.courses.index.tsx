@@ -222,7 +222,11 @@ function CoursesIndex() {
                 <Link
                   to="/$locale/pay"
                   params={{ locale }}
-                  search={{ course: selected.id, amount: selected.priceEgp || selected.priceUsd || undefined }}
+                  search={
+                    selected.priceEgp || selected.priceUsd
+                      ? { course: selected.id, amount: (selected.priceEgp || selected.priceUsd)! }
+                      : { course: selected.id }
+                  }
                   className="inline-flex w-fit items-center rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
                   {isAr ? "سجل وادفع رسوم الكورس" : "Enroll & pay course fee"}
