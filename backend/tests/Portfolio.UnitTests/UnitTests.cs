@@ -71,6 +71,6 @@ public class DomainAndValidationTests
 
         var invalidResult = validator.Validate(invalidRequest);
         Assert.False(invalidResult.IsValid);
-        Assert.Equal(4, invalidResult.Errors.Count);
+        Assert.Equal(3, invalidResult.Errors.Count);
     }
 }

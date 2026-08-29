@@ -373,12 +373,22 @@ public class ContactController : ApiControllerBase
             return FailResponse("VALIDATION_ERROR", "Contact form request is invalid.", errors);
         }
 
+        var normalizedName = request.Name.Trim();
+        var normalizedEmail = request.Email.Trim();
+        var normalizedSubject = !string.IsNullOrWhiteSpace(request.Subject)
+            ? request.Subject.Trim()
+            : (!string.IsNullOrWhiteSpace(request.Service) || !string.IsNullOrWhiteSpace(request.ProjectName)
+                ? $"Inquiry regarding {request.Service ?? request.ProjectName}"
+                : "General Contact Inquiry");
+
+        var normalizedMessage = request.Message.Trim();
+
         var entity = new ContactMessageEntity
         {
-            Name = request.Name,
-            Email = request.Email,
-            Subject = request.Subject,
-            Message = request.Message,
+            Name = normalizedName,
+            Email = normalizedEmail,
+            Subject = normalizedSubject,
+            Message = normalizedMessage,
             IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
         };
 

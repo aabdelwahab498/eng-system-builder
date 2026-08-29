@@ -267,3 +267,43 @@ public class DistributionConfigEntity : BaseEntity
     public string? PixelConfigsJson { get; set; }
     public string? AdCampaignsJson { get; set; }
 }
+
+public class UserEntity : BaseEntity
+{
+    public required string Email { get; set; }
+    public required string PasswordHash { get; set; }
+    public required string Role { get; set; } = "admin";
+    public bool IsActive { get; set; } = true;
+}
+
+public class ArticleEntity : BaseEntity
+{
+    public required string Slug { get; set; }
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string SummaryEn { get; set; }
+    public string? SummaryAr { get; set; }
+    public required string ContentEn { get; set; }
+    public string? ContentAr { get; set; }
+    public string? CoverImage { get; set; }
+    public List<string> Tags { get; set; } = [];
+    public DateTimeOffset? PublishedAt { get; set; }
+}
+
+public class AnnouncementEntity : BaseEntity
+{
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string MessageEn { get; set; }
+    public string? MessageAr { get; set; }
+    public string? LinkUrl { get; set; }
+    public string? LinkTextEn { get; set; }
+    public string? LinkTextAr { get; set; }
+    public string Kind { get; set; } = "info";
+    public int Priority { get; set; } = 0;
+    public DateTimeOffset StartsAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? EndsAt { get; set; }
+}
+
+
+

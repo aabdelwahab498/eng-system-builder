@@ -279,3 +279,35 @@ public class UpdateDistributionConfigValidator : AbstractValidator<UpdateDistrib
         RuleFor(x => x.AdCampaignsJson).MaximumLength(500000);
     }
 }
+
+public class AdminArticleRequestValidator : AbstractValidator<AdminArticleRequest>
+{
+    public AdminArticleRequestValidator()
+    {
+        RuleFor(x => x.Slug).NotEmpty().MaximumLength(150);
+        RuleFor(x => x.TitleEn).NotEmpty().MaximumLength(250);
+        RuleFor(x => x.TitleAr).MaximumLength(250);
+        RuleFor(x => x.SummaryEn).NotEmpty().MaximumLength(1000);
+        RuleFor(x => x.SummaryAr).MaximumLength(1000);
+        RuleFor(x => x.ContentEn).NotEmpty().MaximumLength(500000);
+        RuleFor(x => x.ContentAr).MaximumLength(500000);
+        RuleFor(x => x.CoverImage).MaximumLength(500);
+    }
+}
+
+public class AdminAnnouncementRequestValidator : AbstractValidator<AdminAnnouncementRequest>
+{
+    public AdminAnnouncementRequestValidator()
+    {
+        RuleFor(x => x.TitleEn).NotEmpty().MaximumLength(250);
+        RuleFor(x => x.TitleAr).MaximumLength(250);
+        RuleFor(x => x.MessageEn).NotEmpty().MaximumLength(2000);
+        RuleFor(x => x.MessageAr).MaximumLength(2000);
+        RuleFor(x => x.LinkUrl).MaximumLength(500);
+        RuleFor(x => x.LinkTextEn).MaximumLength(100);
+        RuleFor(x => x.LinkTextAr).MaximumLength(100);
+        RuleFor(x => x.Kind).NotEmpty().MaximumLength(50);
+    }
+}
+
+

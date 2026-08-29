@@ -22,12 +22,28 @@ public static class CanonicalDataImporter
         await ImportServicesAsync(db, result);
         await ImportCoursesAsync(db, result);
         await BackfillContactMessagesAsync(db);
+        await SeedDefaultAdminUserAsync(db);
 
         await db.SaveChangesAsync();
         return result;
     }
 
+    private static async Task SeedDefaultAdminUserAsync(PortfolioDbContext db)
+    {
+        if (!await db.Users.AnyAsync(u => u.Email == "admin@nextnext-gen.com"))
+        {
+            db.Users.Add(new UserEntity
+            {
+                Email = "admin@nextnext-gen.com",
+                PasswordHash = Portfolio.Application.Security.PasswordHasher.HashPassword("AdminPassword123!"),
+                Role = "admin",
+                IsActive = true
+            });
+        }
+    }
+
     private static async Task BackfillContactMessagesAsync(PortfolioDbContext db)
+
     {
         var receivedMessages = await db.ContactMessages.Where(c => c.StatusState == "Received").ToListAsync();
         foreach (var msg in receivedMessages)

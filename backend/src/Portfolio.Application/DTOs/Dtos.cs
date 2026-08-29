@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Portfolio.Application.DTOs;
 
@@ -165,10 +166,32 @@ public class CourseDto
 
 public class ContactMessageRequest
 {
-    public required string Name { get; set; }
+    private string? _name;
+
+    [JsonPropertyName("name")]
+    public string Name
+    {
+        get => !string.IsNullOrWhiteSpace(_name) ? _name : (FullName ?? string.Empty);
+        set => _name = value;
+    }
+
+    [JsonPropertyName("full_name")]
+    public string? FullName { get; set; }
+
+    [JsonPropertyName("email")]
     public required string Email { get; set; }
-    public required string Subject { get; set; }
+
+    [JsonPropertyName("subject")]
+    public string? Subject { get; set; }
+
+    [JsonPropertyName("message")]
     public required string Message { get; set; }
+
+    [JsonPropertyName("service")]
+    public string? Service { get; set; }
+
+    [JsonPropertyName("project_name")]
+    public string? ProjectName { get; set; }
 }
 
 public class AnalyticsEventRequest
@@ -186,3 +209,52 @@ public class ConsentRecordRequest
     public bool AnalyticsConsent { get; set; }
     public bool MarketingConsent { get; set; }
 }
+
+public class LoginRequest
+{
+    public required string Email { get; set; }
+    public required string Password { get; set; }
+}
+
+public class LoginResponse
+{
+    public required string Token { get; set; }
+    public DateTimeOffset ExpiresAt { get; set; }
+    public required UserDto User { get; set; }
+}
+
+public class UserDto
+{
+    public required string Id { get; set; }
+    public required string Email { get; set; }
+    public List<string> Roles { get; set; } = [];
+}
+
+public class ArticleDto
+{
+    public Guid Id { get; set; }
+    public required string Slug { get; set; }
+    public required string Title { get; set; }
+    public required string Summary { get; set; }
+    public required string Content { get; set; }
+    public string? CoverImage { get; set; }
+    public List<string> Tags { get; set; } = [];
+    public DateTimeOffset? PublishedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public class AnnouncementDto
+{
+    public Guid Id { get; set; }
+    public required string Title { get; set; }
+    public required string Message { get; set; }
+    public string? LinkUrl { get; set; }
+    public string? LinkText { get; set; }
+    public required string Kind { get; set; }
+    public int Priority { get; set; }
+    public DateTimeOffset StartsAt { get; set; }
+    public DateTimeOffset? EndsAt { get; set; }
+}
+
+
+

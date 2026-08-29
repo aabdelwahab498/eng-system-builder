@@ -25,6 +25,9 @@ public class PortfolioDbContext : DbContext
     public DbSet<AnalyticsEventEntity> AnalyticsEvents => Set<AnalyticsEventEntity>();
     public DbSet<ConsentRecordEntity> ConsentRecords => Set<ConsentRecordEntity>();
     public DbSet<AuditLogEntity> AuditLogs => Set<AuditLogEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<ArticleEntity> Articles => Set<ArticleEntity>();
+    public DbSet<AnnouncementEntity> Announcements => Set<AnnouncementEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,6 +51,10 @@ public class PortfolioDbContext : DbContext
         modelBuilder.Entity<AnalyticsEventEntity>().ToTable("analytics_events");
         modelBuilder.Entity<ConsentRecordEntity>().ToTable("consent_records");
         modelBuilder.Entity<AuditLogEntity>().ToTable("audit_logs");
+        modelBuilder.Entity<UserEntity>().ToTable("users");
+        modelBuilder.Entity<ArticleEntity>().ToTable("articles");
+        modelBuilder.Entity<AnnouncementEntity>().ToTable("announcements");
+
 
         modelBuilder.Entity<SkillEntity>()
             .HasOne(s => s.SkillGroup)

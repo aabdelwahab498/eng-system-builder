@@ -381,3 +381,79 @@ public class UpdateDistributionConfigRequest
     public string? PixelConfigsJson { get; set; }
     public string? AdCampaignsJson { get; set; }
 }
+
+public class AdminArticleDto
+{
+    public Guid Id { get; set; }
+    public required string Slug { get; set; }
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string SummaryEn { get; set; }
+    public string? SummaryAr { get; set; }
+    public required string ContentEn { get; set; }
+    public string? ContentAr { get; set; }
+    public string? CoverImage { get; set; }
+    public List<string> Tags { get; set; } = [];
+    public required string Status { get; set; }
+    public bool PublicVisible { get; set; } = true;
+    public DateTimeOffset? PublishedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class AdminArticleRequest
+{
+    public required string Slug { get; set; }
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string SummaryEn { get; set; }
+    public string? SummaryAr { get; set; }
+    public required string ContentEn { get; set; }
+    public string? ContentAr { get; set; }
+    public string? CoverImage { get; set; }
+    public List<string> Tags { get; set; } = [];
+    public ContentStatus Status { get; set; } = ContentStatus.Draft;
+    public bool PublicVisible { get; set; } = true;
+    public DateTimeOffset? PublishedAt { get; set; }
+}
+
+public class AdminAnnouncementDto
+{
+    public Guid Id { get; set; }
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string MessageEn { get; set; }
+    public string? MessageAr { get; set; }
+    public string? LinkUrl { get; set; }
+    public string? LinkTextEn { get; set; }
+    public string? LinkTextAr { get; set; }
+    public required string Kind { get; set; }
+    public int Priority { get; set; }
+    public required string Status { get; set; }
+    public bool PublicVisible { get; set; } = true;
+    public DateTimeOffset StartsAt { get; set; }
+    public DateTimeOffset? EndsAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class AdminAnnouncementRequest
+{
+    public required string TitleEn { get; set; }
+    public string? TitleAr { get; set; }
+    public required string MessageEn { get; set; }
+    public string? MessageAr { get; set; }
+    public string? LinkUrl { get; set; }
+    public string? LinkTextEn { get; set; }
+    public string? LinkTextAr { get; set; }
+    public string Kind { get; set; } = "info";
+    public int Priority { get; set; } = 0;
+    public ContentStatus Status { get; set; } = ContentStatus.Verified;
+    public bool PublicVisible { get; set; } = true;
+    public DateTimeOffset StartsAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? EndsAt { get; set; }
+}
+
+
+
+

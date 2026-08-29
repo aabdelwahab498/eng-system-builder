@@ -7,10 +7,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Application.DTOs;
+using Portfolio.Domain;
 using Portfolio.Domain.Entities;
 using Portfolio.Infrastructure.Persistence;
 
 namespace Portfolio.Api.Controllers;
+
+public class UploadMediaAssetRequest
+{
+    public required Microsoft.AspNetCore.Http.IFormFile File { get; set; }
+    public string? AltEn { get; set; }
+    public string? AltAr { get; set; }
+    public string? CaptionEn { get; set; }
+    public string? CaptionAr { get; set; }
+}
 
 [Route("api/v1/admin")]
 [ApiController]
@@ -1090,6 +1100,54 @@ public class AdminController : ApiControllerBase
         return StatusCode(201, ApiResponse<AdminMediaAssetDto>.Ok(MapMediaAssetDto(item)));
     }
 
+    [HttpPost("media/upload")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadMediaAsset([FromForm] UploadMediaAssetRequest request)
+    {
+        if (request.File == null || request.File.Length == 0)
+        {
+            await LogAuditAsync("UploadMediaAsset", nameof(MediaAssetEntity), null, false, "{\"reason\":\"empty_file\"}");
+            return FailResponse("INVALID_FILE", "A non-empty file must be provided.", statusCode: 400);
+        }
+
+        var storageDir = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+        if (!System.IO.Directory.Exists(storageDir))
+        {
+            System.IO.Directory.CreateDirectory(storageDir);
+        }
+
+        var uniqueFileName = $"{Guid.NewGuid():N}_{System.IO.Path.GetFileName(request.File.FileName)}";
+        var filePath = System.IO.Path.Combine(storageDir, uniqueFileName);
+
+        using (var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+        {
+            await request.File.CopyToAsync(stream);
+        }
+
+        var publicUrl = $"/api/v1/media/file/{uniqueFileName}";
+
+        var item = new MediaAssetEntity
+        {
+            Filename = request.File.FileName,
+            StoragePath = uniqueFileName,
+            PublicUrl = publicUrl,
+            MimeType = request.File.ContentType ?? "application/octet-stream",
+            SizeBytes = request.File.Length,
+            AltEn = request.AltEn?.Trim(),
+            AltAr = request.AltAr?.Trim(),
+            CaptionEn = request.CaptionEn?.Trim(),
+            CaptionAr = request.CaptionAr?.Trim(),
+            CreatedBy = GetActorId()
+        };
+
+        _db.MediaAssets.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("UploadMediaAsset", nameof(MediaAssetEntity), item.Id.ToString(), true, $"{{\"filename\":\"{item.Filename}\",\"storagePath\":\"{item.StoragePath}\"}}");
+        return StatusCode(201, ApiResponse<AdminMediaAssetDto>.Ok(MapMediaAssetDto(item)));
+    }
+
+
     [HttpPut("media/{id:guid}")]
     public async Task<IActionResult> UpdateMediaAsset(Guid id, [FromBody] UpdateMediaAssetRequest request)
     {
@@ -1471,6 +1529,279 @@ public class AdminController : ApiControllerBase
         DistributionJson = item.DistributionJson,
         PixelConfigsJson = item.PixelConfigsJson,
         AdCampaignsJson = item.AdCampaignsJson,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
+
+    #region Articles CMS Admin
+    [HttpGet("articles")]
+    public async Task<IActionResult> GetAdminArticles()
+    {
+        var items = await _db.Articles.AsNoTracking().OrderByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapAdminArticleDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("articles/{id:guid}")]
+    public async Task<IActionResult> GetAdminArticleById(Guid id)
+    {
+        var item = await _db.Articles.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("ARTICLE_NOT_FOUND", $"Article with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapAdminArticleDto(item));
+    }
+
+    [HttpPost("articles")]
+    public async Task<IActionResult> CreateArticle([FromBody] AdminArticleRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.AdminArticleRequestValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("CreateArticle", nameof(ArticleEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid article payload.", errors, statusCode: 400);
+        }
+
+        var exists = await _db.Articles.AnyAsync(x => x.Slug.ToLower() == request.Slug.Trim().ToLower());
+        if (exists)
+        {
+            await LogAuditAsync("CreateArticle_Failed", nameof(ArticleEntity), null, false, $"{{\"slug\":\"{request.Slug}\",\"reason\":\"duplicate_slug\"}}");
+            return FailResponse("DUPLICATE_SLUG", $"An article with slug '{request.Slug}' already exists.", statusCode: 409);
+        }
+
+        var item = new ArticleEntity
+        {
+            Slug = request.Slug.Trim(),
+            TitleEn = request.TitleEn.Trim(),
+            TitleAr = request.TitleAr?.Trim(),
+            SummaryEn = request.SummaryEn.Trim(),
+            SummaryAr = request.SummaryAr?.Trim(),
+            ContentEn = request.ContentEn,
+            ContentAr = request.ContentAr,
+            CoverImage = request.CoverImage?.Trim(),
+            Tags = request.Tags,
+            Status = request.Status,
+            PublicVisible = request.PublicVisible,
+            PublishedAt = request.PublishedAt ?? (request.Status == ContentStatus.Verified ? DateTimeOffset.UtcNow : null)
+        };
+
+        _db.Articles.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("CreateArticle", nameof(ArticleEntity), item.Id.ToString(), true, $"{{\"slug\":\"{item.Slug}\"}}");
+        return StatusCode(201, ApiResponse<AdminArticleDto>.Ok(MapAdminArticleDto(item)));
+    }
+
+    [HttpPut("articles/{id:guid}")]
+    public async Task<IActionResult> UpdateArticle(Guid id, [FromBody] AdminArticleRequest request)
+    {
+        var item = await _db.Articles.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateArticle", nameof(ArticleEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("ARTICLE_NOT_FOUND", $"Article with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.AdminArticleRequestValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateArticle", nameof(ArticleEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid article payload.", errors, statusCode: 400);
+        }
+
+        var slugConflict = await _db.Articles.AnyAsync(x => x.Id != id && x.Slug.ToLower() == request.Slug.Trim().ToLower());
+        if (slugConflict)
+        {
+            await LogAuditAsync("UpdateArticle_Failed", nameof(ArticleEntity), id.ToString(), false, $"{{\"slug\":\"{request.Slug}\",\"reason\":\"duplicate_slug\"}}");
+            return FailResponse("DUPLICATE_SLUG", $"An article with slug '{request.Slug}' already exists.", statusCode: 409);
+        }
+
+        item.Slug = request.Slug.Trim();
+        item.TitleEn = request.TitleEn.Trim();
+        item.TitleAr = request.TitleAr?.Trim();
+        item.SummaryEn = request.SummaryEn.Trim();
+        item.SummaryAr = request.SummaryAr?.Trim();
+        item.ContentEn = request.ContentEn;
+        item.ContentAr = request.ContentAr;
+        item.CoverImage = request.CoverImage?.Trim();
+        item.Tags = request.Tags;
+        item.Status = request.Status;
+        item.PublicVisible = request.PublicVisible;
+        if (request.PublishedAt.HasValue) item.PublishedAt = request.PublishedAt;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateArticle", nameof(ArticleEntity), item.Id.ToString(), true, $"{{\"slug\":\"{item.Slug}\"}}");
+
+        return OkResponse(MapAdminArticleDto(item));
+    }
+
+    [HttpDelete("articles/{id:guid}")]
+    public async Task<IActionResult> DeleteArticle(Guid id)
+    {
+        var item = await _db.Articles.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteArticle", nameof(ArticleEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("ARTICLE_NOT_FOUND", $"Article with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.Articles.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteArticle", nameof(ArticleEntity), id.ToString(), true, null);
+        return StatusCode(204);
+    }
+
+    private static AdminArticleDto MapAdminArticleDto(ArticleEntity item) => new()
+    {
+        Id = item.Id,
+        Slug = item.Slug,
+        TitleEn = item.TitleEn,
+        TitleAr = item.TitleAr,
+        SummaryEn = item.SummaryEn,
+        SummaryAr = item.SummaryAr,
+        ContentEn = item.ContentEn,
+        ContentAr = item.ContentAr,
+        CoverImage = item.CoverImage,
+        Tags = item.Tags,
+        Status = item.Status.ToString().ToLowerInvariant(),
+        PublicVisible = item.PublicVisible,
+        PublishedAt = item.PublishedAt,
+        CreatedAt = item.CreatedAt,
+        UpdatedAt = item.UpdatedAt
+    };
+    #endregion
+
+    #region Announcements CMS Admin
+    [HttpGet("announcements")]
+    public async Task<IActionResult> GetAdminAnnouncements()
+    {
+        var items = await _db.Announcements.AsNoTracking().OrderByDescending(x => x.Priority).ThenByDescending(x => x.CreatedAt).ToListAsync();
+        var dtos = items.Select(MapAdminAnnouncementDto).ToList();
+        return OkResponse(dtos);
+    }
+
+    [HttpGet("announcements/{id:guid}")]
+    public async Task<IActionResult> GetAdminAnnouncementById(Guid id)
+    {
+        var item = await _db.Announcements.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null) return FailResponse("ANNOUNCEMENT_NOT_FOUND", $"Announcement with ID '{id}' was not found.", statusCode: 404);
+        return OkResponse(MapAdminAnnouncementDto(item));
+    }
+
+    [HttpPost("announcements")]
+    public async Task<IActionResult> CreateAnnouncement([FromBody] AdminAnnouncementRequest request)
+    {
+        var validator = new Portfolio.Application.Validators.AdminAnnouncementRequestValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("CreateAnnouncement", nameof(AnnouncementEntity), null, false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid announcement payload.", errors, statusCode: 400);
+        }
+
+        var item = new AnnouncementEntity
+        {
+            TitleEn = request.TitleEn.Trim(),
+            TitleAr = request.TitleAr?.Trim(),
+            MessageEn = request.MessageEn.Trim(),
+            MessageAr = request.MessageAr?.Trim(),
+            LinkUrl = request.LinkUrl?.Trim(),
+            LinkTextEn = request.LinkTextEn?.Trim(),
+            LinkTextAr = request.LinkTextAr?.Trim(),
+            Kind = request.Kind.Trim(),
+            Priority = request.Priority,
+            Status = request.Status,
+            PublicVisible = request.PublicVisible,
+            StartsAt = request.StartsAt,
+            EndsAt = request.EndsAt
+        };
+
+        _db.Announcements.Add(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("CreateAnnouncement", nameof(AnnouncementEntity), item.Id.ToString(), true, $"{{\"title\":\"{item.TitleEn}\"}}");
+        return StatusCode(201, ApiResponse<AdminAnnouncementDto>.Ok(MapAdminAnnouncementDto(item)));
+    }
+
+    [HttpPut("announcements/{id:guid}")]
+    public async Task<IActionResult> UpdateAnnouncement(Guid id, [FromBody] AdminAnnouncementRequest request)
+    {
+        var item = await _db.Announcements.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("UpdateAnnouncement", nameof(AnnouncementEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("ANNOUNCEMENT_NOT_FOUND", $"Announcement with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        var validator = new Portfolio.Application.Validators.AdminAnnouncementRequestValidator();
+        var valResult = await validator.ValidateAsync(request);
+        if (!valResult.IsValid)
+        {
+            var errors = valResult.Errors.Select(e => e.ErrorMessage).ToList();
+            await LogAuditAsync("UpdateAnnouncement", nameof(AnnouncementEntity), id.ToString(), false, "{\"reason\":\"validation_failed\"}");
+            return FailResponse("VALIDATION_ERROR", "Invalid announcement payload.", errors, statusCode: 400);
+        }
+
+        item.TitleEn = request.TitleEn.Trim();
+        item.TitleAr = request.TitleAr?.Trim();
+        item.MessageEn = request.MessageEn.Trim();
+        item.MessageAr = request.MessageAr?.Trim();
+        item.LinkUrl = request.LinkUrl?.Trim();
+        item.LinkTextEn = request.LinkTextEn?.Trim();
+        item.LinkTextAr = request.LinkTextAr?.Trim();
+        item.Kind = request.Kind.Trim();
+        item.Priority = request.Priority;
+        item.Status = request.Status;
+        item.PublicVisible = request.PublicVisible;
+        item.StartsAt = request.StartsAt;
+        item.EndsAt = request.EndsAt;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+        await LogAuditAsync("UpdateAnnouncement", nameof(AnnouncementEntity), item.Id.ToString(), true, $"{{\"title\":\"{item.TitleEn}\"}}");
+
+        return OkResponse(MapAdminAnnouncementDto(item));
+    }
+
+    [HttpDelete("announcements/{id:guid}")]
+    public async Task<IActionResult> DeleteAnnouncement(Guid id)
+    {
+        var item = await _db.Announcements.FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            await LogAuditAsync("DeleteAnnouncement", nameof(AnnouncementEntity), id.ToString(), false, "{\"reason\":\"not_found\"}");
+            return FailResponse("ANNOUNCEMENT_NOT_FOUND", $"Announcement with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        _db.Announcements.Remove(item);
+        await _db.SaveChangesAsync();
+
+        await LogAuditAsync("DeleteAnnouncement", nameof(AnnouncementEntity), id.ToString(), true, null);
+        return StatusCode(204);
+    }
+
+    private static AdminAnnouncementDto MapAdminAnnouncementDto(AnnouncementEntity item) => new()
+    {
+        Id = item.Id,
+        TitleEn = item.TitleEn,
+        TitleAr = item.TitleAr,
+        MessageEn = item.MessageEn,
+        MessageAr = item.MessageAr,
+        LinkUrl = item.LinkUrl,
+        LinkTextEn = item.LinkTextEn,
+        LinkTextAr = item.LinkTextAr,
+        Kind = item.Kind,
+        Priority = item.Priority,
+        Status = item.Status.ToString().ToLowerInvariant(),
+        PublicVisible = item.PublicVisible,
+        StartsAt = item.StartsAt,
+        EndsAt = item.EndsAt,
+        CreatedAt = item.CreatedAt,
         UpdatedAt = item.UpdatedAt
     };
     #endregion
