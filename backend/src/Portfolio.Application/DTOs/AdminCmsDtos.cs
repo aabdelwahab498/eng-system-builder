@@ -155,6 +155,18 @@ public class AdminContactMessageDto
     public required string Email { get; set; }
     public required string Subject { get; set; }
     public required string Message { get; set; }
+    public string? Whatsapp { get; set; }
+    public string? ServiceId { get; set; }
+    public string? ServiceTitle { get; set; }
+    public string? ProjectName { get; set; }
+    public string? Scope { get; set; }
+    public string? Budget { get; set; }
+    public string? Timeline { get; set; }
+    public string? PreferredChannel { get; set; }
+    public string? Platform { get; set; }
+    public string? AttachmentUrl { get; set; }
+    public string? Locale { get; set; }
+    public string? Source { get; set; }
     public string? IpAddress { get; set; }
     public required string StatusState { get; set; }
     public string? AdminNote { get; set; }

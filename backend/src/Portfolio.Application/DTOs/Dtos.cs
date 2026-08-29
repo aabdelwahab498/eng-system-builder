@@ -190,8 +190,41 @@ public class ContactMessageRequest
     [JsonPropertyName("service")]
     public string? Service { get; set; }
 
+    [JsonPropertyName("service_id")]
+    public string? ServiceId { get; set; }
+
+    [JsonPropertyName("service_title")]
+    public string? ServiceTitle { get; set; }
+
     [JsonPropertyName("project_name")]
     public string? ProjectName { get; set; }
+
+    [JsonPropertyName("whatsapp")]
+    public string? Whatsapp { get; set; }
+
+    [JsonPropertyName("scope")]
+    public string? Scope { get; set; }
+
+    [JsonPropertyName("budget")]
+    public string? Budget { get; set; }
+
+    [JsonPropertyName("timeline")]
+    public string? Timeline { get; set; }
+
+    [JsonPropertyName("preferred_channel")]
+    public string? PreferredChannel { get; set; }
+
+    [JsonPropertyName("platform")]
+    public string? Platform { get; set; }
+
+    [JsonPropertyName("attachment_url")]
+    public string? AttachmentUrl { get; set; }
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; }
+
+    [JsonPropertyName("source")]
+    public string? Source { get; set; }
 }
 
 public class AnalyticsEventRequest

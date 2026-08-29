@@ -389,6 +389,18 @@ public class ContactController : ApiControllerBase
             Email = normalizedEmail,
             Subject = normalizedSubject,
             Message = normalizedMessage,
+            Whatsapp = request.Whatsapp?.Trim(),
+            ServiceId = request.ServiceId?.Trim(),
+            ServiceTitle = request.ServiceTitle?.Trim() ?? request.Service?.Trim(),
+            ProjectName = request.ProjectName?.Trim(),
+            Scope = request.Scope?.Trim(),
+            Budget = request.Budget?.Trim(),
+            Timeline = request.Timeline?.Trim(),
+            PreferredChannel = request.PreferredChannel?.Trim(),
+            Platform = request.Platform?.Trim(),
+            AttachmentUrl = request.AttachmentUrl?.Trim(),
+            Locale = request.Locale?.Trim() ?? "en",
+            Source = request.Source?.Trim() ?? "contact_form",
             IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
         };
 

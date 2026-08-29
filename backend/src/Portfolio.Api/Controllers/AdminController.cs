@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Application.DTOs;
 using Portfolio.Domain;
@@ -914,6 +916,18 @@ public class AdminController : ApiControllerBase
         Email = item.Email,
         Subject = item.Subject,
         Message = item.Message,
+        Whatsapp = item.Whatsapp,
+        ServiceId = item.ServiceId,
+        ServiceTitle = item.ServiceTitle,
+        ProjectName = item.ProjectName,
+        Scope = item.Scope,
+        Budget = item.Budget,
+        Timeline = item.Timeline,
+        PreferredChannel = item.PreferredChannel,
+        Platform = item.Platform,
+        AttachmentUrl = item.AttachmentUrl,
+        Locale = item.Locale,
+        Source = item.Source,
         IpAddress = item.IpAddress,
         StatusState = item.StatusState,
         AdminNote = item.AdminNote,
@@ -937,6 +951,59 @@ public class AdminController : ApiControllerBase
         var item = await _db.PaymentSubmissions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (item == null) return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
         return OkResponse(MapPaymentSubmissionDto(item));
+    }
+
+    [HttpGet("payments/{id:guid}/proof")]
+    public async Task<IActionResult> GetPaymentSubmissionProof(Guid id)
+    {
+        var item = await _db.PaymentSubmissions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (item == null)
+        {
+            return FailResponse("PAYMENT_NOT_FOUND", $"Payment submission with ID '{id}' was not found.", statusCode: 404);
+        }
+
+        if (string.IsNullOrWhiteSpace(item.ProofPath))
+        {
+            return FailResponse("PROOF_NOT_FOUND", $"Payment submission with ID '{id}' does not have a proof attachment.", statusCode: 404);
+        }
+
+        var proofPath = item.ProofPath.Trim();
+
+        if (proofPath.Contains("..") || Path.IsPathRooted(proofPath))
+        {
+            return FailResponse("INVALID_PATH", "Invalid proof path.", statusCode: 400);
+        }
+
+        var fileName = Path.GetFileName(proofPath);
+        var baseUploadsDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads"));
+        var proofsDir = Path.GetFullPath(Path.Combine(baseUploadsDir, "proofs"));
+
+        var fullPathPrimary = Path.GetFullPath(Path.Combine(proofsDir, fileName));
+        var fullPathSecondary = Path.GetFullPath(Path.Combine(baseUploadsDir, fileName));
+
+        string? resolvedPath = null;
+        if (fullPathPrimary.StartsWith(proofsDir, StringComparison.OrdinalIgnoreCase) && System.IO.File.Exists(fullPathPrimary))
+        {
+            resolvedPath = fullPathPrimary;
+        }
+        else if (fullPathSecondary.StartsWith(baseUploadsDir, StringComparison.OrdinalIgnoreCase) && System.IO.File.Exists(fullPathSecondary))
+        {
+            resolvedPath = fullPathSecondary;
+        }
+
+        if (resolvedPath == null)
+        {
+            return FailResponse("PROOF_FILE_NOT_FOUND", $"Physical proof file for payment submission '{id}' was not found.", statusCode: 404);
+        }
+
+        var provider = new FileExtensionContentTypeProvider();
+        if (!provider.TryGetContentType(resolvedPath, out var contentType))
+        {
+            contentType = "application/octet-stream";
+        }
+
+        var bytes = await System.IO.File.ReadAllBytesAsync(resolvedPath);
+        return File(bytes, contentType, fileName);
     }
 
     [HttpPatch("payments/{id:guid}/status")]

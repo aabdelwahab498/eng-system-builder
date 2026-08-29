@@ -201,4 +201,146 @@ public class CmsPaymentTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+
+    [Fact]
+    public async Task GetProof_Unauthenticated_Returns401()
+    {
+        var client = _factory.CreateClient();
+        var res = await client.GetAsync($"/api/v1/admin/payments/{Guid.NewGuid()}/proof");
+        Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProof_NonAdmin_Returns403()
+    {
+        var client = _factory.CreateClient();
+        var token = GenerateJwtToken("user-123", "User");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var res = await client.GetAsync($"/api/v1/admin/payments/{Guid.NewGuid()}/proof");
+        Assert.Equal(HttpStatusCode.Forbidden, res.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProof_NonExistentPayment_Returns404()
+    {
+        var client = _factory.CreateClient();
+        var token = GenerateJwtToken("admin-123", "Administrator");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var res = await client.GetAsync($"/api/v1/admin/payments/{Guid.NewGuid()}/proof");
+        Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProof_PaymentWithoutProof_Returns404()
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+
+        var entity = new PaymentSubmissionEntity
+        {
+            ClientName = "No Proof Client",
+            ProofPath = null,
+            StatusState = "pending_review"
+        };
+        db.PaymentSubmissions.Add(entity);
+        await db.SaveChangesAsync();
+
+        var client = _factory.CreateClient();
+        var token = GenerateJwtToken("admin-123", "Administrator");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var res = await client.GetAsync($"/api/v1/admin/payments/{entity.Id}/proof");
+        Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProof_MissingPhysicalFile_Returns404()
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+
+        var entity = new PaymentSubmissionEntity
+        {
+            ClientName = "Missing File Client",
+            ProofPath = "proofs/nonexistent_file_12345.png",
+            StatusState = "pending_review"
+        };
+        db.PaymentSubmissions.Add(entity);
+        await db.SaveChangesAsync();
+
+        var client = _factory.CreateClient();
+        var token = GenerateJwtToken("admin-123", "Administrator");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var res = await client.GetAsync($"/api/v1/admin/payments/{entity.Id}/proof");
+        Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProof_PathTraversalAttempt_Returns400Or404()
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+
+        var entity = new PaymentSubmissionEntity
+        {
+            ClientName = "Hacker Client",
+            ProofPath = "../../appsettings.json",
+            StatusState = "pending_review"
+        };
+        db.PaymentSubmissions.Add(entity);
+        await db.SaveChangesAsync();
+
+        var client = _factory.CreateClient();
+        var token = GenerateJwtToken("admin-123", "Administrator");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var res = await client.GetAsync($"/api/v1/admin/payments/{entity.Id}/proof");
+        Assert.True(res.StatusCode == HttpStatusCode.BadRequest || res.StatusCode == HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetProof_AuthorizedAdminWithPhysicalFile_Returns200FileStream()
+    {
+        var proofsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "proofs");
+        Directory.CreateDirectory(proofsDir);
+
+        var testFileName = $"test_proof_{Guid.NewGuid():N}.png";
+        var testFilePath = Path.Combine(proofsDir, testFileName);
+        await System.IO.File.WriteAllBytesAsync(testFilePath, new byte[] { 0x89, 0x50, 0x4E, 0x47 });
+
+        try
+        {
+            using var scope = _factory.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+
+            var entity = new PaymentSubmissionEntity
+            {
+                ClientName = "Valid Proof Client",
+                ProofPath = $"proofs/{testFileName}",
+                StatusState = "pending_review"
+            };
+            db.PaymentSubmissions.Add(entity);
+            await db.SaveChangesAsync();
+
+            var client = _factory.CreateClient();
+            var token = GenerateJwtToken("admin-123", "Administrator");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var res = await client.GetAsync($"/api/v1/admin/payments/{entity.Id}/proof");
+            Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("image/png", res.Content.Headers.ContentType?.MediaType);
+            var contentBytes = await res.Content.ReadAsByteArrayAsync();
+            Assert.Equal(4, contentBytes.Length);
+        }
+        finally
+        {
+            if (System.IO.File.Exists(testFilePath))
+            {
+                System.IO.File.Delete(testFilePath);
+            }
+        }
+    }
 }

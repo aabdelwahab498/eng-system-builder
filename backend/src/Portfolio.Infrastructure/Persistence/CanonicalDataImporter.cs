@@ -30,12 +30,14 @@ public static class CanonicalDataImporter
 
     private static async Task SeedDefaultAdminUserAsync(PortfolioDbContext db)
     {
-        if (!await db.Users.AnyAsync(u => u.Email == "admin@nextnext-gen.com"))
+        var adminEmail = Environment.GetEnvironmentVariable("PORTFOLIO_ADMIN_EMAIL") ?? "admin@nextnext-gen.com";
+        if (!await db.Users.AnyAsync(u => u.Email == adminEmail))
         {
+            var adminPassword = Environment.GetEnvironmentVariable("PORTFOLIO_ADMIN_PASSWORD") ?? "AdminPassword123!";
             db.Users.Add(new UserEntity
             {
-                Email = "admin@nextnext-gen.com",
-                PasswordHash = Portfolio.Application.Security.PasswordHasher.HashPassword("AdminPassword123!"),
+                Email = adminEmail,
+                PasswordHash = Portfolio.Application.Security.PasswordHasher.HashPassword(adminPassword),
                 Role = "admin",
                 IsActive = true
             });
