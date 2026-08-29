@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  portfolio-api:
+    image: portfolio-api:v1
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    env_file:
+      - ../.env.production
+    volumes:
+      - portfolio_uploads:/app/wwwroot/uploads
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - backend_net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres
+    environment:
+      - POSTGRES_DB=portfoliodb
+      - POSTGRES_USER=portfolio_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-portfolio_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - backend_net
+
+volumes:
+  postgres_data:
+  portfolio_uploads:
+
+networks:
+  backend_net:
+    driver: bridge

@@ -4,3 +4,8 @@ obj/
 *.userosscache
 *.sln.docstates
 .vs/
+.env
+.env.production
+.env.local
+!.env.production.example
+
