@@ -10,4 +10,7 @@
     <Project Path="tests/Portfolio.IntegrationTests/Portfolio.IntegrationTests.csproj" />
     <Project Path="tests/Portfolio.UnitTests/Portfolio.UnitTests.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Portfolio.MigrationTool/Portfolio.MigrationTool.csproj" />
+  </Folder>
 </Solution>
