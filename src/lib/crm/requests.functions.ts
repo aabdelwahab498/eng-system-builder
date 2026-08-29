@@ -114,7 +114,36 @@ export type SubmitRequestInput = {
 export const submitServiceRequest = createServerFn({ method: "POST" })
   .inputValidator((input: SubmitRequestInput) => input)
   .handler(async ({ data }) => {
-    const payload = {
+    const contactPayload = {
+      name: text(data.clientName, 120) || "Website visitor",
+      email: text(data.email, 255) || "visitor@nextnext-gen.com",
+      subject: text(data.serviceTitle, 160) || text(data.projectName, 160) || "Service Inquiry",
+      message: text(data.description, 4000) || "Inquiry from website",
+      whatsapp: text(data.whatsapp, 40) || undefined,
+      serviceId: text(data.serviceId, 80) || undefined,
+      serviceTitle: text(data.serviceTitle, 160) || undefined,
+      projectName: text(data.projectName, 160) || undefined,
+      scope: text(data.scope, 80) || undefined,
+      budget: text(data.budget, 80) || undefined,
+      timeline: text(data.timeline, 80) || undefined,
+      preferredChannel: text(data.preferredChannel, 40) || undefined,
+      platform: text(data.platform, 80) || undefined,
+      attachmentUrl: text(data.attachmentUrl, 500) || undefined,
+      locale: text(data.locale, 5) || "en",
+      source: text(data.source, 60) || "services_page",
+    };
+
+    const apiBaseUrl = getBackendUrl();
+    if (apiBaseUrl) {
+      const res = await fetch(`${apiBaseUrl}/api/v1/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(contactPayload),
+      });
+      if (res.ok) return { ok: true };
+    }
+
+    const legacyPayload = {
       client_name: text(data.clientName, 120) || "Website visitor",
       email: text(data.email, 255) || null,
       whatsapp: text(data.whatsapp, 40) || null,
@@ -131,7 +160,7 @@ export const submitServiceRequest = createServerFn({ method: "POST" })
       locale: text(data.locale, 5) || "en",
       source: text(data.source, 60) || "services_page",
     };
-    const { error } = await publicClient().from("service_requests").insert(payload);
+    const { error } = await publicClient().from("service_requests").insert(legacyPayload);
     if (error) throw new Error("Could not send the request");
     return { ok: true };
   });

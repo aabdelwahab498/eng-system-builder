@@ -303,15 +303,20 @@ export const adminDeletePaymentSubmission = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** Admin: short-lived signed URL so a proof image can be viewed from the private bucket. */
 export const adminGetPaymentProofUrl = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { path: string }) => input)
+  .inputValidator((input: { path: string; paymentId?: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
     await assertAdmin(ctx);
     const path = text(data.path, 500);
     if (!path || path.includes("..")) throw new Error("Invalid path");
+
+    const apiBaseUrl = getBackendUrl();
+    if (apiBaseUrl && data.paymentId) {
+      return { url: `${apiBaseUrl}/api/v1/admin/payments/${data.paymentId}/proof` };
+    }
+
     const { data: signed, error } = await ctx.supabase.storage
       .from("payment-proofs")
       .createSignedUrl(path, 300);
