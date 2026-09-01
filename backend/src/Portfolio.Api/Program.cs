@@ -148,12 +148,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Seed dev database
+// Initialize and seed database
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
     if (db.Database.IsInMemory() || db.Database.CanConnect())
     {
+        if (db.Database.IsRelational())
+        {
+            await db.Database.MigrateAsync();
+        }
         await DataSeeder.SeedAsync(db);
     }
 }
