@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Portfolio.Infrastructure.Persistence;
@@ -12,9 +13,11 @@ using Portfolio.Infrastructure.Persistence;
 namespace Portfolio.Infrastructure.Migrations
 {
     [DbContext(typeof(PortfolioDbContext))]
-    partial class PortfolioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260901190916_Phase9_CmsAndAuthEntities")]
+    partial class Phase9_CmsAndAuthEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -519,12 +522,6 @@ namespace Portfolio.Infrastructure.Migrations
                     b.Property<string>("AdminNote")
                         .HasColumnType("text");
 
-                    b.Property<string>("AttachmentUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Budget")
-                        .HasColumnType("text");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -541,9 +538,6 @@ namespace Portfolio.Infrastructure.Migrations
                     b.Property<bool>("LinkedinVisible")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Locale")
-                        .HasColumnType("text");
-
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("text");
@@ -552,29 +546,11 @@ namespace Portfolio.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Platform")
-                        .HasColumnType("text");
-
                     b.Property<bool>("PortfolioVisible")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PreferredChannel")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProjectName")
-                        .HasColumnType("text");
-
                     b.Property<bool>("PublicVisible")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Scope")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ServiceId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ServiceTitle")
-                        .HasColumnType("text");
 
                     b.Property<string>("Source")
                         .HasColumnType("text");
@@ -593,17 +569,11 @@ namespace Portfolio.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Timeline")
-                        .HasColumnType("text");
-
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset?>("VerifiedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Whatsapp")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
