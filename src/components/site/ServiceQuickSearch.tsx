@@ -28,6 +28,11 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
   const navigate = useNavigate();
   const offerings = useMemo(() => getServiceOfferings(), []);
   const courseList = useMemo(() => getCourses(), []);
+  const listByKind = useServerFn(listPublicByKind);
+  const { data: cmsItems } = useQuery({
+    queryKey: ["public", "courses"],
+    queryFn: () => listByKind({ data: { kind: "course" } }),
+  });
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
