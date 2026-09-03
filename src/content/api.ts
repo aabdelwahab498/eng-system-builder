@@ -22,11 +22,19 @@ import type {
 } from "@/types/content";
 import { getContent } from "./index";
 
+import { getProjectsApiLegacy } from "./projects-api-adapter";
+
 export const getDictionary = (locale: Locale): Dictionary => getContent(locale);
 
 export const getProfile = (locale: Locale): Profile => getContent(locale).profile;
 
-export const getProjects = (locale: Locale): Project[] => getContent(locale).projects;
+export const getProjects = (locale: Locale): Project[] => {
+  const apiData = getProjectsApiLegacy(locale);
+  if (apiData && apiData.length > 0) {
+    return apiData;
+  }
+  return getContent(locale).projects;
+};
 
 export const getProject = (locale: Locale, slug: string): Project | undefined =>
   getProjects(locale).find((p) => p.slug === slug);
@@ -171,3 +179,9 @@ export const getPaymentMethods = (currency?: PaymentMethod["currency"]): Payment
 export const getPaymentSteps = () => commercePaymentSteps;
 
 export const getContactNumbers = () => CONTACT_NUMBERS;
+
+/* -------------------------------------------------------- Projects API exports */
+export {
+  fetchCanonicalProjectsApi,
+  isProjectsApiEnabled,
+} from "./projects-api-adapter";
