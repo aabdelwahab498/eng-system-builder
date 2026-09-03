@@ -314,7 +314,7 @@ function ProjectTextPage({
             href={item.liveUrl}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline sm:min-h-0"
           >
             {locale === "ar" ? "معاينة مباشرة" : "Live preview"}
             <ExternalLink className="size-3" />
@@ -324,7 +324,7 @@ function ProjectTextPage({
           <Link
             to="/$locale/projects/$slug"
             params={{ locale, slug: item.slug }}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-primary"
+            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-primary sm:min-h-0"
           >
             {labels.viewProject}
             <ArrowUpRight className="size-4" />
