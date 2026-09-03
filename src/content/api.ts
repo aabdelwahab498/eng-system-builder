@@ -23,10 +23,18 @@ import type {
 import { getContent } from "./index";
 
 import { getProjectsApiLegacy } from "./projects-api-adapter";
+import { getServicesApiLegacy, fetchCanonicalServicesApi } from "./services-api-adapter";
+import { getProductsApiLegacy, fetchCanonicalProductsApi } from "./products-api-adapter";
+import { getCoursesApiCached, fetchCoursesApi } from "./courses-api-adapter";
+import { getProfileApiCached, fetchProfileApi } from "./profile-api-adapter";
 
 export const getDictionary = (locale: Locale): Dictionary => getContent(locale);
 
-export const getProfile = (locale: Locale): Profile => getContent(locale).profile;
+export const getProfile = (locale: Locale): Profile => {
+  const apiData = getProfileApiCached(locale);
+  if (apiData) return apiData;
+  return getContent(locale).profile;
+};
 
 export const getProjects = (locale: Locale): Project[] => {
   const apiData = getProjectsApiLegacy(locale);
@@ -42,7 +50,13 @@ export const getProject = (locale: Locale, slug: string): Project | undefined =>
 export const getFeaturedProjects = (locale: Locale): Project[] =>
   getProjects(locale).filter((p) => p.featured);
 
-export const getProducts = (locale: Locale): Product[] => getContent(locale).products;
+export const getProducts = (locale: Locale): Product[] => {
+  const apiData = getProductsApiLegacy(locale);
+  if (apiData && apiData.length > 0) {
+    return apiData;
+  }
+  return getContent(locale).products;
+};
 
 export const getProduct = (locale: Locale, slug: string): Product | undefined =>
   getProducts(locale).find((p) => p.slug === slug);
@@ -56,7 +70,13 @@ export const getExperience = (locale: Locale, category?: "engineering" | "earlie
 
 export const getEducation = (locale: Locale) => getContent(locale).profile.education ?? [];
 
-export const getServices = (locale: Locale): Service[] => getContent(locale).services;
+export const getServices = (locale: Locale): Service[] => {
+  const apiData = getServicesApiLegacy(locale);
+  if (apiData && apiData.length > 0) {
+    return apiData;
+  }
+  return getContent(locale).services;
+};
 
 export const getFactory = (locale: Locale) => getContent(locale).factory;
 
@@ -139,8 +159,13 @@ export const getCanonicalProduct = (slug: string) =>
 export const getCanonicalServices = (): CanonicalService[] =>
   canonicalServices.filter(isPublishable);
 
-export const getCourses = (): Course[] =>
-  [...canonicalCourses].sort((a, b) => a.order - b.order);
+export const getCourses = (): Course[] => {
+  const apiData = getCoursesApiCached();
+  if (apiData && apiData.length > 0) {
+    return apiData;
+  }
+  return [...canonicalCourses].sort((a, b) => a.order - b.order);
+};
 
 export const getCourse = (slug: string) => getCourses().find((c) => c.slug === slug);
 
@@ -180,8 +205,12 @@ export const getPaymentSteps = () => commercePaymentSteps;
 
 export const getContactNumbers = () => CONTACT_NUMBERS;
 
-/* -------------------------------------------------------- Projects API exports */
+/* -------------------------------------------------------- Module API exports */
 export {
   fetchCanonicalProjectsApi,
   isProjectsApiEnabled,
 } from "./projects-api-adapter";
+export { fetchCanonicalServicesApi } from "./services-api-adapter";
+export { fetchCanonicalProductsApi } from "./products-api-adapter";
+export { fetchCoursesApi } from "./courses-api-adapter";
+export { fetchProfileApi } from "./profile-api-adapter";
