@@ -112,9 +112,11 @@ export function PowerShellPrompt({
       </span>
       <div className="flex min-w-0 items-start gap-2 sm:absolute sm:inset-0 sm:px-3 sm:py-2">
         <span className="ps-prompt shrink-0 select-none font-semibold text-emerald-400">
-          {prompt}
+          <span className="sm:hidden">PS&gt;</span>
+          <span className="hidden sm:inline">{prompt}</span>
         </span>
         <span className="ps-text min-w-0 break-words font-semibold text-emerald-400">
+
 
           {visibleText}
           <span aria-hidden className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")} />
