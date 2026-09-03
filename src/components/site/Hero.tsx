@@ -45,10 +45,11 @@ export function Hero() {
       <div aria-hidden className="grid-backdrop pointer-events-none absolute inset-0" />
       <Container className="relative">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
-          <Reveal>
-            <div className="flex items-center gap-4">
+          <Reveal className="min-w-0">
+            <div className="flex min-w-0 items-center gap-4">
               <ProfileAvatar />
-              <div>
+              <div className="min-w-0">
+
                 <PowerShellPrompt
                   text={t.profile.positioning}
                   speed={260}
@@ -139,7 +140,7 @@ export function Hero() {
             </ul>
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal delay={120} className="min-w-0">
             <SystemFlow />
           </Reveal>
         </div>
