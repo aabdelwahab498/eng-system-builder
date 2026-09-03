@@ -28,8 +28,14 @@ function publicClient() {
   });
 }
 
+import { fetchPublicArticlesApi, fetchPublicArticleBySlugApi } from "@/content/articles-api-adapter";
+
 export const listPublicArticles = createServerFn({ method: "GET" }).handler(
   async (): Promise<ContentItem[]> => {
+    const apiArticles = await fetchPublicArticlesApi();
+    if (apiArticles && apiArticles.length > 0) {
+      return apiArticles;
+    }
     const { data, error } = await publicClient()
       .from("content_items")
       .select(CONTENT_COLUMNS)
@@ -43,6 +49,10 @@ export const listPublicArticles = createServerFn({ method: "GET" }).handler(
 export const getPublicArticle = createServerFn({ method: "GET" })
   .inputValidator((input: { slug: string }) => ({ slug: String(input.slug) }))
   .handler(async ({ data: input }): Promise<ContentItem | null> => {
+    const apiArticle = await fetchPublicArticleBySlugApi(input.slug);
+    if (apiArticle) {
+      return apiArticle;
+    }
     const client = publicClient();
     const { data } = await client
       .from("content_items")

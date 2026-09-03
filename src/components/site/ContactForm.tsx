@@ -4,6 +4,7 @@ import { Send } from "lucide-react";
 import { ContactChannelPicker } from "@/components/commerce/ContactChannelPicker";
 import { getCanonicalServices } from "@/content/api";
 import { pickOrEn } from "@/content/schema";
+import { submitContactMessageApi } from "@/content/contact-api-client";
 import type { Locale } from "@/types/content";
 
 const copy = {
@@ -78,9 +79,23 @@ export function ContactForm({ locale }: { locale: Locale }) {
     return lines.join("\n");
   }, [form, locale, t]);
 
+  const handleSend = (channel?: string) => {
+    if (form.name && form.email && form.message) {
+      submitContactMessageApi({
+        name: form.name,
+        email: form.email,
+        whatsapp: form.phone,
+        service: form.service,
+        message: form.message,
+        locale,
+        source: channel ? `contact_${channel}` : "contact_form",
+      });
+    }
+  };
+
   return (
     <div className="rounded-lg border border-border bg-surface/60 p-6 sm:p-8">
-      <form className="grid gap-5 sm:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
+      <form className="grid gap-5 sm:grid-cols-2" onSubmit={(e) => { e.preventDefault(); handleSend("direct"); }}>
         <div>
           <label className={label} htmlFor="cf-name">
             {t.name} <span className="text-primary">{t.required}</span>
@@ -176,7 +191,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         <span>{t.submit}</span>
       </div>
 
-      <ContactChannelPicker className="mt-3" locale={locale} message={composed} />
+      <ContactChannelPicker className="mt-3" locale={locale} message={composed} onSend={handleSend} />
     </div>
   );
 }
