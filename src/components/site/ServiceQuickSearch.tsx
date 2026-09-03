@@ -78,8 +78,30 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
         ].join(" "),
       }));
 
-    return [...fromServices, ...fromCourses].slice(0, 6);
-  }, [q, offerings, courseList, locale]);
+    // Admin-managed (CMS) courses use ids "cms:<slug>" — matching the ids the
+    // courses page renders, so the dialog deep link resolves there too.
+    const loc = (v: unknown): string => {
+      const o = (v && typeof v === "object" ? v : {}) as { en?: unknown; ar?: unknown };
+      const en = typeof o.en === "string" ? o.en : "";
+      const ar = typeof o.ar === "string" ? o.ar : "";
+      return (locale === "ar" && ar ? ar : en) || ar;
+    };
+    const fromCmsCourses: SearchResult[] = ((cmsItems ?? []) as { slug: string; data: Record<string, unknown> }[])
+      .map((item) => {
+        const title = loc(item.data["title"]);
+        const summary = loc(item.data["summary"]);
+        const description = loc(item.data["description"]);
+        return {
+          id: `cms:${item.slug}`,
+          kind: "course" as const,
+          title,
+          matchText: [title, summary, description].join(" "),
+        };
+      })
+      .filter((r) => r.title && r.matchText.toLowerCase().includes(q));
+
+    return [...fromServices, ...fromCourses, ...fromCmsCourses].slice(0, 6);
+  }, [q, offerings, courseList, cmsItems, locale]);
 
   const copy =
     locale === "ar"
