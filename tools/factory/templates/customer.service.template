@@ -1,0 +1,18 @@
+[Unit]
+Description=Customer Service: {{PROJECT_NAME}} ({{TENANT}})
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/customers/{{TENANT}}/current
+ExecStart=/usr/bin/node /var/www/customers/{{TENANT}}/current/.output/server/index.mjs
+Restart=always
+RestartSec=5
+EnvironmentFile=/var/www/customers/{{TENANT}}/shared/.env
+StandardOutput=append:/var/www/customers/{{TENANT}}/shared/logs/app.log
+StandardError=append:/var/www/customers/{{TENANT}}/shared/logs/error.log
+
+[Install]
+WantedBy=multi-user.target

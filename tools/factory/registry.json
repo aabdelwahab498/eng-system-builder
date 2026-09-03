@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "baseDirectory": "/var/www/customers",
+  "registryPath": "/opt/nextnext-gen/customers/registry.json",
+  "portRange": "3101-3999",
+  "customers": {}
+}
