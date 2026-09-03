@@ -1,7 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
 import { getCourses, getServiceOfferings } from "@/content/api";
+import { listPublicByKind } from "@/lib/cms/public.functions";
 import { pickOrEn } from "@/content/schema";
 import { useLocale } from "@/hooks/useLocale";
 import { cn } from "@/lib/utils";
