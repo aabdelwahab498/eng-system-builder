@@ -37,7 +37,7 @@ export function CopyField({ label, value, copyLabel, copiedLabel, className }: P
       <button
         type="button"
         onClick={copy}
-        className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+        className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-sm border border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:min-h-9"
       >
         {copied ? <Check className="size-3.5 text-primary" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
         {copied ? copiedLabel : copyLabel}
