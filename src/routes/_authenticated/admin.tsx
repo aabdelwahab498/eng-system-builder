@@ -12,6 +12,7 @@ import { AdminTabs } from "@/components/admin/AdminTabs";
 import { clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { cn } from "@/lib/utils";
+import { getStoredAdminToken, clearStoredAdminToken } from "@/content/admin-auth-api";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -92,6 +93,7 @@ function NavList({
   );
 }
 
+
 function AdminLayout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -101,10 +103,16 @@ function AdminLayout() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "is-admin"],
-    queryFn: () => checkAdmin(),
+    queryFn: async () => {
+      if (getStoredAdminToken()) {
+        return { isAdmin: true };
+      }
+      return checkAdmin();
+    },
   });
 
   async function signOut() {
+    clearStoredAdminToken();
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
