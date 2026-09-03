@@ -129,7 +129,7 @@ export function ImageCatalog({
               type="button"
               onClick={() => setLightbox(true)}
               aria-label={labels.expand}
-              className="absolute right-4 top-4 z-50 rounded-full border border-border bg-background/80 p-2 text-muted-foreground backdrop-blur transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="absolute right-4 top-4 z-50 grid size-11 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur sm:size-9 transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
               <Expand className="size-4" aria-hidden />
             </button>
@@ -184,7 +184,7 @@ export function ImageCatalog({
             type="button"
             onClick={() => setLightbox(false)}
             aria-label={labels.close}
-            className="absolute right-5 top-5 rounded-full border border-border bg-surface/80 p-2 text-muted-foreground hover:text-foreground"
+            className="absolute right-5 top-5 grid size-11 place-items-center rounded-full border border-border bg-surface/80 text-muted-foreground hover:text-foreground"
           >
             <X className="size-5" aria-hidden />
           </button>
@@ -193,7 +193,7 @@ export function ImageCatalog({
               type="button"
               onClick={prev}
               aria-label={labels.previous}
-              className="rounded-full border border-border bg-surface/80 p-2 text-muted-foreground hover:text-foreground"
+              className="grid size-11 place-items-center rounded-full border border-border bg-surface/80 text-muted-foreground hover:text-foreground"
             >
               <ChevronLeft className="size-5" aria-hidden />
             </button>
@@ -204,7 +204,7 @@ export function ImageCatalog({
               type="button"
               onClick={next}
               aria-label={labels.next}
-              className="rounded-full border border-border bg-surface/80 p-2 text-muted-foreground hover:text-foreground"
+              className="grid size-11 place-items-center rounded-full border border-border bg-surface/80 text-muted-foreground hover:text-foreground"
             >
               <ChevronRight className="size-5" aria-hidden />
             </button>
@@ -294,7 +294,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "absolute top-1/2 z-50 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        "absolute top-1/2 z-50 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
         onLeft ? "left-3" : "right-3",
       )}
     >

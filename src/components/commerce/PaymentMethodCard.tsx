@@ -74,7 +74,7 @@ export function PaymentMethodCard({
           type="button"
           onClick={onSelect}
           className={cn(
-            "shrink-0 rounded-sm border px-3 py-1.5 text-xs transition-colors",
+            "inline-flex min-h-11 shrink-0 items-center rounded-sm border px-4 py-1.5 text-xs transition-colors sm:min-h-9",
             selected
               ? "border-primary/60 bg-primary/15 text-primary"
               : "border-border text-muted-foreground hover:bg-secondary hover:text-foreground",
