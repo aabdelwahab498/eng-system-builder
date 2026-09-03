@@ -120,7 +120,10 @@ function CoursesIndex() {
     queryFn: () => listByKind({ data: { kind: "course" } }),
   });
   const cms = cmsItems && cmsItems.length > 0 ? fromCms(cmsItems as never) : [];
-  const courses: UiCourse[] = cms.length > 0 ? cms : staticCourses();
+  // Merge, never replace: static courses keep their canonical ids so quick-search
+  // deep links (?course=<static-id>) still resolve, and admin-managed courses
+  // (ids "cms:<slug>") are shown alongside them.
+  const courses: UiCourse[] = [...staticCourses(), ...cms];
   const search = Route.useSearch() as CoursesSearch;
   const [selectedId, setSelectedId] = useState<string | null>(search.course ?? null);
   const [open, setOpen] = useState<boolean>(Boolean(search.course));
