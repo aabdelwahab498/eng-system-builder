@@ -25,12 +25,17 @@ export interface ApiClientResult<T> {
 
 const DEFAULT_TIMEOUT_MS = 3000;
 
+export const DEFAULT_PRODUCTION_API_URL = "https://api.nextnext-gen.com/api/v1";
+
 export const getApiBaseUrl = (): string | null => {
   const url = import.meta.env["VITE_PORTFOLIO_API_URL"];
-  if (!url || typeof url !== "string" || url.trim() === "") {
-    return null;
+  if (url && typeof url === "string" && url.trim() !== "") {
+    return url.trim().replace(/\/+$/, "");
   }
-  return url.trim().replace(/\/+$/, "");
+  if (import.meta.env.PROD) {
+    return DEFAULT_PRODUCTION_API_URL;
+  }
+  return null;
 };
 
 export async function fetchProjectsFromApi<T>(
