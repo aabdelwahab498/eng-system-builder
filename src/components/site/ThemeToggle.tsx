@@ -4,28 +4,15 @@ import { Moon, Sun } from "lucide-react";
 const STORAGE_KEY = "nng-theme";
 
 /**
- * Runs before hydration: stored preference wins, otherwise the OS preference,
- * otherwise dark (the primary visual experience).
+ * Runs before hydration: stored preference wins, otherwise dark (the primary visual experience).
  */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');var d=t?t==='dark':!window.matchMedia('(prefers-color-scheme: light)').matches;document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');var d=t?t==='dark':true;document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
 
 export function ThemeToggle({ label }: { label: string }) {
   const [dark, setDark] = useState(true);
 
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
-
-    const media = window.matchMedia("(prefers-color-scheme: light)");
-    const onChange = (e: MediaQueryListEvent) => {
-      // Only follow the system while the visitor has not chosen explicitly.
-      if (localStorage.getItem(STORAGE_KEY)) return;
-      const next = !e.matches;
-      setDark(next);
-      document.documentElement.classList.toggle("dark", next);
-      document.documentElement.style.colorScheme = next ? "dark" : "light";
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
   }, []);
 
   const toggle = () => {
