@@ -104,16 +104,20 @@ export function PowerShellPrompt({
       )}
     >
       {/* Invisible full-text layer reserves a stable width so the
-          background never resizes while the typed text grows/shrinks. */}
-      <span aria-hidden className="invisible whitespace-nowrap">
+          background never resizes while the typed text grows/shrinks.
+          On small screens the box flows and wraps instead, so nothing clips. */}
+      <span aria-hidden className="invisible hidden whitespace-nowrap lg:inline">
         {prompt} {text}
         <span className="inline-block w-[0.5em]" />
       </span>
-      <div className="absolute inset-0 flex items-start gap-2 px-3 py-2">
+      <div className="flex min-w-0 items-start gap-2 lg:absolute lg:inset-0 lg:px-3 lg:py-2">
         <span className="ps-prompt shrink-0 select-none font-semibold text-emerald-400">
-          {prompt}
+          <span className="lg:hidden">PS&gt;</span>
+          <span className="hidden lg:inline">{prompt}</span>
         </span>
-        <span className="ps-text font-semibold text-emerald-400">
+        <span className="ps-text min-w-0 break-words font-semibold text-emerald-400">
+
+
           {visibleText}
           <span aria-hidden className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")} />
         </span>
