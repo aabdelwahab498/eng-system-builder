@@ -545,3 +545,30 @@
 @media (prefers-reduced-motion: reduce) {
   .flip-page-next, .flip-page-prev { animation-duration: 1ms; }
 }
+
+/* ---------- Mobile / touch interaction (Phase F1) ----------
+   Visual identity untouched: only interaction ergonomics. */
+
+/* Prevent iOS auto-zoom on focus: form controls need >=16px on touch devices. */
+@media (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Remove the 300ms tap delay / double-tap zoom on interactive controls. */
+button,
+a,
+[role="button"],
+label,
+summary {
+  touch-action: manipulation;
+}
+
+/* Never allow a stray wide child to scroll the whole page sideways. */
+html,
+body {
+  overflow-x: hidden;
+}

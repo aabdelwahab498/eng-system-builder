@@ -145,7 +145,7 @@ function ContactPage() {
                         href={l.url}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
+                        className="inline-flex min-h-11 items-center gap-2 py-1 text-sm transition-colors hover:text-primary"
                       >
                         <SocialIcon platform={l.platform} className="size-4 text-primary" />
                         {l.label}

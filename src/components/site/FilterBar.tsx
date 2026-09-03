@@ -28,7 +28,7 @@ export function FilterBar({
           onClick={() => onChange(option.id)}
           aria-pressed={active === option.id}
           className={cn(
-            "rounded-sm border px-3 py-2 font-mono text-xs transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+            "inline-flex min-h-11 items-center rounded-sm border px-3 py-2 font-mono text-xs transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:min-h-9",
             active === option.id
               ? "border-primary/50 bg-primary/10 text-primary"
               : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground",

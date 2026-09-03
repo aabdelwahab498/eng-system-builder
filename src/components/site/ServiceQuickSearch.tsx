@@ -1,7 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
 import { getCourses, getServiceOfferings } from "@/content/api";
+import { listPublicByKind } from "@/lib/cms/public.functions";
 import { pickOrEn } from "@/content/schema";
 import { useLocale } from "@/hooks/useLocale";
 import { cn } from "@/lib/utils";
@@ -25,6 +28,11 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
   const navigate = useNavigate();
   const offerings = useMemo(() => getServiceOfferings(), []);
   const courseList = useMemo(() => getCourses(), []);
+  const listByKind = useServerFn(listPublicByKind);
+  const { data: cmsItems } = useQuery({
+    queryKey: ["public", "courses"],
+    queryFn: () => listByKind({ data: { kind: "course" } }),
+  });
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,8 +78,30 @@ export function ServiceQuickSearch({ className }: { className?: string }) {
         ].join(" "),
       }));
 
-    return [...fromServices, ...fromCourses].slice(0, 6);
-  }, [q, offerings, courseList, locale]);
+    // Admin-managed (CMS) courses use ids "cms:<slug>" — matching the ids the
+    // courses page renders, so the dialog deep link resolves there too.
+    const loc = (v: unknown): string => {
+      const o = (v && typeof v === "object" ? v : {}) as { en?: unknown; ar?: unknown };
+      const en = typeof o.en === "string" ? o.en : "";
+      const ar = typeof o.ar === "string" ? o.ar : "";
+      return (locale === "ar" && ar ? ar : en) || ar;
+    };
+    const fromCmsCourses: SearchResult[] = ((cmsItems ?? []) as { slug: string; data: Record<string, unknown> }[])
+      .map((item) => {
+        const title = loc(item.data["title"]);
+        const summary = loc(item.data["summary"]);
+        const description = loc(item.data["description"]);
+        return {
+          id: `cms:${item.slug}`,
+          kind: "course" as const,
+          title,
+          matchText: [title, summary, description].join(" "),
+        };
+      })
+      .filter((r) => r.title && r.matchText.toLowerCase().includes(q));
+
+    return [...fromServices, ...fromCourses, ...fromCmsCourses].slice(0, 6);
+  }, [q, offerings, courseList, cmsItems, locale]);
 
   const copy =
     locale === "ar"

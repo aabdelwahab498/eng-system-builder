@@ -63,7 +63,7 @@ export function ProjectCard({ project }: { project: Project }) {
             href={liveUrl}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline sm:min-h-0"
           >
             {project.status}
             <ExternalLink className="size-3" />

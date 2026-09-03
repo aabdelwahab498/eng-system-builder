@@ -22,6 +22,16 @@ export function SiteHeader() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  // Touch/keyboard: Escape closes the mobile menu.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
@@ -135,7 +145,7 @@ export function SiteHeader() {
       </Container>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-border bg-background/95 backdrop-blur-xl xl:hidden">
+        <div id="mobile-menu" className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-border bg-background/95 backdrop-blur-xl xl:hidden">
           <Container className="flex flex-col py-4">
             {t.nav.map((item) => (
               <div key={item.path} className="border-b border-border/60 last:border-0">
@@ -156,7 +166,7 @@ export function SiteHeader() {
                       <a
                         key={s.id}
                         href={`/${locale}/gallery#${s.id}`}
-                        className="mt-2 block text-sm text-muted-foreground hover:text-foreground"
+                        className="mt-1 flex min-h-11 items-center text-sm text-muted-foreground hover:text-foreground"
                       >
                         {s.label[locale]}
                       </a>

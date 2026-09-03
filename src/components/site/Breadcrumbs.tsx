@@ -26,7 +26,7 @@ export function Breadcrumbs({ trail }: { trail: Crumb[] }) {
                   <Link
                     to={`/$locale${crumb.path}` as "/$locale/projects"}
                     params={{ locale }}
-                    className="transition-colors hover:text-foreground"
+                    className="inline-flex min-h-11 items-center transition-colors hover:text-foreground sm:min-h-0"
                   >
                     {crumb.name}
                   </Link>
