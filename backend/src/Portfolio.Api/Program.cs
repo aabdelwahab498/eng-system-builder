@@ -117,7 +117,7 @@ builder.Services.AddAuthorization(options =>
 // CORS
 var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"]?
     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-    ?? new[] { "http://localhost:3000", "http://localhost:5173", "http://localhost:8080", "https://nextnext-gen.com" };
+    ?? new[] { "http://localhost:3000", "http://localhost:5173", "http://localhost:8080", "https://nextnext-gen.com", "https://www.nextnext-gen.com", "https://eng-system-builder.lovable.app" };
 
 builder.Services.AddCors(options =>
 {
