@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
-import { isLocale } from "@/types/content";
+import { isLocale, type Locale } from "@/types/content";
+import { useApiContentBootstrap } from "@/content/api-bootstrap";
 
 export const Route = createFileRoute("/$locale")({
   beforeLoad: ({ params }) => {
@@ -10,8 +11,10 @@ export const Route = createFileRoute("/$locale")({
 
 function LocaleLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { locale } = Route.useParams();
+  const apiVersion = useApiContentBootstrap(locale as Locale);
   return (
-    <div key={pathname} className="page-enter">
+    <div key={`${pathname}:${apiVersion}`} className="page-enter">
       <Outlet />
     </div>
   );
