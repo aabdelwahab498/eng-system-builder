@@ -2,7 +2,8 @@
  * Domain & DTO Mappers for Portfolio Backend Integration
  */
 
-import type { Project } from "@/types/content";
+import type { ExternalLink, Project } from "@/types/content";
+import type { Course } from "./canonical";
 import type {
   CanonicalProject,
   CanonicalProduct,
@@ -11,16 +12,15 @@ import type {
   Education,
   Certification,
   SkillGroup,
-  Course,
+  Skill,
   ProjectCategory,
-  ProjectLifecycle,
+  ProjectStatus,
   OrganizationType,
   ExperienceCategory,
   SkillCategoryId,
   ProficiencyLabel,
-  ProficiencyEmphasis,
   ProductCategory,
-  ProductLifecycle,
+  ProductStatus,
 } from "./schema";
 
 export interface BackendProjectDto {
@@ -86,7 +86,6 @@ export interface BackendSkillDto {
   category: string;
   context: string;
   proficiencyLabel?: string;
-  emphasis?: string;
   featured: boolean;
   portfolioVisible: boolean;
 }
@@ -133,16 +132,19 @@ export interface BackendCourseDto {
 }
 
 export function mapProjectDtoToCanonical(dto: BackendProjectDto): CanonicalProject {
-  return {
+  const links: { repo?: string; live?: string } = {};
+  if (dto.repoUrl) links.repo = dto.repoUrl;
+  if (dto.liveUrl) links.live = dto.liveUrl;
+
+  const project: CanonicalProject = {
     id: dto.id,
     slug: dto.slug,
     title: { en: dto.title, ar: null },
     tagline: { en: dto.tagline, ar: null },
     category: (dto.category as unknown as ProjectCategory) ?? "web",
     platform: dto.platform ?? [],
-    lifecycle: (dto.lifecycle as unknown as ProjectLifecycle) ?? "live",
+    lifecycle: (dto.lifecycle as unknown as ProjectStatus) ?? "live",
     role: { en: dto.role, ar: null },
-    timeframe: dto.timeframe,
     summary: { en: dto.summary, ar: null },
     problem: { en: dto.problem, ar: null },
     approach: { en: dto.approach, ar: null },
@@ -151,46 +153,70 @@ export function mapProjectDtoToCanonical(dto: BackendProjectDto): CanonicalProje
     technologies: dto.technologies ?? [],
     outcomes: { en: dto.outcomes ?? [], ar: null },
     screenshots: [],
-    links: { repo: dto.repoUrl, live: dto.liveUrl },
+    links,
     featured: dto.featured,
     verified: true,
     status: "verified",
     provenance: { sourceType: "portfolio" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   };
+
+  if (dto.timeframe) {
+    project.timeframe = dto.timeframe;
+  }
+
+  return project;
 }
 
 export function mapProjectDtoToLegacy(dto: BackendProjectDto): Project {
-  return {
+  const links: ExternalLink[] = [];
+  if (dto.liveUrl) {
+    links.push({ label: "Live", url: dto.liveUrl });
+  }
+  if (dto.repoUrl) {
+    links.push({ label: "GitHub", url: dto.repoUrl });
+  }
+
+  const project: Project = {
     slug: dto.slug,
     name: dto.title,
-    tagline: dto.tagline,
-    description: dto.description ?? dto.summary,
-    summary: dto.summary,
-    problem: dto.problem,
-    solution: dto.approach,
-    architecture: dto.architecture ?? [],
-    features: dto.features ?? [],
-    outcomes: dto.outcomes ?? [],
-    tech: dto.technologies ?? [],
-    role: dto.role,
-    timeframe: dto.timeframe ?? "2026",
     category: dto.category,
+    status: dto.lifecycle ?? "live",
+    role: dto.role,
+    summary: dto.summary,
+    tech: dto.technologies ?? [],
     featured: dto.featured,
-    github: dto.repoUrl,
-    liveUrl: dto.liveUrl,
+    media: [
+      {
+        kind: "placeholder",
+        alt: dto.title,
+        label: dto.category,
+      },
+    ],
+    caseStudy: {
+      overview: dto.summary,
+      problem: dto.problem,
+      approach: dto.approach,
+      architecture: dto.architecture ?? [],
+      implementation: (dto.features ?? []).join("\n\n"),
+      challenges: dto.problem,
+      outcome: (dto.outcomes ?? []).join("\n\n"),
+    },
   };
+
+  if (links.length > 0) {
+    project.links = links;
+  }
+
+  return project;
 }
 
 export function mapExperienceDto(dto: BackendExperienceDto): Experience {
-  return {
+  const exp: Experience = {
     id: dto.id,
     company: dto.company,
     organizationType: (dto.organizationType as unknown as OrganizationType) ?? "company",
     position: { en: dto.position, ar: null },
-    location: dto.location,
-    startDate: dto.startDate,
-    endDate: dto.endDate,
     current: dto.current,
     description: { en: dto.description, ar: null },
     responsibilities: { en: dto.responsibilities ?? [], ar: null },
@@ -202,37 +228,49 @@ export function mapExperienceDto(dto: BackendExperienceDto): Experience {
     provenance: { sourceType: "portfolio" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   };
+
+  if (dto.location) exp.location = dto.location;
+  if (dto.startDate) exp.startDate = dto.startDate;
+  if (dto.endDate) exp.endDate = dto.endDate;
+
+  return exp;
 }
 
 export function mapEducationDto(dto: BackendEducationDto): Education {
-  return {
+  const edu: Education = {
     id: dto.id,
     institution: dto.institution,
     degree: { en: dto.degree, ar: null },
     field: { en: dto.field, ar: null },
-    startDate: dto.startDate,
-    endDate: dto.endDate,
-    graduationDate: dto.graduationDate,
-    description: dto.description ? { en: dto.description, ar: null } : undefined,
     verified: true,
     status: "verified",
     provenance: { sourceType: "portfolio" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   };
+
+  if (dto.startDate) edu.startDate = dto.startDate;
+  if (dto.endDate) edu.endDate = dto.endDate;
+  if (dto.graduationDate) edu.graduationDate = dto.graduationDate;
+  if (dto.description) edu.description = { en: dto.description, ar: null };
+
+  return edu;
 }
 
 export function mapCertificationDto(dto: BackendCertificationDto): Certification {
-  return {
+  const cert: Certification = {
     id: dto.id,
     name: { en: dto.name, ar: null },
     issuer: dto.issuer,
-    issuedAt: dto.issuedAt,
-    credentialUrl: dto.credentialUrl,
     verified: true,
     status: "verified",
     provenance: { sourceType: "portfolio" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   };
+
+  if (dto.issuedAt) cert.issuedAt = dto.issuedAt;
+  if (dto.credentialUrl) cert.credentialUrl = dto.credentialUrl;
+
+  return cert;
 }
 
 export function mapSkillGroupDto(dto: BackendSkillGroupDto): SkillGroup {
@@ -241,17 +279,19 @@ export function mapSkillGroupDto(dto: BackendSkillGroupDto): SkillGroup {
     category: (dto.category as unknown as SkillCategoryId) ?? "backend",
     label: { en: dto.label, ar: null },
     description: { en: dto.description, ar: null },
-    skills: (dto.skills ?? []).map((s) => ({
-      name: s.name,
-      category: (s.category as unknown as SkillCategoryId) ?? "backend",
-      context: { en: s.context, ar: null },
-      proficiencyLabel: (s.proficiencyLabel as unknown as ProficiencyLabel) ?? "primary",
-      emphasis: (s.emphasis as unknown as ProficiencyEmphasis) ?? "primary",
-      featured: s.featured,
-      portfolioVisible: s.portfolioVisible,
-      cvVisible: true,
-      linkedinVisible: true,
-    })),
+    skills: (dto.skills ?? []).map((s) => {
+      const skill: Skill = {
+        name: s.name,
+        category: (s.category as unknown as SkillCategoryId) ?? "backend",
+        context: { en: s.context, ar: null },
+        proficiencyLabel: (s.proficiencyLabel as unknown as ProficiencyLabel) ?? "primary",
+        featured: s.featured,
+        portfolioVisible: s.portfolioVisible,
+        cvVisible: true,
+        linkedinVisible: true,
+      };
+      return skill;
+    }),
   };
 }
 
@@ -272,33 +312,39 @@ export function mapServiceDtoToCanonical(dto: BackendServiceDto): CanonicalServi
 }
 
 export function mapProductDtoToCanonical(dto: BackendProductDto): CanonicalProduct {
-  return {
+  const prod: CanonicalProduct = {
     id: dto.id,
     slug: dto.slug,
     name: { en: dto.name, ar: null },
     category: (dto.category as unknown as ProductCategory) ?? "saas",
-    lifecycle: (dto.lifecycle as unknown as ProductLifecycle) ?? "live",
+    lifecycle: (dto.lifecycle as unknown as ProductStatus) ?? "live",
     tagline: { en: dto.tagline, ar: null },
     summary: { en: dto.summary, ar: null },
     description: { en: dto.description, ar: null },
     features: { en: dto.features ?? [], ar: null },
     technologies: dto.technologies ?? [],
     screenshots: [],
-    externalUrl: dto.externalUrl,
-    demoUrl: dto.demoUrl,
     offers: [],
     status: "verified",
     provenance: { sourceType: "portfolio" },
     visibility: { public: true, portfolio: true, cv: true, linkedin: true },
   };
+
+  if (dto.externalUrl) prod.externalUrl = dto.externalUrl;
+  if (dto.demoUrl) prod.demoUrl = dto.demoUrl;
+
+  return prod;
 }
 
 export function mapCourseDto(dto: BackendCourseDto): Course {
-  return {
+  const course: Course = {
     id: dto.id,
     slug: dto.slug,
-    title: { en: dto.title, ar: null },
+    title: dto.title,
     order: dto.order,
-    url: dto.url,
   };
+
+  if (dto.url) course.url = dto.url;
+
+  return course;
 }
