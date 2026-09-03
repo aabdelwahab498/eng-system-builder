@@ -95,29 +95,36 @@ export function PowerShellPrompt({
   const typing = words.length < wordList.length;
   const visibleText = reduced ? text : words.join(" ");
 
+  const promptLabel = (
+    <>
+      <span className="sm:hidden">PS&gt;</span>
+      <span className="hidden sm:inline">{prompt}</span>
+    </>
+  );
+
   return (
     <div
       ref={ref}
       className={cn(
-        "ps-box relative max-w-full overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-3 py-2 font-mono text-xs sm:text-sm",
+        "ps-box grid max-w-full overflow-hidden rounded-md border border-emerald-500/25 bg-[#012456] px-3 py-2 font-mono text-xs sm:text-sm",
         className,
       )}
     >
-      {/* Invisible full-text layer reserves a stable width so the
-          background never resizes while the typed text grows/shrinks.
-          On small screens the box flows and wraps instead, so nothing clips. */}
-      <span aria-hidden className="invisible hidden whitespace-nowrap lg:inline">
-        {prompt} {text}
-        <span className="inline-block w-[0.5em]" />
-      </span>
-      <div className="flex min-w-0 items-start gap-2 lg:absolute lg:inset-0 lg:px-3 lg:py-2">
+      {/* Invisible full-text copy stacked in the same grid cell reserves the
+          final width AND height at every viewport, so the box never resizes
+          or clips while the visible layer types/deletes — mobile, tablet, desktop. */}
+      <div aria-hidden className="invisible col-start-1 row-start-1 flex min-w-0 items-start gap-2">
+        <span className="shrink-0 font-semibold">{promptLabel}</span>
+        <span className="min-w-0 break-words font-semibold">
+          {text}
+          <span className="inline-block w-[0.5em]" />
+        </span>
+      </div>
+      <div className="col-start-1 row-start-1 flex min-w-0 items-start gap-2">
         <span className="ps-prompt shrink-0 select-none font-semibold text-emerald-400">
-          <span className="lg:hidden">PS&gt;</span>
-          <span className="hidden lg:inline">{prompt}</span>
+          {promptLabel}
         </span>
         <span className="ps-text min-w-0 break-words font-semibold text-emerald-400">
-
-
           {visibleText}
           <span aria-hidden className={cn("ps-caret", typing || reduced ? "" : "ps-caret-hidden")} />
         </span>
