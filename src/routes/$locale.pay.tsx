@@ -325,7 +325,7 @@ function PayPage() {
               type="checkbox"
               checked={confirmed}
               onChange={(e) => setConfirmed(e.target.checked)}
-              className="mt-1 size-4 accent-[var(--primary)]"
+              className="mt-0.5 size-5 shrink-0 accent-[var(--primary)] sm:mt-1 sm:size-4"
             />
             {t.confirm}
           </label>
