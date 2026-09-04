@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Check, Copy, ExternalLink, Globe } from "lucide-react";
 import { BUSINESS_EMAIL_READY, NEXTGEN_CONTACT } from "@/content/canonical/channels";
 import { SocialIcon } from "@/components/site/SocialIcon";
+import { MfaSettingsCard } from "@/components/admin/MfaSettingsCard";
 import { Badge } from "@/components/ui/badge";
 import {
   DEFAULT_SITE_SETTINGS,
@@ -149,6 +150,8 @@ function SettingsPage() {
       </div>
 
       <ContactChannelsCard />
+
+      <MfaSettingsCard />
 
       <Button onClick={() => save.mutate()} disabled={save.isPending}>
         {save.isPending ? "Saving…" : "Save settings"}
