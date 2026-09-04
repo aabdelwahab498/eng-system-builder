@@ -101,7 +101,9 @@ function ResetPasswordPage() {
         <h1 className="mt-3 font-display text-2xl font-semibold text-foreground">
           Set a new password
         </h1>
-        {ready ? (
+        {checking ? (
+          <p className="mt-4 text-sm text-muted-foreground">Checking your reset link…</p>
+        ) : ready ? (
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="new-password">New password</Label>
@@ -109,6 +111,7 @@ function ResetPasswordPage() {
                 id="new-password"
                 type="password"
                 autoComplete="new-password"
+                placeholder="Enter a new password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 minLength={8}
@@ -121,6 +124,7 @@ function ResetPasswordPage() {
                 id="confirm-password"
                 type="password"
                 autoComplete="new-password"
+                placeholder="Repeat the new password"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 minLength={8}
@@ -137,6 +141,7 @@ function ResetPasswordPage() {
             from the sign-in page.
           </p>
         )}
+
       </div>
     </div>
   );
