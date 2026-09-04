@@ -90,6 +90,21 @@ export const listPublicAnnouncements = createServerFn({ method: "GET" }).handler
   },
 );
 
+export const PUBLIC_CONTENT_KINDS = [
+  "project",
+  "service",
+  "product",
+  "skill_group",
+  "experience",
+  "education",
+] as const;
+
+export type PublicContentKind = (typeof PUBLIC_CONTENT_KINDS)[number];
+
+function isPublicContentKind(kind: string): kind is PublicContentKind {
+  return (PUBLIC_CONTENT_KINDS as readonly string[]).includes(kind);
+}
+
 /**
  * Generic published read for any content kind. Explicitly filters for
  * state === 'published' AND visible_public === true AND schedule validation.
@@ -100,7 +115,7 @@ export const listPublicByKind = createServerFn({ method: "GET" })
     const { data, error } = await publicClient()
       .from("content_items")
       .select(CONTENT_COLUMNS)
-      .eq("kind", input.kind)
+      .eq("kind", input.kind as any)
       .eq("state", "published")
       .eq("visible_public", true)
       .order("sort_order", { ascending: true });
@@ -131,27 +146,39 @@ export const getPublicKindState = createServerFn({ method: "GET" })
       { data: input },
     ): Promise<{ status: CmsKindStatus; items: ContentItem[] }> => {
       try {
-        const client = publicClient();
-        // Check if any rows exist for this kind in CMS (populated/initialized)
-        const { count, error: countError } = await client
-          .from("content_items")
-          .select("id", { count: "exact", head: true })
-          .eq("kind", input.kind);
-
-        if (countError) {
+        if (!isPublicContentKind(input.kind)) {
           return { status: "error", items: [] };
         }
 
-        const totalInCms = count ?? 0;
+        const validKind = input.kind;
+
+        // Privileged server-side total row count check to determine if kind is initialized
+        let totalInCms = 0;
+        try {
+          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+          const { count, error: countError } = await supabaseAdmin
+            .from("content_items")
+            .select("id", { count: "exact", head: true })
+            .eq("kind", validKind);
+
+          if (countError) {
+            return { status: "error", items: [] };
+          }
+          totalInCms = count ?? 0;
+        } catch {
+          return { status: "error", items: [] };
+        }
+
         if (totalInCms === 0) {
           return { status: "uninitialized", items: [] };
         }
 
-        // Fetch published public entries
+        // Public read for published public entries through publicClient (RLS applies)
+        const client = publicClient();
         const { data, error } = await client
           .from("content_items")
           .select(CONTENT_COLUMNS)
-          .eq("kind", input.kind)
+          .eq("kind", validKind)
           .eq("state", "published")
           .eq("visible_public", true)
           .order("sort_order", { ascending: true });
