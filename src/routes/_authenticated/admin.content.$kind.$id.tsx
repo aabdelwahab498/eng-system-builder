@@ -28,6 +28,7 @@ import { EducationForm } from "@/components/admin/forms/EducationForm";
 import { ServiceForm } from "@/components/admin/forms/ServiceForm";
 import { ExperienceForm } from "@/components/admin/forms/ExperienceForm";
 import { SkillGroupForm } from "@/components/admin/forms/SkillGroupForm";
+import { ProductForm } from "@/components/admin/forms/ProductForm";
 
 
 import { Markdown } from "@/lib/cms/markdown";
@@ -184,6 +185,20 @@ function defaultData(kind: ContentKind): JsonObject {
         description: emptyLocalized(),
         items: [],
       };
+    case "product":
+      return {
+        name: emptyLocalized(),
+        type: "saas",
+        status: "available",
+        summary: emptyLocalized(),
+        description: emptyLocalized(),
+        features: [],
+        media: [],
+        price: emptyLocalized(),
+        accessUrl: "",
+        subdomain: "",
+        relatedProjectSlug: "",
+      };
     case "payment_method":
       return {
         label: emptyLocalized(),
@@ -339,6 +354,8 @@ function ContentEditor() {
             <ExperienceForm data={draft.data} patch={patchData} />
           ) : contentKind === "skill_group" ? (
             <SkillGroupForm data={draft.data} patch={patchData} />
+          ) : contentKind === "product" ? (
+            <ProductForm data={draft.data} patch={patchData} />
           ) : contentKind === "announcement" ? (
             <AnnouncementForm data={draft.data} patch={patchData} />
           ) : contentKind === "seo" ? (
