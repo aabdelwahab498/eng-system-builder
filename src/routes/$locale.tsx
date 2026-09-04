@@ -12,9 +12,11 @@ export const Route = createFileRoute("/$locale")({
 function LocaleLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { locale } = Route.useParams();
-  const apiVersion = useApiContentBootstrap(locale as Locale);
+  // Warms API caches and re-renders this subtree when they resolve.
+  // Must NOT be part of the key: remounting would wipe form/dialog state.
+  useApiContentBootstrap(locale as Locale);
   return (
-    <div key={`${pathname}:${apiVersion}`} className="page-enter">
+    <div key={pathname} className="page-enter">
       <Outlet />
     </div>
   );

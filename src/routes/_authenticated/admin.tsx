@@ -103,12 +103,7 @@ function AdminLayout() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "is-admin"],
-    queryFn: async () => {
-      if (getStoredAdminToken()) {
-        return { isAdmin: true };
-      }
-      return checkAdmin();
-    },
+    queryFn: () => checkAdmin(),
   });
 
   async function signOut() {
