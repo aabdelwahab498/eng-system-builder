@@ -1,13 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronDown, Languages, Menu, ShieldCheck, X } from "lucide-react";
+import { ChevronDown, Languages, Menu, X } from "lucide-react";
 import { Container } from "./Section";
 import { ThemeToggle } from "./ThemeToggle";
 import { NextGenMark } from "./NextGenMark";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
 import { gallerySections } from "@/lib/gallery-sections";
-import { useHiddenAdmin } from "@/hooks/useHiddenAdmin";
 import { cn } from "@/lib/utils";
 
 const NAV_LINK =
@@ -18,7 +17,6 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const adminVisible = useHiddenAdmin();
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -117,15 +115,6 @@ export function SiteHeader() {
             {t.ui.switchLanguage}
           </a>
           <ThemeToggle label={t.ui.toggleTheme} />
-          {adminVisible && (
-          <a
-            href="/admin"
-            className="hidden h-10 items-center gap-2 rounded-sm border border-[#C9974B]/50 px-3 font-mono text-xs uppercase tracking-wider text-[#C9974B] transition-colors hover:bg-[#C9974B]/10 sm:inline-flex"
-          >
-            <ShieldCheck className="size-4" aria-hidden />
-            Admin
-          </a>
-          )}
           <Button asChild size="sm" className="hidden lg:inline-flex">
             <Link to="/$locale/contact" params={{ locale }}>
               {t.ui.letsBuild}
@@ -181,15 +170,6 @@ export function SiteHeader() {
             >
               {t.ui.switchLanguage}
             </a>
-            {adminVisible && (
-            <a
-              href="/admin"
-              className="flex items-center gap-2 border-t border-border/60 py-4 font-display text-lg text-[#C9974B]"
-            >
-              <ShieldCheck className="size-5" aria-hidden />
-              Admin Studio
-            </a>
-            )}
             <Button asChild className="mt-5 w-full">
               <Link to="/$locale/contact" params={{ locale }}>
                 {t.ui.letsBuild}
