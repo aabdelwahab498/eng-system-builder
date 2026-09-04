@@ -12,7 +12,7 @@ import { AdminTabs } from "@/components/admin/AdminTabs";
 import { clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { cn } from "@/lib/utils";
-import { getStoredAdminToken, clearStoredAdminToken } from "@/content/admin-auth-api";
+import { clearStoredAdminToken } from "@/content/admin-auth-api";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -103,12 +103,7 @@ function AdminLayout() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "is-admin"],
-    queryFn: async () => {
-      if (getStoredAdminToken()) {
-        return { isAdmin: true };
-      }
-      return checkAdmin();
-    },
+    queryFn: () => checkAdmin(),
   });
 
   async function signOut() {
