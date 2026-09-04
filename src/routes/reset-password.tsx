@@ -20,28 +20,60 @@ export const Route = createFileRoute("/reset-password")({
 function ResetPasswordPage() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    // The recovery link lands here with `type=recovery` in the URL hash;
-    // supabase-js exchanges it for a recovery session automatically.
-    const hash = new URLSearchParams(window.location.hash.slice(1));
-    if (hash.get("type") === "recovery") {
-      setReady(true);
-      return;
-    }
+    let active = true;
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") setReady(true);
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active) return;
+      if (event === "PASSWORD_RECOVERY" || session) {
+        setReady(true);
+        setChecking(false);
+      }
     });
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
-    });
-    return () => subscription.unsubscribe();
+
+    async function bootstrap() {
+      const url = new URL(window.location.href);
+      const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+      const code = url.searchParams.get("code");
+      const tokenHash = url.searchParams.get("token_hash") ?? url.searchParams.get("token");
+      const type = url.searchParams.get("type") ?? hash.get("type");
+      const accessToken = hash.get("access_token");
+      const refreshToken = hash.get("refresh_token");
+
+      try {
+        if (accessToken && refreshToken) {
+          await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+        } else if (code) {
+          await supabase.auth.exchangeCodeForSession(code);
+        } else if (tokenHash && (type === "recovery" || type === "email_change")) {
+          await supabase.auth.verifyOtp({ type: "recovery", token_hash: tokenHash });
+        }
+      } catch {
+        // fall through to the session check below
+      }
+
+      const { data } = await supabase.auth.getSession();
+      if (!active) return;
+      setReady(Boolean(data.session) || type === "recovery");
+      setChecking(false);
+    }
+
+    void bootstrap();
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
+
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
