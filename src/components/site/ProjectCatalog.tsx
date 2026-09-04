@@ -364,7 +364,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "absolute top-1/2 z-50 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        "book-nav absolute top-1/2 z-50 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-muted-foreground backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
         onLeft ? "left-3" : "right-3",
       )}
     >

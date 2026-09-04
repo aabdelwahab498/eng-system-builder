@@ -572,3 +572,36 @@ html,
 body {
   overflow-x: hidden;
 }
+
+/* ---------- Book catalogs on phones ----------
+   A two-page spread is unreadable under ~640px: the media shrinks and the
+   text page clips. Stack the spread into media-over-text there; the desktop
+   and tablet spread (and its page-turn animation) stay untouched. */
+@media (max-width: 639px) {
+  .book-spread {
+    grid-template-columns: 1fr !important;
+    aspect-ratio: auto !important;
+  }
+  .book-spread > .book-page-left {
+    aspect-ratio: 4 / 3;
+  }
+  .book-spread > .book-page-right {
+    border-top: 1px solid var(--color-border);
+  }
+  .book-page-left::after,
+  .book-page-right::after,
+  .book-spine,
+  .flip-page {
+    display: none !important;
+  }
+}
+
+/* Keep the catalog arrows over the media half once the spread is stacked. */
+@media (max-width: 639px) {
+  .book-spread {
+    container-type: inline-size;
+  }
+  .book-nav {
+    top: 37.5cqw;
+  }
+}
