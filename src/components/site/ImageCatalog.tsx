@@ -1,6 +1,8 @@
+import { useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X, Expand } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { lockBodyScroll } from "@/lib/scroll-lock";
 
 export type CatalogItem = {
   id: string;
@@ -74,12 +76,19 @@ export function ImageCatalog({
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev, rtl]);
 
+  const pathname = useRouterState({ select: (st) => st.location.pathname });
+
+  // Ref-counted lock: never leaves a stale scroll/pointer lock behind, even if
+  // the overlay unmounts during a route change on mobile.
   useEffect(() => {
-    document.body.style.overflow = lightbox ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!lightbox) return;
+    return lockBodyScroll();
   }, [lightbox]);
+
+  // Any navigation closes the overlay so no backdrop survives the transition.
+  useEffect(() => {
+    setLightbox(false);
+  }, [pathname]);
 
   if (count === 0) return null;
 
@@ -170,13 +179,13 @@ export function ImageCatalog({
           role="dialog"
           aria-modal="true"
           aria-label={active.title}
-          className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-background/95 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[80] flex h-[100dvh] flex-col items-center justify-center overflow-y-auto overscroll-contain bg-background/95 p-4 backdrop-blur-sm"
           onClick={() => setLightbox(false)}
         >
           <img
             src={active.src}
             alt={active.caption || active.title}
-            className="max-h-[80vh] max-w-full rounded-lg object-contain"
+            className="max-h-[80dvh] max-w-full rounded-lg object-contain"
             onClick={(e) => e.stopPropagation()}
           />
           <p className="mt-4 text-center text-sm text-muted-foreground">{active.title}</p>
