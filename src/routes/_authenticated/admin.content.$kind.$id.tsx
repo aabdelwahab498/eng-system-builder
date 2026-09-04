@@ -24,6 +24,8 @@ import {
   distributionLog,
   draftEntryKey,
 } from "@/lib/distribution/channels";
+import { EducationForm } from "@/components/admin/forms/EducationForm";
+import { ServiceForm } from "@/components/admin/forms/ServiceForm";
 
 
 import { Markdown } from "@/lib/cms/markdown";
@@ -151,6 +153,20 @@ function defaultData(kind: ContentKind): JsonObject {
         priceUsd: "",
         duration: emptyLocalized(),
         enrollmentOpen: true,
+      };
+    case "education":
+      return {
+        credential: emptyLocalized(),
+        institution: emptyLocalized(),
+        period: emptyLocalized(),
+        note: emptyLocalized(),
+      };
+    case "service":
+      return {
+        title: emptyLocalized(),
+        outcome: emptyLocalized(),
+        deliverables: [],
+        note: emptyLocalized(),
       };
     case "payment_method":
       return {
@@ -299,6 +315,10 @@ function ContentEditor() {
             <ArticleForm data={draft.data} patch={patchData} onTitle={(t) =>
               setDraft((prev) => (prev.slug ? prev : { ...prev, slug: slugify(t) }))
             } />
+          ) : contentKind === "education" ? (
+            <EducationForm data={draft.data} patch={patchData} />
+          ) : contentKind === "service" ? (
+            <ServiceForm data={draft.data} patch={patchData} />
           ) : contentKind === "announcement" ? (
             <AnnouncementForm data={draft.data} patch={patchData} />
           ) : contentKind === "seo" ? (

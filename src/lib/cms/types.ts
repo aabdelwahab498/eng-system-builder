@@ -74,6 +74,15 @@ export const emptyLocalized = (): LocalizedText => ({ en: "", ar: null });
 export const hasArabic = (value: LocalizedText | undefined | null) =>
   Boolean(value && value.ar && value.ar.trim().length > 0);
 
+export const localized = (value: unknown): LocalizedText => {
+  if (value && typeof value === "object" && "en" in (value as Record<string, unknown>)) {
+    const v = value as { en?: unknown; ar?: unknown };
+    return { en: typeof v.en === "string" ? v.en : "", ar: typeof v.ar === "string" ? v.ar : null };
+  }
+  if (typeof value === "string") return { en: value, ar: null };
+  return emptyLocalized();
+};
+
 /* ------------------------------------------------------------- payloads */
 
 export type ArticleData = {
