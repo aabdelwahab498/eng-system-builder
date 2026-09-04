@@ -95,6 +95,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
       "/admin/content/cv_settings",
       "/admin/announcements",
       "/admin/activity",
+      "/admin/audit",
       "/admin/seo",
       "/admin/cv",
       "/admin/payment-methods",
@@ -152,6 +153,7 @@ export const SECTION_TABS: { match: string[]; tabs: AdminTab[] }[] = [
       { label: "Announcements", href: "/admin/announcements" },
       { label: "CV", href: "/admin/content/cv_settings" },
       { label: "Activity", href: "/admin/activity" },
+      { label: "Audit log", href: "/admin/audit" },
     ],
   },
 ];
