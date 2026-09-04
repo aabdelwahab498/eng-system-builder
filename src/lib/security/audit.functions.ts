@@ -2,6 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminContext, hasAdminRole, type AdminCtx } from "@/lib/security/admin-guard";
 
+export type AuditDetails = Record<string, string | number | boolean | null>;
+
 export type AuditEntry = {
   id: string;
   actorEmail: string | null;
@@ -9,7 +11,7 @@ export type AuditEntry = {
   action: string;
   entity: string | null;
   entityId: string | null;
-  details: Record<string, unknown>;
+  details: AuditDetails;
   ip: string | null;
   userAgent: string | null;
   createdAt: string;
@@ -48,7 +50,7 @@ export const adminListAuditLog = createServerFn({ method: "POST" })
       action: String(r["action"]),
       entity: (r["entity"] as string | null) ?? null,
       entityId: (r["entity_id"] as string | null) ?? null,
-      details: (r["details"] as Record<string, unknown>) ?? {},
+      details: (r["details"] as AuditDetails) ?? {},
       ip: (r["ip"] as string | null) ?? null,
       userAgent: (r["user_agent"] as string | null) ?? null,
       createdAt: String(r["created_at"]),

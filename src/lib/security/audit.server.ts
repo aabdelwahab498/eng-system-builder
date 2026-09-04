@@ -38,7 +38,7 @@ export async function recordAudit(
       action,
       entity: entity?.entity ?? action.split(".")[0] ?? null,
       entity_id: entity?.entityId ?? (details?.["id"] as string | undefined) ?? null,
-      details: (details ?? {}) as Record<string, unknown>,
+      details: (details ?? {}) as never,
       ip,
       user_agent: userAgent,
     });
