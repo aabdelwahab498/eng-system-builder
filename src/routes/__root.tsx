@@ -155,7 +155,10 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isStudio = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+  const isStudio =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/reset-password");
   const locale = localeFromPathname(pathname);
   const lang = getContent(locale).htmlLang || "en";
 
@@ -163,6 +166,26 @@ function RootComponent() {
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // Auth providers can fall back to the site's root while retaining the
+  // recovery credentials in the URL. Keep those credentials intact and move
+  // the browser onto the dedicated password form before anything else routes
+  // the newly-created recovery session.
+  useEffect(() => {
+    if (pathname === "/reset-password") return;
+
+    const url = new URL(window.location.href);
+    const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+    const recoveryType = url.searchParams.get("type") ?? hash.get("type");
+    const hasRecoveryToken =
+      hash.has("access_token") ||
+      url.searchParams.has("token_hash") ||
+      url.searchParams.has("token");
+
+    if (recoveryType !== "recovery" || !hasRecoveryToken) return;
+
+    window.location.replace(`/reset-password${url.search}${url.hash}`);
+  }, [pathname]);
 
   // Safety valve: a route change can never leave a stale scroll lock behind.
   useEffect(() => {

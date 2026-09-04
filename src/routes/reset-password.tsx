@@ -21,6 +21,7 @@ function ResetPasswordPage() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [linkError, setLinkError] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
@@ -31,7 +32,7 @@ function ResetPasswordPage() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
-      if (event === "PASSWORD_RECOVERY" || session) {
+      if (event === "PASSWORD_RECOVERY") {
         setReady(true);
         setChecking(false);
       }
@@ -47,24 +48,45 @@ function ResetPasswordPage() {
       const refreshToken = hash.get("refresh_token");
 
       try {
+        let recoverySessionEstablished = false;
+
         if (accessToken && refreshToken) {
-          await supabase.auth.setSession({
+          const { error } = await supabase.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken,
           });
+          if (error) throw error;
+          recoverySessionEstablished = true;
         } else if (code) {
-          await supabase.auth.exchangeCodeForSession(code);
-        } else if (tokenHash && (type === "recovery" || type === "email_change")) {
-          await supabase.auth.verifyOtp({ type: "recovery", token_hash: tokenHash });
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) throw error;
+          recoverySessionEstablished = true;
+        } else if (tokenHash && type === "recovery") {
+          const { error } = await supabase.auth.verifyOtp({
+            type: "recovery",
+            token_hash: tokenHash,
+          });
+          if (error) throw error;
+          recoverySessionEstablished = true;
         }
-      } catch {
-        // fall through to the session check below
-      }
 
-      const { data } = await supabase.auth.getSession();
-      if (!active) return;
-      setReady(Boolean(data.session) || type === "recovery");
-      setChecking(false);
+        if (!recoverySessionEstablished) {
+          const { data } = await supabase.auth.getSession();
+          recoverySessionEstablished = Boolean(data.session) && type === "recovery";
+        }
+
+        if (!active) return;
+        setReady(recoverySessionEstablished);
+        setLinkError(recoverySessionEstablished ? "" : "This reset link is invalid or has expired.");
+      } catch (error) {
+        if (!active) return;
+        setReady(false);
+        setLinkError(
+          error instanceof Error ? error.message : "This reset link is invalid or has expired.",
+        );
+      } finally {
+        if (active) setChecking(false);
+      }
     }
 
     void bootstrap();
@@ -85,8 +107,9 @@ function ResetPasswordPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      toast.success("Password updated. You are signed in.");
-      navigate({ to: "/admin", replace: true });
+      await supabase.auth.signOut();
+      toast.success("Password updated. Sign in with your new password.");
+      navigate({ to: "/auth", search: { next: "/admin" }, replace: true });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not update password");
     } finally {
@@ -137,8 +160,8 @@ function ResetPasswordPage() {
           </form>
         ) : (
           <p className="mt-4 text-sm text-muted-foreground">
-            This page only works from the reset link sent to your email. Request a new link
-            from the sign-in page.
+            {linkError ||
+              "This page only works from the reset link sent to your email. Request a new link from the sign-in page."}
           </p>
         )}
 
