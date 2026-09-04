@@ -20,7 +20,16 @@ export function FilterBar({
   className?: string;
 }) {
   return (
-    <div role="group" aria-label={label} className={cn("flex flex-wrap items-center gap-2", className)}>
+    <div
+      role="group"
+      aria-label={label}
+      className={cn(
+        // Phones: one swipeable row instead of a tall stack of wrapped chips.
+        "-mx-1 flex items-center gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0",
+        className,
+      )}
+    >
       {options.map((option) => (
         <button
           key={option.id}
