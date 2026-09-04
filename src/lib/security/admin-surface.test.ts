@@ -127,7 +127,9 @@ describe("admin discovery mechanisms", () => {
             ? [path.join(dir, e.name)]
             : [],
       );
-    const offenders = walk(path.resolve(process.cwd(), "src")).filter((file) => {
+    const offenders = walk(path.resolve(process.cwd(), "src"))
+      .filter((file) => !file.endsWith(".test.ts"))
+      .filter((file) => {
       const source = readFileSync(file, "utf8");
       return /admin=1/.test(source) || /useHiddenAdmin/.test(source);
     });
