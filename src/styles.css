@@ -595,3 +595,13 @@ body {
     display: none !important;
   }
 }
+
+/* Keep the catalog arrows over the media half once the spread is stacked. */
+@media (max-width: 639px) {
+  .book-spread {
+    container-type: inline-size;
+  }
+  .book-nav {
+    top: 37.5cqw;
+  }
+}
