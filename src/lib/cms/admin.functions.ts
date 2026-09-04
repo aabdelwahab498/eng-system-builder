@@ -22,8 +22,12 @@ import { isValidSlug } from "./slug";
 
 type Ctx = { supabase: any; userId: string; claims?: Record<string, unknown> };
 
-async function assertAdmin(context: Ctx) {
+async function assertAdmin(context: Ctx, action?: string, details?: Record<string, unknown>) {
   await assertAdminContext(context);
+  if (action) {
+    const { recordAudit } = await import("@/lib/security/audit.server");
+    await recordAudit(context, action, details);
+  }
 }
 
 const asKind = (value: unknown): ContentKind => {
@@ -134,7 +138,7 @@ export const adminSaveContent = createServerFn({ method: "POST" })
   .inputValidator(validateUpsert)
   .handler(async ({ data: input, context }): Promise<ContentItem> => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "content.save", { kind: input.kind, slug: input.slug, id: input.id });
 
     const row: Record<string, unknown> = {
       kind: input.kind,
@@ -196,7 +200,7 @@ export const adminSetState = createServerFn({ method: "POST" })
   }))
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "content.set_state", { id: input.id, state: input.state });
     const patch: Record<string, unknown> = { state: input.state, updated_by: ctx.userId };
     if (input.state === "published") patch["published_at"] = new Date().toISOString();
     if (input.state === "archived") patch["archived_at"] = new Date().toISOString();
@@ -212,7 +216,7 @@ export const adminReorder = createServerFn({ method: "POST" })
   }))
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "content.reorder", { count: input.items.length });
     for (const item of input.items) {
       await ctx.supabase
         .from("content_items")
@@ -227,7 +231,7 @@ export const adminDeleteContent = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string }) => ({ id: String(input.id) }))
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "content.delete", { id: input.id });
     const { error } = await ctx.supabase.from("content_items").delete().eq("id", input.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -241,7 +245,7 @@ export const adminSeedContent = createServerFn({ method: "POST" })
   }))
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "content.seed", { count: input.items.length });
     const rows = input.items.map((item, index) => ({
       kind: item.kind,
       slug: item.slug,
@@ -298,7 +302,7 @@ export const adminRegisterMedia = createServerFn({ method: "POST" })
   }))
   .handler(async ({ data: input, context }): Promise<MediaAsset> => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "media.register", { filename: input.filename });
     const { data, error } = await ctx.supabase
       .from("media_assets")
       .insert({
@@ -329,7 +333,7 @@ export const adminUpdateMedia = createServerFn({ method: "POST" })
   }) => input)
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "media.update", { id: String(input.id) });
     const { error } = await ctx.supabase
       .from("media_assets")
       .update({
@@ -352,7 +356,7 @@ export const adminDeleteMedia = createServerFn({ method: "POST" })
   }))
   .handler(async ({ data: input, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "media.delete", { id: input.id });
     await ctx.supabase.storage.from("media").remove([input.storagePath]);
     const { error } = await ctx.supabase.from("media_assets").delete().eq("id", input.id);
     if (error) throw new Error(error.message);

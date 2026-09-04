@@ -41,8 +41,12 @@ const COLUMNS =
 
 type Ctx = { supabase: any; userId: string; claims?: Record<string, unknown> };
 
-async function assertAdmin(context: Ctx) {
+async function assertAdmin(context: Ctx, action?: string, details?: Record<string, unknown>) {
   await assertAdminContext(context);
+  if (action) {
+    const { recordAudit } = await import("@/lib/security/audit.server");
+    await recordAudit(context, action, details);
+  }
 }
 
 /** Anon client used for the public submission endpoint (INSERT-only by RLS). */
@@ -128,7 +132,7 @@ export const adminUpdateServiceRequest = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string; status?: string; adminNote?: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "request.update", { id: data.id, status: data.status });
     const patch: Record<string, unknown> = {};
     if (data.status !== undefined) patch["status"] = text(data.status, 40);
     if (data.adminNote !== undefined) patch["admin_note"] = text(data.adminNote, 4000);
@@ -145,7 +149,7 @@ export const adminDeleteServiceRequest = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "request.delete", { id: data.id });
     const { error } = await ctx.supabase.from("service_requests").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
