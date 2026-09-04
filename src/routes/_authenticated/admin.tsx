@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ADMIN_NAV, type AdminNavItem } from "@/lib/admin/nav";
 import { AdminTabs } from "@/components/admin/AdminTabs";
+import { MfaChallenge } from "@/components/admin/MfaChallenge";
 import { clients, serviceRequests, subscribers } from "@/lib/admin/crm";
 import { paymentSubmissions } from "@/lib/payments/store";
 import { cn } from "@/lib/utils";
@@ -132,6 +133,16 @@ function AdminLayout() {
           Sign out
         </Button>
       </div>
+    );
+  }
+
+  if (data.mfaRequired) {
+    return (
+      <MfaChallenge
+        onVerified={() => {
+          queryClient.invalidateQueries();
+        }}
+      />
     );
   }
 
