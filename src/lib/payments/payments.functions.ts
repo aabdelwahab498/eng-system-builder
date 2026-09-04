@@ -36,8 +36,12 @@ const COLUMNS =
 
 type Ctx = { supabase: any; userId: string; claims?: Record<string, unknown> };
 
-async function assertAdmin(context: Ctx) {
+async function assertAdmin(context: Ctx, action?: string, details?: Record<string, unknown>) {
   await assertAdminContext(context);
+  if (action) {
+    const { recordAudit } = await import("@/lib/security/audit.server");
+    await recordAudit(context, action, details);
+  }
 }
 
 /** Anon client for the public submission endpoint (INSERT-only by RLS). */
@@ -152,7 +156,7 @@ export const adminUpdatePaymentSubmission = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string; status?: string; note?: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "payment.update", { id: data.id, status: data.status });
     const patch: Record<string, unknown> = {};
     if (data.status !== undefined) patch["status"] = text(data.status, 40);
     if (data.note !== undefined) patch["note"] = text(data.note, 4000);
@@ -169,7 +173,7 @@ export const adminDeletePaymentSubmission = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "payment.delete", { id: data.id });
     const { data: row } = await ctx.supabase
       .from("payment_submissions")
       .select("proof_path")
@@ -190,7 +194,7 @@ export const adminGetPaymentProofUrl = createServerFn({ method: "POST" })
   .inputValidator((input: { path: string }) => input)
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as Ctx;
-    await assertAdmin(ctx);
+    await assertAdmin(ctx, "payment.view_proof", {});
     const path = text(data.path, 500);
     if (!path || path.includes("..")) throw new Error("Invalid path");
     const { data: signed, error } = await ctx.supabase.storage
