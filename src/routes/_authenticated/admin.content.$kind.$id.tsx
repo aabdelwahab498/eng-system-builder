@@ -26,6 +26,7 @@ import {
 } from "@/lib/distribution/channels";
 import { EducationForm } from "@/components/admin/forms/EducationForm";
 import { ServiceForm } from "@/components/admin/forms/ServiceForm";
+import { ExperienceForm } from "@/components/admin/forms/ExperienceForm";
 
 
 import { Markdown } from "@/lib/cms/markdown";
@@ -167,6 +168,14 @@ function defaultData(kind: ContentKind): JsonObject {
         outcome: emptyLocalized(),
         deliverables: [],
         note: emptyLocalized(),
+      };
+    case "experience":
+      return {
+        role: emptyLocalized(),
+        org: emptyLocalized(),
+        period: emptyLocalized(),
+        summary: emptyLocalized(),
+        kind: "engineering",
       };
     case "payment_method":
       return {
@@ -319,6 +328,8 @@ function ContentEditor() {
             <EducationForm data={draft.data} patch={patchData} />
           ) : contentKind === "service" ? (
             <ServiceForm data={draft.data} patch={patchData} />
+          ) : contentKind === "experience" ? (
+            <ExperienceForm data={draft.data} patch={patchData} />
           ) : contentKind === "announcement" ? (
             <AnnouncementForm data={draft.data} patch={patchData} />
           ) : contentKind === "seo" ? (
