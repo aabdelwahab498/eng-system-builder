@@ -67,6 +67,8 @@ export function VideoCatalog({
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev, rtl]);
 
+  const pathname = useRouterState({ select: (st) => st.location.pathname });
+
   // Ref-counted lock: never leaves a stale scroll/pointer lock behind, even if
   // the overlay unmounts during a route change on mobile.
   useEffect(() => {
