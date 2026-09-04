@@ -36,7 +36,7 @@ function safePath(value: string | null): string {
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -56,7 +56,14 @@ function AuthPage() {
     event.preventDefault();
     setBusy(true);
     try {
-      if (mode === "signin") {
+      if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("Reset link sent. Check your email.");
+        setMode("signin");
+      } else if (mode === "signin") {
         // Supabase is the session of record for the admin studio.
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -98,10 +105,16 @@ function AuthPage() {
       <div className="w-full max-w-sm rounded-lg border border-border bg-surface/60 p-6">
         <p className="eyebrow">Studio</p>
         <h1 className="mt-3 font-display text-2xl font-semibold text-foreground">
-          {mode === "signin" ? "Sign in" : "Create account"}
+          {mode === "signin"
+            ? "Sign in"
+            : mode === "signup"
+              ? "Create account"
+              : "Reset password"}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Private content studio. Admin access is granted per account.
+          {mode === "forgot"
+            ? "Enter your account email and we'll send a reset link."
+            : "Private content studio. Admin access is granted per account."}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -116,34 +129,55 @@ function AuthPage() {
               required
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={8}
-              required
-            />
-          </div>
+          {mode !== "forgot" && (
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={8}
+                required
+              />
+            </div>
+          )}
           <Button type="submit" className="w-full" disabled={busy}>
-            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Sign up"}
+            {busy
+              ? "Please wait…"
+              : mode === "signin"
+                ? "Sign in"
+                : mode === "signup"
+                  ? "Sign up"
+                  : "Send reset link"}
           </Button>
         </form>
 
-        <Button variant="outline" className="mt-3 w-full" onClick={handleGoogle}>
-          Continue with Google
-        </Button>
+        {mode !== "forgot" && (
+          <Button variant="outline" className="mt-3 w-full" onClick={handleGoogle}>
+            Continue with Google
+          </Button>
+        )}
 
-        <button
-          type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="mt-5 w-full text-center text-xs text-muted-foreground underline underline-offset-4"
-        >
-          {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
-        </button>
+        <div className="mt-5 flex flex-col gap-2 text-center">
+          {mode === "signin" && (
+            <button
+              type="button"
+              onClick={() => setMode("forgot")}
+              className="text-xs text-muted-foreground underline underline-offset-4"
+            >
+              Forgot your password?
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+            className="text-xs text-muted-foreground underline underline-offset-4"
+          >
+            {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
+          </button>
+        </div>
       </div>
     </div>
   );
