@@ -27,6 +27,15 @@ import { getServicesApiLegacy, fetchCanonicalServicesApi } from "./services-api-
 import { getProductsApiLegacy, fetchCanonicalProductsApi } from "./products-api-adapter";
 import { getCoursesApiCached, fetchCoursesApi } from "./courses-api-adapter";
 import { getProfileApiCached, fetchProfileApi } from "./profile-api-adapter";
+import {
+  getCmsProjectsCached,
+  getCmsServicesCached,
+  getCmsProductsCached,
+  getCmsSkillsCached,
+  getCmsExperienceCached,
+  getCmsEducationCached,
+  fetchCmsPublicContent,
+} from "./cms-public-adapter";
 
 export const getDictionary = (locale: Locale): Dictionary => getContent(locale);
 
@@ -37,6 +46,10 @@ export const getProfile = (locale: Locale): Profile => {
 };
 
 export const getProjects = (locale: Locale): Project[] => {
+  const cmsData = getCmsProjectsCached(locale);
+  if (cmsData !== null) {
+    return cmsData;
+  }
   const apiData = getProjectsApiLegacy(locale);
   if (apiData && apiData.length > 0) {
     return apiData;
@@ -51,6 +64,10 @@ export const getFeaturedProjects = (locale: Locale): Project[] =>
   getProjects(locale).filter((p) => p.featured);
 
 export const getProducts = (locale: Locale): Product[] => {
+  const cmsData = getCmsProductsCached(locale);
+  if (cmsData !== null) {
+    return cmsData;
+  }
   const apiData = getProductsApiLegacy(locale);
   if (apiData && apiData.length > 0) {
     return apiData;
@@ -61,16 +78,36 @@ export const getProducts = (locale: Locale): Product[] => {
 export const getProduct = (locale: Locale, slug: string): Product | undefined =>
   getProducts(locale).find((p) => p.slug === slug);
 
-export const getSkills = (locale: Locale): SkillCategory[] => getContent(locale).skills;
+export const getSkills = (locale: Locale): SkillCategory[] => {
+  const cmsData = getCmsSkillsCached(locale);
+  if (cmsData !== null) {
+    return cmsData;
+  }
+  return getContent(locale).skills;
+};
 
 export const getExperience = (locale: Locale, category?: "engineering" | "earlier") => {
+  const cmsData = getCmsExperienceCached(locale, category);
+  if (cmsData !== null) {
+    return cmsData;
+  }
   const items = getContent(locale).profile.experience ?? [];
   return category ? items.filter((item) => item.kind === category) : items;
 };
 
-export const getEducation = (locale: Locale) => getContent(locale).profile.education ?? [];
+export const getEducation = (locale: Locale) => {
+  const cmsData = getCmsEducationCached(locale);
+  if (cmsData !== null) {
+    return cmsData;
+  }
+  return getContent(locale).profile.education ?? [];
+};
 
 export const getServices = (locale: Locale): Service[] => {
+  const cmsData = getCmsServicesCached(locale);
+  if (cmsData !== null) {
+    return cmsData;
+  }
   const apiData = getServicesApiLegacy(locale);
   if (apiData && apiData.length > 0) {
     return apiData;
@@ -214,3 +251,4 @@ export { fetchCanonicalServicesApi } from "./services-api-adapter";
 export { fetchCanonicalProductsApi } from "./products-api-adapter";
 export { fetchCoursesApi } from "./courses-api-adapter";
 export { fetchProfileApi } from "./profile-api-adapter";
+export { fetchCmsPublicContent } from "./cms-public-adapter";

@@ -91,8 +91,8 @@ export const listPublicAnnouncements = createServerFn({ method: "GET" }).handler
 );
 
 /**
- * Generic published read for any content kind. RLS still restricts results to
- * rows that are published and flagged public.
+ * Generic published read for any content kind. Explicitly filters for
+ * state === 'published' AND visible_public === true AND schedule validation.
  */
 export const listPublicByKind = createServerFn({ method: "GET" })
   .inputValidator((input: { kind: string }) => ({ kind: String(input.kind) }))
@@ -101,10 +101,82 @@ export const listPublicByKind = createServerFn({ method: "GET" })
       .from("content_items")
       .select(CONTENT_COLUMNS)
       .eq("kind", input.kind)
+      .eq("state", "published")
+      .eq("visible_public", true)
       .order("sort_order", { ascending: true });
-    if (error) return [];
-    return (data as ContentRow[]).map(toContentItem);
+    if (error || !data) return [];
+    const now = Date.now();
+    return (data as ContentRow[])
+      .map(toContentItem)
+      .filter((item) => {
+        if (item.scheduledAt && new Date(item.scheduledAt).getTime() > now) return false;
+        const d = item.data as { startsAt?: string | null; endsAt?: string | null };
+        if (d.startsAt && new Date(d.startsAt).getTime() > now) return false;
+        if (d.endsAt && new Date(d.endsAt).getTime() < now) return false;
+        return true;
+      });
   });
+
+export type CmsKindStatus = "initialized" | "uninitialized" | "error";
+
+/**
+ * Returns total CMS population status and published entries for a content kind.
+ * Used to distinguish "CMS initialized with 0 published items" (CMS authoritative)
+ * from "CMS has never been populated for this kind" (fallback).
+ */
+export const getPublicKindState = createServerFn({ method: "GET" })
+  .inputValidator((input: { kind: string }) => ({ kind: String(input.kind) }))
+  .handler(
+    async (
+      { data: input },
+    ): Promise<{ status: CmsKindStatus; items: ContentItem[] }> => {
+      try {
+        const client = publicClient();
+        // Check if any rows exist for this kind in CMS (populated/initialized)
+        const { count, error: countError } = await client
+          .from("content_items")
+          .select("id", { count: "exact", head: true })
+          .eq("kind", input.kind);
+
+        if (countError) {
+          return { status: "error", items: [] };
+        }
+
+        const totalInCms = count ?? 0;
+        if (totalInCms === 0) {
+          return { status: "uninitialized", items: [] };
+        }
+
+        // Fetch published public entries
+        const { data, error } = await client
+          .from("content_items")
+          .select(CONTENT_COLUMNS)
+          .eq("kind", input.kind)
+          .eq("state", "published")
+          .eq("visible_public", true)
+          .order("sort_order", { ascending: true });
+
+        if (error || !data) {
+          return { status: "error", items: [] };
+        }
+
+        const now = Date.now();
+        const items = (data as ContentRow[])
+          .map(toContentItem)
+          .filter((item) => {
+            if (item.scheduledAt && new Date(item.scheduledAt).getTime() > now) return false;
+            const d = item.data as { startsAt?: string | null; endsAt?: string | null };
+            if (d.startsAt && new Date(d.startsAt).getTime() > now) return false;
+            if (d.endsAt && new Date(d.endsAt).getTime() < now) return false;
+            return true;
+          });
+
+        return { status: "initialized", items };
+      } catch {
+        return { status: "error", items: [] };
+      }
+    },
+  );
 
 /**
  * Published profile entry, if any. RLS limits this to published + public rows,

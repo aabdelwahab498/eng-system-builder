@@ -17,12 +17,14 @@ import { fetchCanonicalServicesApi } from "./services-api-adapter";
 import { fetchCanonicalProductsApi } from "./products-api-adapter";
 import { fetchCoursesApi } from "./courses-api-adapter";
 import { fetchProfileApi } from "./profile-api-adapter";
+import { fetchCmsPublicContent } from "./cms-public-adapter";
 import { getApiBaseUrl } from "./projects-api-client";
 
 const warmed = new Set<Locale>();
 
 export async function warmApiContent(locale: Locale): Promise<void> {
   await Promise.allSettled([
+    fetchCmsPublicContent(locale),
     fetchCanonicalProjectsApi(locale),
     fetchCanonicalServicesApi(locale),
     fetchCanonicalProductsApi(locale),
