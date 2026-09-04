@@ -20,6 +20,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getContent } from "@/content";
 import { localeFromPathname } from "@/hooks/useLocale";
 import { themeInitScript } from "@/components/site/ThemeToggle";
+import { releaseAllBodyScrollLocks } from "@/lib/scroll-lock";
 
 
 
@@ -162,6 +163,11 @@ function RootComponent() {
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // Safety valve: a route change can never leave a stale scroll lock behind.
+  useEffect(() => {
+    releaseAllBodyScrollLocks();
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
