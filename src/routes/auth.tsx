@@ -57,17 +57,13 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signin") {
-        try {
-          await loginAdminApi(email, password);
-          toast.success("Signed in successfully.");
-          navigate({ to: next, replace: true });
-          return;
-        } catch (apiError) {
-          // If backend API login fails, attempt Supabase auth fallback
-          const { error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw apiError;
-          navigate({ to: next, replace: true });
-        }
+        // Supabase is the session of record for the admin studio.
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        // Best-effort: also obtain a backend API token for external CRUD calls.
+        await loginAdminApi(email, password).catch(() => undefined);
+        toast.success("Signed in successfully.");
+        navigate({ to: next, replace: true });
       } else {
         const { error } = await supabase.auth.signUp({
           email,
