@@ -29,6 +29,7 @@ import { ServiceForm } from "@/components/admin/forms/ServiceForm";
 import { ExperienceForm } from "@/components/admin/forms/ExperienceForm";
 import { SkillGroupForm } from "@/components/admin/forms/SkillGroupForm";
 import { ProductForm } from "@/components/admin/forms/ProductForm";
+import { ProjectForm } from "@/components/admin/forms/ProjectForm";
 
 
 import { Markdown } from "@/lib/cms/markdown";
@@ -184,6 +185,31 @@ function defaultData(kind: ContentKind): JsonObject {
         label: emptyLocalized(),
         description: emptyLocalized(),
         items: [],
+      };
+    case "project":
+      return {
+        name: emptyLocalized(),
+        category: emptyLocalized(),
+        status: emptyLocalized(),
+        summary: emptyLocalized(),
+        role: emptyLocalized(),
+        scope: emptyLocalized(),
+        solution: emptyLocalized(),
+        flagship: false,
+        disciplines: [],
+        features: [],
+        tech: [],
+        links: [],
+        media: [],
+        caseStudy: {
+          overview: emptyLocalized(),
+          problem: emptyLocalized(),
+          approach: emptyLocalized(),
+          architecture: [],
+          implementation: emptyLocalized(),
+          challenges: emptyLocalized(),
+          outcome: emptyLocalized(),
+        },
       };
     case "product":
       return {
@@ -356,6 +382,8 @@ function ContentEditor() {
             <SkillGroupForm data={draft.data} patch={patchData} />
           ) : contentKind === "product" ? (
             <ProductForm data={draft.data} patch={patchData} />
+          ) : contentKind === "project" ? (
+            <ProjectForm data={draft.data} patch={patchData} />
           ) : contentKind === "announcement" ? (
             <AnnouncementForm data={draft.data} patch={patchData} />
           ) : contentKind === "seo" ? (
