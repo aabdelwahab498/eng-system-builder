@@ -56,7 +56,14 @@ function AuthPage() {
     event.preventDefault();
     setBusy(true);
     try {
-      if (mode === "signin") {
+      if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("Reset link sent. Check your email.");
+        setMode("signin");
+      } else if (mode === "signin") {
         // Supabase is the session of record for the admin studio.
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
