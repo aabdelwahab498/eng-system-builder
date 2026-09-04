@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
-import { loginAdminApi, getStoredAdminToken } from "@/content/admin-auth-api";
+import { loginAdminApi } from "@/content/admin-auth-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,10 +47,6 @@ function AuthPage() {
       : safePath(new URLSearchParams(window.location.search).get("next"));
 
   useEffect(() => {
-    if (getStoredAdminToken()) {
-      navigate({ to: next, replace: true });
-      return;
-    }
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: next, replace: true });
     });
