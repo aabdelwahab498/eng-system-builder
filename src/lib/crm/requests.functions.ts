@@ -39,7 +39,7 @@ export const REQUEST_STATUS_OPTIONS = [
 const COLUMNS =
   "id, client_name, email, whatsapp, service_id, service_title, project_name, description, platform, scope, budget, timeline, preferred_channel, attachment_url, locale, source, status, admin_note, created_at, updated_at";
 
-type Ctx = { supabase: any; userId: string };
+type Ctx = { supabase: any; userId: string; claims?: Record<string, unknown> };
 
 async function assertAdmin(context: Ctx) {
   await assertAdminContext(context);
