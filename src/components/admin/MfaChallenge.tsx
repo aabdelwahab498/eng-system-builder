@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { adminRedeemRecoveryCode } from "@/lib/security/recovery.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +15,24 @@ import { Label } from "@/components/ui/label";
 export function MfaChallenge({ onVerified }: { onVerified: () => void }) {
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<"totp" | "recovery">("totp");
+  const [recoveryCode, setRecoveryCode] = useState("");
+  const redeem = useServerFn(adminRedeemRecoveryCode);
+
+  async function useRecoveryCode(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    try {
+      await redeem({ data: { code: recoveryCode.trim() } });
+      toast.success("Recovery code accepted. Enrol a new authenticator in Settings.");
+      setRecoveryCode("");
+      onVerified();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Invalid recovery code");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function verify(event: React.FormEvent) {
     event.preventDefault();
@@ -45,6 +65,36 @@ export function MfaChallenge({ onVerified }: { onVerified: () => void }) {
       <p className="mt-3 text-sm text-muted-foreground">
         This account requires a second factor before admin tools unlock.
       </p>
+      {mode === "recovery" ? (
+        <form onSubmit={useRecoveryCode} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="recovery-code">Recovery code</Label>
+            <Input
+              id="recovery-code"
+              autoComplete="one-time-code"
+              placeholder="XXXX-XXXX-XXXX"
+              value={recoveryCode}
+              onChange={(e) => setRecoveryCode(e.target.value)}
+              required
+            />
+            <p className="text-xs text-muted-foreground">
+              Each code works once and removes the current authenticator so you can pair a new
+              device.
+            </p>
+          </div>
+          <Button type="submit" className="w-full" disabled={busy || recoveryCode.length < 8}>
+            {busy ? "Checking…" : "Use recovery code"}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-full"
+            onClick={() => setMode("totp")}
+          >
+            Back to authenticator code
+          </Button>
+        </form>
+      ) : (
       <form onSubmit={verify} className="mt-6 space-y-4">
         <div className="space-y-2">
           <Label htmlFor="mfa-code">6-digit code</Label>
@@ -61,7 +111,16 @@ export function MfaChallenge({ onVerified }: { onVerified: () => void }) {
         <Button type="submit" className="w-full" disabled={busy || code.length < 6}>
           {busy ? "Verifying…" : "Verify"}
         </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          className="w-full"
+          onClick={() => setMode("recovery")}
+        >
+          Lost your device? Use a recovery code
+        </Button>
       </form>
+      )}
     </div>
   );
 }
