@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertAdminContext } from "@/lib/security/admin-guard";
 import { createClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -36,11 +37,7 @@ const COLUMNS =
 type Ctx = { supabase: any; userId: string };
 
 async function assertAdmin(context: Ctx) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (error || !data) throw new Error("Forbidden");
+  await assertAdminContext(context);
 }
 
 /** Anon client for the public submission endpoint (INSERT-only by RLS). */
