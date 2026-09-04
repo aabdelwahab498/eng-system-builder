@@ -3,6 +3,7 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Project } from "@/types/content";
 import { MediaSlot } from "./MediaSlot";
 import { useLocale } from "@/hooks/useLocale";
+import { openExternalPreview } from "@/lib/external-preview";
 
 export function ProjectCard({ project }: { project: Project }) {
   const { locale, t } = useLocale();
@@ -63,6 +64,7 @@ export function ProjectCard({ project }: { project: Project }) {
             href={liveUrl}
             target="_blank"
             rel="noreferrer noopener"
+            onClick={(e) => openExternalPreview(liveUrl, e)}
             className="inline-flex min-h-11 items-center gap-1.5 rounded-sm font-mono text-[11px] text-primary underline-offset-4 transition-colors hover:underline sm:min-h-0"
           >
             {project.status}

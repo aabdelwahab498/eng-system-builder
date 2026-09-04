@@ -13,6 +13,7 @@ import { getContent, site } from "@/content";
 import { breadcrumbs, buildHead } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/types/content";
+import { openExternalPreview } from "@/lib/external-preview";
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
   beforeLoad: ({ params }) => {
@@ -138,6 +139,7 @@ function ProjectPage() {
               href={link.url}
               target="_blank"
               rel="noreferrer noopener"
+              onClick={(e) => openExternalPreview(link.url, e)}
               className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-sm hover:bg-secondary"
             >
               {link.label}

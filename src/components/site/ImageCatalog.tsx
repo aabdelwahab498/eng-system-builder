@@ -179,13 +179,13 @@ export function ImageCatalog({
           role="dialog"
           aria-modal="true"
           aria-label={active.title}
-          className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-background/95 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[80] flex h-[100dvh] flex-col items-center justify-center overflow-y-auto overscroll-contain bg-background/95 p-4 backdrop-blur-sm"
           onClick={() => setLightbox(false)}
         >
           <img
             src={active.src}
             alt={active.caption || active.title}
-            className="max-h-[80vh] max-w-full rounded-lg object-contain"
+            className="max-h-[80dvh] max-w-full rounded-lg object-contain"
             onClick={(e) => e.stopPropagation()}
           />
           <p className="mt-4 text-center text-sm text-muted-foreground">{active.title}</p>
