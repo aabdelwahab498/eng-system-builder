@@ -178,11 +178,16 @@ function RootComponent() {
     const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
     const recoveryType = url.searchParams.get("type") ?? hash.get("type");
     const hasRecoveryToken =
+      url.searchParams.has("code") ||
       hash.has("access_token") ||
       url.searchParams.has("token_hash") ||
       url.searchParams.has("token");
 
-    if (recoveryType !== "recovery" || !hasRecoveryToken) return;
+    const isRecoveryReturn =
+      recoveryType === "recovery" ||
+      (url.searchParams.has("code") && pathname !== "/auth" && !pathname.startsWith("/admin"));
+
+    if (!isRecoveryReturn || !hasRecoveryToken) return;
 
     window.location.replace(`/reset-password${url.search}${url.hash}`);
   }, [pathname]);
