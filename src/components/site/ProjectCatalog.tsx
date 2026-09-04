@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, X, Expand, ExternalLink, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { lockBodyScroll } from "@/lib/scroll-lock";
 
 export type ProjectCatalogItem = {
   id: string;
@@ -80,12 +81,17 @@ export function ProjectCatalog({
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev, rtl]);
 
+  // Ref-counted lock: never leaves a stale scroll/pointer lock behind, even if
+  // the overlay unmounts during a route change on mobile.
   useEffect(() => {
-    document.body.style.overflow = lightbox ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!lightbox) return;
+    return lockBodyScroll();
   }, [lightbox]);
+
+  // Any navigation closes the overlay so no backdrop survives the transition.
+  useEffect(() => {
+    setLightbox(false);
+  }, [pathname]);
 
   if (count === 0) return null;
 
