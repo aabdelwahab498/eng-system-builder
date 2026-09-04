@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { adminStatus, assertAdminContext } from "@/lib/security/admin-guard";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   CONTENT_COLUMNS,
@@ -19,14 +20,10 @@ import {
 } from "./types";
 import { isValidSlug } from "./slug";
 
-type Ctx = { supabase: any; userId: string };
+type Ctx = { supabase: any; userId: string; claims?: Record<string, unknown> };
 
 async function assertAdmin(context: Ctx) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (error || !data) throw new Error("Forbidden");
+  await assertAdminContext(context);
 }
 
 const asKind = (value: unknown): ContentKind => {
@@ -44,11 +41,7 @@ const asState = (value: unknown): WorkflowState => {
 export const adminIsAdmin = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await (context as unknown as Ctx).supabase.rpc("has_role", {
-      _user_id: (context as unknown as Ctx).userId,
-      _role: "admin",
-    });
-    return { isAdmin: Boolean(data) };
+    return adminStatus(context as unknown as Ctx);
   });
 
 export const adminListContent = createServerFn({ method: "POST" })
